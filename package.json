@@ -27,12 +27,19 @@
     "build": "tsup",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
-    "playground": "vite playground"
+    "playground": "vite playground",
+    "samples:expected": "node scripts/gen-expected.cjs"
   },
   "devDependencies": {
+    "@types/node": "^26.6.5",
+    "@types/pako": "^2.0.4",
+    "svgaplayerweb": "^2.3.2",
     "tsup": "^8.5.1",
     "typescript": "5.9.3",
     "vite": "^8.3.5",
     "vitest": "^5.0.5"
+  },
+  "dependencies": {
+    "pako": "^3.0.2"
   }
 }
