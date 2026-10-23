@@ -1,4 +1,5 @@
-import { inflate } from 'pako';
+import { unzlibSync } from 'fflate';
+import { WIRE_LEN, WIRE_VARINT, WireReader } from '../formats/svga/wire';
 import { GiftPlayerError } from './errors';
 
 export type GiftFormat = 'svga' | 'gif' | 'webp' | 'pag';
@@ -22,86 +23,41 @@ const PAG = ascii('PAG');
 const ZIP = [0x50, 0x4b, 0x03, 0x04];
 
 /**
- * Reads a protobuf varint (up to 10 bytes, e.g. negative int32 values);
- * returns [value, nextOffset] or null if truncated/overlong. Values above 2^53 lose precision.
- */
-function readVarint(b: Uint8Array, pos: number): [number, number] | null {
-  let result = 0;
-  let shift = 0;
-  while (pos < b.length && shift < 70) {
-    const byte = b[pos++]!;
-    result += (byte & 0x7f) * 2 ** shift;
-    if (!(byte & 0x80)) return [result, pos];
-    shift += 7;
-  }
-  return null;
-}
-
-/**
- * Walks protobuf wire format over `b`, calling `onField` per field.
- * Returns false if the bytes are not well-formed or the callback rejects a field.
- */
-function walkFields(
-  b: Uint8Array,
-  onField: (field: number, wireType: number, start: number, end: number) => boolean,
-): boolean {
-  let pos = 0;
-  while (pos < b.length) {
-    const tag = readVarint(b, pos);
-    if (!tag) return false;
-    const [key, afterTag] = tag;
-    const field = Math.floor(key / 8);
-    const wireType = key & 7;
-    if (field === 0) return false;
-    let start = afterTag;
-    let end: number;
-    if (wireType === 0) {
-      const v = readVarint(b, start);
-      if (!v) return false;
-      end = v[1];
-    } else if (wireType === 1) end = start + 8;
-    else if (wireType === 5) end = start + 4;
-    else if (wireType === 2) {
-      const len = readVarint(b, start);
-      if (!len) return false;
-      start = len[1];
-      end = start + len[0];
-    } else return false;
-    if (end > b.length) return false;
-    if (!onField(field, wireType, start, end)) return false;
-    pos = end;
-  }
-  return true;
-}
-
-/**
  * Cheap structural check that `b` is an SVGA 2.x `MovieEntity` (svga.proto): well-formed wire
  * format, and field 2 `params` present with both fps (3) and frames (4) as varints. Unknown
- * fields are skipped, as protobuf decoders do. Full decoding is the parser's job (Phase 2);
- * this avoids pulling protobufjs into detection.
+ * fields are skipped, as protobuf decoders do. Full decoding is the parser's job.
  */
 function looksLikeMovieEntity(b: Uint8Array): boolean {
-  let hasParams = false;
-  const ok = walkFields(b, (field, wt, start, end) => {
-    if (field !== 2) return true;
-    if (wt !== 2) return false;
-    let fps = false;
-    let frames = false;
-    const wellFormed = walkFields(b.subarray(start, end), (f, w) => {
-      if (f === 3 && w === 0) fps = true;
-      else if (f === 4 && w === 0) frames = true;
-      return true;
-    });
-    if (wellFormed && fps && frames) hasParams = true;
-    return wellFormed;
-  });
-  return ok && hasParams;
+  try {
+    const r = new WireReader(b);
+    let hasParams = false;
+    while (!r.done) {
+      const [field, wt] = r.tag();
+      if (field !== 2 || wt !== WIRE_LEN) {
+        r.skip(wt);
+        continue;
+      }
+      const params = r.message();
+      let fps = false;
+      let frames = false;
+      while (!params.done) {
+        const [f, w] = params.tag();
+        if (f === 3 && w === WIRE_VARINT) fps = true;
+        else if (f === 4 && w === WIRE_VARINT) frames = true;
+        params.skip(w);
+      }
+      if (fps && frames) hasParams = true;
+    }
+    return hasParams;
+  } catch {
+    return false;
+  }
 }
 
 /** Inflates `b` and returns the buffer if it is an SVGA 2.x MovieEntity, else null. */
 function inflateSvga2(b: Uint8Array): Uint8Array | null {
   try {
-    const inflated = inflate(b);
+    const inflated = unzlibSync(b);
     return inflated.length > 0 && looksLikeMovieEntity(inflated) ? inflated : null;
   } catch {
     return null;

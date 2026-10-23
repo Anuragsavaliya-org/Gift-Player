@@ -1,6 +1,6 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { deflate } from 'pako';
+import { zlibSync as deflate } from 'fflate';
 import { describe, expect, it } from 'vitest';
 import { detectFormat, detectSource, GiftPlayerError } from '../src';
 import { detectInternal } from '../src/core/detect';

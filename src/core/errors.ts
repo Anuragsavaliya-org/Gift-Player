@@ -1,4 +1,4 @@
-export type GiftErrorCode = 'unsupported-format' | 'invalid-input' | 'fetch-failed';
+export type GiftErrorCode = 'unsupported-format' | 'invalid-input' | 'fetch-failed' | 'parse-failed';
 
 export class GiftPlayerError extends Error {
   readonly code: GiftErrorCode;

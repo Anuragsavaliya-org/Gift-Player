@@ -105,3 +105,59 @@ All 13 files in `/samples` are asserted by name in a table in `tests/detect.test
 - **Varints:** the parser's varint reader must handle full 10-byte values (negative int32/int64 encode as 10 bytes). Detection's reader already accepts up to 10 bytes but only approximates values above 2^53; the parser should decode properly (protobufjs does this via `Long`; a hand-rolled decoder needs BigInt or hi/lo handling).
 - The parser must reuse `Detected.inflated` rather than inflating again.
 - The 1.x path should accept both `movie.spec` (JSON, ver 1.x) and `movie.binary` (1.5, protobuf inside zip); `svgaplayerweb` treats presence of `movie.binary` as version 1.5.
+
+---
+
+## Phase 2 — SVGA parser ✅ (awaiting review)
+
+### Done
+- `src/formats/svga/`: `wire.ts` (bounds-checked protobuf wire reader, 10-byte varints, group skipping), `proto.ts` (full `MovieEntity` decoder), `spec-json.ts` (1.x `movie.spec` normaliser), `parse.ts` (`parseSvga(bytes, detected?)`: assembly, KEEP resolution, media classification, validation), `media.ts` (magic-byte classifier), `decode-images.ts` (`decodeSvgaImages` / `releaseSvgaImages`, browser-only), `types.ts` (`SvgaMovie` model), `svga.proto` (reference copy).
+- `parseSvga` is pure/sync and runs in Node. One model for 2.x protobuf, 1.x zip+JSON and 1.5 zip+`movie.binary`. Images stay raw bytes; audio is split out by magic bytes and never reaches `createImageBitmap`.
+- Playground "inspect" view (drop a file or pick a sample; `?sample=<file>.svga` auto-loads): summary (version, fps, frames, sprites, matte/masked sprites, images, audios, times) plus a grid of decoded images.
+- `GiftErrorCode` gained `parse-failed`. Every parser failure is a `GiftPlayerError('parse-failed')`; non-`GiftPlayerError` exceptions (RangeError etc.) are wrapped.
+- `CLAUDE.md` created with the standing REVIEW.md workflow rule.
+
+### Schema source
+`svga.proto` fetched from https://raw.githubusercontent.com/svga/SVGA-Format/master/proto/svga.proto; last commit touching it: `c5c26c14fc2a1e104a067d0b58f237646d2e9de1` (2019-06-13, "feat: add matte key for matte layer"). Reference copy (with a 3-line source header, content unmodified) in `src/formats/svga/svga.proto`. SVGAPlayer-Web has no proto/ path (404). Field numbers: MovieEntity version=1, params=2, images=3, sprites=4, audios=5.
+
+### Dependency decision: fflate replaces pako (+ a zip lib)
+Measured with esbuild (browser ESM, minified, tree-shaken; `scripts/measure-bundle.mjs`):
+| Option | min | gzip |
+|---|---|---|
+| pako (inflate only) | 30,319 B | 10,059 B |
+| jszip (unzip) | 98,711 B | 30,501 B |
+| **pako + jszip** | 129,222 B | 39,779 B |
+| **fflate `unzlibSync` + `unzipSync`** | 5,818 B | 2,891 B |
+| fflate `unzlibSync` only | 4,002 B | 2,082 B |
+fflate is ~14x smaller gzipped for the same capability and passed all tests (all 44 detection tests unchanged, incl. truncated-file cases), so detection and parser use it and **pako was removed**. `jszip` stays as a devDependency only for the oracle script. Whole core build now: `dist/index.js` 27 KB unminified (parser + detection + fflate).
+
+### Oracle (`samples/expected.json`) with jszip
+Regenerated with `jszip` injected into the svgaplayerweb sandbox. `Rocket.svga` (1.x) now parses in the oracle: **60 fps, 480 frames, 20 sprites, 1080x630, 16 images**: identical to the values I read directly from `movie.spec`. **No mismatch.** Notes: the oracle's `version` ("1.0"/"2.0") is its own label, not the file's version string, so tests don't compare it; its `imageCount` includes audio blobs in 2.x files (Fiery-Red-Dragon 37 = 36 images + 1 mp3; Pink-Heart-Rocket 30 = 29 + 1), so tests assert `images + audios == imageCount`.
+
+### Behaviour decisions
+- **proto3 defaults:** missing scalar = 0 / ''; missing `transform` message = identity; missing `layout` = zeros; *a present* transform with omitted scalars follows proto3 (omitted = 0). This deliberately differs from svgaplayerweb, which uses `parseFloat(x) || 1.0` for `a`/`d` (so a legit 0 becomes 1). Alpha 0 stays 0 (hidden).
+- **KEEP** is resolved per sprite at parse time: a frame whose first shape is KEEP gets the previous frame's resolved shapes; first-frame KEEP -> `[]`; stray KEEPs elsewhere are dropped; empty-shape frames reset "previous" to `[]`. svgaplayerweb keeps `lastShapes` in a global static (leaks across sprites): we do not copy that. The `SvgaShape` type has no `keep`.
+- **Frame count normalisation:** each sprite is padded (hidden frame) or truncated to exactly `movie.frames`, with a warning. Entirely-default frames share one frozen `HIDDEN_FRAME`.
+- **Validation (parse-failed):** viewBox non-positive, frames <= 0, frames > 100,000, sprites x frames > 20M (allocation guard). **fps <= 0 defaults to 20 with a warning** (matches svgaplayerweb/Android behaviour). 
+- **Dangling matteKeys are kept, with a warning.** `Rocket.svga` has 3 masked sprites whose `matteKey` points at a mask sprite that does not exist in the file (verified in the raw JSON). Phase 3 renderer must ignore a matteKey it cannot resolve.
+- **Unrecognised blobs in `images`** (not PNG/JPEG/WebP/audio) are dropped with a warning. Audio classified: MP3 (ID3 or frame sync), WAV, OGG, FLAC, MP4/M4A.
+- **1.5 (`movie.binary`):** preferred over `movie.spec` when present; decoded as raw protobuf, else as zlib+protobuf; image values are file names resolved as `<name>.png`, `<name>`, `<key>.png`, `<key>`; on failure falls back to `movie.spec` with a warning. svgaplayerweb ignores `movie.binary` entirely.
+- `decodeSvgaImages` is tolerant: undecodable images are skipped and listed in `failed` instead of failing the whole gift. Caller must `releaseSvgaImages`.
+- Public exports added to `src/index.ts`: `parseSvga`, `decodeSvgaImages`, `releaseSvgaImages`, model types. `detectInternal` remains non-exported; `parseSvga(bytes, detected)` reuses its inflated buffer (tested: passes empty bytes + detected and still parses).
+
+### Verification
+- 109 tests (Vitest): all 8 SVGA samples vs `expected.json`; invariants per sample (frame count == `frames`, imageKey resolves or is `.matte`/`.vector`, no `keep`); matte keys on `matteBitmap`, `matteRect`, `Rocket`; synthetic protobuf (encoder helper in `tests/helpers/pb.ts`) for defaults, LE floats, styles/shapes, unknown fields, 10-byte varints, KEEP edge cases, audio/image classification, padding; synthetic 1.x/1.5 zips; corrupt-input fuzz (truncation of every sample, random bytes after zlib/zip headers, every-prefix truncation and 300 bit-flips of a valid payload): always `parse-failed`, never a raw RangeError.
+- **`decodeSvgaImages` checked in real Chrome** (headless, local Chrome via `--dump-dom`/`--screenshot`, since the Claude-in-Chrome extension was not connected): all 8 samples decoded exactly `images.size` bitmaps, no failures, no errors; screenshot of `angel.svga` shows the grid correctly. Timings printed by that headless run are virtual-time artefacts and should be ignored.
+
+### Parse time (Node 22, Apple silicon laptop; information only)
+| File | size | cold | warm median (20 runs) |
+|---|---|---|---|
+| Pink-Heart-Rocket.svga (largest, 2.x) | 643 KB | 51 ms | 17 ms |
+| Fiery-Red-Dragon.svga | 516 KB | 10 ms | 6 ms |
+| Rocket.svga (1.x, 787 KB JSON) | 101 KB | 23 ms | 6 ms |
+
+### Known issues / not verified
+- No real SVGA 1.5 (`movie.binary`) sample: that path is covered by synthetic zips only.
+- 1.x JSON shapes/audio are covered by synthetic tests only; `Rocket.svga` has no vector shapes and no audio.
+- No decompression-size cap (zip bombs): parse allocates whatever inflate produces.
+- 2.x numbers read through 32-bit varint truncation (schema has no 64-bit fields).

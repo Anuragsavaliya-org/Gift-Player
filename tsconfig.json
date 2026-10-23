@@ -8,9 +8,9 @@
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
     "isolatedModules": true,
-    "types": ["node"],
+    "types": ["node", "vite/client"],
     "skipLibCheck": true,
     "noEmit": true
   },
-  "include": ["src", "tests"]
+  "include": ["src", "tests", "playground"]
 }

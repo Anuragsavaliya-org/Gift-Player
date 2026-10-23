@@ -1,5 +1,6 @@
 // Generates samples/expected.json by parsing each SVGA sample with svgaplayerweb
 // (devDependency, reference implementation) inside Node with minimal browser stubs.
+// jszip (devDependency) is injected as the globals svgaplayerweb expects for SVGA 1.x zips.
 const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
@@ -28,6 +29,18 @@ const sandbox = {
   atob: (s) => Buffer.from(s, 'base64').toString('binary'),
   document: { querySelectorAll: () => [], getElementsByTagName: () => [], createElement: () => ({ getContext: () => ({}), style: {} }), addEventListener() {} },
   navigator: { userAgent: 'node' },
+  // svgaplayerweb loads SVGA 1.x (zip) through these two globals.
+  JSZip: require('jszip'),
+  JSZipUtils: {
+    getBinaryContent(url, cb) {
+      try {
+        const buf = fs.readFileSync(path.join(samplesDir, url));
+        cb(null, buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength));
+      } catch (e) {
+        cb(e);
+      }
+    },
+  },
   Uint8Array, ArrayBuffer, DataView, Int32Array, Float32Array, Uint32Array, Uint16Array, Int8Array, Int16Array, Float64Array,
 };
 sandbox.window = sandbox;
