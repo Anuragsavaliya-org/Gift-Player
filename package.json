@@ -28,7 +28,8 @@
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "playground": "vite playground",
-    "samples:expected": "node scripts/gen-expected.cjs"
+    "samples:expected": "node scripts/gen-expected.cjs",
+    "verify:browser": "node scripts/verify-all.mjs"
   },
   "devDependencies": {
     "@types/node": "^26.6.5",

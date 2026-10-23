@@ -491,3 +491,67 @@ describe('reuse of the detection result', () => {
     expect(summary(viaDetected)).toEqual(summary(direct));
   });
 });
+
+describe('decompression limits (untrusted input)', () => {
+  const MB = 1024 * 1024;
+  const expectLimit = (fn: () => unknown) =>
+    expect(fn).toThrowError(expect.objectContaining({ code: 'parse-failed', message: expect.stringMatching(/maxInflatedBytes/) }));
+
+  it('zlib bomb is aborted at the cap (small cap)', () => {
+    const bomb = zlibSync(new Uint8Array(8 * MB), { level: 9 });
+    expect(bomb.length).toBeLessThan(20_000); // ~1000:1
+    expectLimit(() => parseSvga(bomb, undefined, { maxInflatedBytes: MB }));
+  });
+
+  it('zlib bomb is aborted at the default 64 MB cap', () => {
+    const bomb = zlibSync(new Uint8Array(70 * MB), { level: 1 });
+    expectLimit(() => parseSvga(bomb));
+  });
+
+  it('detection also refuses to inflate a bomb', () => {
+    const bomb = zlibSync(new Uint8Array(8 * MB), { level: 9 });
+    expectLimit(() => detectInternal(bomb, { maxInflatedBytes: MB }));
+  });
+
+  it('data under the cap still parses', () => {
+    const m = parseSvga(read('angel.svga'), undefined, { maxInflatedBytes: 64 * MB });
+    expect(m.sprites.length).toBe(125);
+    // angel inflates to well over 100 KB, so a 10 KB cap must reject it
+    expectLimit(() => parseSvga(read('angel.svga'), undefined, { maxInflatedBytes: 10_000 }));
+  });
+
+  it('zip: a single entry declaring too much is rejected from the central directory, before inflating', () => {
+    const zip = zipSync({ 'movie.spec': new Uint8Array(8 * MB) }, { level: 9 });
+    expect(zip.length).toBeLessThan(20_000);
+    expectLimit(() => parseSvga(zip, undefined, { maxInflatedBytes: MB }));
+  });
+
+  it('zip: many entries that add up past the cap are rejected', () => {
+    const entries = Object.fromEntries([1, 2, 3].map((i) => [`img_${i}.png`, new Uint8Array(400 * 1024)]));
+    expectLimit(() => parseSvga(zipSync({ 'movie.spec': strToU8('{}'), ...entries }), undefined, { maxInflatedBytes: MB }));
+  });
+
+  it('zip: a header that lies about the size cannot inflate past what it declared', () => {
+    const zip = zipSync({ 'movie.spec': new Uint8Array(8 * MB) }, { level: 9 });
+    const view = new DataView(zip.buffer, zip.byteOffset, zip.byteLength);
+    for (let i = 0; i + 30 < zip.length; i++) {
+      const sig = view.getUint32(i, true);
+      if (sig === 0x04034b50) view.setUint32(i + 22, 1000, true); // local header: uncompressed size
+      if (sig === 0x02014b50) view.setUint32(i + 24, 1000, true); // central directory: uncompressed size
+    }
+    expect(() => parseSvga(zip, undefined, { maxInflatedBytes: MB })).toThrowError(
+      expect.objectContaining({ code: 'parse-failed' }),
+    );
+  });
+
+  it('sprites x frames above 2M is rejected before allocating', () => {
+    // 70 sprites x 30,000 frames = 2.1M entries (each frame is an object)
+    const sprites = Array.from({ length: 70 }, (_, i) => pb.sprite(`s${i}.vector`, []));
+    expect(() => parseZ(pb.movie({ params: pb.params(10, 20, 30, 30_000), sprites }))).toThrowError(
+      expect.objectContaining({ code: 'parse-failed', message: expect.stringMatching(/sprites x/) }),
+    );
+    // just under the limit is fine
+    const ok = Array.from({ length: 60 }, (_, i) => pb.sprite(`s${i}.vector`, []));
+    expect(parseZ(pb.movie({ params: pb.params(10, 20, 30, 30_000), sprites: ok })).sprites.length).toBe(60);
+  });
+});

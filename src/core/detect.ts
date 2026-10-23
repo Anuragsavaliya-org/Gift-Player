@@ -1,6 +1,6 @@
-import { unzlibSync } from 'fflate';
 import { WIRE_LEN, WIRE_VARINT, WireReader } from '../formats/svga/wire';
 import { GiftPlayerError } from './errors';
+import { DEFAULT_MAX_INFLATED_BYTES, InflateLimitError, inflateCapped } from './inflate';
 
 export type GiftFormat = 'svga' | 'gif' | 'webp' | 'pag';
 
@@ -55,13 +55,19 @@ function looksLikeMovieEntity(b: Uint8Array): boolean {
 }
 
 /** Inflates `b` and returns the buffer if it is an SVGA 2.x MovieEntity, else null. */
-function inflateSvga2(b: Uint8Array): Uint8Array | null {
+function inflateSvga2(b: Uint8Array, maxInflatedBytes: number): Uint8Array | null {
   try {
-    const inflated = unzlibSync(b);
+    const inflated = inflateCapped(b, maxInflatedBytes);
     return inflated.length > 0 && looksLikeMovieEntity(inflated) ? inflated : null;
-  } catch {
+  } catch (e) {
+    if (e instanceof InflateLimitError) throw e; // a decompression bomb is an error, not "unknown format"
     return null;
   }
+}
+
+export interface DetectOptions {
+  /** Ceiling for inflated SVGA 2.x data. Default 64 MB. */
+  maxInflatedBytes?: number;
 }
 
 const u16 = (b: Uint8Array, o: number) => b[o]! | (b[o + 1]! << 8);
@@ -108,7 +114,7 @@ export interface Detected {
 }
 
 /** Like {@link detectFormat} but keeps the inflated SVGA 2.x buffer. */
-export function detectInternal(bytes: Uint8Array): Detected {
+export function detectInternal(bytes: Uint8Array, options: DetectOptions = {}): Detected {
   if (startsWith(bytes, ZIP)) {
     if (zipHasSvgaMovie(bytes)) return { info: { format: 'svga', version: '1.x' } };
     throw new GiftPlayerError(
@@ -121,7 +127,7 @@ export function detectInternal(bytes: Uint8Array): Detected {
     return { info: { format: 'webp', animated: isAnimatedWebp(bytes) } };
   }
   if (startsWith(bytes, PAG)) return { info: { format: 'pag' } };
-  const inflated = inflateSvga2(bytes);
+  const inflated = inflateSvga2(bytes, options.maxInflatedBytes ?? DEFAULT_MAX_INFLATED_BYTES);
   if (inflated) return { info: { format: 'svga', version: '2.x' }, inflated };
   throw new GiftPlayerError(
     'unsupported-format',
@@ -133,8 +139,8 @@ export function detectInternal(bytes: Uint8Array): Detected {
  * Detects the gift format from magic bytes (never from file extension).
  * @throws GiftPlayerError('unsupported-format') when nothing matches.
  */
-export function detectFormat(bytes: Uint8Array): FormatInfo {
-  return detectInternal(bytes).info;
+export function detectFormat(bytes: Uint8Array, options?: DetectOptions): FormatInfo {
+  return detectInternal(bytes, options).info;
 }
 
 /** Animated WebP = extended format (VP8X chunk) with the animation flag (bit 1) set. */

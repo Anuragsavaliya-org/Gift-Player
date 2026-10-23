@@ -1,6 +1,7 @@
-import { strFromU8, unzipSync, unzlibSync } from 'fflate';
+import { strFromU8, unzipSync } from 'fflate';
 import { GiftPlayerError } from '../../core/errors';
 import type { Detected } from '../../core/detect';
+import { DEFAULT_MAX_INFLATED_BYTES, InflateLimitError, inflateCapped } from '../../core/inflate';
 import { classifyMedia } from './media';
 import { decodeMovieEntity, isEmptyRawFrame, type RawFrame, type RawMovie, type RawSprite } from './proto';
 import { fromSpecJson } from './spec-json';
@@ -10,7 +11,19 @@ import { parseFail } from './wire';
 const DEFAULT_FPS = 20;
 /** Sanity limits so corrupt headers cannot trigger huge allocations. */
 const MAX_FRAMES = 100_000;
-const MAX_FRAME_ENTRIES = 20_000_000;
+/**
+ * Every frame is an object, so sprites x frames is a memory bound: 2M frame objects is already
+ * ~100+ MB, enough to kill a mobile WebView. The largest real sample is ~41k (170 x 240).
+ */
+const MAX_FRAME_ENTRIES = 2_000_000;
+
+export interface ParseOptions {
+  /**
+   * Ceiling for any decompressed data (the zlib payload, each zip entry, and the sum of zip entries).
+   * Files come from untrusted sources. Default 64 MB.
+   */
+  maxInflatedBytes?: number;
+}
 
 const isZip = (b: Uint8Array) => b.length >= 4 && b[0] === 0x50 && b[1] === 0x4b && b[2] === 3 && b[3] === 4;
 const isReal = (s: { type: string }): s is SvgaShape => s.type !== 'keep';
@@ -22,16 +35,19 @@ const isReal = (s: { type: string }): s is SvgaShape => s.type !== 'keep';
  *
  * @param detected Result of `detectInternal` for the same bytes; lets the parser reuse the inflated
  *   SVGA 2.x buffer instead of inflating twice.
- * @throws GiftPlayerError('parse-failed') for any corrupt or invalid input.
+ * @throws GiftPlayerError('parse-failed') for any corrupt or invalid input, including data that
+ *   would inflate past `options.maxInflatedBytes`.
  */
-export function parseSvga(bytes: Uint8Array, detected?: Detected): SvgaMovie {
+export function parseSvga(bytes: Uint8Array, detected?: Detected, options: ParseOptions = {}): SvgaMovie {
+  const max = options.maxInflatedBytes ?? DEFAULT_MAX_INFLATED_BYTES;
   try {
     if (detected?.inflated) return buildFromProto(detected.inflated);
-    if (isZip(bytes)) return parseZip(bytes);
+    if (isZip(bytes)) return parseZip(bytes, max);
     let inflated: Uint8Array;
     try {
-      inflated = unzlibSync(bytes);
+      inflated = inflateCapped(bytes, max);
     } catch (cause) {
+      if (cause instanceof InflateLimitError) throw cause;
       return parseFail('Not a valid SVGA file: zlib inflate failed (file is corrupt, truncated, or not SVGA).', cause);
     }
     return buildFromProto(inflated);
@@ -56,11 +72,23 @@ function buildFromProto(inflated: Uint8Array): SvgaMovie {
   return assemble(raw, 'protobuf', images, audios, warnings);
 }
 
-function parseZip(bytes: Uint8Array): SvgaMovie {
+function parseZip(bytes: Uint8Array, max: number): SvgaMovie {
   let files: Record<string, Uint8Array>;
   try {
-    files = unzipSync(bytes);
+    // The central directory declares each entry's uncompressed size: check it before inflating anything.
+    // (fflate sizes its output buffer from the same declared value, so a lying header cannot overshoot it.)
+    let declared = 0;
+    files = unzipSync(bytes, {
+      filter(file) {
+        declared += file.originalSize;
+        if (file.originalSize > max || declared > max) {
+          throw new InflateLimitError(max, `Zip entry "${file.name}" (declared ${file.originalSize} bytes; ${declared} in total)`);
+        }
+        return true;
+      },
+    });
   } catch (cause) {
+    if (cause instanceof InflateLimitError) throw cause;
     return parseFail('Not a valid SVGA file: could not read the zip archive.', cause);
   }
   const warnings: string[] = [];
@@ -70,9 +98,9 @@ function parseZip(bytes: Uint8Array): SvgaMovie {
 
   if (binary) {
     try {
-      return buildFromZipProtobuf(binary, files, warnings);
+      return buildFromZipProtobuf(binary, files, warnings, max);
     } catch (e) {
-      if (!spec) throw e;
+      if (!spec || e instanceof InflateLimitError) throw e;
       warnings.push(`movie.binary could not be decoded (${e instanceof Error ? e.message : String(e)}); fell back to movie.spec.`);
     }
   }
@@ -80,12 +108,12 @@ function parseZip(bytes: Uint8Array): SvgaMovie {
 }
 
 /** 1.5: `movie.binary` is a MovieEntity (plain, or zlib-compressed) whose `images` values are file names. */
-function buildFromZipProtobuf(binary: Uint8Array, files: Record<string, Uint8Array>, warnings: string[]): SvgaMovie {
+function buildFromZipProtobuf(binary: Uint8Array, files: Record<string, Uint8Array>, warnings: string[], max: number): SvgaMovie {
   let raw: RawMovie;
   try {
     raw = decodeMovieEntity(binary);
   } catch {
-    raw = decodeMovieEntity(unzlibSync(binary));
+    raw = decodeMovieEntity(inflateCapped(binary, max));
   }
   const images: SvgaMovie['images'] = new Map();
   const audios: SvgaMovie['audios'] = new Map();

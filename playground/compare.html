@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gift Player — compare &amp; replace</title>
+    <style>
+      :root { color-scheme: light dark; --bd: #8884; --muted: #888; }
+      body { font: 14px/1.4 system-ui, sans-serif; margin: 0 auto; padding: 16px; max-width: 1200px; }
+      h1 { font-size: 18px; margin: 0 0 4px; }
+      nav a { margin-right: 12px; }
+      .bar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin: 10px 0; }
+      #drop { border: 2px dashed var(--bd); border-radius: 8px; padding: 10px 14px; color: var(--muted); }
+      #drop.over { border-color: #3b82f6; color: inherit; }
+      #scrub { flex: 1; min-width: 200px; }
+      .stage { display: flex; gap: 16px; flex-wrap: wrap; }
+      .pane { border: 1px solid var(--bd); border-radius: 6px; padding: 6px; }
+      .pane h2 { font-size: 12px; margin: 0 0 6px; color: var(--muted); font-weight: 500; }
+      .view { overflow: hidden; background: repeating-conic-gradient(#8883 0 25%, transparent 0 50%) 0 0 / 16px 16px; }
+      .view > div { transform-origin: 0 0; position: relative; }
+      #diff { font-variant-numeric: tabular-nums; }
+      #diff.bad { color: #dc2626; font-weight: 600; }
+      fieldset { border: 1px solid var(--bd); border-radius: 6px; margin-top: 14px; }
+      fieldset legend { color: var(--muted); }
+      fieldset label { margin-right: 10px; }
+      #error { color: #dc2626; white-space: pre-wrap; }
+    </style>
+  </head>
+  <body>
+    <h1>Gift Player — compare &amp; replace</h1>
+    <nav><a href="./index.html">inspect</a><a href="./compare.html">compare &amp; replace</a></nav>
+    <div class="bar">
+      <div id="drop">Drop an SVGA here or pick:
+        <select id="sample"></select>
+      </div>
+      <label>mode <select id="mode"><option>aspectFit</option><option>fill</option><option>aspectFill</option></select></label>
+      <label>display scale <input id="zoom" type="range" min="0.15" max="1" step="0.05" value="0.4" /></label>
+    </div>
+    <div class="bar">
+      <button id="play">Play</button>
+      <input id="scrub" type="range" min="0" max="0" value="0" />
+      <span id="frameLabel">frame 0</span>
+      <span>diff vs svgaplayerweb: <b id="diff">–</b></span>
+      <button id="diffNow">diff now</button>
+    </div>
+    <div id="error"></div>
+    <div class="stage">
+      <div class="pane"><h2>this SDK (SvgaRenderer)</h2><div class="view" id="mineView"><div id="mineBox"><canvas id="mine"></canvas></div></div></div>
+      <div class="pane"><h2>svgaplayerweb (reference)</h2><div class="view" id="refView"><div id="refBox"></div></div></div>
+    </div>
+    <fieldset>
+      <legend>Dynamic replacement (applies to the left renderer; survives scrubbing and looping)</legend>
+      <div class="bar">
+        <label>sprite key <select id="key"></select></label>
+        <label>text <input id="text" size="18" placeholder="Rahul" /></label>
+        <label>colour <input id="color" type="color" value="#ffffff" /></label>
+        <label>size <input id="size" type="number" value="40" min="6" max="400" style="width:60px" /></label>
+        <button id="applyText">Set text</button>
+      </div>
+      <div class="bar">
+        <label>image <input id="img" type="file" accept="image/*" /></label>
+        <label>fit <select id="fit"><option>fill</option><option>cover</option><option>contain</option></select></label>
+        <label><input id="hide" type="checkbox" /> hidden</label>
+        <button id="clear">Clear this key</button>
+      </div>
+    </fieldset>
+    <script type="module" src="./compare.ts"></script>
+  </body>
+</html>

@@ -1,0 +1,1155 @@
+{
+  "date": "2026-10-23T19:32:47.318Z",
+  "step": 5,
+  "diff": [
+    {
+      "sample": "Fiery-Red-Dragon.svga",
+      "size": "720x1280",
+      "mode": "aspectFit",
+      "tolerance": 10,
+      "compared": 21,
+      "maxActivePixels": 921600,
+      "minActivePixels": 0,
+      "meanPercent": 0,
+      "maxPercent": 0.002,
+      "worstFrame": 15,
+      "meanPercentOfActive": 0,
+      "maxPercentOfActive": 0.002,
+      "worstActiveFrame": 15,
+      "framesOver2Percent": [],
+      "top5": [
+        [
+          15,
+          0.002,
+          0.002
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          5,
+          0,
+          0
+        ],
+        [
+          10,
+          0,
+          0
+        ],
+        [
+          20,
+          0,
+          0
+        ]
+      ],
+      "warnings": []
+    },
+    {
+      "sample": "Glossy-Pink-Lips.svga",
+      "size": "750x1334",
+      "mode": "aspectFit",
+      "tolerance": 10,
+      "compared": 14,
+      "maxActivePixels": 544243,
+      "minActivePixels": 0,
+      "meanPercent": 0.052,
+      "maxPercent": 0.224,
+      "worstFrame": 30,
+      "meanPercentOfActive": 0.098,
+      "maxPercentOfActive": 0.412,
+      "worstActiveFrame": 30,
+      "framesOver2Percent": [],
+      "top5": [
+        [
+          30,
+          0.224,
+          0.412
+        ],
+        [
+          40,
+          0.083,
+          0.16
+        ],
+        [
+          55,
+          0.081,
+          0.149
+        ],
+        [
+          25,
+          0.072,
+          0.133
+        ],
+        [
+          15,
+          0.069,
+          0.133
+        ]
+      ],
+      "warnings": []
+    },
+    {
+      "sample": "Pink-Heart-Rocket.svga",
+      "size": "750x1334",
+      "mode": "aspectFit",
+      "tolerance": 10,
+      "compared": 49,
+      "maxActivePixels": 777318,
+      "minActivePixels": 0,
+      "meanPercent": 0.216,
+      "maxPercent": 10.504,
+      "worstFrame": 125,
+      "meanPercentOfActive": 0.455,
+      "maxPercentOfActive": 22.065,
+      "worstActiveFrame": 125,
+      "framesOver2Percent": [
+        [
+          125,
+          10.504
+        ]
+      ],
+      "top5": [
+        [
+          125,
+          10.504,
+          22.065
+        ],
+        [
+          230,
+          0.029,
+          0.049
+        ],
+        [
+          185,
+          0.014,
+          0.023
+        ],
+        [
+          235,
+          0.01,
+          0.019
+        ],
+        [
+          220,
+          0.008,
+          0.012
+        ]
+      ],
+      "warnings": []
+    },
+    {
+      "sample": "Rocket.svga",
+      "size": "1080x630",
+      "mode": "aspectFit",
+      "tolerance": 10,
+      "compared": 97,
+      "maxActivePixels": 220676,
+      "minActivePixels": 49699,
+      "meanPercent": 0.327,
+      "maxPercent": 0.437,
+      "worstFrame": 55,
+      "meanPercentOfActive": 1.038,
+      "maxPercentOfActive": 1.551,
+      "worstActiveFrame": 45,
+      "framesOver2Percent": [],
+      "top5": [
+        [
+          55,
+          0.437,
+          1.436
+        ],
+        [
+          60,
+          0.434,
+          1.354
+        ],
+        [
+          50,
+          0.397,
+          1.464
+        ],
+        [
+          65,
+          0.355,
+          1.098
+        ],
+        [
+          70,
+          0.355,
+          1.098
+        ]
+      ],
+      "warnings": [
+        "matteKey(s) with no matching mask sprite (ignore when rendering): matte_bTTCW1wT.matte, matte_pUPP05aB.matte, matte_3UJxqavb.matte."
+      ]
+    },
+    {
+      "sample": "angel.svga",
+      "size": "750x750",
+      "mode": "aspectFit",
+      "tolerance": 10,
+      "compared": 13,
+      "maxActivePixels": 303108,
+      "minActivePixels": 15606,
+      "meanPercent": 0.011,
+      "maxPercent": 0.062,
+      "worstFrame": 35,
+      "meanPercentOfActive": 0.03,
+      "maxPercentOfActive": 0.165,
+      "worstActiveFrame": 35,
+      "framesOver2Percent": [],
+      "top5": [
+        [
+          35,
+          0.062,
+          0.165
+        ],
+        [
+          40,
+          0.028,
+          0.072
+        ],
+        [
+          30,
+          0.013,
+          0.037
+        ],
+        [
+          45,
+          0.012,
+          0.032
+        ],
+        [
+          25,
+          0.007,
+          0.021
+        ]
+      ],
+      "warnings": []
+    },
+    {
+      "sample": "kingset.svga",
+      "size": "750x750",
+      "mode": "aspectFit",
+      "tolerance": 10,
+      "compared": 12,
+      "maxActivePixels": 196059,
+      "minActivePixels": 72850,
+      "meanPercent": 0.002,
+      "maxPercent": 0.007,
+      "worstFrame": 30,
+      "meanPercentOfActive": 0.007,
+      "maxPercentOfActive": 0.021,
+      "worstActiveFrame": 30,
+      "framesOver2Percent": [],
+      "top5": [
+        [
+          30,
+          0.007,
+          0.021
+        ],
+        [
+          35,
+          0.007,
+          0.021
+        ],
+        [
+          10,
+          0.007,
+          0.019
+        ],
+        [
+          20,
+          0.007,
+          0.02
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "warnings": []
+    },
+    {
+      "sample": "matteBitmap.svga",
+      "size": "400x400",
+      "mode": "aspectFit",
+      "tolerance": 10,
+      "compared": 7,
+      "maxActivePixels": 12725,
+      "minActivePixels": 8843,
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "meanPercentOfActive": 0,
+      "maxPercentOfActive": 0,
+      "worstActiveFrame": 0,
+      "framesOver2Percent": [],
+      "top5": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          5,
+          0,
+          0
+        ],
+        [
+          10,
+          0,
+          0
+        ],
+        [
+          15,
+          0,
+          0
+        ],
+        [
+          20,
+          0,
+          0
+        ]
+      ],
+      "warnings": []
+    },
+    {
+      "sample": "matteRect.svga",
+      "size": "400x400",
+      "mode": "aspectFit",
+      "tolerance": 10,
+      "compared": 7,
+      "maxActivePixels": 17780,
+      "minActivePixels": 12545,
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "meanPercentOfActive": 0,
+      "maxPercentOfActive": 0,
+      "worstActiveFrame": 0,
+      "framesOver2Percent": [],
+      "top5": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          5,
+          0,
+          0
+        ],
+        [
+          10,
+          0,
+          0
+        ],
+        [
+          15,
+          0,
+          0
+        ],
+        [
+          20,
+          0,
+          0
+        ]
+      ],
+      "warnings": []
+    }
+  ],
+  "diffMimicOracleAlpha": [
+    {
+      "sample": "Fiery-Red-Dragon.svga",
+      "size": "720x1280",
+      "mode": "aspectFit",
+      "tolerance": 10,
+      "compared": 21,
+      "maxActivePixels": 921600,
+      "minActivePixels": 0,
+      "meanPercent": 0,
+      "maxPercent": 0.002,
+      "worstFrame": 15,
+      "meanPercentOfActive": 0,
+      "maxPercentOfActive": 0.002,
+      "worstActiveFrame": 15,
+      "framesOver2Percent": [],
+      "top5": [
+        [
+          15,
+          0.002,
+          0.002
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          5,
+          0,
+          0
+        ],
+        [
+          10,
+          0,
+          0
+        ],
+        [
+          20,
+          0,
+          0
+        ]
+      ],
+      "warnings": []
+    },
+    {
+      "sample": "Glossy-Pink-Lips.svga",
+      "size": "750x1334",
+      "mode": "aspectFit",
+      "tolerance": 10,
+      "compared": 14,
+      "maxActivePixels": 538717,
+      "minActivePixels": 0,
+      "meanPercent": 0.027,
+      "maxPercent": 0.083,
+      "worstFrame": 40,
+      "meanPercentOfActive": 0.052,
+      "maxPercentOfActive": 0.16,
+      "worstActiveFrame": 40,
+      "framesOver2Percent": [],
+      "top5": [
+        [
+          40,
+          0.083,
+          0.16
+        ],
+        [
+          15,
+          0.069,
+          0.133
+        ],
+        [
+          10,
+          0.06,
+          0.116
+        ],
+        [
+          35,
+          0.052,
+          0.1
+        ],
+        [
+          45,
+          0.047,
+          0.09
+        ]
+      ],
+      "warnings": []
+    },
+    {
+      "sample": "Pink-Heart-Rocket.svga",
+      "size": "750x1334",
+      "mode": "aspectFit",
+      "tolerance": 10,
+      "compared": 49,
+      "maxActivePixels": 777318,
+      "minActivePixels": 0,
+      "meanPercent": 0.002,
+      "maxPercent": 0.029,
+      "worstFrame": 230,
+      "meanPercentOfActive": 0.005,
+      "maxPercentOfActive": 0.049,
+      "worstActiveFrame": 230,
+      "framesOver2Percent": [],
+      "top5": [
+        [
+          230,
+          0.029,
+          0.049
+        ],
+        [
+          185,
+          0.014,
+          0.023
+        ],
+        [
+          235,
+          0.01,
+          0.019
+        ],
+        [
+          220,
+          0.008,
+          0.012
+        ],
+        [
+          225,
+          0.007,
+          0.011
+        ]
+      ],
+      "warnings": []
+    },
+    {
+      "sample": "Rocket.svga",
+      "size": "1080x630",
+      "mode": "aspectFit",
+      "tolerance": 10,
+      "compared": 97,
+      "maxActivePixels": 220676,
+      "minActivePixels": 49699,
+      "meanPercent": 0.327,
+      "maxPercent": 0.437,
+      "worstFrame": 55,
+      "meanPercentOfActive": 1.038,
+      "maxPercentOfActive": 1.551,
+      "worstActiveFrame": 45,
+      "framesOver2Percent": [],
+      "top5": [
+        [
+          55,
+          0.437,
+          1.436
+        ],
+        [
+          60,
+          0.434,
+          1.354
+        ],
+        [
+          50,
+          0.397,
+          1.464
+        ],
+        [
+          65,
+          0.355,
+          1.098
+        ],
+        [
+          70,
+          0.355,
+          1.098
+        ]
+      ],
+      "warnings": [
+        "matteKey(s) with no matching mask sprite (ignore when rendering): matte_bTTCW1wT.matte, matte_pUPP05aB.matte, matte_3UJxqavb.matte."
+      ]
+    },
+    {
+      "sample": "angel.svga",
+      "size": "750x750",
+      "mode": "aspectFit",
+      "tolerance": 10,
+      "compared": 13,
+      "maxActivePixels": 303108,
+      "minActivePixels": 15606,
+      "meanPercent": 0.011,
+      "maxPercent": 0.062,
+      "worstFrame": 35,
+      "meanPercentOfActive": 0.03,
+      "maxPercentOfActive": 0.165,
+      "worstActiveFrame": 35,
+      "framesOver2Percent": [],
+      "top5": [
+        [
+          35,
+          0.062,
+          0.165
+        ],
+        [
+          40,
+          0.028,
+          0.072
+        ],
+        [
+          30,
+          0.013,
+          0.037
+        ],
+        [
+          45,
+          0.012,
+          0.032
+        ],
+        [
+          25,
+          0.007,
+          0.021
+        ]
+      ],
+      "warnings": []
+    },
+    {
+      "sample": "kingset.svga",
+      "size": "750x750",
+      "mode": "aspectFit",
+      "tolerance": 10,
+      "compared": 12,
+      "maxActivePixels": 196059,
+      "minActivePixels": 72850,
+      "meanPercent": 0.002,
+      "maxPercent": 0.007,
+      "worstFrame": 30,
+      "meanPercentOfActive": 0.007,
+      "maxPercentOfActive": 0.021,
+      "worstActiveFrame": 30,
+      "framesOver2Percent": [],
+      "top5": [
+        [
+          30,
+          0.007,
+          0.021
+        ],
+        [
+          35,
+          0.007,
+          0.021
+        ],
+        [
+          10,
+          0.007,
+          0.019
+        ],
+        [
+          20,
+          0.007,
+          0.02
+        ],
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "warnings": []
+    },
+    {
+      "sample": "matteBitmap.svga",
+      "size": "400x400",
+      "mode": "aspectFit",
+      "tolerance": 10,
+      "compared": 7,
+      "maxActivePixels": 12725,
+      "minActivePixels": 8843,
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "meanPercentOfActive": 0,
+      "maxPercentOfActive": 0,
+      "worstActiveFrame": 0,
+      "framesOver2Percent": [],
+      "top5": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          5,
+          0,
+          0
+        ],
+        [
+          10,
+          0,
+          0
+        ],
+        [
+          15,
+          0,
+          0
+        ],
+        [
+          20,
+          0,
+          0
+        ]
+      ],
+      "warnings": []
+    },
+    {
+      "sample": "matteRect.svga",
+      "size": "400x400",
+      "mode": "aspectFit",
+      "tolerance": 10,
+      "compared": 7,
+      "maxActivePixels": 17780,
+      "minActivePixels": 12545,
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "meanPercentOfActive": 0,
+      "maxPercentOfActive": 0,
+      "worstActiveFrame": 0,
+      "framesOver2Percent": [],
+      "top5": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          5,
+          0,
+          0
+        ],
+        [
+          10,
+          0,
+          0
+        ],
+        [
+          15,
+          0,
+          0
+        ],
+        [
+          20,
+          0,
+          0
+        ]
+      ],
+      "warnings": []
+    }
+  ],
+  "synthetic": {
+    "passed": 34,
+    "failed": 0,
+    "checks": [
+      {
+        "name": "matte: centre drawn, corner masked out",
+        "ok": true,
+        "detail": [
+          [
+            0,
+            0,
+            255,
+            255
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      {
+        "name": "setImage + circular matte: centre red, corner still masked",
+        "ok": true,
+        "detail": [
+          [
+            255,
+            0,
+            0,
+            255
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      {
+        "name": "replacement survives seek",
+        "ok": true
+      },
+      {
+        "name": "setHidden hides the sprite",
+        "ok": true
+      },
+      {
+        "name": "setHidden(false) shows it again, replacement intact",
+        "ok": true
+      },
+      {
+        "name": "clearReplacement restores the original",
+        "ok": true
+      },
+      {
+        "name": "dangling matteKey is ignored (sprite drawn unmasked)",
+        "ok": true,
+        "detail": [
+          0,
+          255,
+          0,
+          255
+        ]
+      },
+      {
+        "name": "hidden matte frame masks the sprite out",
+        "ok": true,
+        "detail": [
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      {
+        "name": "visible matte frame shows it through the matte",
+        "ok": true
+      },
+      {
+        "name": "text: blank before, blue glyph pixels after",
+        "ok": true,
+        "detail": {
+          "blue": 504
+        }
+      },
+      {
+        "name": "text is centred in the layout rect",
+        "ok": true,
+        "detail": {
+          "minX": 21,
+          "maxX": 78,
+          "minY": 43,
+          "maxY": 55
+        }
+      },
+      {
+        "name": "over-long text is squeezed into the layout width (no throw)",
+        "ok": true
+      },
+      {
+        "name": "left-aligned text with stroke: starts at the left edge, has stroke pixels",
+        "ok": true,
+        "detail": {
+          "leftMost": 0,
+          "black": 58
+        }
+      },
+      {
+        "name": "unknown key: no throw, one warning per call",
+        "ok": true,
+        "detail": {
+          "threw": false,
+          "warnings": 4
+        }
+      },
+      {
+        "name": "replacement survives 3 loops driven by the Ticker",
+        "ok": true,
+        "detail": {
+          "loops": 3,
+          "frames": 12
+        }
+      },
+      {
+        "name": "fit=contain letterboxes (top row empty, middle filled)",
+        "ok": true,
+        "detail": [
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            255,
+            0,
+            0,
+            255
+          ]
+        ]
+      },
+      {
+        "name": "fit=cover fills the whole rect",
+        "ok": true
+      },
+      {
+        "name": "caller-owned ImageBitmap is not closed by the renderer",
+        "ok": true
+      },
+      {
+        "name": "...even after destroy()",
+        "ok": true
+      },
+      {
+        "name": "contentMode aspectFit: backing 400x400 at dpr 2, expected pixels",
+        "ok": true,
+        "detail": {
+          "w": 400,
+          "h": 400
+        }
+      },
+      {
+        "name": "contentMode aspectFill: backing 400x400 at dpr 2, expected pixels",
+        "ok": true,
+        "detail": {
+          "w": 400,
+          "h": 400
+        }
+      },
+      {
+        "name": "contentMode fill: backing 400x400 at dpr 2, expected pixels",
+        "ok": true,
+        "detail": {
+          "w": 400,
+          "h": 400
+        }
+      },
+      {
+        "name": "setContentMode redraws the current frame",
+        "ok": true
+      },
+      {
+        "name": "ResizeObserver resizes the backing store and redraws",
+        "ok": true,
+        "detail": {
+          "before": [
+            100,
+            100
+          ],
+          "after": [
+            240,
+            160
+          ]
+        }
+      },
+      {
+        "name": "after destroy() the observer is gone (no resize)",
+        "ok": true,
+        "detail": 240
+      },
+      {
+        "name": "90-degree rotation (a = d = 0, which proto3 omits) is honoured",
+        "ok": true,
+        "detail": [
+          [
+            255,
+            0,
+            0,
+            255
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      {
+        "name": "dashed stroke: dash, gap, dash",
+        "ok": true,
+        "detail": [
+          [
+            0,
+            255,
+            0,
+            255
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            255,
+            0,
+            255
+          ]
+        ]
+      },
+      {
+        "name": "zero-width stroke draws nothing; 6px stroke is 6px",
+        "ok": true
+      },
+      {
+        "name": "SVG arc commands (A) render (svgaplayerweb ignores them)",
+        "ok": true,
+        "detail": [
+          [
+            0,
+            0,
+            255,
+            255
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      {
+        "name": "rect cornerRadius rounds the corners",
+        "ok": true
+      },
+      {
+        "name": "shape transform composes on top of the sprite transform",
+        "ok": true,
+        "detail": [
+          [
+            255,
+            0,
+            0,
+            255
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      {
+        "name": "clipPath clips the sprite",
+        "ok": true
+      },
+      {
+        "name": "frame alpha applies; later sprites draw on top",
+        "ok": true,
+        "detail": {
+          "left": [
+            0,
+            0,
+            255,
+            255
+          ],
+          "right": [
+            255,
+            0,
+            0,
+            128
+          ]
+        }
+      },
+      {
+        "name": "drawFrame is deterministic (frame 30 twice, other frames between)",
+        "ok": true
+      }
+    ]
+  },
+  "perf": {
+    "sample": "Pink-Heart-Rocket.svga",
+    "dpr1": {
+      "backing": "750x1334",
+      "heapGrowthKB_for_2400_drawFrames": 0,
+      "drawFrameCall": {
+        "n": 1200,
+        "avg": 0.054,
+        "p50": 0,
+        "p95": 0.1,
+        "max": 0.5
+      },
+      "drawFramePlusRaster": {
+        "n": 1200,
+        "avg": 4.306,
+        "p50": 4.5,
+        "p95": 7.7,
+        "max": 10.1
+      }
+    },
+    "oracleDpr1": {
+      "n": 1200,
+      "avg": 4.411,
+      "p50": 4.5,
+      "p95": 8.2,
+      "max": 12.4
+    },
+    "dpr2": {
+      "backing": "750x1334",
+      "heapGrowthKB_for_2400_drawFrames": 0,
+      "drawFrameCall": {
+        "n": 1200,
+        "avg": 0.055,
+        "p50": 0.1,
+        "p95": 0.1,
+        "max": 0.2
+      },
+      "drawFramePlusRaster": {
+        "n": 1200,
+        "avg": 4.305,
+        "p50": 4.4,
+        "p95": 7.7,
+        "max": 9.2
+      }
+    }
+  },
+  "perfGpu": {
+    "sample": "Pink-Heart-Rocket.svga",
+    "dpr1": {
+      "backing": "750x1334",
+      "heapGrowthKB_for_2400_drawFrames": 0,
+      "drawFrameCall": {
+        "n": 1200,
+        "avg": 0.071,
+        "p50": 0.1,
+        "p95": 0.2,
+        "max": 1.6
+      },
+      "drawFramePlusRaster": {
+        "n": 1200,
+        "avg": 4.681,
+        "p50": 4.7,
+        "p95": 8.7,
+        "max": 18.2
+      }
+    },
+    "oracleDpr1": {
+      "n": 1200,
+      "avg": 4.564,
+      "p50": 4.7,
+      "p95": 8.3,
+      "max": 17.2
+    },
+    "dpr2": {
+      "backing": "750x1334",
+      "heapGrowthKB_for_2400_drawFrames": 0,
+      "drawFrameCall": {
+        "n": 1200,
+        "avg": 0.062,
+        "p50": 0.1,
+        "p95": 0.2,
+        "max": 0.5
+      },
+      "drawFramePlusRaster": {
+        "n": 1200,
+        "avg": 4.413,
+        "p50": 4.5,
+        "p95": 8.1,
+        "max": 11.5
+      }
+    }
+  },
+  "leaks": {
+    "sample": "Pink-Heart-Rocket.svga",
+    "cycles": 50,
+    "framesDrawn": 50,
+    "counters": {
+      "bitmapsCreated": 1550,
+      "bitmapsClosed": 1550,
+      "rafRequested": 250,
+      "rafCancelled": 50,
+      "rafFired": 200,
+      "roCreated": 50,
+      "roObserve": 50,
+      "roDisconnect": 50,
+      "listenersAdded": 0,
+      "listenersRemoved": 0
+    },
+    "bitmapsStillOpen": 0,
+    "rafOutstanding": 0,
+    "resizeObserversLive": 0,
+    "listenersNet": 0,
+    "domNodesDelta": 0,
+    "heapMB": {
+      "before": 4.8,
+      "after": 8.4
+    }
+  }
+}
