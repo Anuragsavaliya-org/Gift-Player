@@ -1,7 +1,7 @@
 # REVIEW — Phase 3.1: per-run mattes + real-corpus test
 
 ## Status
-Done. Build, typecheck, 136 tests and `npm run verify:browser` (38/38 synthetic checks) pass. Commit: filled in below.
+Done. Build, typecheck, 136 tests and `npm run verify:browser` (38/38 synthetic checks) pass. Commit: `817ed4a` (a tiny follow-up commit only records this hash).
 
 ## What was built
 - **Per-run matte compositing**: draw list precomputed at load; each run of consecutive sprites with one matteKey is drawn into one offscreen canvas, the matte is applied once with `destination-in`, then composited (matte sprites in the sequence do not break a run; dangling key = unmasked; hidden matte masks the run out).
