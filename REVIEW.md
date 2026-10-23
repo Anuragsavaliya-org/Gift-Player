@@ -1,7 +1,7 @@
 # REVIEW — Phase 2: SVGA parser
 
 ## Status
-Done. Commit: `78a86ba`.
+Done. Phase 2 work is commit `c90a455` (a second tiny commit on top only corrects this line).
 
 ## What was built
 - `parseSvga(bytes, detected?)`: pure, synchronous, runs in Node. Hand-written protobuf decoder (full `MovieEntity`, 10-byte varints) plus a 1.x `movie.spec` normaliser; 2.x, 1.x and 1.5 (`movie.binary`) all produce one `SvgaMovie` model.
