@@ -1,7 +1,7 @@
 # REVIEW — Phase 3: SVGA Canvas2D renderer
 
 ## Status
-Done. Build, typecheck and 136 tests pass; browser verification (`npm run verify:browser`) reproduces every number below. Commit: filled in below.
+Done. Build, typecheck and 136 tests pass; browser verification (`npm run verify:browser`) reproduces every number below. Commit: `af448cb`.
 
 ## What was built
 - Part A: `maxInflatedBytes` (default 64 MB; streaming zlib abort, zip central-directory check, detection too) and the sprites x frames cap lowered to 2M.
