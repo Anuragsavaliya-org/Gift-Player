@@ -61,7 +61,7 @@
 | Package | Kind | Why |
 |---|---|---|
 | `pako` | runtime | zlib inflate for SVGA 2.x (needed in detection now, parser in Phase 2). |
-| `@types/pako` | dev | types (v2 types against pako 3 — typechecks fine). |
+| ~~`@types/pako`~~ | — | **Removed in review fixes**: pako 3 ships its own types (`dist/pako.d.ts`). |
 | `@types/node` | dev | tests use `node:fs`. |
 | `svgaplayerweb` | dev | reference oracle for `expected.json`. |
 
@@ -73,3 +73,35 @@
 
 ### Known issues / gaps
 - **`/samples` contains only 3 SVGA 2.x files.** No GIF, WebP (animated/static), PAG, or SVGA 1.x. GIF/WebP/PAG/zip detection is verified only on **synthetic headers**, not real files. **Please add real samples**, esp. an animated WebP and a PAG (PAG header assumption `PAG` at byte 0 is unverified against a real libpag file). Phase 4 and 5 cannot be called done without them.
+
+
+---
+
+## Phase 1 review fixes ✅ (awaiting review)
+
+1. **No double inflate.** `detectInternal(bytes) -> { info, inflated? }` in `src/core/detect.ts`; for SVGA 2.x it returns the inflated MovieEntity buffer. Not exported from `src/index.ts`; public `detectFormat` is a thin wrapper returning `info` only. Phase 2 parser should import `detectInternal`. Test asserts `inflated` is set for SVGA 2.x and undefined otherwise.
+2. **Unknown fields are skipped.** `looksLikeMovieEntity` now only requires well-formed wire format plus field 2 `params` containing fps (3) and frames (4) as varints. Tests: unknown varint/fixed32/length-delimited fields at top level and inside params; missing fps/frames rejected; malformed length rejected.
+3. **SVGA 1.x via central directory.** Finds the EOCD record (scanning back over a possible zip comment), walks central-directory entries, requires `movie.spec` or `movie.binary`. Real `Rocket.svga` has `movie.spec` as a non-first entry and is detected. A plain zip, or a zip truncated so its central directory is missing, throws `unsupported-format` (tests added; a small stored-zip builder is in the test file). Limitation: no zip64 support (not needed for SVGA).
+4. **pako types:** removed `@types/pako`.
+5. See Phase 2 notes below.
+
+### Samples added and covered by detection tests
+All 13 files in `/samples` are asserted by name in a table in `tests/detect.test.ts` (a test fails if a sample has no expectation): 7 SVGA 2.x, `Rocket.svga` (1.x), `rotating-earth.gif`, `animated.webp` (animated:true), `static.webp` (animated:false), `like.pag`, `replacement.pag`. Note the roadmap message said `animated.weatic.webp`; the file on disk is `animated.webp`. The real PAG files start `50 41 47 01`, so the "`PAG` at byte 0" assumption is now **verified on real files**. Total: 44 tests passing.
+
+### `samples/expected.json` re-run
+| File | fps | frames | sprites | images | viewBox |
+|---|---|---|---|---|---|
+| angel | 15 | 60 | 125 | 26 | 750x750 |
+| kingset | 20 | 56 | 17 | 10 | 750x750 |
+| matteBitmap | 30 | 30 | 4 | 1 | 400x400 |
+| matteRect | 30 | 30 | 4 | 0 | 400x400 |
+| (earlier 3 unchanged) | | | | | |
+
+- **`Rocket.svga` (1.x): svgaplayerweb could not parse it in Node** (`incorrect header check`: without JSZip it takes the 2.x inflate path). `expected.json` records `{"unparsed": true, ...}`, no values guessed. The script now continues past per-file failures. Options for later: add `jszip` as a devDependency for the oracle script, or run it in the playground. Not done: judgment call (extra dev dependency).
+- For reference only, **not oracle-verified**: reading `movie.spec` directly from the zip gives ver `1.1.0`, viewBox 1080x630, fps 60, frames 480, 20 sprites, 16 images. Phase 2 tests for 1.x should be treated as self-consistency checks until an oracle confirms them.
+
+### Notes for Phase 2 (parser)
+- **Decompression:** evaluate native `DecompressionStream('deflate')` (zlib format) with pako fallback. Considerations: it is async/streaming (fine for the parser), unavailable in older Safari/Node-less envs, and its error behaviour on truncated data differs from pako. Detection currently needs sync inflate, so either keep pako for detection or make detection async; decide then.
+- **Varints:** the parser's varint reader must handle full 10-byte values (negative int32/int64 encode as 10 bytes). Detection's reader already accepts up to 10 bytes but only approximates values above 2^53; the parser should decode properly (protobufjs does this via `Long`; a hand-rolled decoder needs BigInt or hi/lo handling).
+- The parser must reuse `Detected.inflated` rather than inflating again.
+- The 1.x path should accept both `movie.spec` (JSON, ver 1.x) and `movie.binary` (1.5, protobuf inside zip); `svgaplayerweb` treats presence of `movie.binary` as version 1.5.

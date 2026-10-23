@@ -47,7 +47,15 @@ function parse(file) {
 (async () => {
   const out = {};
   for (const f of files) {
-    const v = await parse(f);
+    let v;
+    try {
+      v = await parse(f);
+    } catch (e) {
+      // svgaplayerweb needs JSZip for SVGA 1.x zips; we do not guess values it cannot give.
+      out[f] = { unparsed: true, reason: String((e && e.message) || e) };
+      console.warn(`[skip] ${f}: ${out[f].reason}`);
+      continue;
+    }
     out[f] = {
       version: v.version,
       fps: v.FPS,

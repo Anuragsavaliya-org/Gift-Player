@@ -32,7 +32,6 @@
   },
   "devDependencies": {
     "@types/node": "^26.6.5",
-    "@types/pako": "^2.0.4",
     "svgaplayerweb": "^2.3.2",
     "tsup": "^8.5.1",
     "typescript": "5.9.3",

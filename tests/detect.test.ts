@@ -3,42 +3,141 @@ import { join } from 'node:path';
 import { deflate } from 'pako';
 import { describe, expect, it } from 'vitest';
 import { detectFormat, detectSource, GiftPlayerError } from '../src';
+import { detectInternal } from '../src/core/detect';
 
 const samplesDir = join(__dirname, '../samples');
 const bytesOf = (...n: number[]) => new Uint8Array(n);
 const ascii = (s: string) => Array.from(s, (c) => c.charCodeAt(0));
 
-// Ground truth for real samples comes from the file extension *in the test only*;
-// the detector itself never looks at names.
-const extToExpected: Record<string, object> = {
-  svga: { format: 'svga', version: '2.x' },
-  gif: { format: 'gif' },
-  pag: { format: 'pag' },
+// Explicit ground truth per real sample (the detector itself never looks at file names).
+const svga2 = { format: 'svga', version: '2.x' } as const;
+const expectedFormats: Record<string, object> = {
+  'angel.svga': svga2,
+  'Fiery-Red-Dragon.svga': svga2,
+  'Glossy-Pink-Lips.svga': svga2,
+  'kingset.svga': svga2,
+  'matteBitmap.svga': svga2,
+  'matteRect.svga': svga2,
+  'Pink-Heart-Rocket.svga': svga2,
+  'Rocket.svga': { format: 'svga', version: '1.x' },
+  'rotating-earth.gif': { format: 'gif' },
+  'animated.webp': { format: 'webp', animated: true },
+  'static.webp': { format: 'webp', animated: false },
+  'like.pag': { format: 'pag' },
+  'replacement.pag': { format: 'pag' },
 };
 
+const read = (f: string) => new Uint8Array(readFileSync(join(samplesDir, f)));
+
 describe('real samples', () => {
-  const files = readdirSync(samplesDir).filter((f) => /\.(svga|gif|webp|pag)$/i.test(f));
+  const files = readdirSync(samplesDir).filter((f) => !f.endsWith('.json'));
 
-  it('has samples', () => expect(files.length).toBeGreaterThan(0));
+  it('every sample has an expectation (add new samples to the table)', () => {
+    expect(files.sort()).toEqual(Object.keys(expectedFormats).sort());
+  });
 
-  for (const f of files) {
+  for (const [f, expected] of Object.entries(expectedFormats)) {
     it(`detects ${f}`, () => {
-      const ext = f.split('.').pop()!.toLowerCase();
-      const info = detectFormat(new Uint8Array(readFileSync(join(samplesDir, f))));
-      if (ext === 'webp') expect(info).toMatchObject({ format: 'webp' });
-      else expect(info).toEqual(extToExpected[ext]);
+      expect(detectFormat(read(f))).toEqual(expected);
     });
   }
 
   it('ignores the file name: a renamed SVGA is still SVGA', async () => {
-    const svga = readdirSync(samplesDir).find((f) => f.endsWith('.svga'))!;
-    const buf = readFileSync(join(samplesDir, svga));
-    const blob = new File([new Uint8Array(buf)], 'totally-a-photo.png');
-    expect(await detectSource(blob)).toEqual({ format: 'svga', version: '2.x' });
+    const blob = new File([read('angel.svga')], 'totally-a-photo.png');
+    expect(await detectSource(blob)).toEqual(svga2);
+  });
+
+  it('SVGA 2.x detection hands back the inflated buffer (no double inflate)', () => {
+    const { info, inflated } = detectInternal(read('angel.svga'));
+    expect(info).toEqual(svga2);
+    expect(inflated).toBeInstanceOf(Uint8Array);
+    expect(inflated!.length).toBeGreaterThan(read('angel.svga').length);
+    expect(detectInternal(read('rotating-earth.gif')).inflated).toBeUndefined();
   });
 });
 
-// Synthetic headers: NOT real files. Real GIF/WebP/PAG samples are still missing from /samples.
+// Minimal stored (uncompressed) zip builder; CRCs are zeroed, which detection does not check.
+function makeZip(names: string[], comment = ''): Uint8Array {
+  const enc = new TextEncoder();
+  const parts: number[] = [];
+  const central: number[] = [];
+  const le = (v: number, n: number) => Array.from({ length: n }, (_, i) => (v >>> (8 * i)) & 0xff);
+  for (const name of names) {
+    const nameBytes = Array.from(enc.encode(name));
+    const offset = parts.length;
+    parts.push(...le(0x04034b50, 4), ...le(10, 2), ...le(0, 2), ...le(0, 2), ...le(0, 4), ...le(0, 4), ...le(0, 4), ...le(0, 4), ...le(nameBytes.length, 2), ...le(0, 2), ...nameBytes);
+    central.push(...le(0x02014b50, 4), ...le(20, 2), ...le(10, 2), ...le(0, 2), ...le(0, 2), ...le(0, 4), ...le(0, 4), ...le(0, 4), ...le(0, 4), ...le(nameBytes.length, 2), ...le(0, 2), ...le(0, 2), ...le(0, 2), ...le(0, 2), ...le(0, 4), ...le(offset, 4), ...nameBytes);
+  }
+  const commentBytes = Array.from(enc.encode(comment));
+  const eocd = [...le(0x06054b50, 4), ...le(0, 2), ...le(0, 2), ...le(names.length, 2), ...le(names.length, 2), ...le(central.length, 4), ...le(parts.length, 4), ...le(commentBytes.length, 2), ...commentBytes];
+  return new Uint8Array([...parts, ...central, ...eocd]);
+}
+
+describe('zip / SVGA 1.x', () => {
+  it('real Rocket.svga: movie.spec is not the first entry', () => {
+    const b = read('Rocket.svga');
+    const firstName = new TextDecoder().decode(b.subarray(30, 30 + (b[26]! | (b[27]! << 8))));
+    expect(firstName).not.toBe('movie.spec');
+    expect(detectFormat(b)).toEqual({ format: 'svga', version: '1.x' });
+  });
+  it('synthetic: movie.spec as second entry', () => {
+    expect(detectFormat(makeZip(['0.png', 'movie.spec']))).toEqual({ format: 'svga', version: '1.x' });
+  });
+  it('synthetic: movie.binary (1.5)', () => {
+    expect(detectFormat(makeZip(['a.png', 'movie.binary']))).toEqual({ format: 'svga', version: '1.x' });
+  });
+  it('synthetic: with a trailing zip comment', () => {
+    expect(detectFormat(makeZip(['movie.spec'], 'hello'))).toEqual({ format: 'svga', version: '1.x' });
+  });
+  it('plain zip without movie.spec/movie.binary -> unsupported-format', () => {
+    expect(() => detectFormat(makeZip(['readme.txt', 'photo.png']))).toThrowError(
+      expect.objectContaining({ code: 'unsupported-format' }),
+    );
+  });
+  it('zip with only a local header (no central directory) -> unsupported-format', () => {
+    expect(() => detectFormat(makeZip(['movie.spec']).subarray(0, 40))).toThrowError(
+      expect.objectContaining({ code: 'unsupported-format' }),
+    );
+  });
+});
+
+describe('SVGA 2.x protobuf tolerance', () => {
+  const varint = (n: number) => {
+    const out: number[] = [];
+    while (n > 0x7f) { out.push((n & 0x7f) | 0x80); n = Math.floor(n / 128); }
+    out.push(n);
+    return out;
+  };
+  const params = [0x18, 15, 0x20, 30]; // fps=15, frames=30
+  const movie = (...extra: number[]) => deflate(new Uint8Array([0x12, params.length, ...params, ...extra]));
+
+  it('minimal MovieEntity', () => {
+    expect(detectFormat(movie())).toEqual(svga2);
+  });
+  it('skips unknown top-level fields (varint, fixed32, length-delimited)', () => {
+    const unknown = [0x38, 0x07, 0x45, 1, 2, 3, 4, 0x32, 2, 0xaa, 0xbb]; // fields 7, 8, 6
+    expect(detectFormat(movie(...unknown))).toEqual(svga2);
+  });
+  it('skips unknown fields inside params, handles a 10-byte varint', () => {
+    const tenByte = [0x28, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x01]; // field 5 = -1 (int64)
+    const p = [0x18, 15, ...tenByte, 0x20, 30];
+    const b = deflate(new Uint8Array([0x12, p.length, ...p]));
+    expect(detectFormat(b)).toEqual(svga2);
+    expect(varint(300)).toEqual([0xac, 0x02]);
+  });
+  it('rejects params without fps/frames', () => {
+    expect(() => detectFormat(deflate(new Uint8Array([0x12, 2, 0x18, 15])))).toThrowError(
+      expect.objectContaining({ code: 'unsupported-format' }),
+    );
+  });
+  it('rejects malformed wire format', () => {
+    expect(() => detectFormat(movie(0x32, 50, 1))).toThrowError( // length 50 runs past the end
+      expect.objectContaining({ code: 'unsupported-format' }),
+    );
+  });
+});
+
+// Synthetic headers for edge cases real samples don't cover (real files are covered above).
 describe('synthetic headers', () => {
   it('GIF87a / GIF89a', () => {
     expect(detectFormat(bytesOf(...ascii('GIF87a'), 1, 0))).toEqual({ format: 'gif' });
@@ -60,9 +159,6 @@ describe('synthetic headers', () => {
     expect(detectFormat(bytesOf(...ascii('PAG'), 1, 2, 3, 4))).toEqual({ format: 'pag' });
   });
 
-  it('zip (SVGA 1.x)', () => {
-    expect(detectFormat(bytesOf(0x50, 0x4b, 0x03, 0x04, 0, 0))).toEqual({ format: 'svga', version: '1.x' });
-  });
 });
 
 describe('garbage', () => {
