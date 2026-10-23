@@ -1,5 +1,5 @@
 {
-  "date": "2026-10-23T19:32:47.318Z",
+  "date": "2026-10-23T23:29:17.804Z",
   "step": 5,
   "diff": [
     {
@@ -362,7 +362,7 @@
       "warnings": []
     }
   ],
-  "diffMimicOracleAlpha": [
+  "diffNeutralised": [
     {
       "sample": "Fiery-Red-Dragon.svga",
       "size": "720x1280",
@@ -503,38 +503,38 @@
       "compared": 97,
       "maxActivePixels": 220676,
       "minActivePixels": 49699,
-      "meanPercent": 0.327,
-      "maxPercent": 0.437,
-      "worstFrame": 55,
-      "meanPercentOfActive": 1.038,
-      "maxPercentOfActive": 1.551,
-      "worstActiveFrame": 45,
+      "meanPercent": 0.001,
+      "maxPercent": 0.052,
+      "worstFrame": 35,
+      "meanPercentOfActive": 0.007,
+      "maxPercentOfActive": 0.633,
+      "worstActiveFrame": 35,
       "framesOver2Percent": [],
       "top5": [
         [
-          55,
-          0.437,
-          1.436
+          35,
+          0.052,
+          0.633
         ],
         [
-          60,
-          0.434,
-          1.354
+          0,
+          0,
+          0
         ],
         [
-          50,
-          0.397,
-          1.464
+          5,
+          0,
+          0
         ],
         [
-          65,
-          0.355,
-          1.098
+          10,
+          0,
+          0
         ],
         [
-          70,
-          0.355,
-          1.098
+          15,
+          0,
+          0
         ]
       ],
       "warnings": [
@@ -719,7 +719,7 @@
     }
   ],
   "synthetic": {
-    "passed": 34,
+    "passed": 38,
     "failed": 0,
     "checks": [
       {
@@ -1029,6 +1029,91 @@
         }
       },
       {
+        "name": "per-run matte: overlapping semi-transparent sprites are masked once (alpha 96, not 112)",
+        "ok": true,
+        "detail": {
+          "got": [
+            85,
+            0,
+            170,
+            96
+          ],
+          "perRun": [
+            85,
+            0,
+            170,
+            96
+          ],
+          "perSprite": [
+            109,
+            0,
+            146,
+            112
+          ]
+        }
+      },
+      {
+        "name": "two runs, two mattes in one frame: each run only shows through its own matte",
+        "ok": true,
+        "detail": [
+          [
+            255,
+            0,
+            0,
+            255
+          ],
+          [
+            0,
+            0,
+            255,
+            255
+          ]
+        ]
+      },
+      {
+        "name": "same matteKey split by an unmasked sprite: two runs, z-order kept",
+        "ok": true,
+        "detail": [
+          [
+            255,
+            0,
+            0,
+            255
+          ],
+          [
+            0,
+            255,
+            0,
+            255
+          ],
+          [
+            0,
+            0,
+            255,
+            255
+          ],
+          [
+            0,
+            255,
+            0,
+            255
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      {
+        "name": "hidden run members are skipped; all hidden draws nothing",
+        "ok": true,
+        "detail": {
+          "onlyB": true
+        }
+      },
+      {
         "name": "drawFrame is deterministic (frame 30 twice, other frames between)",
         "ok": true
       }
@@ -1041,42 +1126,42 @@
       "heapGrowthKB_for_2400_drawFrames": 0,
       "drawFrameCall": {
         "n": 1200,
-        "avg": 0.054,
-        "p50": 0,
-        "p95": 0.1,
-        "max": 0.5
+        "avg": 0.065,
+        "p50": 0.1,
+        "p95": 0.2,
+        "max": 0.7
       },
       "drawFramePlusRaster": {
         "n": 1200,
-        "avg": 4.306,
-        "p50": 4.5,
-        "p95": 7.7,
-        "max": 10.1
+        "avg": 4.506,
+        "p50": 4.6,
+        "p95": 8.2,
+        "max": 16.7
       }
     },
     "oracleDpr1": {
       "n": 1200,
-      "avg": 4.411,
-      "p50": 4.5,
-      "p95": 8.2,
-      "max": 12.4
+      "avg": 4.239,
+      "p50": 4.4,
+      "p95": 7.7,
+      "max": 11.3
     },
     "dpr2": {
       "backing": "750x1334",
       "heapGrowthKB_for_2400_drawFrames": 0,
       "drawFrameCall": {
         "n": 1200,
-        "avg": 0.055,
+        "avg": 0.062,
         "p50": 0.1,
         "p95": 0.1,
-        "max": 0.2
+        "max": 8.4
       },
       "drawFramePlusRaster": {
         "n": 1200,
-        "avg": 4.305,
+        "avg": 4.276,
         "p50": 4.4,
         "p95": 7.7,
-        "max": 9.2
+        "max": 14.7
       }
     }
   },
@@ -1087,42 +1172,42 @@
       "heapGrowthKB_for_2400_drawFrames": 0,
       "drawFrameCall": {
         "n": 1200,
-        "avg": 0.071,
+        "avg": 0.056,
         "p50": 0.1,
-        "p95": 0.2,
-        "max": 1.6
+        "p95": 0.1,
+        "max": 0.6
       },
       "drawFramePlusRaster": {
         "n": 1200,
-        "avg": 4.681,
-        "p50": 4.7,
-        "p95": 8.7,
-        "max": 18.2
+        "avg": 4.416,
+        "p50": 4.5,
+        "p95": 8,
+        "max": 12.6
       }
     },
     "oracleDpr1": {
       "n": 1200,
-      "avg": 4.564,
-      "p50": 4.7,
-      "p95": 8.3,
-      "max": 17.2
+      "avg": 4.543,
+      "p50": 4.6,
+      "p95": 8.4,
+      "max": 18.7
     },
     "dpr2": {
       "backing": "750x1334",
       "heapGrowthKB_for_2400_drawFrames": 0,
       "drawFrameCall": {
         "n": 1200,
-        "avg": 0.062,
+        "avg": 0.057,
         "p50": 0.1,
         "p95": 0.2,
-        "max": 0.5
+        "max": 0.4
       },
       "drawFramePlusRaster": {
         "n": 1200,
-        "avg": 4.413,
-        "p50": 4.5,
+        "avg": 4.459,
+        "p50": 4.6,
         "p95": 8.1,
-        "max": 11.5
+        "max": 25.6
       }
     }
   },
@@ -1148,8 +1233,8 @@
     "listenersNet": 0,
     "domNodesDelta": 0,
     "heapMB": {
-      "before": 4.8,
-      "after": 8.4
+      "before": 4.9,
+      "after": 8.5
     }
   }
 }

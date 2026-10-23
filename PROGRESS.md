@@ -235,3 +235,39 @@ Mattes with a circular matte + `setImage` (centre replaced, corner stays masked)
 - Perf measured on desktop Chrome only; no mobile device, no dpr 3.
 - `imageSmoothingQuality` left at the default (low), same as the oracle; at heavy downscaling a `high` option may look better but costs time.
 - The Claude-in-Chrome extension was unavailable (account mismatch); all browser work used local headless Chrome through the DevTools protocol.
+
+---
+
+## Phase 3.1 — Per-run matte compositing + real-corpus smoke test ✅ (awaiting review)
+
+### Task 1 — per-run matte compositing
+- `src/formats/svga/render/renderer.ts`: the draw list is now built **at load time** as `DrawItem`s: either one unmasked sprite or a *run* = maximal sequence of consecutive non-matte sprites sharing one non-empty `matteKey` (matte sprites in between are skipped and do not break the run, as in Android; an unmasked sprite or a dangling matteKey ends it). Per frame, each run is drawn into one reusable offscreen canvas, the matte is drawn over it with `destination-in` once, and the result is composited onto the main canvas (z-order preserved because a run is composited where it sits in the list). A hidden matte (alpha 0) masks the whole run out; hidden run members are skipped; a run with nothing visible draws nothing. The per-sprite `matte` field is gone.
+- **New synthetic checks (4, all pass; 38 total):** (a) two overlapping 50%-alpha sprites under a 50%-alpha matte, with the matte *between* them in the list: per-run gives (85, 0, 170, **96**), per-sprite would give (109, 0, 146, **112**). I ran this check against the previous per-sprite renderer too: it fails there with exactly (109, 0, 146, 112), so the check discriminates. (b) two runs with different mattes in one frame; (c) the same matteKey split by an unmasked sprite = two runs with z-order kept (red < green < blue); (d) hidden members skipped / all hidden draws nothing.
+- **Result on Rocket.svga: UNCHANGED.** Before: mean 0.327 %, max 0.437 %, worst frame 55. After: mean 0.327 %, max 0.437 %, worst frame 55 (every other sample also identical to the digit; perf unchanged, 4.5 ms avg). So **per-run vs per-sprite was not the cause of Rocket's residual**; it is still the right behaviour (matches Android/iOS, proven by the synthetic check) but the real files here have no overlapping partially-masked sprites.
+- **Real cause of the Rocket residual (found and proven): a second svgaplayerweb matte bug.** Zooming into frame 55 showed the mismatch is a 1-px-wide ring, and a row scan showed the oracle's disc `E511KDMP` (an *unmasked* sprite at tx 273) ending at x = 276 = the matte sprite's left edge (tx 276) while ours starts at 273. svgaplayerweb applies the matte with `destination-in` **directly on the main canvas**, which erases everything drawn before the masked run (here the unmasked background disc), instead of masking only the run (Android `saveLayer`, iOS mask layer). Proof: a diagnostic oracle mode (`oracleIsolate=1`: each run drawn on its own layer first) gives Rocket **mean 0.001 %, max 0.052 %**. So our output is correct and the residual is the oracle's bug.
+- Both known oracle quirks can now be neutralised in the harness (`mimicOracleAlpha=1&oracleIsolate=1`; diagnostic only, never used for the headline numbers).
+
+### Task 2 — real-corpus smoke test
+- `.gitignore`: `samples/corpus/` (the owner drops real svgagifts.com files there; the folder may not exist yet).
+- `npm run verify:corpus [-- --dir=samples/corpus --step=10 --limit=N --threshold=2]` (`scripts/verify-corpus.mjs`, one headless Chrome per file via `task=corpus` in `playground/verify.ts`): (1) **parse** pass/fail + warnings; (2) **render** every 10th frame against the patched oracle, mean/max diff % and worst frame; (3) **feature census**: rotated sprites (a == 0 or d == 0), rotated/skewed (b or c != 0), strokes, dashes, arc commands, rounded rects, vector shapes, clipPath, mattes (matte/masked sprites, dangling keys), audio, and replaceable-looking keys (name regex: avatar, head, portrait, photo, nick, name, user, text, label, slot, ...).
+- **Automatic diagnosis** for any file above the threshold: it re-renders with each oracle quirk neutralised (alpha < 0.05 cutoff; whole-canvas matte; both) and reports the first that brings the file under 2 % as "proven"; otherwise it lists census-based hypotheses (rotated sprites, arcs, dashes, strokes, rounded rects) marked "heuristic", else "unexplained". Exercised on Pink-Heart-Rocket at step 5: correctly diagnosed "svgaplayerweb skips sprites with alpha < 0.05", proven.
+- Output: `reports/corpus.json` + `reports/corpus.md` (failures; files above 2 % with diagnosis + confidence; all-files table; census totals). Dry runs on another directory write `reports/corpus-<dir>.{json,md}`.
+- **The corpus is empty**: `reports/corpus.md` says it is waiting for files. Dry run on `samples/` (`reports/corpus-samples.md`): 8/8 parse, 0 over 2 %, 0 failures. Census of the 8 repo samples: **0** files with a == 0/d == 0 rotation, strokes, dashes, arcs or rounded rects; 2 files with vector shapes (7 unique shapes, all fills); 1 with clipPath; 3 with mattes (1 with dangling keys); 2 with audio; 5 files with b/c != 0 (315 sprites, 13,098 frames of ordinary rotation/skew); 0 replaceable-looking keys. These are exactly the features the real corpus needs to cover.
+
+### Verification (`npm run verify:browser`, headless Chrome, native size, every 5th frame + last)
+| Sample | mean % | max % | worst | with oracle quirks neutralised: mean / max |
+|---|---|---|---|---|
+| Fiery-Red-Dragon | 0 | 0.002 | 15 | 0 / 0.002 |
+| Glossy-Pink-Lips | 0.052 | 0.224 | 30 | 0.027 / 0.083 |
+| Pink-Heart-Rocket | 0.216 | 10.504 | 125 | 0.002 / 0.029 |
+| Rocket (1.x) | 0.327 | 0.437 | 55 | 0.001 / 0.052 |
+| angel | 0.011 | 0.062 | 35 | 0.011 / 0.062 |
+| kingset | 0.002 | 0.007 | 30 | 0.002 / 0.007 |
+| matteBitmap | 0 | 0 | 0 | 0 / 0 |
+| matteRect | 0 | 0 | 0 | 0 / 0 |
+Headline columns are unchanged from Phase 3 (no regression). Pink-Heart-Rocket frame 125 is still the only frame above 2 % (oracle alpha cutoff, proven in Phase 3). Synthetic checks 38/38. Perf (Pink-Heart-Rocket, software canvas, incl. raster): avg 4.5 ms, p95 8.2; GPU flags: avg 4.4, p95 8.0. Leaks: bitmaps 1550/1550 closed, rAF 0 outstanding, ResizeObservers 0 live.
+
+### Other
+- `playground/lib/samples.ts` now also globs `samples/corpus/*.svga`; names are relative to `samples/` and resolved by exact key (so `corpus/x.svga` cannot collide with `x.svga`).
+- New diagnostic tasks in `playground/verify.ts`: `diffview` (ours | oracle | mismatch mask, optional zoom crop, edge scan, `hide=` keys), used to find the Rocket cause.
+- 136 Vitest tests, unchanged (the new checks run in the browser harness).

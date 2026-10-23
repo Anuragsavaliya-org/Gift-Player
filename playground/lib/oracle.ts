@@ -37,8 +37,13 @@ interface OracleRenderer {
  * is not masked, the original looks the matte up with the *new* sprite's matteKey ('' -> undefined)
  * and crashes in drawSprite(undefined). The fix is `lastSprite.matteKey` (the run being closed).
  * It only works unfixed when the masked run is the last in the array (as in matteBitmap/matteRect).
+ *
+ * `isolateRuns` (diagnostic only) goes one step further: svgaplayerweb applies the matte with
+ * `destination-in` directly on the main canvas, which also erases everything drawn BEFORE the run
+ * (e.g. an unmasked background disc). With `isolateRuns` each run is drawn on its own layer first, as
+ * the official Android (saveLayer) and iOS (mask layer) players do.
  */
-function fixMatteGrouping(renderer: OracleRenderer): void {
+function fixMatteGrouping(renderer: OracleRenderer, isolateRuns: boolean): void {
   renderer.drawFrame = function (this: OracleRenderer, frame: number) {
     if (!this._prepared) return;
     const canvas = this._owner._drawingCanvas;
@@ -46,13 +51,28 @@ function fixMatteGrouping(renderer: OracleRenderer): void {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     const matteSprites = new Map<string, OracleSprite>();
     let isMatteing = false;
-    const sprites = this._owner._videoItem.sprites;
-    const closeRun = (key: string) => {
-      ctx.globalCompositeOperation = 'destination-in';
-      this.drawSprite(matteSprites.get(key)!, ctx, frame);
-      ctx.globalCompositeOperation = 'source-over';
-      ctx.restore();
+    let layer: HTMLCanvasElement | null = null;
+    let target: CanvasRenderingContext2D = ctx;
+    const beginRun = () => {
+      if (!isolateRuns) {
+        ctx.save();
+        return;
+      }
+      layer = layer ?? document.createElement('canvas');
+      layer.width = canvas.width; // also clears
+      layer.height = canvas.height;
+      target = layer.getContext('2d')!;
     };
+    const closeRun = (key: string) => {
+      target.globalCompositeOperation = 'destination-in';
+      this.drawSprite(matteSprites.get(key)!, target, frame);
+      target.globalCompositeOperation = 'source-over';
+      if (isolateRuns) {
+        ctx.drawImage(layer!, 0, 0);
+        target = ctx;
+      } else ctx.restore();
+    };
+    const sprites = this._owner._videoItem.sprites;
     sprites.forEach((sprite, index) => {
       if (sprites[0]!.imageKey.indexOf('.matte') === -1) {
         this.drawSprite(sprite, ctx, frame);
@@ -69,15 +89,15 @@ function fixMatteGrouping(renderer: OracleRenderer): void {
       }
       if (sprite.matteKey && (!lastSprite.matteKey || lastSprite.matteKey !== sprite.matteKey)) {
         isMatteing = true;
-        ctx.save();
+        beginRun();
       }
-      this.drawSprite(sprite, ctx, frame);
+      this.drawSprite(sprite, target, frame);
       if (isMatteing && index === sprites.length - 1) closeRun(sprite.matteKey!);
     });
   };
 }
 
-export async function createOracle(container: HTMLDivElement, url: string, mode: OracleMode = 'AspectFit'): Promise<Oracle> {
+export async function createOracle(container: HTMLDivElement, url: string, mode: OracleMode = 'AspectFit', opts: { isolateRuns?: boolean } = {}): Promise<Oracle> {
   const player = new SVGA.Player(container);
   player.setContentMode(mode);
   const item = await new Promise<InstanceType<typeof SVGA.VideoEntity>>((res, rej) => new SVGA.Parser().load(url, res, rej));
@@ -89,7 +109,7 @@ export async function createOracle(container: HTMLDivElement, url: string, mode:
   player.setVideoItem(item);
   // Its image <img> tags decode asynchronously; drawing before they are ready is deferred internally.
   const renderer = (player as unknown as { _renderer: OracleRenderer })._renderer;
-  fixMatteGrouping(renderer);
+  fixMatteGrouping(renderer, opts.isolateRuns ?? false);
   for (let i = 0; i < 400 && !renderer._prepared; i++) await new Promise((r) => setTimeout(r, 25));
   if (!renderer._prepared) throw new Error('oracle images did not finish loading');
   const canvas = (player as unknown as { _drawingCanvas: HTMLCanvasElement })._drawingCanvas;

@@ -1,52 +1,43 @@
-# REVIEW — Phase 3: SVGA Canvas2D renderer
+# REVIEW — Phase 3.1: per-run mattes + real-corpus test
 
 ## Status
-Done. Build, typecheck and 136 tests pass; browser verification (`npm run verify:browser`) reproduces every number below. Commit: `af448cb`.
+Done. Build, typecheck, 136 tests and `npm run verify:browser` (38/38 synthetic checks) pass. Commit: filled in below.
 
 ## What was built
-- Part A: `maxInflatedBytes` (default 64 MB; streaming zlib abort, zip central-directory check, detection too) and the sprites x frames cap lowered to 2M.
-- `SvgaRenderer` (`drawFrame(i)`, content modes, DPR sizing, ResizeObserver, offscreen mattes, `setImage/setText/setHidden/clearReplacement`, `destroy`) and `Ticker` (rAF clock that skips frames; play/pause/stop/seek/loops/onEnd). Internal, not exported.
-- Load-time `Path2D`/colour/dash compilation; the draw path allocates nothing (0 KB heap growth over 2,400 draws).
-- Playground: `/compare.html` (ours | svgaplayerweb, scrubber, play/pause, live diff %, replacement demo with text box, image picker, fit, hide, clear) and the earlier inspect page. Headless-Chrome harness (`scripts/headless.mjs`, `playground/verify.ts`) for the diff, perf, leak and synthetic checks.
+- **Per-run matte compositing**: draw list precomputed at load; each run of consecutive sprites with one matteKey is drawn into one offscreen canvas, the matte is applied once with `destination-in`, then composited (matte sprites in the sequence do not break a run; dangling key = unmasked; hidden matte masks the run out).
+- **`npm run verify:corpus`** (parse + render-vs-oracle every 10th frame + feature census + automatic diagnosis of files over 2 %), writes `reports/corpus.json` and `reports/corpus.md`. `samples/corpus/` is git-ignored.
+- New browser diagnostics (`diffview`, `oracleIsolate`, `corpus` tasks) in `playground/verify.ts`.
 
 ## Decisions taken
-- **Hidden matte masks its sprites out** (alpha 0 matte, not "no mask"): a bare `destination-in` with nothing drawn would show them fully, which is wrong.
-- **Alpha cutoff is 0, not svgaplayerweb's 0.05**: faint sprites are drawn.
-- **Zero-width strokes draw nothing**; `miterLimit` 0 keeps the canvas default; dash = `[dash, gap]` + offset (svgaplayerweb builds a 3-element array).
-- **Replacement images stretch into the layout rect by default** (like the original bitmap); `fit: 'cover' | 'contain'` optional. Text is squeezed to the layout width when too long.
-- **Renderer owns the bitmaps** it is given and closes them in `destroy()`; caller-provided ImageBitmaps for `setImage` are not closed.
-- **`Path2D(d)` used directly** (no custom path parser): identical to the oracle on every sample, and it supports arcs, which svgaplayerweb silently skips.
-- **Oracle workarounds, harness only**: svgaplayerweb crashes on any file where a masked run is followed by an unmasked sprite (it looks the matte up with the wrong sprite's matteKey), so Rocket.svga cannot be rendered by it as shipped. I copied its `drawFrame` with that one-word fix and cleared Rocket's 3 dangling matteKeys on its in-memory copy. matteBitmap/matteRect render fine unpatched (masked run is last).
-- Sprites x frames cap 2M: each frame is several objects; 20M = GBs; the largest real sample is 40,800.
+- **Run = consecutive non-matte sprites with the same non-empty matteKey; matte sprites inside do not break it** (Android behaviour, as specified).
+- **Diagnosis is evidence-based**: a file over threshold is re-rendered with each oracle quirk neutralised; only a drop below 2 % is called "proven". Census-based guesses (rotation, arcs, dashes, strokes) are labelled "heuristic".
+- **Corpus must live under `samples/`** (the dev server only serves that folder); non-default directories write `reports/corpus-<dir>.*`, so a dry run never overwrites the real corpus report.
 
-## Visual diff table (native size, dpr 1, every 5th frame + last, tolerance 10/255, % of all canvas pixels; target < 2 %)
-| Sample | mean % | max % | worst frame | Explanation |
-|---|---|---|---|---|
-| Fiery-Red-Dragon | 0 | 0.002 | 15 | clean |
-| Glossy-Pink-Lips | 0.052 | 0.224 | 30 | oracle alpha cutoff (0.083 max when mimicked) |
-| **Pink-Heart-Rocket** | 0.216 | **10.504** | **125** | **Only frame over 2 %.** Oracle skips sprites with alpha < 0.05; at frame 125 two do (alpha 0.048 and 0.027; one is a ~4x-scaled glow). Mimicking that cutoff on our side: max 0.029 %. Oracle approximation, not our bug. |
-| Rocket (1.x) | 0.327 | 0.437 | 55 | needed the oracle workarounds above; small residual unexplained (probably per-sprite vs per-run matte compositing; unconfirmed) |
-| angel | 0.011 | 0.062 | 35 | clean |
-| kingset | 0.002 | 0.007 | 30 | 168 clipPath frames match |
-| matteBitmap | 0 | 0 | 0 | non-blank, identical on all 30 frames |
-| matteRect | 0 | 0 | 0 | non-blank, identical on all 30 frames |
-Threshold not relaxed. Content modes at 1000x1500 vs oracle: max <= 0.07 % (angel, Glossy-Pink-Lips, matteBitmap, all three modes).
+## Visual diff table (native size, dpr 1, every 5th frame + last, tolerance 10/255, % of canvas pixels; target < 2 %)
+| Sample | mean % | max % | worst frame | Explanation | with oracle quirks neutralised (mean / max) |
+|---|---|---|---|---|---|
+| Fiery-Red-Dragon | 0 | 0.002 | 15 | clean | 0 / 0.002 |
+| Glossy-Pink-Lips | 0.052 | 0.224 | 30 | oracle alpha < 0.05 cutoff | 0.027 / 0.083 |
+| **Pink-Heart-Rocket** | 0.216 | **10.504** | **125** | **only frame over 2 %**: oracle skips sprites with alpha < 0.05 (proven) | 0.002 / 0.029 |
+| Rocket (1.x) | 0.327 | 0.437 | 55 | **oracle matte bug** (proven, see flags) | 0.001 / 0.052 |
+| angel | 0.011 | 0.062 | 35 | clean | 0.011 / 0.062 |
+| kingset | 0.002 | 0.007 | 30 | clean (168 clipPath frames) | 0.002 / 0.007 |
+| matteBitmap | 0 | 0 | 0 | identical on all 30 frames | 0 / 0 |
+| matteRect | 0 | 0 | 0 | identical on all 30 frames | 0 / 0 |
+**Rocket.svga residual before / after the per-run change: 0.327 % / 0.327 % mean, 0.437 % / 0.437 % max, worst frame 55 both times. No sample changed at all.** Nothing regressed.
 
 ## Perf
-Pink-Heart-Rocket (170 sprites, 750x1334): **avg 4.3 ms, p95 7.7 ms** per drawFrame incl. forced raster (software canvas); GPU flags on: avg 4.7, p95 8.7. svgaplayerweb: 4.4 / 8.2 (software), 4.6 / 8.3 (GPU). JS recording alone is 0.05 ms avg, so cost is raster-bound with no JS hotspot. Desktop headless only; no mobile, no dpr 3.
-
-## Leaks (50 cycles, counters)
-Bitmaps 1550 created / 1550 closed; rAF 250 requested = 200 fired + 50 cancelled (0 outstanding); ResizeObservers 50 / 50 disconnected; listeners added 0 / removed 0; DOM delta 0; heap flat at 8.4 MB from 10 to 200 cycles.
+Pink-Heart-Rocket (170 sprites, 750x1334): avg 4.5 ms, p95 8.2 ms per drawFrame incl. forced raster (software canvas); GPU flags on: avg 4.4, p95 8.0. Unchanged from Phase 3 (target < 8 ms avg).
 
 ## Flags / questions for reviewer
-- **Rotated-sprite oracle bug did not show up**: no sample has `a == 0` or `d == 0`, so the diff cannot demonstrate it. Likewise no sample has dashes, strokes, arcs or rounded rects (only the two matte files have shapes, all fills). Those are verified by 34 synthetic pixel checks (ours only), not against the oracle. If you have a sample with a rotated sprite or strokes, it would close that gap.
-- Rocket's 0.33 % mean residual: unexplained, under threshold.
-- The `matte hidden => masked out` rule is my reading of the format; svgaplayerweb does the opposite by accident. Say if you prefer otherwise.
-- `imageSmoothingQuality` left at default (same as oracle). Perf numbers are desktop-only.
-- The Claude-in-Chrome extension was not connected; browser work used local headless Chrome over CDP (no new dependency).
+- **The reviewer hypothesis for the Rocket residual was not the cause.** Per-run gave identical numbers on Rocket (its masked sprites do not overlap with partial alpha). The per-run change is still correct and now proven by a synthetic check that fails on the old code with exactly the predicted per-sprite pixels (109, 0, 146, 112 vs per-run 85, 0, 170, 96).
+- **Actual cause of the residual: a second svgaplayerweb matte bug.** It applies `destination-in` directly on the main canvas, so it also erases everything drawn *before* the masked run. In Rocket the unmasked dark disc (`E511KDMP`, tx 273) is cut at x = 276 (the matte's left edge) instead of 273: a 1-px ring of mismatches. Isolating each run on its own layer in the oracle (diagnostic switch) drops Rocket to mean 0.001 % / max 0.052 %. So our rendering is right; the oracle is wrong. This is the second oracle matte bug (the first: crash when a masked run is followed by an unmasked sprite). Worth knowing if anyone uses svgaplayerweb as a reference or in production.
+- **The corpus is empty**: `reports/corpus.md` says it is waiting for files. Dry run on `samples/` (`reports/corpus-samples.md`): 8/8 parse, 0 over 2 %. Census of the repo samples shows what the real corpus must cover: 0 files with a == 0/d == 0 rotation, strokes, dashes, arcs or rounded rects; only 2 files with vector shapes (fills only); 0 replaceable-looking keys. Please drop real svgagifts.com `.svga` files into `samples/corpus/` and run `npm run verify:corpus`.
+- Replaceable-looking-key detection is a name regex (avatar, nick, name, text, ...) and will miss opaque keys; it is a census aid, not a classifier.
+- Browser work still uses local headless Chrome over CDP (extension not connected).
 
 ## Test summary
-136 Vitest tests pass (+8 inflate/zip bomb, +1 frame-entries cap, +12 Ticker, +7 view). Browser: 34/34 synthetic checks, 8-sample diff, perf, leaks via `npm run verify:browser` (`reports/phase3-verify.json`). Renderer logic cannot run in Node, so it is tested in headless Chrome, not Vitest.
+136 Vitest tests pass (unchanged). Browser: 38/38 synthetic checks (+4 per-run matte checks), 8-sample diff, perf, leaks via `npm run verify:browser`; corpus dry run 8/8 parsed, 0 over 2 %, diagnosis path exercised on Pink-Heart-Rocket at step 5 (correctly proven as the alpha cutoff).
 
 ## Files changed
-CLAUDE.md (unchanged), REVIEW.md, PROGRESS.md, NEXT_PROMPT.md, package.json, src/core/{inflate,ticker,detect}.ts, src/formats/svga/parse.ts, src/formats/svga/render/{renderer,compile,view}.ts, tests/{svga-parse,ticker,view}.test.ts, playground/{index.html,compare.html,compare.ts,verify.html,verify.ts}, playground/lib/{oracle,diff,samples}.ts, scripts/{headless.mjs,verify-all.mjs}, reports/phase3-verify.json
+REVIEW.md, PROGRESS.md, NEXT_PROMPT.md, .gitignore, package.json, src/formats/svga/render/renderer.ts, playground/verify.ts, playground/lib/{oracle,samples}.ts, scripts/{verify-all,verify-corpus}.mjs, reports/{phase3-verify.json,corpus.json,corpus.md,corpus-samples.json,corpus-samples.md}

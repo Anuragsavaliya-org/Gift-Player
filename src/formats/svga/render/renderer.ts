@@ -53,11 +53,21 @@ interface TextReplacement {
   strokeWidth: number;
 }
 
+/**
+ * One step of the draw list, computed at load time. Either a single unmasked sprite, or a *run*: a
+ * maximal sequence of consecutive masked sprites sharing one matteKey, which is composited together
+ * and masked ONCE, like the official players do (Android `saveLayer` + isMatteBegin/End, iOS hostLayer
+ * with a mask). Per-run gives (A over B) x m; per-sprite would give (A x m) over (B x m).
+ */
+interface DrawItem {
+  rt: Runtime | null;
+  run: Runtime[] | null;
+  matte: Runtime | null;
+}
+
 interface Runtime {
   sprite: SvgaSprite;
   bitmap: ImageBitmap | null;
-  /** Resolved mask sprite, or null (no matteKey, or it matches no sprite: drawn unmasked). */
-  matte: Runtime | null;
   image: ImageReplacement | null;
   text: TextReplacement | null;
   hidden: boolean;
@@ -79,6 +89,7 @@ export class SvgaRenderer {
   private readonly movie: SvgaMovie;
   private readonly ctx: Ctx2D;
   private readonly runtimes: Runtime[] = [];
+  private readonly items: DrawItem[] = [];
   private readonly byKey = new Map<string, Runtime[]>();
   private readonly paths = new PathCache();
   private readonly compiled = new WeakMap<SvgaShape, CompiledShape | null>();
@@ -120,7 +131,6 @@ export class SvgaRenderer {
         sprite,
         // Matte bitmaps are stored under the key without the ".matte" suffix.
         bitmap: bitmaps.get(sprite.imageKey) ?? (sprite.isMatte ? bitmaps.get(sprite.imageKey.slice(0, -'.matte'.length)) ?? null : null),
-        matte: null,
         image: null,
         text: null,
         hidden: false,
@@ -132,11 +142,27 @@ export class SvgaRenderer {
       if (sprite.isMatte && !matteByKey.has(sprite.imageKey)) matteByKey.set(sprite.imageKey, rt);
       this.precompile(sprite);
     }
+    // Matte sprites are skipped and do not break a run. An unmasked sprite, or a matteKey that matches no
+    // matte sprite (dangling), ends the current run and is drawn directly.
     let needsOffscreen = false;
+    let run: Runtime[] | null = null;
+    let runKey = '';
     for (const rt of this.runtimes) {
-      if (rt.sprite.matteKey) {
-        rt.matte = matteByKey.get(rt.sprite.matteKey) ?? null;
-        if (rt.matte) needsOffscreen = true;
+      if (rt.sprite.isMatte) continue;
+      const key = rt.sprite.matteKey;
+      const matte = key ? matteByKey.get(key) : undefined;
+      if (key && matte) {
+        if (run && runKey === key) run.push(rt);
+        else {
+          run = [rt];
+          runKey = key;
+          this.items.push({ rt: null, run, matte });
+          needsOffscreen = true;
+        }
+      } else {
+        run = null;
+        runKey = '';
+        this.items.push({ rt, run: null, matte: null });
       }
     }
     if (needsOffscreen) {
@@ -211,26 +237,36 @@ export class SvgaRenderer {
     ctx.globalCompositeOperation = 'source-over';
     ctx.clearRect(0, 0, this.width, this.height);
 
-    const rts = this.runtimes;
-    for (let n = 0; n < rts.length; n++) {
-      const rt = rts[n]!;
-      if (rt.hidden || rt.sprite.isMatte) continue;
-      const frame = rt.sprite.frames[i]!;
-      if (!(frame.alpha > 0)) continue;
-      const matte = rt.matte;
-      if (matte === null) {
-        this.drawSprite(ctx, rt, frame);
+    const items = this.items;
+    for (let n = 0; n < items.length; n++) {
+      const item = items[n]!;
+      const run = item.run;
+      if (run === null) {
+        const rt = item.rt!;
+        if (rt.hidden) continue;
+        const frame = rt.sprite.frames[i]!;
+        if (frame.alpha > 0) this.drawSprite(ctx, rt, frame);
         continue;
       }
+      const matte = item.matte!;
       const matteFrame = matte.sprite.frames[i]!;
-      // A hidden matte layer masks everything out.
+      // A hidden matte layer masks the whole run out (as in the official players).
       if (!(matteFrame.alpha > 0)) continue;
       const off = this.offCtx!;
       off.setTransform(1, 0, 0, 1, 0, 0);
       off.globalAlpha = 1;
       off.globalCompositeOperation = 'source-over';
       off.clearRect(0, 0, this.width, this.height);
-      this.drawSprite(off, rt, frame);
+      let any = false;
+      for (let k = 0; k < run.length; k++) {
+        const rt = run[k]!;
+        if (rt.hidden) continue;
+        const frame = rt.sprite.frames[i]!;
+        if (!(frame.alpha > 0)) continue;
+        this.drawSprite(off, rt, frame);
+        any = true;
+      }
+      if (!any) continue;
       off.globalCompositeOperation = 'destination-in';
       this.drawSprite(off, matte, matteFrame);
       off.globalCompositeOperation = 'source-over';
@@ -397,9 +433,9 @@ export class SvgaRenderer {
     for (const rt of this.runtimes) {
       rt.bitmap = null;
       rt.image = null;
-      rt.matte = null;
     }
     this.runtimes.length = 0;
+    this.items.length = 0;
     this.byKey.clear();
     this.paths.clear();
     if (this.offscreen) {

@@ -44,31 +44,31 @@ async function load(name: string) {
 }
 
 // ------------------------------------------------------------------------------------------------
-async function runDiff() {
-  const name = q.get('sample')!;
-  const step = Number(q.get('step') ?? 5);
-  const tol = Number(q.get('tol') ?? 10);
-  const [mode, oracleMode] = MODES[q.get('mode') ?? 'aspectFit']!;
+async function runDiff(p: URLSearchParams = q) {
+  const name = p.get('sample')!;
+  const step = Number(p.get('step') ?? 5);
+  const tol = Number(p.get('tol') ?? 10);
+  const [mode, oracleMode] = MODES[p.get('mode') ?? 'aspectFit']!;
   const { movie, bitmaps, url } = await load(name);
-  if (q.get('mimicOracleAlpha') === '1') {
+  if (p.get('mimicOracleAlpha') === '1') {
     // Diagnostic only: svgaplayerweb skips any sprite with frame alpha < 0.05; reproduce that on our side.
     for (const sp of movie.sprites) sp.frames = sp.frames.map((fr) => (fr.alpha > 0 && fr.alpha < 0.05 ? { ...fr, alpha: 0 } : fr));
   }
-  const w = Number(q.get('w') ?? movie.viewBox.width);
-  const h = Number(q.get('h') ?? movie.viewBox.height);
+  const w = Number(p.get('w') ?? movie.viewBox.width);
+  const h = Number(p.get('h') ?? movie.viewBox.height);
 
   const oracleBox = box(w, h);
-  const oracle = await createOracle(oracleBox, url, oracleMode);
+  const oracle = await createOracle(oracleBox, url, oracleMode, { isolateRuns: p.get('oracleIsolate') === '1' });
   const mine = document.createElement('canvas');
   mine.style.cssText = `width:${w}px;height:${h}px`;
   box(w, h).append(mine);
   const r = new SvgaRenderer(mine, movie, bitmaps, { contentMode: mode, devicePixelRatio: 1 });
 
   const frames: number[] = [];
-  const from = Number(q.get('from') ?? 0);
-  const to = Number(q.get('to') ?? movie.frames - 1);
+  const from = Number(p.get('from') ?? 0);
+  const to = Number(p.get('to') ?? movie.frames - 1);
   for (let f = from; f <= to; f += step) frames.push(f);
-  if (q.get('to') === null && frames[frames.length - 1] !== movie.frames - 1) frames.push(movie.frames - 1);
+  if (p.get('to') === null && frames[frames.length - 1] !== movie.frames - 1) frames.push(movie.frames - 1);
 
   const rows: { frame: number; percent: number; percentOfActive: number; active: number }[] = [];
   for (const f of frames) {
@@ -83,7 +83,7 @@ async function runDiff() {
   const worst = rows.reduce((a, b) => (b.percent > a.percent ? b : a));
   const worstActive = rows.reduce((a, b) => (b.percentOfActive > a.percentOfActive ? b : a));
   const result = {
-    sample: name, size: `${w}x${h}`, mode: q.get('mode') ?? 'aspectFit', tolerance: tol, compared: rows.length, maxActivePixels: Math.max(...rows.map((x) => x.active)), minActivePixels: Math.min(...rows.map((x) => x.active)),
+    sample: name, size: `${w}x${h}`, mode: p.get('mode') ?? 'aspectFit', tolerance: tol, compared: rows.length, maxActivePixels: Math.max(...rows.map((x) => x.active)), minActivePixels: Math.min(...rows.map((x) => x.active)),
     meanPercent: round(mean), maxPercent: round(worst.percent), worstFrame: worst.frame,
     meanPercentOfActive: round(meanActive), maxPercentOfActive: round(worstActive.percentOfActive), worstActiveFrame: worstActive.frame,
     framesOver2Percent: rows.filter((x) => x.percent > 2).map((x) => [x.frame, round(x.percent)]),
@@ -93,6 +93,123 @@ async function runDiff() {
   r.destroy();
   oracle.destroy();
   return result;
+}
+
+// ------------------------------------------------------------------------------------------------
+/** Words that suggest a designer left a slot for dynamic content (avatar, nickname, ...). */
+const REPLACEABLE = /(avatar|head(?!er)|portrait|photo|profile|nick|name|user|sender|receiver|text|title|label|slot|replace|dynamic|custom|touxiang|wenzi|name\d*$)/i;
+
+function census(movie: SvgaMovie, fileBytes: number) {
+  const shapes = new Set<object>();
+  let rotatedFrames = 0, skewedFrames = 0, clipFrames = 0;
+  const rotatedSprites = new Set<number>(), skewedSprites = new Set<number>();
+  movie.sprites.forEach((sp, i) => {
+    for (const fr of sp.frames) {
+      if (!(fr.alpha > 0)) continue;
+      const t = fr.transform;
+      if (t.a === 0 || t.d === 0) { rotatedFrames++; rotatedSprites.add(i); }
+      if (t.b !== 0 || t.c !== 0) { skewedFrames++; skewedSprites.add(i); }
+      if (fr.clipPath) clipFrames++;
+      for (const sh of fr.shapes) shapes.add(sh);
+    }
+  });
+  let strokes = 0, dashes = 0, arcs = 0, rounded = 0, fills = 0;
+  const types = { shape: 0, rect: 0, ellipse: 0 };
+  for (const sh of shapes as Set<import('../src/formats/svga/types').SvgaShape>) {
+    types[sh.type]++;
+    if (sh.style?.fill) fills++;
+    if (sh.style?.stroke && sh.style.strokeWidth > 0) strokes++;
+    if (sh.style && (sh.style.lineDash.dash > 0 || sh.style.lineDash.gap > 0)) dashes++;
+    if (sh.type === 'shape' && /[Aa]/.test(sh.d)) arcs++;
+    if (sh.type === 'rect' && sh.cornerRadius > 0) rounded++;
+  }
+  const keys = [...new Set(movie.sprites.filter((s) => !s.isMatte).map((s) => s.imageKey))];
+  const dangling = movie.warnings.filter((w) => w.startsWith('matteKey(s) with no matching'));
+  return {
+    fileBytes, container: movie.container, version: movie.version, viewBox: `${movie.viewBox.width}x${movie.viewBox.height}`, fps: movie.fps, frames: movie.frames,
+    sprites: movie.sprites.length, images: movie.images.size, audios: movie.audios.size, audioTracks: movie.audioTracks.length,
+    rotated: { sprites: rotatedSprites.size, frames: rotatedFrames }, skewedOrRotated: { sprites: skewedSprites.size, frames: skewedFrames },
+    clipPathFrames: clipFrames,
+    shapes: { unique: shapes.size, ...types, fills, strokes, dashes, arcPaths: arcs, roundedRects: rounded },
+    mattes: { matteSprites: movie.sprites.filter((s) => s.isMatte).length, maskedSprites: movie.sprites.filter((s) => s.matteKey).length, danglingMatteKeys: dangling.length > 0 },
+    replaceableLookingKeys: keys.filter((k) => REPLACEABLE.test(k)),
+    warnings: movie.warnings,
+  };
+}
+
+async function runCorpus() {
+  const file = q.get('file')!;
+  const out: Record<string, unknown> = { file };
+  let movie: SvgaMovie;
+  try {
+    const bytes = await sampleBytes(file);
+    movie = parseSvga(bytes);
+    out.parse = { ok: true, warnings: movie.warnings };
+    out.census = census(movie, bytes.length);
+  } catch (e) {
+    out.parse = { ok: false, code: (e as { code?: string }).code ?? 'error', message: (e as Error).message };
+    return out;
+  }
+  try {
+    out.diff = await runDiff(new URLSearchParams({ sample: file, step: q.get('step') ?? '10' }));
+  } catch (e) {
+    out.diffError = String((e as Error).message ?? e).slice(0, 400);
+  }
+  return out;
+}
+
+// ------------------------------------------------------------------------------------------------
+/** Diagnostic: shows ours | oracle | mismatch mask for one frame and reports where the mismatches are. */
+async function runDiffView() {
+  const name = q.get('sample')!;
+  const frameNo = Number(q.get('frame') ?? 0);
+  const tol = Number(q.get('tol') ?? 10);
+  const { movie, bitmaps, url } = await load(name);
+  const w = movie.viewBox.width;
+  const h = movie.viewBox.height;
+  const oracle = await createOracle(box(w, h), url);
+  const mine = document.createElement('canvas');
+  mine.style.cssText = `width:${w}px;height:${h}px`;
+  box(w, h).append(mine);
+  const r = new SvgaRenderer(mine, movie, bitmaps, { devicePixelRatio: 1 });
+  for (const k of (q.get('hide') ?? '').split(',').filter(Boolean)) r.setHidden(k, true);
+  r.drawFrame(frameNo);
+  const o = oracle.draw(frameNo);
+  const a = mine.getContext('2d')!.getImageData(0, 0, w, h).data;
+  const b = o.getContext('2d')!.getImageData(0, 0, w, h).data;
+  const mask = document.createElement('canvas'); mask.width = w; mask.height = h;
+  const mx = mask.getContext('2d')!; const md = mx.createImageData(w, h);
+  let n = 0, minX = w, minY = h, maxX = 0, maxY = 0, maxDelta = 0, sumDelta = 0;
+  const bucket = new Map<string, number>();
+  for (let p = 0; p < w * h; p++) {
+    const i = p * 4; const fa = a[i + 3]! / 255; const fb = b[i + 3]! / 255;
+    const d = Math.max(Math.abs(a[i + 3]! - b[i + 3]!), Math.abs(a[i]! * fa - b[i]! * fb), Math.abs(a[i + 1]! * fa - b[i + 1]! * fb), Math.abs(a[i + 2]! * fa - b[i + 2]! * fb));
+    if (d > tol) {
+      n++; const x = p % w; const y = Math.floor(p / w);
+      minX = Math.min(minX, x); maxX = Math.max(maxX, x); minY = Math.min(minY, y); maxY = Math.max(maxY, y);
+      maxDelta = Math.max(maxDelta, d); sumDelta += d;
+      const key = `${Math.floor(x / 100) * 100},${Math.floor(y / 100) * 100}`; bucket.set(key, (bucket.get(key) ?? 0) + 1);
+      md.data[i] = 255; md.data[i + 3] = 255;
+    }
+  }
+  mx.putImageData(md, 0, 0);
+  document.body.replaceChildren();
+  const row = document.createElement('div'); row.style.cssText = 'display:flex;gap:6px;background:#888';
+  for (const c of [mine, o, mask]) { const cv = document.createElement('canvas'); cv.width = w; cv.height = h; cv.getContext('2d')!.drawImage(c, 0, 0); cv.style.cssText = `width:${w * 0.5}px;height:${h * 0.5}px;background:#444`; row.append(cv); }
+  document.body.append(row);
+  // first/last column with alpha > 128 on the given row, for both renderers
+  const rowY = Number(q.get('row') ?? Math.floor(h / 2));
+  const edge = (d: Uint8ClampedArray) => { let l = -1, rr = -1; for (let x = 0; x < w; x++) if (d[(rowY * w + x) * 4 + 3]! > 128) { if (l < 0) l = x; rr = x; } return [l, rr]; };
+  (window as unknown as { __edges: unknown }).__edges = { row: rowY, ours: edge(a), oracle: edge(b) };
+  const zoom = q.get('zoom'); // x,y,size,scale: magnified crops of ours | oracle | mask
+  if (zoom) {
+    const [zx, zy, zs, zk] = zoom.split(',').map(Number) as [number, number, number, number];
+    const zrow = document.createElement('div'); zrow.style.cssText = 'display:flex;gap:6px;background:#888;margin-top:6px';
+    for (const c of [mine, o, mask]) { const cv = document.createElement('canvas'); cv.width = zs * zk; cv.height = zs * zk; const x = cv.getContext('2d')!; x.imageSmoothingEnabled = false; x.fillStyle = '#444'; x.fillRect(0, 0, cv.width, cv.height); x.drawImage(c, zx, zy, zs, zs, 0, 0, zs * zk, zs * zk); zrow.append(cv); }
+    document.body.append(zrow);
+  }
+  const visible = movie.sprites.map((sp, i) => ({ i, key: sp.imageKey, matte: sp.matteKey, f: sp.frames[frameNo]! })).filter((x) => x.f.alpha > 0).map((x) => `${x.i}:${x.key}${x.matte ? '@' + x.matte : ''} a=${x.f.alpha.toFixed(2)} t=[${[x.f.transform.a, x.f.transform.d, x.f.transform.tx, x.f.transform.ty].map((v) => +v.toFixed(2))}] l=${x.f.layout.width}x${x.f.layout.height}`);
+  return { sample: name, frame: frameNo, edges: (window as unknown as { __edges: unknown }).__edges, visible: q.get('quiet') ? undefined : visible, mismatched: n, bbox: [minX, minY, maxX, maxY], maxDelta, meanDelta: n ? Math.round(sumDelta / n) : 0, topBuckets: [...bucket].sort((x, y) => y[1] - x[1]).slice(0, 8) };
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -471,6 +588,65 @@ async function runReplace() {
     g.r.destroy();
   }
   {
+    // Per-run matte compositing (what Android/iOS do): consecutive sprites with one matteKey are composited
+    // together and masked ONCE. All values are exact premultiplied-alpha arithmetic, tolerance ~2 levels.
+    const full = (r: number, g: number, b: number) => ({ type: 'rect' as const, x: 0, y: 0, width: 100, height: 100, cornerRadius: 0, style: fillStyle(r, g, b), transform: ID });
+    const part = (x: number, w: number, r: number, g: number, b: number) => ({ ...full(r, g, b), x, width: w });
+    // A: red @ 0.5 alpha, B: blue @ 0.5 alpha over it, matte M: white @ 0.5 alpha. The matte sits BETWEEN
+    // A and B in the sprite list, which must not break the run.
+    const m = movieOf([
+      sprite('a.vector', rep(frame({ alpha: 0.5, shapes: [full(1, 0, 0)] })), 'm.matte'),
+      sprite('m.matte', rep(frame({ alpha: 0.5, shapes: [full(1, 1, 1)] }))),
+      sprite('b.vector', rep(frame({ alpha: 0.5, shapes: [full(0, 0, 1)] })), 'm.matte'),
+    ]);
+    const g = mk(m, [100, 100]);
+    g.r.drawFrame(0);
+    const p0 = px(g.cv, 50, 50);
+    // per-run:    (A over B) x m = alpha 0.375, unpremultiplied (85, 0, 170)  -> RGBA ~ (85, 0, 170, 96)
+    // per-sprite: (A x m) over (B x m) = alpha 0.4375, (109, 0, 146)           -> RGBA ~ (109, 0, 146, 112)
+    check('per-run matte: overlapping semi-transparent sprites are masked once (alpha 96, not 112)', Math.abs(p0[3]! - 96) <= 3 && Math.abs(p0[0]! - 85) <= 6 && Math.abs(p0[2]! - 170) <= 6 && p0[1] === 0, { got: p0, perRun: [85, 0, 170, 96], perSprite: [109, 0, 146, 112] });
+    g.r.destroy();
+
+    // Two runs with different matteKeys in one frame: left half red via m1, right half blue via m2.
+    const two = movieOf([
+      sprite('m1.matte', rep(frame({ alpha: 1, shapes: [part(0, 50, 1, 1, 1)] }))),
+      sprite('m2.matte', rep(frame({ alpha: 1, shapes: [part(50, 50, 1, 1, 1)] }))),
+      sprite('r.vector', rep(frame({ alpha: 1, shapes: [full(1, 0, 0)] })), 'm1.matte'),
+      sprite('b.vector', rep(frame({ alpha: 1, shapes: [full(0, 0, 1)] })), 'm2.matte'),
+    ]);
+    const t = mk(two, [100, 100]);
+    t.r.drawFrame(0);
+    check('two runs, two mattes in one frame: each run only shows through its own matte', near(px(t.cv, 25, 50), [255, 0, 0, 255]) && near(px(t.cv, 75, 50), [0, 0, 255, 255]), [px(t.cv, 25, 50), px(t.cv, 75, 50)]);
+    t.r.destroy();
+
+    // The same matteKey split by an unmasked sprite is TWO runs, and z-order is preserved:
+    // A (red, masked left) < U (green, unmasked, x 40..60) < A2 (blue, masked left, x 45..55).
+    const split = movieOf([
+      sprite('m1.matte', rep(frame({ alpha: 1, shapes: [part(0, 50, 1, 1, 1)] }))),
+      sprite('a.vector', rep(frame({ alpha: 1, shapes: [full(1, 0, 0)] })), 'm1.matte'),
+      sprite('u.vector', rep(frame({ alpha: 1, shapes: [part(40, 20, 0, 1, 0)] }))),
+      sprite('a2.vector', rep(frame({ alpha: 1, shapes: [part(45, 10, 0, 0, 1)] })), 'm1.matte'),
+    ]);
+    const sp = mk(split, [100, 100]);
+    sp.r.drawFrame(0);
+    check('same matteKey split by an unmasked sprite: two runs, z-order kept', near(px(sp.cv, 10, 50), [255, 0, 0, 255]) && near(px(sp.cv, 42, 50), [0, 255, 0, 255]) && near(px(sp.cv, 47, 50), [0, 0, 255, 255]) && near(px(sp.cv, 55, 50), [0, 255, 0, 255]) && px(sp.cv, 80, 50)[3] === 0, [10, 42, 47, 55, 80].map((x) => px(sp.cv, x, 50)));
+    sp.r.destroy();
+
+    // Hidden run members are skipped; if every member is hidden nothing is drawn; hidden matte masks the run out.
+    const hid = movieOf([
+      sprite('m1.matte', rep(frame({ alpha: 1, shapes: [full(1, 1, 1)] }))),
+      sprite('a.vector', rep(frame({ alpha: 1, shapes: [part(0, 50, 1, 0, 0)] })), 'm1.matte'),
+      sprite('b.vector', rep(frame({ alpha: 1, shapes: [part(50, 50, 0, 0, 1)] })), 'm1.matte'),
+    ]);
+    const h = mk(hid, [100, 100]);
+    h.r.drawFrame(0);
+    h.r.setHidden('a.vector', true);
+    const onlyB = near(px(h.cv, 75, 50), [0, 0, 255, 255]) && px(h.cv, 25, 50)[3] === 0;
+    h.r.setHidden('b.vector', true);
+    check('hidden run members are skipped; all hidden draws nothing', onlyB && px(h.cv, 75, 50)[3] === 0, { onlyB });
+    h.r.destroy();
+  }
+  {
     // determinism: same frame twice -> identical pixels
     const { movie, bitmaps } = await load('angel.svga');
     const cv = document.createElement('canvas');
@@ -491,9 +667,10 @@ async function runReplace() {
 
 (async () => {
   try {
-    const result = task === 'diff' ? await runDiff() : task === 'perf' ? await runPerf() : task === 'leaks' ? await runLeaks() : await runReplace();
+    const result = task === 'diff' ? await runDiff() : task === 'corpus' ? await runCorpus() : task === 'diffview' ? await runDiffView() : task === 'perf' ? await runPerf() : task === 'leaks' ? await runLeaks() : await runReplace();
     (window as unknown as { __result: unknown }).__result = result;
-    document.getElementById('out')!.textContent = JSON.stringify(result, null, 1);
+    const out = document.getElementById('out');
+    if (out) out.textContent = JSON.stringify(result, null, 1);
   } catch (e) {
     (window as unknown as { __result: unknown }).__result = { error: String((e as Error).stack ?? e) };
   }
