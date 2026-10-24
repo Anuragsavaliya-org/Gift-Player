@@ -3,12 +3,14 @@
   "version": "0.0.0",
   "description": "Play animated gift files (SVGA, GIF, WebP, PAG) through one API.",
   "license": "MIT",
+  "author": "Incodes Lab <svgagifts@gmail.com>",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Anuragsavaliya-org/Gift-Player.git"
   },
   "bugs": {
-    "url": "https://github.com/Anuragsavaliya-org/Gift-Player/issues"
+    "url": "https://github.com/Anuragsavaliya-org/Gift-Player/issues",
+    "email": "svgagifts@gmail.com"
   },
   "homepage": "https://github.com/Anuragsavaliya-org/Gift-Player#readme",
   "type": "module",
