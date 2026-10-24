@@ -1,7 +1,7 @@
 # REVIEW — Phase 4: GIF and animated WebP
 
 ## Status
-Done. Build, typecheck, 218 Vitest tests and `npm run verify:images` pass (Chromium 156 + WebKit 27.2). **Firefox could not be launched on this machine, so it is not verified.** SVGA regression re-run: identical to Phase 3.1 (38/38 checks, same diffs, 4.3 ms). Commit: filled in below.
+Done. Build, typecheck, 218 Vitest tests and `npm run verify:images` pass (Chromium 156 + WebKit 27.2). **Firefox could not be launched on this machine, so it is not verified.** SVGA regression re-run: identical to Phase 3.1 (38/38 checks, same diffs, 4.3 ms). Commit: `82e7ba9` (a tiny follow-up commit only records this hash).
 
 ## What was built
 - **Variable-timing contract first:** `FrameSource` (frameCount, per-frame `frameDuration`, file `loopCount`, `drawFrame`, `ready`), `resolveLoops` (option > file > once), `Ticker` on prefix sums (still skips, 12 old tests unchanged + 9 new), shared `Viewport` extracted from `SvgaRenderer`.
