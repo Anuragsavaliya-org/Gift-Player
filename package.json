@@ -2,7 +2,15 @@
   "name": "@incodes/gift-player",
   "version": "0.0.0",
   "description": "Play animated gift files (SVGA, GIF, WebP, PAG) through one API.",
-  "license": "UNLICENSED",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Anuragsavaliya-org/Gift-Player.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Anuragsavaliya-org/Gift-Player/issues"
+  },
+  "homepage": "https://github.com/Anuragsavaliya-org/Gift-Player#readme",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -52,7 +60,8 @@
   },
   "files": [
     "dist",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "sideEffects": false,
   "engines": {
@@ -72,7 +81,8 @@
     "verify:pag": "node scripts/verify-pag.mjs",
     "verify:api": "node scripts/verify-api.mjs",
     "ci:local": "node scripts/ci-local.mjs",
-    "docs": "typedoc"
+    "docs": "typedoc",
+    "samples:generate": "node scripts/gen-synthetic.mjs && node scripts/gen-expected.cjs"
   },
   "peerDependencies": {
     "react": ">=18"

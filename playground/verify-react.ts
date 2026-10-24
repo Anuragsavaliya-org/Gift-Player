@@ -23,8 +23,8 @@ const hash = (c: HTMLCanvasElement) => { const d = c.getContext('2d', { willRead
 const pix = (c: HTMLCanvasElement) => new Uint8ClampedArray(c.getContext('2d', { willReadFrequently: true })!.getImageData(0, 0, c.width, c.height).data);
 /** Same picture up to GPU/CPU anti-aliasing noise: fewer than 1 % of pixels differ by more than 24 levels. */
 const diffFrac = (a: Uint8ClampedArray, b: Uint8ClampedArray) => { let n = 0; for (let i = 0; i < a.length; i += 4) if (Math.abs(a[i]! - b[i]!) + Math.abs(a[i + 1]! - b[i + 1]!) + Math.abs(a[i + 2]! - b[i + 2]!) + Math.abs(a[i + 3]! - b[i + 3]!) > 24) n++; return n / (a.length / 4); };
-/** Pixels of the replacement's text colour (#ff0). */
-const yellow = (d: Uint8ClampedArray) => { let n = 0; for (let i = 0; i < d.length; i += 4) if (d[i]! > 200 && d[i + 1]! > 200 && d[i + 2]! < 90 && d[i + 3]! > 200) n++; return n; };
+/** Pixels of the replacement's text colour (#f0f: no sample art is magenta). */
+const yellow = (d: Uint8ClampedArray) => { let n = 0; for (let i = 0; i < d.length; i += 4) if (d[i]! > 200 && d[i + 2]! > 200 && d[i + 1]! < 80 && d[i + 3]! > 200) n++; return n; };
 const similar = (a: Uint8ClampedArray, b: Uint8ClampedArray) => diffFrac(a, b) < 0.01;
 
 const cache = new AssetCache<never>({ maxBytes: 32 * 1024 * 1024 });
@@ -78,7 +78,7 @@ async function main() {
     let withText = before;
     let withTextPix = beforePix;
     for (const k of keys) {
-      m.root.render(createElement(StrictMode, null, props(S('kingset.svga'), { [k]: { text: 'Rahul', style: { size: 80, color: '#ff0' } } })));
+      m.root.render(createElement(StrictMode, null, props(S('kingset.svga'), { [k]: { text: 'Rahul', style: { size: 80, color: '#f0f' } } })));
       await sleep(80);
       withText = hash(canvas);
       if (withText !== before) { key = k; withTextPix = pix(canvas); break; }

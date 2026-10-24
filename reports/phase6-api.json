@@ -1,5 +1,5 @@
 {
-  "date": "2026-10-24T08:47:29.326Z",
+  "date": "2026-10-24T12:09:31.972Z",
   "items": 200,
   "cycles": 100,
   "browsers": {
@@ -40,9 +40,9 @@
             "name": "load() returns format, size, frames, duration and editable keys for every format",
             "ok": true,
             "detail": {
-              "angel.svga": "svga 750x750 60f 4000ms keys=26",
+              "angel.svga": "svga 480x480 90f 3000ms keys=10",
               "rotating-earth.gif": "gif 400x400 44f 3960ms keys=0",
-              "animated.webp": "webp 300x225 100f 10000ms keys=0",
+              "animated.webp": "webp 320x240 40f 2000ms keys=0",
               "replacement.pag": "pag 800x800 60f 1000ms keys=1"
             }
           },
@@ -76,10 +76,10 @@
             "detail": {
               "sawA": false,
               "finalEqualsReferenceB": false,
-              "refHash": -367546051,
-              "final": 1154913375,
-              "inkFinal": 1069,
-              "inkRef": 1154
+              "refHash": 1591026165,
+              "final": -926609786,
+              "inkFinal": 949,
+              "inkRef": 976
             }
           },
           {
@@ -217,10 +217,10 @@
             "ok": true,
             "detail": {
               "file": "kingset.svga",
-              "key": "banner",
-              "atLoaded": 549976491,
-              "afterSetText": 549976491,
-              "original": 1355804690
+              "key": "avatar",
+              "atLoaded": 2119015289,
+              "afterSetText": 2119015289,
+              "original": -1407817428
             }
           },
           {
@@ -329,7 +329,7 @@
             "name": "Rocket.svga: the last frame is visible in the `end` event, and the canvas is fully transparent afterwards (clearOnEnd default)",
             "ok": true,
             "detail": {
-              "inkAtEnd": 7591,
+              "inkAtEnd": 2369,
               "inkAfter": 0
             }
           },
@@ -341,7 +341,7 @@
             "name": "Rocket.svga: clearOnEnd:false keeps the last frame",
             "ok": true,
             "detail": {
-              "ink": 7591
+              "ink": 2362
             }
           },
           {
@@ -437,16 +437,16 @@
             "name": "queue, next gift still downloading: the canvas is blank (0 visible pixels in every frame between the two gifts)",
             "ok": true,
             "detail": {
-              "frameSamples": 26,
+              "frameSamples": 29,
               "maxInk": 0,
-              "betweenMs": 465
+              "betweenMs": 503
             }
           },
           {
             "name": "queue, next gift prepared: hand-over keeps the fast path (blank only for the swap itself)",
             "ok": true,
             "detail": [
-              3,
+              1,
               1
             ]
           },
@@ -464,16 +464,16 @@
             "name": "two players showing one gift share one set of decoded images",
             "ok": true,
             "detail": {
-              "images": 26,
-              "afterFirstPlayer": 26,
-              "afterSecondPlayer": 26
+              "images": 10,
+              "afterFirstPlayer": 10,
+              "afterSecondPlayer": 10
             }
           },
           {
             "name": "one load, one hit, one entry in use",
             "ok": true,
             "detail": {
-              "bytes": 3051501,
+              "bytes": 1738410,
               "maxBytes": 67108864,
               "entries": 1,
               "inUse": 1,
@@ -500,7 +500,7 @@
             "name": "after the last player: the replacement is closed, the cached images stay (idle, evictable)",
             "ok": true,
             "detail": {
-              "imgs": 26
+              "imgs": 10
             }
           },
           {
@@ -515,7 +515,7 @@
             "name": "budget of 1 byte: assets in use are never evicted (both stay open and keep rendering)",
             "ok": true,
             "detail": {
-              "bytes": 5959409,
+              "bytes": 1964773,
               "maxBytes": 1,
               "entries": 2,
               "inUse": 2,
@@ -541,17 +541,17 @@
             "name": "LRU by estimated decoded bytes: bytes stay within the budget, the oldest are evicted",
             "ok": true,
             "detail": {
-              "budget": 5959419,
+              "budget": 1964783,
               "sizes": [
-                3051501,
-                2907908,
-                4381541,
-                370988
+                1738410,
+                226363,
+                1057054,
+                62220
               ],
-              "bytes": 4752529,
+              "bytes": 1345637,
               "stillCached": [
                 false,
-                false,
+                true,
                 true,
                 true
               ]
@@ -561,7 +561,7 @@
             "name": "destroy(): every cached image closed",
             "ok": true,
             "detail": {
-              "before": 17,
+              "before": 35,
               "after": 0
             }
           },
@@ -614,8 +614,8 @@
         },
         "peak": {
           "bitmaps": 3,
-          "imgs": 27,
-          "blobUrls": 26,
+          "imgs": 11,
+          "blobUrls": 10,
           "glAlive": 1,
           "raf": 2,
           "resizeObservers": 1,
@@ -631,7 +631,7 @@
           "jsHeapMB": null
         },
         "cacheWhenIdle": {
-          "bytes": 769501,
+          "bytes": 977319,
           "maxBytes": 1572864,
           "entries": 6,
           "inUse": 0,
@@ -675,7 +675,7 @@
             "items": 200,
             "maxLength": null,
             "outcome": "idle",
-            "totalMs": 32580,
+            "totalMs": 31003,
             "settledHandles": 200,
             "statuses": {
               "done": 152,
@@ -696,37 +696,37 @@
             "stalls": 0,
             "longestItemMs": 8017,
             "longestItem": "svga /samples/Rocket.svga (played in full on purpose)",
-            "longestSilenceMs": 8008,
+            "longestSilenceMs": 8013,
             "brokenItems": 26,
             "brokenAllFailedOrRemoved": true,
             "gap": {
               "n": 133,
-              "avgMs": 6.4,
+              "avgMs": 5.5,
               "p95Ms": 18,
-              "maxMs": 32,
-              "blankAvgMs": 6,
-              "blankP95Ms": 18
+              "maxMs": 29,
+              "blankAvgMs": 5.1,
+              "blankP95Ms": 17
             },
             "gapByNextFormat": {
               "svga": {
                 "n": 47,
-                "avgMs": 1.9,
-                "p95Ms": 6
+                "avgMs": 1.5,
+                "p95Ms": 3
               },
               "webp": {
                 "n": 32,
-                "avgMs": 7.8,
-                "p95Ms": 12
+                "avgMs": 5.2,
+                "p95Ms": 11
               },
               "pag": {
                 "n": 34,
-                "avgMs": 13.7,
-                "p95Ms": 27
+                "avgMs": 13.6,
+                "p95Ms": 22
               },
               "gif": {
                 "n": 20,
-                "avgMs": 2.3,
-                "p95Ms": 6
+                "avgMs": 1.9,
+                "p95Ms": 5
               }
             },
             "playerErrors": 15,
@@ -742,20 +742,20 @@
               },
               "peak": {
                 "bitmaps": 3,
-                "imgs": 52,
-                "blobUrls": 26,
+                "imgs": 44,
+                "blobUrls": 25,
                 "glAlive": 1,
                 "raf": 1,
                 "resizeObservers": 0,
                 "jsHeapMB": null
               },
               "cachePeak": {
-                "cacheBytesPeak": 13135612,
+                "cacheBytesPeak": 5715535,
                 "cacheEntriesPeak": 14,
                 "inUsePeak": 3
               },
               "cacheWhenIdle": {
-                "bytes": 13135612,
+                "bytes": 5715535,
                 "maxBytes": 25165824,
                 "entries": 14,
                 "inUse": 1,
@@ -767,7 +767,7 @@
               },
               "whenIdle": {
                 "bitmaps": 0,
-                "imgs": 53,
+                "imgs": 45,
                 "blobUrls": 0,
                 "glAlive": 1,
                 "raf": 0,
@@ -795,58 +795,59 @@
             "items": 120,
             "maxLength": 20,
             "outcome": "idle",
-            "totalMs": 2786,
+            "totalMs": 2588,
             "settledHandles": 120,
             "statuses": {
-              "dropped": 95,
+              "dropped": 94,
               "done": 22,
-              "failed": 3
+              "failed": 3,
+              "cancelled": 1
             },
             "queueStats": {
               "played": 22,
               "failed": 3,
-              "cancelled": 0,
-              "dropped": 95
+              "cancelled": 1,
+              "dropped": 94
             },
             "orderViolations": 0,
             "orderViolationExamples": [],
             "dropsWereLowestPriority": true,
             "dropExamples": [],
-            "dropEvents": 28,
+            "dropEvents": 29,
             "stalls": 0,
-            "longestItemMs": 216,
-            "longestItem": "webp /samples/animated.webp",
-            "longestSilenceMs": 181,
+            "longestItemMs": 185,
+            "longestItem": "gif /samples/rotating-earth.gif",
+            "longestSilenceMs": 182,
             "brokenItems": 17,
             "brokenAllFailedOrRemoved": true,
             "gap": {
               "n": 19,
-              "avgMs": 5.8,
-              "p95Ms": 22,
-              "maxMs": 22,
-              "blankAvgMs": 5.4,
-              "blankP95Ms": 20
+              "avgMs": 5,
+              "p95Ms": 17,
+              "maxMs": 17,
+              "blankAvgMs": 4.5,
+              "blankP95Ms": 16
             },
             "gapByNextFormat": {
               "gif": {
                 "n": 5,
-                "avgMs": 1.6,
+                "avgMs": 1.4,
                 "p95Ms": 3
               },
               "webp": {
                 "n": 7,
-                "avgMs": 7,
-                "p95Ms": 17
+                "avgMs": 4.4,
+                "p95Ms": 9
               },
               "pag": {
                 "n": 3,
-                "avgMs": 14,
-                "p95Ms": 22
+                "avgMs": 16,
+                "p95Ms": 17
               },
               "svga": {
                 "n": 4,
-                "avgMs": 2.8,
-                "p95Ms": 6
+                "avgMs": 2.3,
+                "p95Ms": 3
               }
             },
             "playerErrors": 1,
@@ -862,32 +863,32 @@
               },
               "peak": {
                 "bitmaps": 3,
-                "imgs": 52,
-                "blobUrls": 26,
+                "imgs": 44,
+                "blobUrls": 25,
                 "glAlive": 1,
                 "raf": 1,
                 "resizeObservers": 0,
                 "jsHeapMB": null
               },
               "cachePeak": {
-                "cacheBytesPeak": 12759337,
-                "cacheEntriesPeak": 12,
+                "cacheBytesPeak": 5648028,
+                "cacheEntriesPeak": 11,
                 "inUsePeak": 3
               },
               "cacheWhenIdle": {
-                "bytes": 12759337,
+                "bytes": 5648028,
                 "maxBytes": 25165824,
-                "entries": 12,
+                "entries": 11,
                 "inUse": 1,
                 "loading": 0,
-                "hits": 32,
-                "misses": 13,
+                "hits": 33,
+                "misses": 12,
                 "evictions": 0,
                 "disposed": 0
               },
               "whenIdle": {
                 "bitmaps": 0,
-                "imgs": 52,
+                "imgs": 44,
                 "blobUrls": 0,
                 "glAlive": 1,
                 "raf": 0,
@@ -1004,7 +1005,7 @@
             "name": "replacements changed: the picture changes in place, without a reload",
             "ok": true,
             "detail": {
-              "key": "banner",
+              "key": "avatar",
               "reloads": 0
             }
           },
@@ -1012,9 +1013,9 @@
             "name": "replacements removed: the original comes back, without a reload",
             "ok": true,
             "detail": {
-              "yellowWithText": 344,
+              "yellowWithText": 667,
               "yellowAfterRemoval": 0,
-              "key": "banner"
+              "key": "avatar"
             }
           },
           {
@@ -1095,8 +1096,8 @@
         "failed": 0,
         "peak": {
           "bitmaps": 3,
-          "imgs": 52,
-          "blobUrls": 26,
+          "imgs": 44,
+          "blobUrls": 25,
           "glAlive": 1,
           "raf": 1,
           "resizeObservers": 1,
@@ -1150,9 +1151,9 @@
             "name": "load() returns format, size, frames, duration and editable keys for every format",
             "ok": true,
             "detail": {
-              "angel.svga": "svga 750x750 60f 4000ms keys=26",
+              "angel.svga": "svga 480x480 90f 3000ms keys=10",
               "rotating-earth.gif": "gif 400x400 44f 3960ms keys=0",
-              "animated.webp": "webp 300x225 100f 10000ms keys=0",
+              "animated.webp": "webp 320x240 40f 2000ms keys=0",
               "replacement.pag": "pag 800x800 60f 1000ms keys=1"
             }
           },
@@ -1185,11 +1186,11 @@
             "ok": true,
             "detail": {
               "sawA": false,
-              "finalEqualsReferenceB": false,
-              "refHash": -2007494794,
-              "final": -506455491,
-              "inkFinal": 1179,
-              "inkRef": 1150
+              "finalEqualsReferenceB": true,
+              "refHash": -1310307400,
+              "final": -1310307400,
+              "inkFinal": 1059,
+              "inkRef": 1059
             }
           },
           {
@@ -1327,10 +1328,10 @@
             "ok": true,
             "detail": {
               "file": "kingset.svga",
-              "key": "banner",
-              "atLoaded": -1969667754,
-              "afterSetText": -1342289287,
-              "original": 296703033
+              "key": "avatar",
+              "atLoaded": 1636488350,
+              "afterSetText": -1811574627,
+              "original": 2073287736
             }
           },
           {
@@ -1418,7 +1419,7 @@
           {
             "name": "a preloaded gift loads without a network request",
             "ok": true,
-            "detail": 1
+            "detail": 0.4
           },
           {
             "name": "setContentMode works",
@@ -1439,7 +1440,7 @@
             "name": "Rocket.svga: the last frame is visible in the `end` event, and the canvas is fully transparent afterwards (clearOnEnd default)",
             "ok": true,
             "detail": {
-              "inkAtEnd": 7679,
+              "inkAtEnd": 2548,
               "inkAfter": 0
             }
           },
@@ -1451,7 +1452,7 @@
             "name": "Rocket.svga: clearOnEnd:false keeps the last frame",
             "ok": true,
             "detail": {
-              "ink": 7679
+              "ink": 2548
             }
           },
           {
@@ -1547,7 +1548,7 @@
             "name": "queue, next gift still downloading: the canvas is blank (0 visible pixels in every frame between the two gifts)",
             "ok": true,
             "detail": {
-              "frameSamples": 26,
+              "frameSamples": 28,
               "maxInk": 0,
               "betweenMs": 469
             }
@@ -1556,8 +1557,8 @@
             "name": "queue, next gift prepared: hand-over keeps the fast path (blank only for the swap itself)",
             "ok": true,
             "detail": [
-              6.4,
-              0.4
+              0.2,
+              0.1
             ]
           },
           {
@@ -1574,16 +1575,16 @@
             "name": "two players showing one gift share one set of decoded images",
             "ok": true,
             "detail": {
-              "images": 26,
-              "afterFirstPlayer": 26,
-              "afterSecondPlayer": 26
+              "images": 10,
+              "afterFirstPlayer": 10,
+              "afterSecondPlayer": 10
             }
           },
           {
             "name": "one load, one hit, one entry in use",
             "ok": true,
             "detail": {
-              "bytes": 3051501,
+              "bytes": 1738410,
               "maxBytes": 67108864,
               "entries": 1,
               "inUse": 1,
@@ -1610,7 +1611,7 @@
             "name": "after the last player: the replacement is closed, the cached images stay (idle, evictable)",
             "ok": true,
             "detail": {
-              "imgs": 26
+              "imgs": 10
             }
           },
           {
@@ -1625,7 +1626,7 @@
             "name": "budget of 1 byte: assets in use are never evicted (both stay open and keep rendering)",
             "ok": true,
             "detail": {
-              "bytes": 5959409,
+              "bytes": 1964773,
               "maxBytes": 1,
               "entries": 2,
               "inUse": 2,
@@ -1651,17 +1652,17 @@
             "name": "LRU by estimated decoded bytes: bytes stay within the budget, the oldest are evicted",
             "ok": true,
             "detail": {
-              "budget": 5959419,
+              "budget": 1964783,
               "sizes": [
-                3051501,
-                2907908,
-                4381541,
-                370988
+                1738410,
+                226363,
+                1057054,
+                62220
               ],
-              "bytes": 4752529,
+              "bytes": 1345637,
               "stillCached": [
                 false,
-                false,
+                true,
                 true,
                 true
               ]
@@ -1671,7 +1672,7 @@
             "name": "destroy(): every cached image closed",
             "ok": true,
             "detail": {
-              "before": 17,
+              "before": 35,
               "after": 0
             }
           },
@@ -1686,7 +1687,7 @@
                 "glAlive": 0,
                 "raf": 0,
                 "resizeObservers": 0,
-                "jsHeapMB": 38
+                "jsHeapMB": 16
               },
               "base": {
                 "bitmaps": 0,
@@ -1695,7 +1696,7 @@
                 "glAlive": 0,
                 "raf": 0,
                 "resizeObservers": 0,
-                "jsHeapMB": 9
+                "jsHeapMB": 7
               }
             }
           }
@@ -1724,12 +1725,12 @@
         },
         "peak": {
           "bitmaps": 1,
-          "imgs": 27,
-          "blobUrls": 26,
+          "imgs": 11,
+          "blobUrls": 10,
           "glAlive": 1,
           "raf": 2,
           "resizeObservers": 1,
-          "jsHeapMB": 56
+          "jsHeapMB": 30
         },
         "afterAllPlayersDestroyed": {
           "bitmaps": 0,
@@ -1738,10 +1739,10 @@
           "glAlive": 1,
           "raf": 0,
           "resizeObservers": 0,
-          "jsHeapMB": 53
+          "jsHeapMB": 9
         },
         "cacheWhenIdle": {
-          "bytes": 769501,
+          "bytes": 977319,
           "maxBytes": 1572864,
           "entries": 6,
           "inUse": 0,
@@ -1758,7 +1759,7 @@
           "glAlive": 1,
           "raf": 0,
           "resizeObservers": 0,
-          "jsHeapMB": 53
+          "jsHeapMB": 9
         },
         "glAliveBeforeEngineRelease": 1,
         "final": {
@@ -1768,7 +1769,7 @@
           "glAlive": 0,
           "raf": 0,
           "resizeObservers": 0,
-          "jsHeapMB": 53
+          "jsHeapMB": 9
         },
         "glContextsCreated": 1,
         "glContextLostEvents": 1,
@@ -1785,7 +1786,7 @@
             "items": 200,
             "maxLength": null,
             "outcome": "idle",
-            "totalMs": 32753,
+            "totalMs": 31467,
             "settledHandles": 200,
             "statuses": {
               "done": 152,
@@ -1806,37 +1807,37 @@
             "stalls": 0,
             "longestItemMs": 8017,
             "longestItem": "svga /samples/Rocket.svga (played in full on purpose)",
-            "longestSilenceMs": 8016,
+            "longestSilenceMs": 8015,
             "brokenItems": 26,
             "brokenAllFailedOrRemoved": true,
             "gap": {
               "n": 133,
-              "avgMs": 5.7,
-              "p95Ms": 16.5,
-              "maxMs": 35.5,
+              "avgMs": 5.5,
+              "p95Ms": 16.6,
+              "maxMs": 134,
               "blankAvgMs": 5.3,
-              "blankP95Ms": 16
+              "blankP95Ms": 16.2
             },
             "gapByNextFormat": {
               "svga": {
                 "n": 47,
-                "avgMs": 1.5,
-                "p95Ms": 3
+                "avgMs": 1.3,
+                "p95Ms": 2.4
               },
               "webp": {
                 "n": 32,
-                "avgMs": 4.5,
-                "p95Ms": 9.6
+                "avgMs": 3.3,
+                "p95Ms": 14.5
               },
               "pag": {
                 "n": 34,
-                "avgMs": 14.5,
-                "p95Ms": 21.3
+                "avgMs": 15.5,
+                "p95Ms": 20.4
               },
               "gif": {
                 "n": 20,
-                "avgMs": 2.2,
-                "p95Ms": 4.9
+                "avgMs": 2.1,
+                "p95Ms": 6.5
               }
             },
             "playerErrors": 15,
@@ -1852,37 +1853,37 @@
               },
               "peak": {
                 "bitmaps": 1,
-                "imgs": 52,
-                "blobUrls": 26,
+                "imgs": 44,
+                "blobUrls": 25,
                 "glAlive": 1,
                 "raf": 1,
                 "resizeObservers": 0,
-                "jsHeapMB": 18
+                "jsHeapMB": 21
               },
               "cachePeak": {
-                "cacheBytesPeak": 13135612,
+                "cacheBytesPeak": 5715535,
                 "cacheEntriesPeak": 14,
                 "inUsePeak": 3
               },
               "cacheWhenIdle": {
-                "bytes": 13135612,
+                "bytes": 5715535,
                 "maxBytes": 25165824,
                 "entries": 14,
                 "inUse": 1,
                 "loading": 0,
-                "hits": 291,
+                "hits": 290,
                 "misses": 17,
                 "evictions": 0,
                 "disposed": 0
               },
               "whenIdle": {
                 "bitmaps": 0,
-                "imgs": 53,
+                "imgs": 45,
                 "blobUrls": 0,
                 "glAlive": 1,
                 "raf": 0,
                 "resizeObservers": 0,
-                "jsHeapMB": 12
+                "jsHeapMB": 11
               },
               "afterDestroy": {
                 "bitmaps": 0,
@@ -1891,7 +1892,7 @@
                 "glAlive": 1,
                 "raf": 0,
                 "resizeObservers": 0,
-                "jsHeapMB": 12
+                "jsHeapMB": 11
               }
             },
             "doubleCloses": {
@@ -1905,7 +1906,7 @@
             "items": 120,
             "maxLength": 20,
             "outcome": "idle",
-            "totalMs": 2877,
+            "totalMs": 2660,
             "settledHandles": 120,
             "statuses": {
               "dropped": 95,
@@ -1922,41 +1923,41 @@
             "orderViolationExamples": [],
             "dropsWereLowestPriority": true,
             "dropExamples": [],
-            "dropEvents": 28,
+            "dropEvents": 27,
             "stalls": 0,
-            "longestItemMs": 216,
-            "longestItem": "webp /samples/animated.webp",
+            "longestItemMs": 200,
+            "longestItem": "gif /samples/rotating-earth.gif",
             "longestSilenceMs": 197,
             "brokenItems": 17,
             "brokenAllFailedOrRemoved": true,
             "gap": {
               "n": 19,
               "avgMs": 4.6,
-              "p95Ms": 14.7,
-              "maxMs": 14.7,
-              "blankAvgMs": 4.1,
-              "blankP95Ms": 14.4
+              "p95Ms": 15.8,
+              "maxMs": 15.8,
+              "blankAvgMs": 4.2,
+              "blankP95Ms": 15.5
             },
             "gapByNextFormat": {
               "gif": {
                 "n": 5,
-                "avgMs": 4.3,
-                "p95Ms": 14.7
+                "avgMs": 2.3,
+                "p95Ms": 3.8
               },
               "webp": {
                 "n": 7,
-                "avgMs": 3.4,
-                "p95Ms": 5.2
+                "avgMs": 3.1,
+                "p95Ms": 7.7
               },
               "pag": {
                 "n": 3,
-                "avgMs": 10.4,
-                "p95Ms": 12.8
+                "avgMs": 15.5,
+                "p95Ms": 15.8
               },
               "svga": {
                 "n": 4,
-                "avgMs": 2.7,
-                "p95Ms": 5.6
+                "avgMs": 1.7,
+                "p95Ms": 3.4
               }
             },
             "playerErrors": 1,
@@ -1968,41 +1969,41 @@
                 "glAlive": 1,
                 "raf": 0,
                 "resizeObservers": 0,
-                "jsHeapMB": 12
+                "jsHeapMB": 11
               },
               "peak": {
                 "bitmaps": 1,
-                "imgs": 52,
-                "blobUrls": 26,
+                "imgs": 44,
+                "blobUrls": 25,
                 "glAlive": 1,
                 "raf": 1,
                 "resizeObservers": 0,
-                "jsHeapMB": 18
+                "jsHeapMB": 21
               },
               "cachePeak": {
-                "cacheBytesPeak": 12759337,
-                "cacheEntriesPeak": 12,
+                "cacheBytesPeak": 5648028,
+                "cacheEntriesPeak": 11,
                 "inUsePeak": 3
               },
               "cacheWhenIdle": {
-                "bytes": 12759337,
+                "bytes": 5648028,
                 "maxBytes": 25165824,
-                "entries": 12,
+                "entries": 11,
                 "inUse": 1,
                 "loading": 0,
-                "hits": 32,
-                "misses": 13,
+                "hits": 33,
+                "misses": 12,
                 "evictions": 0,
                 "disposed": 0
               },
               "whenIdle": {
                 "bitmaps": 0,
-                "imgs": 52,
+                "imgs": 44,
                 "blobUrls": 0,
                 "glAlive": 1,
                 "raf": 0,
                 "resizeObservers": 0,
-                "jsHeapMB": 13
+                "jsHeapMB": 15
               },
               "afterDestroy": {
                 "bitmaps": 0,
@@ -2011,7 +2012,7 @@
                 "glAlive": 1,
                 "raf": 0,
                 "resizeObservers": 0,
-                "jsHeapMB": 13
+                "jsHeapMB": 15
               }
             },
             "doubleCloses": {
@@ -2114,7 +2115,7 @@
             "name": "replacements changed: the picture changes in place, without a reload",
             "ok": true,
             "detail": {
-              "key": "banner",
+              "key": "avatar",
               "reloads": 0
             }
           },
@@ -2122,9 +2123,9 @@
             "name": "replacements removed: the original comes back, without a reload",
             "ok": true,
             "detail": {
-              "yellowWithText": 330,
+              "yellowWithText": 575,
               "yellowAfterRemoval": 0,
-              "key": "banner"
+              "key": "avatar"
             }
           },
           {
@@ -2146,7 +2147,7 @@
               "glAlive": 1,
               "raf": 0,
               "resizeObservers": 0,
-              "jsHeapMB": 24
+              "jsHeapMB": 22
             }
           },
           {
@@ -2181,7 +2182,7 @@
               "glAlive": 1,
               "raf": 0,
               "resizeObservers": 0,
-              "jsHeapMB": 27
+              "jsHeapMB": 21
             }
           },
           {
@@ -2205,8 +2206,8 @@
         "failed": 0,
         "peak": {
           "bitmaps": 1,
-          "imgs": 52,
-          "blobUrls": 26,
+          "imgs": 44,
+          "blobUrls": 25,
           "glAlive": 1,
           "raf": 1,
           "resizeObservers": 1,
@@ -2219,7 +2220,7 @@
           "glAlive": 0,
           "raf": 0,
           "resizeObservers": 0,
-          "jsHeapMB": 27
+          "jsHeapMB": 21
         }
       }
     }

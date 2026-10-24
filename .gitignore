@@ -20,3 +20,13 @@ docs/api/
 reports/*-chromium.*
 reports/*-firefox.*
 reports/*-webkit.*
+
+# .svga and .webp files are never committed (we do not redistribute them): `npm run samples:generate` creates stand-ins and the
+# synthetic WebP files; a developer may also keep real files here. See samples/THIRD_PARTY.md.
+samples/**/*.svga
+samples/**/*.webp
+samples/expected.json
+
+# the real corpus is private: its reports (file names, features) are not committed either
+reports/corpus*.json
+reports/corpus*.md

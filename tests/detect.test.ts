@@ -42,7 +42,7 @@ describe('synthetic GIF/WebP files', () => {
 });
 
 describe('real samples', () => {
-  const files = readdirSync(samplesDir, { withFileTypes: true }).filter((d) => d.isFile() && !d.name.endsWith('.json')).map((d) => d.name);
+  const files = readdirSync(samplesDir, { withFileTypes: true }).filter((d) => d.isFile() && !d.name.endsWith('.json') && !d.name.endsWith('.md')).map((d) => d.name);
 
   it('every sample has an expectation (add new samples to the table)', () => {
     expect(files.sort()).toEqual(Object.keys(expectedFormats).sort());

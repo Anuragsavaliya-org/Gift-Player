@@ -4,6 +4,7 @@
  * tools/synthetic/webp-muxer.ts from still frames that Chrome's canvas encoder produces.
  */
 import { encodeGif, type GifFrameSpec, type RGB } from '../tools/synthetic/gif-encoder';
+import { buildSvgaSamples } from '../tools/synthetic/svga-samples';
 import { muxAnimatedWebp, type WebpFrameSpec } from '../tools/synthetic/webp-muxer';
 
 const files: Record<string, Uint8Array> = {};
@@ -185,6 +186,41 @@ files['selftest-gif-dispose.gif'] = encodeGif({
       { still: green, x: 0, y: 0, width: 4, height: 4, durationMs: 100, blend: false, disposeToBackground: false },
     ],
   });
+}
+
+// ---------------------------------------------------------------- stand-ins for the real sample files (keys start with `@root/`: written to samples/, only where the file is missing)
+async function pngOf(w: number, h: number, draw: Draw): Promise<Uint8Array> {
+  const c = document.createElement('canvas');
+  c.width = w;
+  c.height = h;
+  draw(c.getContext('2d')!, w, h);
+  const blob: Blob = await new Promise((r) => c.toBlob((b) => r(b!), 'image/png'));
+  return new Uint8Array(await blob.arrayBuffer());
+}
+for (const [name, bytes] of Object.entries(await buildSvgaSamples(pngOf))) files[`@root/${name}`] = bytes;
+{
+  // static.webp: a lossy 400 x 300 picture. animated.webp: 40 lossy frames, 320 x 240, 50 ms each, looping forever.
+  const scene = (t: number): Draw => (g, w, h) => {
+    const sky = g.createLinearGradient(0, 0, 0, h);
+    sky.addColorStop(0, '#1b3a6b');
+    sky.addColorStop(1, '#f2a65a');
+    g.fillStyle = sky;
+    g.fillRect(0, 0, w, h);
+    g.fillStyle = '#17212f';
+    g.beginPath();
+    g.moveTo(0, h);
+    for (let x = 0; x <= w; x += 8) g.lineTo(x, h * 0.65 + Math.sin(x / 31 + t) * 18 + Math.sin(x / 11) * 6);
+    g.lineTo(w, h);
+    g.fill();
+    g.fillStyle = '#ffe9a8';
+    g.beginPath();
+    g.arc(w * (0.2 + 0.6 * t / (Math.PI * 2)), h * 0.3, h * 0.08, 0, Math.PI * 2);
+    g.fill();
+  };
+  files['@root/static.webp'] = await still(400, 300, scene(1));
+  const AW = 320, AH = 240, specs: WebpFrameSpec[] = [];
+  for (let i = 0; i < 40; i++) specs.push({ still: await still(AW, AH, scene((i / 40) * Math.PI * 2)), x: 0, y: 0, width: AW, height: AH, durationMs: 50, blend: false, disposeToBackground: false });
+  files['@root/animated.webp'] = muxAnimatedWebp({ width: AW, height: AH, loop: 0, hasAlpha: false, frames: specs });
 }
 
 // ---------------------------------------------------------------- output

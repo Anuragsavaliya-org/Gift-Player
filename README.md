@@ -2,8 +2,6 @@
 
 Play animated gift files through one API: **SVGA** (1.x and 2.x), **GIF**, **animated and static WebP**, and **PAG**. Plain TypeScript, no framework needed, with a React wrapper and a queue for live streams.
 
-> The package name and license are placeholders until the owner decides them (`package.json` says `UNLICENSED`).
-
 ```sh
 npm install @incodes/gift-player
 ```
@@ -136,6 +134,12 @@ Everything rejects with a `GiftPlayerError`; `error.code` is one of:
 ## API reference
 
 `npm run docs` generates the full reference from the TSDoc comments into `docs/api/` (not committed). Entry points: `@incodes/gift-player` (the supported API), `@incodes/gift-player/react`, and `@incodes/gift-player/advanced` (low-level parts: the SVGA parser, the PAG renderer, source readers; **unstable, not covered by semver**).
+
+## Third-party runtime code
+
+* **PAG playback uses [libpag](https://github.com/Tencent/libpag) (Apache-2.0).** It is **not part of this package and not bundled**: the first time a PAG file is opened, the browser downloads libpag 4.5.85 (JS + WASM) from jsDelivr (or from your own server, see PAG setup). Gifts in other formats never load it. libpag's license is Apache-2.0, ours is MIT; if you self-host the files you redistribute libpag yourself and must keep its license and notice.
+* The packages this one depends on at runtime: `fflate` (MIT).
+* Sample files in `samples/` and where they come from: [`samples/THIRD_PARTY.md`](samples/THIRD_PARTY.md). They are test data and are not part of the npm package. No `.svga` or `.webp` file is committed: `npm run samples:generate` creates stand-ins.
 
 ## Known limitations
 

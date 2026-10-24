@@ -9,6 +9,7 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const browsers = (process.argv.find((a) => a.startsWith('--browsers='))?.split('=')[1] ?? 'chromium,webkit').split(',');
 const steps = [
   ['typecheck', ['run', 'typecheck']],
+  ['samples:generate', ['run', 'samples:generate']],
   ['unit tests (incl. SSR)', ['test']],
   ['build', ['run', 'build']],
   ['check:bundle', ['run', 'check:bundle']],

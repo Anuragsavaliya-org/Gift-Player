@@ -1,93 +1,67 @@
-# NEXT PROMPT — Phase 7: Hardening, packaging, React wrapper, CI
+# NEXT PROMPT — Phase 7.1: License, repository, first push, CI
 
-Phase 6 is approved (8e8ef5b). The queue, cache and leak results are strong. Your decisions 1, 2, 3 and 5 are accepted. Decision 4 needs a fix (Part A). **Do not publish anything to npm, and do not change `license` or the package name.** The owner decides both.
+Phase 7 is approved (8a8f6f6). The owner has made these decisions:
+- **Package name:** `@incodes/gift-player` (final).
+- **License:** MIT.
+- **Repository:** https://github.com/Anuragsavaliya-org/Gift-Player.git. It is **public**.
+- The three svgagifts samples (Fiery-Red-Dragon, Glossy-Pink-Lips, Pink-Heart-Rocket) are free products and may stay in the public repo.
 
-## Part A — Gift must disappear after it ends
+**Still do not publish to npm.**
 
-Gifts are overlays on top of a live video. A finished gift whose last frame stays frozen on screen is a visible bug.
+## Task 1 — License and metadata
 
-- Add the option `clearOnEnd` (default `true`). After `end`, the canvas is cleared to transparent. `clearOnEnd: false` keeps the last frame.
-- Queue: when the next item is not ready yet, the canvas must be **blank**, not the previous gift's last frame. When it is ready, keep the current fast hand-over.
-- Your decision 4 (keep the old gift on screen while a new one downloads) still applies to a manual `load()` called **during playback** only. Document that precisely.
-- Tests in both browsers:
-  - after `end` with an empty queue, the canvas is fully transparent;
-  - with `clearOnEnd: false`, the last frame stays;
-  - a queue with a slow (delayed) next item shows a blank canvas in between.
-
-## Part B — Trim the public API (semver contract)
-
-Every root export becomes a promise we must keep. Keep these at the root:
-
-`GiftPlayer`, `GiftQueue`, `AssetCache`, `GiftPlayerError`, `registerResolver`, `registerFont`, `detectFormat`, `setPagFallbackFonts`, `releasePagEngineContext`, `getDefaultCache`, `DEFAULT_CACHE_BYTES`, `VERSION`, and the public types.
-
-Move everything low-level (`parseSvga`, `decodeSvgaImages`, `releaseSvgaImages`, `PagRenderer`, `loadPagEngine`, `readSource`, `detectSource`, the PAG URL constants, the SVGA model types) to a subpath export, `<pkg>/advanced`. Mark it in TSDoc as unstable and not covered by semver.
-
-Update the SSR test so it covers both entry points. If something must stay at the root, flag it and give the reason.
-
-## Part C — Bundle cap
-
-The caps were raised to 190 KB / 120 KB. That is too loose, and loose caps are how bloat creeps in. Set `check:bundle` to the **measured size + 10%** for each entry point (root, `/advanced`, `/react`), and still fail if libpag is included anywhere.
-
-## Part D — React wrapper (`<pkg>/react`)
-
-svgagifts.com is Next.js, and most adopting developers use React.
-
-- Add a `<GiftPlayerView src replacements loops contentMode onLoad onEnd onError className style />` component, plus a `useGiftQueue(options)` hook that returns `{ queue, containerRef, stats }`.
-- Put `'use client'` at the top. React ≥ 18 is a **peerDependency**. React must never end up in the root bundle.
-- Lifecycle:
-  - unmount destroys the player;
-  - changing `src` reloads, with the abort race handled;
-  - **React StrictMode double mount/unmount must not leak** or double-play;
-  - changing `replacements` updates without a reload.
-- Tests: Vitest + jsdom for the lifecycle logic, using a mocked player, plus one real browser test that mounts in StrictMode and checks the Phase 6 counters return to 0.
-
-## Part E — README and docs
-
-Discuss nothing here with the owner; just write it, concise and accurate. Cover:
-- install;
-- a 10-line quick start for vanilla, for the queue, and for React/Next.js (both client component and server-component import);
-- supported formats and the browser support table;
-- PAG setup (CDN default, self-hosting the WASM, CSP lines);
-- replacements and `getEditableKeys`;
-- the cache and preload;
-- error codes;
-- **known limitations**, stated honestly: PAG complex-script text; Firefox verified in CI only; iOS real devices not yet tested; `<img>` sources not usable in Workers.
-
-Also generate an API reference from TSDoc (`npm run docs`, typedoc). Do not commit the generated output.
-
-## Part F — CI (GitHub Actions)
-
-Add `.github/workflows/ci.yml`, running on `ubuntu-latest` with Node LTS:
-- `npm ci`, typecheck, unit tests, build, `check:bundle`, the SSR test;
-- every Playwright verify suite in **chromium, firefox and webkit**, using repo samples and synthetic files only. The corpus is private and git-ignored, so CI must skip it cleanly.
-
-Make every verify script accept `--browser`.
-
-There is no git remote yet. Run all CI steps locally for chromium and webkit to prove the workflow is correct, and state that Firefox results will come from the first CI run.
-
-## Part G — Packaging and the real-world install test
-
+- Add a `LICENSE` file with the standard MIT text: `Copyright (c) 2026 Incodes Lab`.
 - `package.json`:
-  - an `exports` map covering root, `/advanced` and `/react` (each with import, require and types);
-  - `sideEffects: false`, unless a file really has side effects; if so, list it;
-  - a `files` whitelist;
-  - `engines`;
-  - `peerDependencies` plus `peerDependenciesMeta` (React optional).
-- `npm pack --dry-run`: list the tarball contents and size. No tests, samples, reports or playground may be in it.
-- **Fresh-project test**, the real developer experience. Install the packed tarball into:
-  1. a new Vite vanilla app, which plays an SVGA in ≤ 10 lines;
-  2. a new **Next.js (App Router)** app, where a server component imports a type or constant, a client component renders `<GiftPlayerView>`, and `next build` succeeds.
+  - `"license": "MIT"`;
+  - `repository` set to `{ "type": "git", "url": "git+https://github.com/Anuragsavaliya-org/Gift-Player.git" }`;
+  - `bugs` and `homepage` pointing at that repository;
+  - remove any "placeholder name" wording from package.json and the README.
+- Check that the tarball now includes `LICENSE` (`npm pack --dry-run`).
+- Add a README section on third-party runtime code: libpag (Apache-2.0) is loaded at runtime from a CDN and is not bundled; say this clearly.
 
-  Run both in Chromium. Report the exact lines of code each needed, and any friction you hit (this goes into the README).
+## Task 2 — Third-party sample attribution
+
+The repo is public, so files we redistribute need proper attribution.
+
+- For each sample that did not come from the owner, find its source and license:
+  - `Rocket.svga`, `angel.svga`, `kingset.svga`, `matteBitmap.svga` and `matteRect.svga`, from github.com/svga/SVGA-Samples;
+  - `like.pag` and `replacement.pag`, from github.com/Tencent/libpag `assets/`;
+  - `animated.webp` and `static.webp`, from the Google WebP gallery on gstatic.com;
+  - `rotating-earth.gif`, Wikimedia Commons "Rotating_earth_(large).gif".
+- Write `samples/THIRD_PARTY.md` listing each file with its source URL, license and attribution text.
+- **If a file's license does not allow redistribution, or can't be determined, flag it.** Propose a replacement (for example a synthetic file generated by our scripts) rather than keeping it silently. Do not delete anything without listing it in REVIEW.md.
+- The synthetic files are our own and fall under MIT. Say so in the same file.
+
+## Task 3 — Pre-push safety check
+
+Before the first push, check the **entire git history**, not just HEAD, for:
+- secrets, tokens, API keys and `.env` files;
+- absolute local paths that reveal personal info (for example `/Volumes/XITIJ/...` inside committed reports). Replace these with repo-relative paths where practical; otherwise list them.
+- anything from `samples/corpus/` or `samples/.fonts/`. These must never have been committed.
+
+Report the findings. If anything sensitive turns up in history, **stop and flag it before pushing**.
+
+## Task 4 — First push and CI
+
+1. Add the remote as `origin`, and push the branch as `main` along with its full history.
+2. If the `gh` CLI is installed and authenticated, use it to watch the first CI run (`gh run watch`) and fetch the logs. If it isn't, report that the owner should check the Actions tab, and stop there for Task 4.
+3. **Firefox runs for the first time here.** If any Firefox job fails:
+   - diagnose it from the logs and the uploaded report artifacts;
+   - fix real bugs in our code;
+   - if a failure is a genuine Firefox platform difference, document it in the README's browser support table;
+   - never skip Firefox jobs or loosen thresholds to get green.
+
+   Push the fixes and repeat until CI is green or you hit a real blocker.
+4. Add a CI status badge to the README once the workflow has run at least once.
 
 ## End of task
 
-The usual: all checks pass; commit; update PROGRESS.md; overwrite REVIEW.md. Include:
-- the final export lists per entry point;
-- the bundle sizes and caps;
-- the tarball contents;
-- the fresh-project results (Vite and Next.js);
-- the CI steps run locally;
-- the `clearOnEnd` test results.
+The usual: commit, update PROGRESS.md, overwrite REVIEW.md. Include:
+- the result of the license and metadata changes;
+- the **sample attribution table** (file → source → license → status);
+- the pre-push scan results;
+- the push result;
+- the **CI results per job and browser**, with Firefox findings and fixes in detail;
+- anything still blocking.
 
-List the open owner decisions: package name, license, GitHub repo, and real-iPhone testing. Then stop.
+Then stop.

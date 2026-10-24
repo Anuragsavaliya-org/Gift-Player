@@ -515,7 +515,7 @@ describe('decompression limits (untrusted input)', () => {
 
   it('data under the cap still parses', () => {
     const m = parseSvga(read('angel.svga'), undefined, { maxInflatedBytes: 64 * MB });
-    expect(m.sprites.length).toBe(125);
+    expect(m.sprites.length).toBe(expected['angel.svga']!.spriteCount);
     // angel inflates to well over 100 KB, so a 10 KB cap must reject it
     expectLimit(() => parseSvga(read('angel.svga'), undefined, { maxInflatedBytes: 10_000 }));
   });
