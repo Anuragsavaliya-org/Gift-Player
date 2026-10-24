@@ -1,7 +1,7 @@
 # REVIEW — Phase 6: Public API, queue, cache (+ PAG text follow-up)
 
 ## Status
-Done. Typecheck, 256 Vitest tests (incl. the Node SSR import test), build, `check:bundle`, `verify:api` (all tasks, Chromium 156 + WebKit 27.2), and the regressions `verify:pag`, `verify:browser`, `verify:images` pass. Numbers: `reports/phase6-api.json`. Commit: see `git log` (`Phase 6: ...`).
+Done. Typecheck, 256 Vitest tests (incl. the Node SSR import test), build, `check:bundle`, `verify:api` (all tasks, Chromium 156 + WebKit 27.2), and the regressions `verify:pag`, `verify:browser`, `verify:images` pass. Numbers: `reports/phase6-api.json`. Commit: `8e8ef5b` (a tiny follow-up commit only records this line).
 
 ## Part A: PAG complex-script warning: in place
 `PagRenderer.setText` logs one `console.warn` per player for Indic / Arabic / Hebrew / Thai / Khmer / Myanmar text; none for Latin, none for SVGA. Verified in both browsers (Hindi + Gujarati + Arabic → exactly 1 warning on the first player, 1 on a second; Latin → 0). Documented under "Known limitations" in PROGRESS.md; `setTextImage` and the upstream libpag check are logged there as deferred.
