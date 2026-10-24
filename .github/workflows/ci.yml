@@ -51,14 +51,23 @@ jobs:
       # chromium is always needed: verify:images takes its golden frames from Chromium's ImageDecoder.
       - run: npx playwright install --with-deps chromium ${{ matrix.browser }}
       - run: npm run samples:generate
+      # Firefox without a GPU has no WebGL in headless mode ("Exhausted GL driver options"): PAG needs it, so Firefox runs the PAG and API
+      # suites headed on a virtual display with Mesa's software GL.
+      - name: Software GL and a virtual display (Firefox)
+        if: matrix.browser == 'firefox'
+        run: sudo apt-get update && sudo apt-get install -y xvfb libgl1-mesa-dri libglx-mesa0 libegl1 libgles2
       - run: npm run verify:browser -- --browser=${{ matrix.browser }}
       - run: npm run verify:corpus -- --browser=${{ matrix.browser }}
         if: ${{ !cancelled() }} # every suite reports, even after another one failed
       - run: npm run verify:images -- --browser=${{ matrix.browser }}
         if: ${{ !cancelled() }} # every suite reports, even after another one failed
-      - run: npm run verify:pag -- --browser=${{ matrix.browser }}
+      - run: ${{ matrix.browser == 'firefox' && 'xvfb-run -a ' || '' }}npm run verify:pag -- --browser=${{ matrix.browser }}
+        env:
+          PW_HEADED: ${{ matrix.browser == 'firefox' && '1' || '' }}
         if: ${{ !cancelled() }} # every suite reports, even after another one failed
-      - run: npm run verify:api -- --browser=${{ matrix.browser }}
+      - run: ${{ matrix.browser == 'firefox' && 'xvfb-run -a ' || '' }}npm run verify:api -- --browser=${{ matrix.browser }}
+        env:
+          PW_HEADED: ${{ matrix.browser == 'firefox' && '1' || '' }}
         if: ${{ !cancelled() }} # every suite reports, even after another one failed
       - uses: actions/upload-artifact@v4
         if: always()
