@@ -1,21 +1,20 @@
 import { GiftPlayerError } from '../../../core/errors';
 import type { SvgaFrame, SvgaMovie, SvgaShape, SvgaSprite } from '../types';
 import { compileShape, NO_DASH, PathCache, type CompiledShape } from './compile';
-import { backingSize, computeView, type ContentMode, type View } from './view';
+import { Viewport, type ViewportOptions } from '../../../core/viewport';
+import type { FrameSource } from '../../../core/frame-source';
+import type { ContentMode } from './view';
 
 export type { ContentMode } from './view';
 
 type Ctx2D = CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D;
 
-export interface SvgaRendererOptions {
-  /** Default 'aspectFit'. */
-  contentMode?: ContentMode;
-  /** Default `window.devicePixelRatio || 1`. */
-  devicePixelRatio?: number;
-  /** Watch the canvas for CSS size changes and re-fit automatically. Default true. */
-  observeResize?: boolean;
-  /** Use this CSS size instead of reading `canvas.clientWidth/Height` (e.g. for detached canvases). */
-  cssSize?: { width: number; height: number };
+export interface SvgaRendererOptions extends ViewportOptions {
+  /**
+   * Resampling filter for bitmaps ('low' | 'medium' | 'high'). Matters when small sprites are drawn heavily
+   * shrunk (particles): 'low' is plain bilinear and sparkles, higher qualities filter properly.
+   */
+  imageSmoothing?: ImageSmoothingQuality;
 }
 
 export interface TextStyle {
@@ -85,7 +84,7 @@ const warn = (msg: string) => console.warn(`[gift-player] ${msg}`);
  * The canvas must be sized by CSS (e.g. `width:100%; height:100%`); the renderer sizes the backing
  * store from that CSS size times the device pixel ratio.
  */
-export class SvgaRenderer {
+export class SvgaRenderer implements FrameSource {
   private readonly movie: SvgaMovie;
   private readonly ctx: Ctx2D;
   private readonly runtimes: Runtime[] = [];
@@ -95,20 +94,13 @@ export class SvgaRenderer {
   private readonly compiled = new WeakMap<SvgaShape, CompiledShape | null>();
   private readonly replacementImages = new Map<string, ImageReplacement>();
   private readonly imageTokens = new Map<string, number>();
-  private readonly dprOverride: number | undefined;
-  private readonly cssOverride: { width: number; height: number } | undefined;
-  private readonly observer: ResizeObserver | null = null;
+  private readonly vp: Viewport;
   private offscreen: HTMLCanvasElement | OffscreenCanvas | null = null;
   private offCtx: Ctx2D | null = null;
   private bitmaps: Map<string, ImageBitmap>;
-  private mode: ContentMode;
-  private readonly view: View = { sx: 1, sy: 1, ox: 0, oy: 0 };
-  private width = 1;
-  private height = 1;
-  private lastCssW = -1;
-  private lastCssH = -1;
   private current = -1;
   private destroyed = false;
+  private readonly smoothing: ImageSmoothingQuality;
 
   constructor(
     private readonly canvas: HTMLCanvasElement,
@@ -118,9 +110,7 @@ export class SvgaRenderer {
   ) {
     this.movie = movie;
     this.bitmaps = bitmaps;
-    this.mode = options.contentMode ?? 'aspectFit';
-    this.dprOverride = options.devicePixelRatio;
-    this.cssOverride = options.cssSize;
+    this.smoothing = options.imageSmoothing ?? 'low';
     const ctx = canvas.getContext('2d');
     if (!ctx) throw new GiftPlayerError('invalid-input', 'Could not get a 2D context from the canvas.');
     this.ctx = ctx;
@@ -170,11 +160,44 @@ export class SvgaRenderer {
       this.offCtx = this.offscreen.getContext('2d') as Ctx2D | null;
     }
 
-    this.resize();
-    if (options.observeResize !== false && typeof ResizeObserver !== 'undefined' && !this.cssOverride) {
-      this.observer = new ResizeObserver(() => this.resize());
-      this.observer.observe(canvas);
-    }
+    this.vp = new Viewport(canvas, movie.viewBox, options, (backingChanged, w, h) => {
+      if (backingChanged && this.offscreen) {
+        this.offscreen.width = w;
+        this.offscreen.height = h;
+      }
+      if (this.current >= 0) this.drawFrame(this.current);
+    });
+  }
+
+  // ---- FrameSource: SVGA has a fixed fps and no loop count in the file ---------------------------
+
+  get frameCount(): number {
+    return this.movie.frames;
+  }
+
+  frameDuration(): number {
+    return 1000 / this.movie.fps;
+  }
+
+  get loopCount(): number | null {
+    return null;
+  }
+
+  /** Everything is already decoded, so any frame is ready. */
+  ready(): Promise<void> {
+    return Promise.resolve();
+  }
+
+  private get width(): number {
+    return this.vp.width;
+  }
+
+  private get height(): number {
+    return this.vp.height;
+  }
+
+  private get view() {
+    return this.vp.view;
   }
 
   /** Index of the last drawn frame, or -1. */
@@ -183,48 +206,21 @@ export class SvgaRenderer {
   }
 
   get contentMode(): ContentMode {
-    return this.mode;
+    return this.vp.contentMode;
   }
 
   setContentMode(mode: ContentMode): void {
-    if (mode === this.mode) return;
-    this.mode = mode;
-    this.refit();
+    this.vp.setContentMode(mode);
   }
 
   /** Re-reads the CSS size and DPR, resizes the backing store, and redraws the current frame. */
   resize(): void {
-    if (this.destroyed) return;
-    const css = this.cssOverride ?? { width: this.canvas.clientWidth, height: this.canvas.clientHeight };
-    // A canvas that is not laid out yet (0 size) falls back to the movie's own size.
-    const cw = css.width > 0 ? css.width : this.movie.viewBox.width;
-    const ch = css.height > 0 ? css.height : this.movie.viewBox.height;
-    const dpr = this.dprOverride ?? (typeof window !== 'undefined' ? window.devicePixelRatio || 1 : 1);
-    const size = backingSize(cw, ch, dpr);
-    const changed = size.width !== this.width || size.height !== this.height || this.lastCssW < 0;
-    this.lastCssW = cw;
-    this.lastCssH = ch;
-    if (changed) {
-      this.width = size.width;
-      this.height = size.height;
-      this.canvas.width = size.width; // also clears the canvas and resets its state
-      this.canvas.height = size.height;
-      if (this.offscreen) {
-        this.offscreen.width = size.width;
-        this.offscreen.height = size.height;
-      }
-    }
-    this.refit();
+    this.vp.resize();
   }
 
-  private refit(): void {
-    computeView(this.mode, this.width, this.height, this.movie.viewBox.width, this.movie.viewBox.height, this.view);
-    if (this.current >= 0) this.drawFrame(this.current);
-  }
-
-  /** Draws frame `index` (clamped to the movie's range). */
-  drawFrame(index: number): void {
-    if (this.destroyed) return;
+  /** Draws frame `index` (clamped to the movie's range). Always synchronous: returns true once drawn. */
+  drawFrame(index: number): boolean {
+    if (this.destroyed) return false;
     const frames = this.movie.frames;
     let i = index | 0;
     if (i < 0) i = 0;
@@ -235,6 +231,7 @@ export class SvgaRenderer {
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.globalAlpha = 1;
     ctx.globalCompositeOperation = 'source-over';
+    ctx.imageSmoothingQuality = this.smoothing; // reset by a canvas resize, so set it every frame
     ctx.clearRect(0, 0, this.width, this.height);
 
     const items = this.items;
@@ -256,6 +253,7 @@ export class SvgaRenderer {
       off.setTransform(1, 0, 0, 1, 0, 0);
       off.globalAlpha = 1;
       off.globalCompositeOperation = 'source-over';
+      off.imageSmoothingQuality = this.smoothing;
       off.clearRect(0, 0, this.width, this.height);
       let any = false;
       for (let k = 0; k < run.length; k++) {
@@ -272,6 +270,7 @@ export class SvgaRenderer {
       off.globalCompositeOperation = 'source-over';
       ctx.drawImage(this.offscreen as CanvasImageSource, 0, 0);
     }
+    return true;
   }
 
   private drawSprite(ctx: Ctx2D, rt: Runtime, frame: SvgaFrame): void {
@@ -424,7 +423,7 @@ export class SvgaRenderer {
   destroy(): void {
     if (this.destroyed) return;
     this.destroyed = true;
-    this.observer?.disconnect();
+    this.vp.destroy();
     this.ctx.setTransform(1, 0, 0, 1, 0, 0);
     this.ctx.clearRect(0, 0, this.width, this.height);
     for (const key of [...this.replacementImages.keys()]) this.releaseReplacement(key);

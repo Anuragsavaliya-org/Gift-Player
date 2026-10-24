@@ -1,5 +1,5 @@
 {
-  "date": "2026-10-23T23:29:17.804Z",
+  "date": "2026-10-24T00:32:54.661Z",
   "step": 5,
   "diff": [
     {
@@ -1126,42 +1126,42 @@
       "heapGrowthKB_for_2400_drawFrames": 0,
       "drawFrameCall": {
         "n": 1200,
-        "avg": 0.065,
-        "p50": 0.1,
-        "p95": 0.2,
-        "max": 0.7
+        "avg": 0.049,
+        "p50": 0,
+        "p95": 0.1,
+        "max": 0.2
       },
       "drawFramePlusRaster": {
         "n": 1200,
-        "avg": 4.506,
-        "p50": 4.6,
-        "p95": 8.2,
-        "max": 16.7
+        "avg": 4.269,
+        "p50": 4.4,
+        "p95": 7.7,
+        "max": 9.3
       }
     },
     "oracleDpr1": {
       "n": 1200,
-      "avg": 4.239,
-      "p50": 4.4,
-      "p95": 7.7,
-      "max": 11.3
+      "avg": 4.925,
+      "p50": 5,
+      "p95": 9.2,
+      "max": 38.6
     },
     "dpr2": {
       "backing": "750x1334",
       "heapGrowthKB_for_2400_drawFrames": 0,
       "drawFrameCall": {
         "n": 1200,
-        "avg": 0.062,
-        "p50": 0.1,
+        "avg": 0.054,
+        "p50": 0,
         "p95": 0.1,
-        "max": 8.4
+        "max": 0.4
       },
       "drawFramePlusRaster": {
         "n": 1200,
-        "avg": 4.276,
+        "avg": 4.312,
         "p50": 4.4,
         "p95": 7.7,
-        "max": 14.7
+        "max": 9.3
       }
     }
   },
@@ -1172,42 +1172,42 @@
       "heapGrowthKB_for_2400_drawFrames": 0,
       "drawFrameCall": {
         "n": 1200,
-        "avg": 0.056,
-        "p50": 0.1,
+        "avg": 0.048,
+        "p50": 0,
         "p95": 0.1,
         "max": 0.6
       },
       "drawFramePlusRaster": {
         "n": 1200,
-        "avg": 4.416,
-        "p50": 4.5,
-        "p95": 8,
-        "max": 12.6
+        "avg": 4.216,
+        "p50": 4.4,
+        "p95": 7.6,
+        "max": 9.1
       }
     },
     "oracleDpr1": {
       "n": 1200,
-      "avg": 4.543,
-      "p50": 4.6,
-      "p95": 8.4,
-      "max": 18.7
+      "avg": 4.2,
+      "p50": 4.3,
+      "p95": 7.5,
+      "max": 10.9
     },
     "dpr2": {
       "backing": "750x1334",
       "heapGrowthKB_for_2400_drawFrames": 0,
       "drawFrameCall": {
         "n": 1200,
-        "avg": 0.057,
-        "p50": 0.1,
-        "p95": 0.2,
-        "max": 0.4
+        "avg": 0.053,
+        "p50": 0,
+        "p95": 0.1,
+        "max": 0.3
       },
       "drawFramePlusRaster": {
         "n": 1200,
-        "avg": 4.459,
-        "p50": 4.6,
-        "p95": 8.1,
-        "max": 25.6
+        "avg": 4.294,
+        "p50": 4.4,
+        "p95": 7.7,
+        "max": 9.6
       }
     }
   },

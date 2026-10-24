@@ -1,4 +1,7 @@
+import { detectFormat } from '../src/core/detect';
+import { resolveLoops } from '../src/core/frame-source';
 import { Ticker } from '../src/core/ticker';
+import { AnimatedImageRenderer } from '../src/formats/image';
 import { decodeSvgaImages, parseSvga } from '../src/formats/svga';
 import { SvgaRenderer, type ContentMode } from '../src/formats/svga/render/renderer';
 import type { SvgaMovie } from '../src/formats/svga/types';
@@ -14,9 +17,11 @@ const scrub = $<HTMLInputElement>('scrub');
 const playBtn = $<HTMLButtonElement>('play');
 const diffEl = $('diff');
 const mineCanvas = $<HTMLCanvasElement>('mine');
+const pathSel = $<HTMLSelectElement>('path');
 
 const MODES: Record<string, OracleMode> = { fill: 'Fill', aspectFit: 'AspectFit', aspectFill: 'AspectFill' };
 
+let imageRenderer: AnimatedImageRenderer | null = null;
 let renderer: SvgaRenderer | null = null;
 let oracle: Oracle | null = null;
 let ticker: Ticker | null = null;
@@ -26,10 +31,25 @@ let objectUrl: string | null = null;
 let frame = 0;
 
 for (const n of sampleNames) sampleSel.append(new Option(n, n));
+// GIF / WebP samples (synthetic, real and corpus) come from the dev server's folder listing.
+for (const dir of ['', 'synthetic', 'corpus']) {
+  try {
+    const names: string[] = await (await fetch(`/__list/${dir}`)).json();
+    for (const n of names.filter((f) => /\.(gif|webp)$/i.test(f))) sampleSel.append(new Option(dir ? `${dir}/${n}` : n, dir ? `${dir}/${n}` : n));
+  } catch { /* listing is a dev-server convenience */ }
+}
 sampleSel.append(new Option('(dropped file)', ''));
+const isImageName = (n: string) => /\.(gif|webp)$/i.test(n);
 
 function teardown(): void {
   ticker?.destroy();
+  imageRenderer?.destroy();
+  imageRenderer = null;
+  $('refBox').replaceChildren();
+  $('info').textContent = '';
+  $('replaceBox').hidden = false;
+  $('mineTitle').textContent = 'this SDK (SvgaRenderer)';
+  $('refTitle').textContent = 'svgaplayerweb (reference)';
   renderer?.destroy();
   oracle?.destroy();
   if (objectUrl) URL.revokeObjectURL(objectUrl);
@@ -43,6 +63,8 @@ async function open(data: Uint8Array, url: string): Promise<void> {
   bytes = data;
   if (url.startsWith('blob:')) objectUrl = url; // revoked on the next teardown
   try {
+    const kind = detectFormat(data);
+    if (kind.format === 'gif' || kind.format === 'webp') return await openImage(data);
     movie = parseSvga(data);
     const { bitmaps } = await decodeSvgaImages(movie);
     const w = movie.viewBox.width;
@@ -65,7 +87,49 @@ async function open(data: Uint8Array, url: string): Promise<void> {
   }
 }
 
+/** GIF / WebP: our renderer next to the browser's own <img>. */
+async function openImage(data: Uint8Array): Promise<void> {
+  const mime = detectFormat(data).format === 'gif' ? 'image/gif' : 'image/webp';
+  const native = new Image();
+  native.src = URL.createObjectURL(new Blob([data as BlobPart], { type: mime }));
+  await native.decode();
+  const w = native.naturalWidth;
+  const h = native.naturalHeight;
+  for (const id of ['mineBox', 'refBox']) {
+    $(id).style.width = `${w}px`;
+    $(id).style.height = `${h}px`;
+  }
+  mineCanvas.style.cssText = `width:${w}px;height:${h}px;display:block`;
+  native.style.cssText = `width:${w}px;height:${h}px;display:block`;
+  $('refBox').append(native);
+  imageRenderer = await AnimatedImageRenderer.create(mineCanvas, data, { path: pathSel.value as 'auto', contentMode: modeSel.value as ContentMode, devicePixelRatio: 1 });
+  const r = imageRenderer;
+  const total = Array.from({ length: r.frameCount }, (_, i) => r.frameDuration(i)).reduce((a, b) => a + b, 0);
+  const plays = resolveLoops(undefined, r);
+  $('mineTitle').textContent = `this SDK (AnimatedImageRenderer, path: ${r.path})`;
+  $('refTitle').textContent = 'browser native <img> (animates on its own, not synchronised)';
+  $('info').textContent = `${r.format.toUpperCase()} ${w}x${h} · ${r.frameCount} frame(s) · ${Math.round(total)} ms per play · ${plays === 0 ? 'loops forever' : `${plays} play(s)`} (file says ${r.loopCount === null ? 'nothing' : r.loopCount === 0 ? 'forever' : r.loopCount}) · path: ${r.path} (${r.pathReason})`;
+  $('replaceBox').hidden = true;
+  scrub.max = String(r.frameCount - 1);
+  ticker = new Ticker({
+    frames: r.frameCount,
+    frameDuration: (i) => r.frameDuration(i),
+    loops: plays,
+    onFrame: (f) => show(f, true),
+    onEnd: () => { playBtn.textContent = 'Play'; },
+  });
+  show(0, false);
+}
+
 function show(f: number, playing: boolean): void {
+  if (imageRenderer) {
+    frame = f;
+    imageRenderer.drawFrame(f);
+    scrub.value = String(f);
+    $('frameLabel').textContent = `frame ${f} / ${imageRenderer.frameCount - 1} (${Math.round(imageRenderer.frameDuration(f))} ms)`;
+    diffEl.textContent = 'n/a: the native <img> cannot be sampled per frame';
+    return;
+  }
   if (!renderer || !oracle) return;
   frame = f;
   renderer.drawFrame(f);
@@ -95,11 +159,26 @@ function applyZoom(): void {
   }
 }
 
+const loadAny = async (name: string): Promise<[Uint8Array, string]> => {
+  if (isImageName(name)) {
+    const data = new Uint8Array(await (await fetch(`/samples/${name}`)).arrayBuffer());
+    return [data, `/samples/${name}`];
+  }
+  return [await sampleBytes(name), await sampleUrl(name)];
+};
 sampleSel.addEventListener('change', async () => {
-  if (sampleSel.value) await open(await sampleBytes(sampleSel.value), await sampleUrl(sampleSel.value));
+  if (sampleSel.value) await open(...(await loadAny(sampleSel.value)));
+});
+pathSel.addEventListener('change', async () => {
+  if (bytes && imageRenderer) await open(bytes, '');
 });
 modeSel.addEventListener('change', async () => {
-  if (!bytes || !movie) return;
+  if (!bytes) return;
+  if (imageRenderer) {
+    imageRenderer.setContentMode(modeSel.value as ContentMode);
+    return;
+  }
+  if (!movie) return;
   // The reference only takes its mode before setVideoItem, so reload both sides.
   const url = sampleSel.value ? await sampleUrl(sampleSel.value) : URL.createObjectURL(new Blob([bytes as BlobPart]));
   await open(bytes, url);
@@ -141,8 +220,9 @@ $('hide').addEventListener('change', (e) => renderer?.setHidden(keySel.value, (e
 $('clear').addEventListener('click', () => { renderer?.clearReplacement(keySel.value); $<HTMLInputElement>('hide').checked = false; });
 
 const wanted = new URLSearchParams(location.search).get('sample');
-sampleSel.value = wanted && sampleNames.includes(wanted) ? wanted : sampleNames[0]!;
-await open(await sampleBytes(sampleSel.value), await sampleUrl(sampleSel.value));
+const known = [...sampleSel.options].map((o) => o.value);
+sampleSel.value = wanted && known.includes(wanted) ? wanted : sampleNames[0]!;
+await open(...(await loadAny(sampleSel.value)));
 
 // Scripted shots: ?frame=40&key=xin02&text=Rahul
 function scriptedShot(): void {

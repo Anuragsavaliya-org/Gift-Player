@@ -39,3 +39,39 @@ export function pixelDiff(a: HTMLCanvasElement, b: HTMLCanvasElement, tolerance 
   }
   return { percent: (mismatched / total) * 100, percentOfActive: active ? (mismatched / active) * 100 : 0, mismatched, total, active };
 }
+
+export interface DataDiff {
+  mismatched: number;
+  total: number;
+  percent: number;
+  /** Largest premultiplied channel difference seen (0-255). */
+  maxDelta: number;
+  /** First pixel (row-major) over the tolerance, for debugging. */
+  first?: { index: number; a: number[]; b: number[] };
+}
+
+/** Same comparison as `pixelDiff` for raw RGBA buffers: premultiplied channels, per-channel tolerance. */
+export function diffData(a: Uint8ClampedArray, b: Uint8ClampedArray, tolerance: number): DataDiff {
+  if (a.length !== b.length) throw new Error(`buffer size mismatch ${a.length} vs ${b.length}`);
+  const total = a.length / 4;
+  let mismatched = 0;
+  let maxDelta = 0;
+  let first: DataDiff['first'];
+  for (let p = 0; p < total; p++) {
+    const i = p * 4;
+    const fa = a[i + 3]! / 255;
+    const fb = b[i + 3]! / 255;
+    const d = Math.max(
+      Math.abs(a[i + 3]! - b[i + 3]!),
+      Math.abs(a[i]! * fa - b[i]! * fb),
+      Math.abs(a[i + 1]! * fa - b[i + 1]! * fb),
+      Math.abs(a[i + 2]! * fa - b[i + 2]! * fb),
+    );
+    if (d > maxDelta) maxDelta = d;
+    if (d > tolerance) {
+      mismatched++;
+      first ??= { index: p, a: [...a.subarray(i, i + 4)], b: [...b.subarray(i, i + 4)] };
+    }
+  }
+  return { mismatched, total, percent: (mismatched / total) * 100, maxDelta: Math.round(maxDelta * 100) / 100, first };
+}

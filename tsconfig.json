@@ -12,5 +12,5 @@
     "skipLibCheck": true,
     "noEmit": true
   },
-  "include": ["src", "tests", "playground"]
+  "include": ["src", "tests", "playground", "tools"]
 }

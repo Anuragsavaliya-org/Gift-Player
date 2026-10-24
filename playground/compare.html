@@ -33,6 +33,7 @@
       <div id="drop">Drop an SVGA here or pick:
         <select id="sample"></select>
       </div>
+      <label>path (GIF/WebP) <select id="path"><option>auto</option><option>imagedecoder</option><option>fallback</option></select></label>
       <label>mode <select id="mode"><option>aspectFit</option><option>fill</option><option>aspectFill</option></select></label>
       <label>display scale <input id="zoom" type="range" min="0.15" max="1" step="0.05" value="0.4" /></label>
     </div>
@@ -43,12 +44,13 @@
       <span>diff vs svgaplayerweb: <b id="diff">–</b></span>
       <button id="diffNow">diff now</button>
     </div>
+    <div id="info" style="font-size:12px;color:var(--muted);margin:4px 0"></div>
     <div id="error"></div>
     <div class="stage">
-      <div class="pane"><h2>this SDK (SvgaRenderer)</h2><div class="view" id="mineView"><div id="mineBox"><canvas id="mine"></canvas></div></div></div>
-      <div class="pane"><h2>svgaplayerweb (reference)</h2><div class="view" id="refView"><div id="refBox"></div></div></div>
+      <div class="pane"><h2 id="mineTitle">this SDK (SvgaRenderer)</h2><div class="view" id="mineView"><div id="mineBox"><canvas id="mine"></canvas></div></div></div>
+      <div class="pane"><h2 id="refTitle">svgaplayerweb (reference)</h2><div class="view" id="refView"><div id="refBox"></div></div></div>
     </div>
-    <fieldset>
+    <fieldset id="replaceBox">
       <legend>Dynamic replacement (applies to the left renderer; survives scrubbing and looping)</legend>
       <div class="bar">
         <label>sprite key <select id="key"></select></label>

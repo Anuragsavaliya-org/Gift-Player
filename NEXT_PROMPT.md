@@ -1,46 +1,60 @@
-# NEXT PROMPT — Phase 3.1: Matte grouping fix + real-corpus test
+# NEXT PROMPT — Phase 4: GIF and animated WebP
 
-Phase 3 is approved (af448cb). This is excellent work. Before Phase 4 there is one correctness fix and one verification step.
+Phase 3.1 is approved (817ed4a). Good catch on the second svgaplayerweb matte bug. The reviewer's hypothesis was wrong and your diagnosis was right. The corpus is still pending files from the owner. **Do not block on it.** Run `verify:corpus` whenever files appear, and mention it in REVIEW.md.
 
-## Reviewer findings (checked against the official players' source)
+## Key design point: variable frame timing
 
-- **Alpha cutoff 0 is correct.** SVGAPlayer-Android (`SVGACanvasDrawer.kt`) and SVGAPlayer-iOS (`SVGAContentLayer.m`, `if (frameItem.alpha > 0.0)`) both draw faint sprites. svgaplayerweb's 0.05 cutoff is the outlier, so keep ours. The Pink-Heart-Rocket frame 125 difference is explained.
-- **"Hidden matte masks the group out" is correct.** Android's `requestFrameSprites` keeps `.matte` sprites even at alpha 0 and draws them into the matte canvas, so the group comes out invisible. iOS uses the matte layer as a CALayer mask, with the same result. Keep it.
-- **Matte compositing must be PER RUN, not per sprite.** Both official players group consecutive sprites that share a `matteKey` into one layer, composite them together, and apply the matte **once** to the group. Android does this with `saveLayer` plus `isMatteBegin`/`isMatteEnd`; iOS does it with a hostLayer whose `mask` is the matte layer.
-  - Per-run gives `(A over B) × m`. Per-sprite gives `(A×m) over (B×m)`. These differ wherever the matte is partially transparent and masked sprites overlap. This is very likely the unexplained 0.33% residual on Rocket.svga.
+SVGA has a fixed fps. GIF and WebP have a **delay per frame**. Generalise the internal contract before you write any format code:
 
-## Task 1 — Per-run matte compositing
+- Define an internal `FrameSource` interface that both formats implement: `frameCount`, `frameDuration(i)` (ms), `drawFrame(i)`, `loopCount` (from the file), `destroy()`. SVGA implements it with `1000 / fps` for every frame.
+- `Ticker` must use cumulative timestamps from `frameDuration(i)` (prefix sums), not `fps`. It must still skip frames when behind. Existing Ticker tests must keep passing, and new tests must cover variable delays.
+- **Delay clamping:** match browser behaviour, where a GIF delay of 10 ms or less is shown as 100 ms. Verify the exact rule in Chrome/Firefox/WebKit, document it, and apply it consistently.
+- **Loop count precedence:** the player option wins if set; otherwise use the file's own loop count (GIF NETSCAPE extension, WebP ANIM chunk). Log this decision.
 
-- A run is a maximal sequence of consecutive non-matte sprites with the same non-empty `matteKey`. Matte sprites inside the sequence are skipped and do not break the run, which matches Android.
-- For each run: draw all its sprites into one reusable offscreen canvas, draw the matte sprite for that frame over it with `destination-in`, then composite the result onto the main canvas.
-- Pre-compute run boundaries at load time, not per frame.
-- A dangling `matteKey` (no such matte sprite) means the run is drawn unmasked.
-- Re-run the full browser verification. Report Rocket.svga's residual before and after. Report all other samples too, which must not regress.
-- Add synthetic pixel checks for:
-  - two overlapping semi-transparent sprites under a 50%-alpha matte, which proves per-run behaviour;
-  - two separate runs with different matteKeys in one frame.
+## Decoding strategy
 
-## Task 2 — Real-corpus smoke test
+1. **Primary path:** `ImageDecoder` (WebCodecs) where `ImageDecoder.isTypeSupported(mime)` is true.
+2. **GIF fallback:** a small decoder such as `gifuct-js` (justify the choice in PROGRESS.md). You must handle **disposal methods 1, 2 and 3**, transparency, and partial-frame patches correctly. This is where most GIF players are wrong.
+3. **Animated WebP fallback:** evaluate this approach before falling back to `<img>`:
+   - Parse the ANMF chunks yourself.
+   - Wrap each frame's bitstream (VP8/VP8L, plus ALPH if present) into a standalone RIFF/WEBP container.
+   - Decode it with `createImageBitmap`. Every modern browser, including Safari 14+, decodes static WebP.
+   - Composite the frames using the ANMF offsets, blend mode and dispose flag.
 
-Our 8 samples don't cover rotated sprites, strokes, dashes, arcs or rounded rects. The real marketplace files are the test set that matters.
+   If this works, it gives full frame control everywhere. Only if it is infeasible, fall back to `<img>`, and document that the end event and loop control are unreliable there.
+4. **Static WebP:** render a single frame. Add the option `staticDurationMs` (default 2000), then emit `end`. This lets static images behave like gifts in a queue later.
 
-- Add `samples/corpus/` to `.gitignore`. The owner will drop real svgagifts.com files there; the corpus may be empty at first.
-- Add a script `npm run verify:corpus` that runs over every file in `samples/corpus/`:
-  1. **Parse:** pass or fail, plus warnings.
-  2. **Render** every 10th frame in headless Chrome against the patched oracle, recording mean and max diff %.
-  3. **Feature census:** for each file, record whether it contains rotated sprites (a == 0 or d == 0), strokes, dashes, arcs, rounded rects, mattes, audio, and replaceable-looking keys.
-- Output `reports/corpus.json` plus a short markdown summary that lists:
-  - failures;
-  - every file above 2% max diff, each with a one-line diagnosis attempt;
-  - totals from the feature census.
-- If `samples/corpus/` is empty, build the script, run it on `samples/` as a dry run, and note in REVIEW.md that the corpus is waiting for files.
+## Memory: no decoding of everything up front
+
+A large GIF (for example 500 frames at 1080², about 2 GB of RGBA) must not be decoded all at once.
+
+- Decode on demand with a small look-ahead ring buffer, and close bitmaps behind the playhead.
+- GIF disposal needs the previous composited frame, so keep a single compositing canvas instead of a stored frame for each step.
+- Report peak memory or bitmap counts in the leak test.
+
+## Test files
+
+- Generate **synthetic** GIF and WebP files with a dev-only script (justify any dev dependency). They must cover:
+  - each disposal method;
+  - transparency;
+  - variable delays, including 0 ms and 10 ms;
+  - loop counts 0, 1 and 3;
+  - animated WebP with alpha and with both blend modes.
+- Store them in `samples/synthetic/`.
+- The real samples `rotating-earth.gif`, `animated.webp` and `static.webp` must also pass.
+
+## Verification
+
+- **Correctness reference:** in Chrome, `ImageDecoder` output is the oracle. Render every frame through each fallback path (GIF decoder, ANMF-wrap WebP) and pixel-diff against ImageDecoder. The target is 0% beyond the tolerance. Explain any mismatch per file.
+- **Cross-browser:** add Playwright as a dev dependency and run the verification in **Chromium, Firefox and WebKit**. WebKit matters most, because iOS WebViews are a large share of live-streaming users. Produce a browser support table showing which path each browser takes, plus pass/fail per file.
+- **Timing:** a test that the measured on-screen frame times match the file's delays within tolerance.
+- **Leaks:** 50 create/play/destroy cycles per format, checked with counters, as in Phase 3.
+- **Playground:** add GIF and WebP to the compare page (ours | native `<img>`), with a frame scrubber and a "path used" label.
 
 ## Out of scope
 
-Phase 4 (GIF/WebP) and any public API work.
+PAG, the public API, the queue and the cache.
 
 ## End of task
 
-1. Build, typecheck, tests and `verify:browser` must all pass. Commit, and update PROGRESS.md.
-2. Overwrite `REVIEW.md` in the usual format, including the updated visual diff table.
-3. Stop.
+Same as before: build, typecheck, tests and browser verification all pass; commit; update PROGRESS.md; overwrite REVIEW.md in the usual format, adding a **Browser support table** and a **Fallback diff table**. Then stop.

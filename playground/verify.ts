@@ -62,7 +62,16 @@ async function runDiff(p: URLSearchParams = q) {
   const mine = document.createElement('canvas');
   mine.style.cssText = `width:${w}px;height:${h}px`;
   box(w, h).append(mine);
-  const r = new SvgaRenderer(mine, movie, bitmaps, { contentMode: mode, devicePixelRatio: 1 });
+  if (p.get('srcimg') === '1') {
+    // Diagnostic: hand the renderer <img> elements (what svgaplayerweb draws) instead of ImageBitmaps.
+    for (const [k, v] of movie.images) {
+      const im = new Image();
+      im.src = URL.createObjectURL(new Blob([v.data as BlobPart], { type: v.mime }));
+      await im.decode();
+      (bitmaps as unknown as Map<string, unknown>).set(k, Object.assign(im, { close() { /* not an ImageBitmap */ } }));
+    }
+  }
+  const r = new SvgaRenderer(mine, movie, bitmaps, { contentMode: mode, devicePixelRatio: 1, imageSmoothing: (p.get('smooth') as ImageSmoothingQuality | null) ?? 'low' });
 
   const frames: number[] = [];
   const from = Number(p.get('from') ?? 0);
@@ -181,6 +190,7 @@ async function runDiffView() {
   const mx = mask.getContext('2d')!; const md = mx.createImageData(w, h);
   let n = 0, minX = w, minY = h, maxX = 0, maxY = 0, maxDelta = 0, sumDelta = 0;
   const bucket = new Map<string, number>();
+  const samples: string[] = [];
   for (let p = 0; p < w * h; p++) {
     const i = p * 4; const fa = a[i + 3]! / 255; const fb = b[i + 3]! / 255;
     const d = Math.max(Math.abs(a[i + 3]! - b[i + 3]!), Math.abs(a[i]! * fa - b[i]! * fb), Math.abs(a[i + 1]! * fa - b[i + 1]! * fb), Math.abs(a[i + 2]! * fa - b[i + 2]! * fb));
@@ -190,6 +200,7 @@ async function runDiffView() {
       maxDelta = Math.max(maxDelta, d); sumDelta += d;
       const key = `${Math.floor(x / 100) * 100},${Math.floor(y / 100) * 100}`; bucket.set(key, (bucket.get(key) ?? 0) + 1);
       md.data[i] = 255; md.data[i + 3] = 255;
+      if (samples.length < 8 && p % 7 === 0) samples.push(`(${x},${y}) ours=${[a[i], a[i + 1], a[i + 2], a[i + 3]]} oracle=${[b[i], b[i + 1], b[i + 2], b[i + 3]]}`);
     }
   }
   mx.putImageData(md, 0, 0);
@@ -209,7 +220,7 @@ async function runDiffView() {
     document.body.append(zrow);
   }
   const visible = movie.sprites.map((sp, i) => ({ i, key: sp.imageKey, matte: sp.matteKey, f: sp.frames[frameNo]! })).filter((x) => x.f.alpha > 0).map((x) => `${x.i}:${x.key}${x.matte ? '@' + x.matte : ''} a=${x.f.alpha.toFixed(2)} t=[${[x.f.transform.a, x.f.transform.d, x.f.transform.tx, x.f.transform.ty].map((v) => +v.toFixed(2))}] l=${x.f.layout.width}x${x.f.layout.height}`);
-  return { sample: name, frame: frameNo, edges: (window as unknown as { __edges: unknown }).__edges, visible: q.get('quiet') ? undefined : visible, mismatched: n, bbox: [minX, minY, maxX, maxY], maxDelta, meanDelta: n ? Math.round(sumDelta / n) : 0, topBuckets: [...bucket].sort((x, y) => y[1] - x[1]).slice(0, 8) };
+  return { sample: name, frame: frameNo, edges: (window as unknown as { __edges: unknown }).__edges, visible: q.get('quiet') ? undefined : visible, mismatched: n, samples, bbox: [minX, minY, maxX, maxY], maxDelta, meanDelta: n ? Math.round(sumDelta / n) : 0, topBuckets: [...bucket].sort((x, y) => y[1] - x[1]).slice(0, 8) };
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -229,7 +240,15 @@ async function runPerf() {
     const mine = document.createElement('canvas');
     mine.style.cssText = `width:${w}px;height:${h}px`;
     box(w, h).append(mine);
-    const r = new SvgaRenderer(mine, movie, bitmaps, { devicePixelRatio: dpr });
+    if (q.get('srcimg') === '1') {
+      for (const [k, v] of movie.images) {
+        const im = new Image();
+        im.src = URL.createObjectURL(new Blob([v.data as BlobPart], { type: v.mime }));
+        await im.decode();
+        (bitmaps as unknown as Map<string, unknown>).set(k, Object.assign(im, { close() { /* not an ImageBitmap */ } }));
+      }
+    }
+    const r = new SvgaRenderer(mine, movie, bitmaps, { devicePixelRatio: dpr, imageSmoothing: (q.get('smooth') as ImageSmoothingQuality | null) ?? 'low' });
     const ctx = mine.getContext('2d')!;
     const flush = () => ctx.getImageData(0, 0, 1, 1); // readback forces the deferred raster to finish
     for (let f = 0; f < movie.frames; f++) { r.drawFrame(f); flush(); } // warm-up

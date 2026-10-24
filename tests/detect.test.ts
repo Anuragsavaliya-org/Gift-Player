@@ -29,8 +29,19 @@ const expectedFormats: Record<string, object> = {
 
 const read = (f: string) => new Uint8Array(readFileSync(join(samplesDir, f)));
 
+describe('synthetic GIF/WebP files', () => {
+  const dir = join(samplesDir, 'synthetic');
+  for (const f of readdirSync(dir)) {
+    it(`detects ${f}`, () => {
+      const info = detectFormat(new Uint8Array(readFileSync(join(dir, f))));
+      if (f.endsWith('.gif')) expect(info).toEqual({ format: 'gif' });
+      else expect(info).toEqual({ format: 'webp', animated: !f.startsWith('webp-static') });
+    });
+  }
+});
+
 describe('real samples', () => {
-  const files = readdirSync(samplesDir).filter((f) => !f.endsWith('.json'));
+  const files = readdirSync(samplesDir, { withFileTypes: true }).filter((d) => d.isFile() && !d.name.endsWith('.json')).map((d) => d.name);
 
   it('every sample has an expectation (add new samples to the table)', () => {
     expect(files.sort()).toEqual(Object.keys(expectedFormats).sort());

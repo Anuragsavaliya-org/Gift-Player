@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { Ticker } from '../src/core/ticker';
 
 /** Manual clock + rAF queue. */
-function harness(opts: { fps: number; frames: number; loops?: number }) {
+function harness(opts: { fps?: number; frames: number; loops?: number; frameDuration?: (i: number) => number }) {
   let t = 0;
   let nextHandle = 1;
   const queue = new Map<number, (n: number) => void>();
@@ -163,5 +163,101 @@ describe('Ticker', () => {
     h.ticker.play();
     for (let i = 0; i < 20; i++) h.advance(5); // 100 ms total in 5 ms steps
     expect(h.seen).toEqual([0, 1]);
+  });
+});
+
+describe('Ticker with per-frame durations (GIF/WebP delays)', () => {
+  const D = [100, 50, 200, 10]; // starts: 0, 100, 150, 350; one play = 360 ms
+  const make = (loops?: number) => harness({ frames: 4, frameDuration: (i) => D[i]!, loops });
+
+  it('reports the total duration (sum of the delays)', () => {
+    expect(make().ticker.duration).toBe(360);
+  });
+
+  it('shows each frame for exactly its own delay', () => {
+    const h = make(0);
+    h.ticker.play();
+    const at = (t: number) => { h.advance(t - now); now = t; return h.ticker.frame; };
+    let now = 0;
+    expect(at(99)).toBe(0);
+    expect(at(100)).toBe(1); // exactly on the boundary: new frame
+    expect(at(149)).toBe(1);
+    expect(at(150)).toBe(2);
+    expect(at(349)).toBe(2);
+    expect(at(350)).toBe(3);
+    expect(at(359)).toBe(3);
+    expect(at(360)).toBe(0); // wraps (loops forever)
+  });
+
+  it('skips frames when behind, landing on the frame that belongs to the elapsed time', () => {
+    const h = make(0);
+    h.ticker.play();
+    h.advance(300); // 300 ms is inside frame 2; frame 1 is skipped, not replayed
+    expect(h.seen).toEqual([0, 2]);
+    h.advance(55); // 355 ms -> frame 3 (10 ms long)
+    h.advance(10); // 365 ms -> next loop, frame 0
+    expect(h.seen).toEqual([0, 2, 3, 0]);
+  });
+
+  it('a very short frame can be skipped entirely', () => {
+    const h = make(0);
+    h.ticker.play();
+    h.advance(340);
+    h.advance(30); // 340 -> 370: crosses frame 3 (350..360) completely
+    expect(h.seen).toEqual([0, 2, 0]);
+  });
+
+  it('total play time is the sum of delays x loops; the last frame is shown, then onEnd once', () => {
+    const h = make(2); // 720 ms
+    h.ticker.play();
+    h.advance(719);
+    expect(h.stats.ends).toBe(0);
+    h.advance(2);
+    expect(h.stats.ends).toBe(1);
+    expect(h.seen[h.seen.length - 1]).toBe(3);
+    expect(h.ticker.playing).toBe(false);
+  });
+
+  it('seek lands on the start of the frame and playback continues with that frame\'s delay', () => {
+    const h = make(0);
+    h.ticker.seek(2);
+    expect(h.seen).toEqual([2]);
+    h.ticker.play();
+    h.advance(199);
+    expect(h.ticker.frame).toBe(2); // 200 ms frame not over yet
+    h.advance(2);
+    expect(h.ticker.frame).toBe(3);
+  });
+
+  it('pause/resume keeps the position inside a long frame', () => {
+    const h = make(0);
+    h.ticker.play();
+    h.advance(180); // inside frame 2 (150..350)
+    h.ticker.pause();
+    h.advance(10_000);
+    h.ticker.play();
+    h.advance(160);
+    expect(h.ticker.frame).toBe(2); // 340 ms
+    h.advance(15);
+    expect(h.ticker.frame).toBe(3); // 355 ms: inside the 10 ms frame 3 (350..360)
+  });
+
+  it('non-integer uniform fps has no boundary drift (15 fps = 66.667 ms)', () => {
+    const h = harness({ fps: 15, frames: 15, loops: 0 });
+    h.ticker.play();
+    let t = 0;
+    for (let k = 1; k < 45; k++) {
+      const target = (k * 1000) / 15;
+      h.advance(target - t);
+      t = target;
+      expect(h.ticker.frame, `t=${target}`).toBe(k % 15);
+    }
+  });
+
+  it('loop counter follows the variable cycle', () => {
+    const h = make(0);
+    h.ticker.play();
+    h.advance(1100); // 3 x 360 = 1080 -> loop index 3
+    expect(h.ticker.loop).toBe(3);
   });
 });
