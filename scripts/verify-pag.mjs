@@ -40,7 +40,8 @@ try {
     const entry = (report.browsers[b] = {});
     for (const [name, query] of TASKS) {
       try {
-        const { result, version } = await runInBrowser(b, `${base}?${query}`, { timeout: 600000 });
+        const { result, version, logs } = await runInBrowser(b, `${base}?${query}`, { timeout: 600000 });
+        if (name === 'gl') { entry.glLogs = logs.filter((l) => !/vite/.test(l)).slice(0, 30); for (const l of entry.glLogs) console.log('   gl log:', l); }
         entry.version = version;
         if (name === 'text') {
           for (const [shot, url] of Object.entries(result.shots)) writeFileSync(join(root, 'reports/text', `${b}-${shot}.png`), Buffer.from(url.split(',')[1], 'base64'));
