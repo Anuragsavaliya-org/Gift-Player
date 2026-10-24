@@ -30,3 +30,8 @@ samples/expected.json
 # the real corpus is private: its reports (file names, features) are not committed either
 reports/corpus*.json
 reports/corpus*.md
+
+# example app: gift files and screenshots are never committed (no svga/webp in git)
+examples/web-demo/public/gifts/
+examples/web-demo/screenshots/
+examples/web-demo/dist/
