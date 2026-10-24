@@ -20,7 +20,7 @@ export default defineConfig({
           const inside = (p: string) => p === samples || p.startsWith(samples + sep);
           if (url.startsWith('/samples/')) {
             const file = resolve(samples, '.' + url.slice('/samples'.length));
-            if (!inside(file) || !existsSync(file) || !statSync(file).isFile()) return next();
+            if (!inside(file) || !existsSync(file) || !statSync(file).isFile()) { res.statusCode = 404; res.end('not found'); return; }
             res.setHeader('Content-Type', TYPES[extname(file).toLowerCase()] ?? 'application/octet-stream');
             res.setHeader('Cache-Control', 'no-store');
             createReadStream(file).pipe(res);
@@ -29,13 +29,14 @@ export default defineConfig({
           // A stand-in for a CDN / self-hosted copy of the pinned libpag build (the `pagModuleUrl` / `pagWasmUrl` overrides).
           if (url.startsWith('/__libpag/')) {
             const file = resolve(libpagDir, '.' + url.slice('/__libpag'.length));
-            if (!file.startsWith(libpagDir + sep) || !existsSync(file) || !statSync(file).isFile()) return next();
+            if (!file.startsWith(libpagDir + sep) || !existsSync(file) || !statSync(file).isFile()) { res.statusCode = 404; res.end('not found'); return; }
             res.setHeader('Content-Type', LIBPAG_TYPES[extname(file)] ?? 'application/octet-stream');
             res.setHeader('Access-Control-Allow-Origin', '*');
             res.setHeader('Cache-Control', 'no-store');
             createReadStream(file).pipe(res);
             return;
           }
+          if (url.startsWith('/__nope/')) { res.statusCode = 404; res.end('not found'); return; } // a URL that never exists (blocked-CDN stand-in)
           if (url.startsWith('/__list/')) {
             const dir = resolve(samples, '.' + url.slice('/__list'.length));
             const names = inside(dir) && existsSync(dir) ? readdirSync(dir).filter((f) => !f.startsWith('.') && statSync(join(dir, f)).isFile()).sort() : [];

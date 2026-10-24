@@ -223,11 +223,11 @@ describe('inputs', () => {
       globalThis.fetch = orig;
     }
   });
-  it('URL 404 -> fetch-failed', async () => {
+  it('URL 404 -> network', async () => {
     const orig = globalThis.fetch;
     globalThis.fetch = (async () => new Response('no', { status: 404 })) as typeof fetch;
     try {
-      await expect(detectSource('https://example.test/x')).rejects.toMatchObject({ code: 'fetch-failed' });
+      await expect(detectSource('https://example.test/x')).rejects.toMatchObject({ code: 'network' });
     } finally {
       globalThis.fetch = orig;
     }

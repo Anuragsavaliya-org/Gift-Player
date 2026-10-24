@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gift Player — live stream simulator</title>
+    <style>
+      :root { color-scheme: light dark; --bd: #8884; --muted: #888; }
+      body { font: 14px/1.4 system-ui, sans-serif; margin: 0 auto; padding: 16px; max-width: 1100px; }
+      h1 { font-size: 18px; margin: 0 0 4px; }
+      nav a { margin-right: 12px; }
+      .row { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 12px; }
+      .card { border: 1px solid var(--bd); border-radius: 8px; padding: 10px 12px; }
+      #stage { position: relative; width: 360px; height: 360px; background: repeating-conic-gradient(#8883 0 25%, transparent 0 50%) 0 0 / 16px 16px; border-radius: 6px; }
+      #badge { position: absolute; right: 8px; bottom: 8px; font-weight: 700; font-size: 28px; color: #fff; text-shadow: 0 0 4px #000, 0 0 8px #000; }
+      label { display: inline-block; margin: 2px 10px 2px 0; }
+      fieldset { border: 1px solid var(--bd); border-radius: 6px; margin: 0 0 8px; }
+      fieldset legend { color: var(--muted); }
+      table { border-collapse: collapse; font-variant-numeric: tabular-nums; }
+      td, th { padding: 1px 10px 1px 0; text-align: left; font-weight: 400; }
+      th { color: var(--muted); }
+      #pending { font-size: 12px; max-height: 220px; overflow: auto; margin: 6px 0 0; padding-left: 18px; }
+      .bad { color: #dc2626; }
+      #log { font-size: 12px; color: var(--muted); max-height: 140px; overflow: auto; white-space: pre-wrap; }
+    </style>
+  </head>
+  <body>
+    <h1>Gift Player — live stream simulator</h1>
+    <nav><a href="./index.html">inspect</a><a href="./compare.html">compare &amp; replace</a><a href="./stream.html">live stream</a></nav>
+    <div class="row">
+      <div>
+        <div id="stage"><div id="badge"></div></div>
+        <div style="margin-top:8px"><button id="fire">Send one gift</button> <button id="burst">Send 10</button> <button id="pause">Pause queue</button> <button id="skip">Skip current</button> <button id="clear">Clear waiting</button></div>
+      </div>
+      <div style="flex:1;min-width:320px">
+        <fieldset>
+          <legend>Traffic</legend>
+          <label>auto-send <input id="rate" type="range" min="0" max="20" step="1" value="0" /> <b id="rateLabel">off</b></label><br />
+          <label>priority <select id="prio"><option value="random">random 0-3</option><option value="0">0</option><option value="5">5 (VIP)</option></select></label>
+          <label><input id="same" type="checkbox" /> same gift every time (combo)</label><br />
+          <label>broken files <input id="broken" type="range" min="0" max="50" step="5" value="0" /> <b id="brokenLabel">0 %</b></label>
+          <label>name on gift <input id="name" size="12" value="Rahul" /></label>
+        </fieldset>
+        <fieldset>
+          <legend>Queue</legend>
+          <label>maxLength <input id="maxLength" type="number" value="30" min="1" style="width:60px" /></label>
+          <label>preloadAhead <input id="ahead" type="number" value="2" min="0" max="6" style="width:50px" /></label>
+          <label><input id="coalesce" type="checkbox" checked /> coalesce identical (x-count)</label>
+          <button id="apply">Apply (new queue)</button>
+        </fieldset>
+        <div class="row" style="margin-top:0">
+          <div class="card"><table id="counters"></table></div>
+          <div class="card" style="flex:1"><b>Waiting</b><ol id="pending"></ol></div>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:12px"><b>Events</b><div id="log"></div></div>
+    <script type="module" src="./stream.ts"></script>
+  </body>
+</html>

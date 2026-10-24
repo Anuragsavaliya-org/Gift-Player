@@ -2,8 +2,10 @@ import { WIRE_LEN, WIRE_VARINT, WireReader } from '../formats/svga/wire';
 import { GiftPlayerError } from './errors';
 import { DEFAULT_MAX_INFLATED_BYTES, InflateLimitError, inflateCapped } from './inflate';
 
+/** The formats the SDK plays. */
 export type GiftFormat = 'svga' | 'gif' | 'webp' | 'pag';
 
+/** What `detectFormat` found out about a file. */
 export type FormatInfo =
   | { format: 'svga'; version: '1.x' | '2.x' }
   | { format: 'gif' }

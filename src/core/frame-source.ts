@@ -15,6 +15,7 @@ export interface EditableKey {
   name?: string;
 }
 
+/** The contract between a format renderer and the clock (`Ticker`): frames, their durations, the loop count, and drawing. */
 export interface FrameSource {
   readonly frameCount: number;
   /** Duration of frame `i` in milliseconds (already clamped the way browsers do; always > 0). */

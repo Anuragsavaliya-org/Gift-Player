@@ -20,6 +20,7 @@ import {
   type PagViewLike,
 } from './types';
 
+/** Options for `PagRenderer.create`. */
 export interface PagRendererOptions extends ViewportOptions, PagEngineOptions {
   /** Called when a frame fails to render asynchronously. Default: console.error. */
   onError?: (error: unknown) => void;
@@ -32,6 +33,13 @@ interface Owned {
 }
 
 const warn = (msg: string) => console.warn(`[gift-player] ${msg}`);
+
+/**
+ * Scripts that need shaping (Indic, Arabic, Hebrew, Thai, Khmer, Myanmar, ...) or right-to-left ordering. libpag draws text
+ * glyph by glyph without a shaper, so these render wrongly in PAG text layers (SVGA, which uses the browser's own text
+ * drawing, is fine).
+ */
+const COMPLEX_SCRIPT = /[\u0590-\u08FF\u0900-\u0DFF\u0E00-\u0EFF\u0F00-\u0FFF\u1000-\u109F\u1780-\u17FF\uFB1D-\uFDFF\uFE70-\uFEFF]/;
 const SCALE: Record<ContentMode, number> = { aspectFit: SCALE_LETTERBOX, fill: SCALE_STRETCH, aspectFill: SCALE_ZOOM };
 const FIT_SCALE = { fill: SCALE_STRETCH, contain: SCALE_LETTERBOX, cover: SCALE_ZOOM } as const;
 const JUSTIFY = { left: 0, center: 1, right: 2 } as const;
@@ -70,6 +78,7 @@ export class PagRenderer implements FrameSource {
   private pumping = false;
   private pumpDone: Promise<void> = Promise.resolve();
   private destroyed = false;
+  private warnedComplexScript = false;
   private readonly released: Promise<void>;
   private releaseResolve!: () => void;
 
@@ -266,6 +275,10 @@ export class PagRenderer implements FrameSource {
    */
   setText(key: string, text: string, style: TextStyle = {}): void {
     if (this.destroyed) return;
+    if (!this.warnedComplexScript && COMPLEX_SCRIPT.test(text)) {
+      this.warnedComplexScript = true; // once per player
+      warn('PAG text layers cannot shape complex scripts: Devanagari, Gujarati and other Indic scripts, Arabic, Hebrew, Thai, ... are drawn glyph by glyph (wrong or missing marks, no joining, no right-to-left order). Latin, CJK and emoji are fine. Use an SVGA gift for personalised names in these scripts.');
+    }
     const idx = this.textIndexByKey.get(key);
     if (idx !== undefined) {
       const doc = this.file.getTextData(idx);
@@ -340,9 +353,9 @@ export class PagRenderer implements FrameSource {
       try {
         res = await fetch(source);
       } catch (cause) {
-        throw new GiftPlayerError('fetch-failed', `Failed to fetch image ${source}`, { cause });
+        throw new GiftPlayerError('network', `Failed to fetch image ${source}`, { cause });
       }
-      if (!res.ok) throw new GiftPlayerError('fetch-failed', `Failed to fetch image ${source}: HTTP ${res.status}`);
+      if (!res.ok) throw new GiftPlayerError('network', `Failed to fetch image ${source}: HTTP ${res.status}`);
       bitmap = await createImageBitmap(await res.blob());
     } else {
       bitmap = await createImageBitmap(source as Blob);

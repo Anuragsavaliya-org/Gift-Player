@@ -11,9 +11,12 @@ import type { PagModuleExports, PagModuleLike } from './types';
 
 /** The libpag version this SDK is tested with. Keep in sync with package.json (a test checks it). */
 export const PAG_VERSION = '4.5.85';
+/** Where the PAG engine module is fetched from by default (pinned jsDelivr copy). */
 export const DEFAULT_PAG_MODULE_URL = `https://cdn.jsdelivr.net/npm/libpag@${PAG_VERSION}/lib/libpag.esm.js`;
+/** Where the PAG engine WebAssembly is fetched from by default (pinned jsDelivr copy). */
 export const DEFAULT_PAG_WASM_URL = `https://cdn.jsdelivr.net/npm/libpag@${PAG_VERSION}/lib/libpag.wasm`;
 
+/** Where to load the PAG engine from (all optional). */
 export interface PagEngineOptions {
   /** URL of `libpag.esm.js`. Default: the pinned jsDelivr copy. Override to self-host. */
   pagModuleUrl?: string;
@@ -23,6 +26,7 @@ export interface PagEngineOptions {
   pagModule?: () => Promise<PagModuleExports>;
 }
 
+/** A loaded PAG engine. */
 export interface PagEngine {
   PAG: PagModuleLike;
   /** Wall-clock milliseconds the engine took to download, compile and initialise (first load only). */
@@ -66,13 +70,13 @@ export async function loadPagEngine(options: PagEngineOptions = {}): Promise<Pag
         // A variable specifier on purpose: bundlers must not try to resolve (and include) libpag.
         exports = options.pagModule ? await options.pagModule() : ((await import(/* @vite-ignore */ /* webpackIgnore: true */ moduleUrl)) as PagModuleExports);
       } catch (cause) {
-        throw new GiftPlayerError('fetch-failed', `Could not load the PAG engine from ${options.pagModule ? 'the custom loader' : moduleUrl}. Check the URL, CORS and your Content-Security-Policy (script-src).`, { cause });
+        throw new GiftPlayerError('engine-load-failed', `Could not load the PAG engine from ${options.pagModule ? 'the custom loader' : moduleUrl}. Check the URL, CORS and your Content-Security-Policy (script-src).`, { cause });
       }
       let PAG: PagModuleLike;
       try {
         PAG = await exports.PAGInit({ locateFile: () => wasmUrl });
       } catch (cause) {
-        throw new GiftPlayerError('fetch-failed', `Could not initialise the PAG engine (WebAssembly from ${wasmUrl}). Check the URL, CORS and that your CSP allows 'wasm-unsafe-eval' and connect-src.`, { cause });
+        throw new GiftPlayerError('engine-load-failed', `Could not initialise the PAG engine (WebAssembly from ${wasmUrl}). Check the URL, CORS and that your CSP allows 'wasm-unsafe-eval' and connect-src.`, { cause });
       }
       return { PAG, loadMs: Math.round(performance.now() - t0) };
     })();
@@ -94,7 +98,12 @@ export async function releasePagEngineContext(): Promise<void> {
   const engine = await loading.catch(() => null);
   if (!engine) return;
   anchorHeld = false;
+  const canvas = engine.PAG.globalCanvas.canvas;
+  const gl = canvas ? (canvas.getContext('webgl') as WebGLRenderingContext | null) : null; // the existing context, not a new one
   engine.PAG.globalCanvas.release();
+  // libpag only drops its references; the browser would keep the context alive until garbage collection. When this was the last
+  // reference (no PAG view is alive), give it back explicitly so the page's WebGL context count really returns to zero.
+  if (gl && !engine.PAG.globalCanvas.canvas) gl.getExtension('WEBGL_lose_context')?.loseContext();
 }
 
 /**

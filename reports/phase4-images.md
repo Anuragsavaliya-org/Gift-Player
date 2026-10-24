@@ -1,6 +1,6 @@
 # Phase 4: GIF / animated WebP verification
 
-2026-10-24T06:31:30.664Z · 28 synthetic + 3 real + 14 corpus files · leak cycles 50
+2026-10-24T07:46:51.953Z · 28 synthetic + 3 real + 14 corpus files · leak cycles 50
 
 ## Browser support
 
@@ -120,63 +120,63 @@ Each emitted frame is compared with its scheduled start (cumulative delays). A r
 
 | browser | file | path | frames | mean err ms | max err ms | total expected / measured ms | late draws | |
 |---|---|---|---|---|---|---|---|---|
-| chromium | s/gif-delays.gif | imagedecoder | 7 | 12.5 | 18.2 | 2140 / 2155 | 1 | ok |
-| chromium | s/gif-delays.gif | gif-fallback | 7 | 11.6 | 15.9 | 2140 / 2153 | 0 | ok |
-| chromium | s/webp-delays.webp | imagedecoder | 6 | 10.2 | 15.8 | 940 / 952 | 1 | ok |
-| chromium | s/webp-delays.webp | webp-anmf | 6 | 12.1 | 16.3 | 940 / 949 | 2 | ok |
-| chromium | s/gif-mixed.gif | imagedecoder | 8 | 8.2 | 17 | 1560 / 1567 | 1 | ok |
-| chromium | s/gif-mixed.gif | gif-fallback | 8 | 9.8 | 15.6 | 1560 / 1575 | 0 | ok |
-| chromium | s/webp-mixed-codecs.webp | imagedecoder | 5 | 8.3 | 16 | 800 / 806 | 1 | ok |
-| chromium | s/webp-mixed-codecs.webp | webp-anmf | 5 | 8.2 | 16.2 | 800 / 812 | 2 | ok |
-| chromium | rotating-earth.gif | imagedecoder | 44 | 10.9 | 18 | 3960 / 3971 | 1 | ok |
-| chromium | rotating-earth.gif | gif-fallback | 44 | 8.2 | 15.2 | 3960 / 3968 | 0 | ok |
-| chromium | animated.webp | imagedecoder | 100 | 10 | 10.6 | 10000 / 10010 | 1 | ok |
-| chromium | animated.webp | webp-anmf | 100 | 11.8 | 12.4 | 10000 / 10012 | 1 | ok |
-| webkit | s/gif-delays.gif | imagedecoder | 7 | 8.2 | 13 | 2140 / 2147 | 1 | ok |
-| webkit | s/gif-delays.gif | gif-fallback | 7 | 9.8 | 14 | 2140 / 2148 | 0 | ok |
-| webkit | s/webp-delays.webp | imagedecoder | 6 | 6.8 | 12 | 940 / 944 | 1 | ok |
-| webkit | s/webp-delays.webp | webp-anmf | 6 | 9.6 | 15 | 940 / 951 | 2 | ok |
-| webkit | s/gif-mixed.gif | imagedecoder | 8 | 8 | 14 | 1560 / 1574 | 1 | ok |
-| webkit | s/gif-mixed.gif | gif-fallback | 8 | 7 | 14 | 1560 / 1570 | 0 | ok |
-| webkit | s/webp-mixed-codecs.webp | imagedecoder | 5 | 6.8 | 14 | 800 / 804 | 1 | ok |
-| webkit | s/webp-mixed-codecs.webp | webp-anmf | 5 | 6.4 | 15 | 800 / 811 | 2 | ok |
-| webkit | rotating-earth.gif | imagedecoder | 44 | 7.3 | 15 | 3960 / 3971 | 1 | ok |
-| webkit | rotating-earth.gif | gif-fallback | 44 | 7.6 | 18 | 3960 / 3970 | 0 | ok |
-| webkit | animated.webp | imagedecoder | 100 | 1.9 | 3 | 10000 / 10003 | 1 | ok |
-| webkit | animated.webp | webp-anmf | 100 | 4.9 | 6 | 10000 / 10006 | 1 | ok |
+| chromium | s/gif-delays.gif | imagedecoder | 7 | 11.8 | 16.3 | 2140 / 2151 | 1 | ok |
+| chromium | s/gif-delays.gif | gif-fallback | 7 | 7.8 | 12.4 | 2140 / 2146 | 0 | ok |
+| chromium | s/webp-delays.webp | imagedecoder | 6 | 13.3 | 17.8 | 940 / 949 | 1 | ok |
+| chromium | s/webp-delays.webp | webp-anmf | 6 | 5.5 | 9.8 | 940 / 943 | 2 | ok |
+| chromium | s/gif-mixed.gif | imagedecoder | 8 | 10.2 | 17.5 | 1560 / 1574 | 1 | ok |
+| chromium | s/gif-mixed.gif | gif-fallback | 8 | 9.2 | 16.5 | 1560 / 1563 | 0 | ok |
+| chromium | s/webp-mixed-codecs.webp | imagedecoder | 5 | 9.8 | 17 | 800 / 803 | 1 | ok |
+| chromium | s/webp-mixed-codecs.webp | webp-anmf | 5 | 7.7 | 16.2 | 800 / 811 | 2 | ok |
+| chromium | rotating-earth.gif | imagedecoder | 44 | 8.8 | 17 | 3960 / 3969 | 1 | ok |
+| chromium | rotating-earth.gif | gif-fallback | 44 | 9.2 | 16.8 | 3960 / 3977 | 0 | ok |
+| chromium | animated.webp | imagedecoder | 100 | 17.5 | 18.6 | 10000 / 10018 | 1 | ok |
+| chromium | animated.webp | webp-anmf | 100 | 3.4 | 4.4 | 10000 / 10003 | 1 | ok |
+| webkit | s/gif-delays.gif | imagedecoder | 7 | 9.4 | 14 | 2140 / 2151 | 1 | ok |
+| webkit | s/gif-delays.gif | gif-fallback | 7 | 10.1 | 15 | 2140 / 2151 | 0 | ok |
+| webkit | s/webp-delays.webp | imagedecoder | 6 | 8.1 | 12 | 940 / 945 | 1 | ok |
+| webkit | s/webp-delays.webp | webp-anmf | 6 | 8.8 | 13 | 940 / 946 | 2 | ok |
+| webkit | s/gif-mixed.gif | imagedecoder | 8 | 9.2 | 16 | 1560 / 1573 | 1 | ok |
+| webkit | s/gif-mixed.gif | gif-fallback | 8 | 7.2 | 15 | 1560 / 1569 | 0 | ok |
+| webkit | s/webp-mixed-codecs.webp | imagedecoder | 5 | 7.8 | 15 | 800 / 800 | 1 | ok |
+| webkit | s/webp-mixed-codecs.webp | webp-anmf | 5 | 7.5 | 15 | 800 / 805 | 2 | ok |
+| webkit | rotating-earth.gif | imagedecoder | 44 | 7.8 | 17 | 3960 / 3964 | 1 | ok |
+| webkit | rotating-earth.gif | gif-fallback | 44 | 8 | 16 | 3960 / 3966 | 0 | ok |
+| webkit | animated.webp | imagedecoder | 100 | 7.8 | 9 | 10000 / 10009 | 1 | ok |
+| webkit | animated.webp | webp-anmf | 100 | 10.4 | 12 | 10000 / 10011 | 1 | ok |
 
 ## Loop counts (file vs. player option)
 
 | browser | file | option | file loop count (total plays) | observed plays | ended after / expected ms | |
 |---|---|---|---|---|---|---|
 | chromium | s/gif-loop-0.gif | - | forever | 4 (expected forever) | - / - | ok |
-| chromium | s/gif-loop-1.gif | - | 2 | 2 (expected 2) | 306 / 300 | ok |
-| chromium | s/gif-loop-3.gif | - | 4 | 4 (expected 4) | 611 / 600 | ok |
-| chromium | s/gif-loop-none.gif | - | 1 | 1 (expected 1) | 162 / 150 | ok |
+| chromium | s/gif-loop-1.gif | - | 2 | 2 (expected 2) | 310 / 300 | ok |
+| chromium | s/gif-loop-3.gif | - | 4 | 4 (expected 4) | 608 / 600 | ok |
+| chromium | s/gif-loop-none.gif | - | 1 | 1 (expected 1) | 161 / 150 | ok |
 | chromium | s/webp-loop-0.webp | - | forever | 4 (expected forever) | - / - | ok |
-| chromium | s/webp-loop-1.webp | - | 1 | 1 (expected 1) | 162 / 150 | ok |
-| chromium | s/webp-loop-3.webp | - | 3 | 3 (expected 3) | 463 / 450 | ok |
-| chromium | s/gif-loop-3.gif | 2 | 4 | 2 (expected 2) | 312 / 300 | ok |
-| chromium | s/webp-loop-0.webp | 3 | forever | 3 (expected 3) | 461 / 450 | ok |
+| chromium | s/webp-loop-1.webp | - | 1 | 1 (expected 1) | 159 / 150 | ok |
+| chromium | s/webp-loop-3.webp | - | 3 | 3 (expected 3) | 459 / 450 | ok |
+| chromium | s/gif-loop-3.gif | 2 | 4 | 2 (expected 2) | 311 / 300 | ok |
+| chromium | s/webp-loop-0.webp | 3 | forever | 3 (expected 3) | 460 / 450 | ok |
 | chromium | s/gif-loop-none.gif | 0 | 1 | 4 (expected forever) | - / - | ok |
-| chromium | static.webp | - | 1 | 1 (expected 1) | 303 / 300 | ok |
-| chromium | s/gif-single.gif | - | 1 | 1 (expected 1) | 305 / 300 | ok |
-| chromium | s/webp-single.webp | - | 1 | 1 (expected 1) | 309 / 300 | ok |
-| chromium | s/webp-static-alpha.webp | - | 1 | 1 (expected 1) | 313 / 300 | ok |
+| chromium | static.webp | - | 1 | 1 (expected 1) | 314 / 300 | ok |
+| chromium | s/gif-single.gif | - | 1 | 1 (expected 1) | 315 / 300 | ok |
+| chromium | s/webp-single.webp | - | 1 | 1 (expected 1) | 307 / 300 | ok |
+| chromium | s/webp-static-alpha.webp | - | 1 | 1 (expected 1) | 307 / 300 | ok |
 | webkit | s/gif-loop-0.gif | - | forever | 4 (expected forever) | - / - | ok |
-| webkit | s/gif-loop-1.gif | - | 2 | 2 (expected 2) | 309 / 300 | ok |
-| webkit | s/gif-loop-3.gif | - | 4 | 4 (expected 4) | 602 / 600 | ok |
-| webkit | s/gif-loop-none.gif | - | 1 | 1 (expected 1) | 156 / 150 | ok |
+| webkit | s/gif-loop-1.gif | - | 2 | 2 (expected 2) | 302 / 300 | ok |
+| webkit | s/gif-loop-3.gif | - | 4 | 4 (expected 4) | 606 / 600 | ok |
+| webkit | s/gif-loop-none.gif | - | 1 | 1 (expected 1) | 154 / 150 | ok |
 | webkit | s/webp-loop-0.webp | - | forever | 4 (expected forever) | - / - | ok |
-| webkit | s/webp-loop-1.webp | - | 1 | 1 (expected 1) | 153 / 150 | ok |
+| webkit | s/webp-loop-1.webp | - | 1 | 1 (expected 1) | 167 / 150 | ok |
 | webkit | s/webp-loop-3.webp | - | 3 | 3 (expected 3) | 452 / 450 | ok |
-| webkit | s/gif-loop-3.gif | 2 | 4 | 2 (expected 2) | 312 / 300 | ok |
-| webkit | s/webp-loop-0.webp | 3 | forever | 3 (expected 3) | 460 / 450 | ok |
+| webkit | s/gif-loop-3.gif | 2 | 4 | 2 (expected 2) | 309 / 300 | ok |
+| webkit | s/webp-loop-0.webp | 3 | forever | 3 (expected 3) | 459 / 450 | ok |
 | webkit | s/gif-loop-none.gif | 0 | 1 | 4 (expected forever) | - / - | ok |
-| webkit | static.webp | - | 1 | 1 (expected 1) | 316 / 300 | ok |
-| webkit | s/gif-single.gif | - | 1 | 1 (expected 1) | 317 / 300 | ok |
-| webkit | s/webp-single.webp | - | 1 | 1 (expected 1) | 301 / 300 | ok |
-| webkit | s/webp-static-alpha.webp | - | 1 | 1 (expected 1) | 301 / 300 | ok |
+| webkit | static.webp | - | 1 | 1 (expected 1) | 303 / 300 | ok |
+| webkit | s/gif-single.gif | - | 1 | 1 (expected 1) | 302 / 300 | ok |
+| webkit | s/webp-single.webp | - | 1 | 1 (expected 1) | 309 / 300 | ok |
+| webkit | s/webp-static-alpha.webp | - | 1 | 1 (expected 1) | 307 / 300 | ok |
 
 ## Leaks: 50 create -> play -> seek -> destroy cycles per path
 
@@ -184,19 +184,19 @@ Each emitted frame is compared with its scheduled start (cumulative delays). A r
 |---|---|---|---|---|---|---|---|---|---|---|
 | chromium | rotating-earth.gif | imagedecoder | 401 / 401 | 0 / 0 | 50 / 50 | 0 | 4 | 0 | 0 | ok |
 | chromium | rotating-earth.gif | gif-fallback | 0 / 0 | 0 / 0 | 0 / 0 | 0 | 0 | 0 | 0 | ok |
-| chromium | animated.webp | imagedecoder | 618 / 618 | 0 / 0 | 50 / 50 | 0 | 6 | 0 | 0 | ok |
-| chromium | animated.webp | webp-anmf | 0 / 0 | 567 / 567 | 0 / 0 | 0 | 3 | 0 | 0 | ok |
-| chromium | s/gif-mixed.gif | imagedecoder | 750 / 750 | 0 / 0 | 50 / 50 | 0 | 6 | 0 | 0 | ok |
+| chromium | animated.webp | imagedecoder | 612 / 612 | 0 / 0 | 50 / 50 | 0 | 7 | 0 | 0 | ok |
+| chromium | animated.webp | webp-anmf | 0 / 0 | 585 / 585 | 0 / 0 | 0 | 3 | 0 | 0 | ok |
+| chromium | s/gif-mixed.gif | imagedecoder | 751 / 751 | 0 / 0 | 50 / 50 | 0 | 7 | 0 | 0 | ok |
 | chromium | s/gif-mixed.gif | gif-fallback | 0 / 0 | 0 / 0 | 0 / 0 | 0 | 0 | 0 | 0 | ok |
-| chromium | s/webp-mixed-codecs.webp | imagedecoder | 550 / 550 | 0 / 0 | 50 / 50 | 0 | 4 | 0 | 0 | ok |
-| chromium | s/webp-mixed-codecs.webp | webp-anmf | 0 / 0 | 647 / 647 | 0 / 0 | 0 | 3 | 0 | 0 | ok |
-| webkit | rotating-earth.gif | imagedecoder | 648 / 648 | 0 / 0 | 50 / 50 | 0 | 6 | 0 | 0 | ok |
+| chromium | s/webp-mixed-codecs.webp | imagedecoder | 546 / 546 | 0 / 0 | 50 / 50 | 0 | 4 | 0 | 0 | ok |
+| chromium | s/webp-mixed-codecs.webp | webp-anmf | 0 / 0 | 648 / 648 | 0 / 0 | 0 | 3 | 0 | 0 | ok |
+| webkit | rotating-earth.gif | imagedecoder | 643 / 643 | 0 / 0 | 50 / 50 | 0 | 6 | 0 | 0 | ok |
 | webkit | rotating-earth.gif | gif-fallback | 0 / 0 | 0 / 0 | 0 / 0 | 0 | 0 | 0 | 0 | ok |
-| webkit | animated.webp | imagedecoder | 611 / 611 | 0 / 0 | 50 / 50 | 0 | 7 | 0 | 0 | ok |
-| webkit | animated.webp | webp-anmf | 0 / 0 | 522 / 522 | 0 / 0 | 0 | 3 | 0 | 0 | ok |
-| webkit | s/gif-mixed.gif | imagedecoder | 751 / 751 | 0 / 0 | 50 / 50 | 0 | 7 | 0 | 0 | ok |
+| webkit | animated.webp | imagedecoder | 618 / 618 | 0 / 0 | 50 / 50 | 0 | 6 | 0 | 0 | ok |
+| webkit | animated.webp | webp-anmf | 0 / 0 | 511 / 511 | 0 / 0 | 0 | 3 | 0 | 0 | ok |
+| webkit | s/gif-mixed.gif | imagedecoder | 743 / 743 | 0 / 0 | 50 / 50 | 0 | 6 | 0 | 0 | ok |
 | webkit | s/gif-mixed.gif | gif-fallback | 0 / 0 | 0 / 0 | 0 / 0 | 0 | 0 | 0 | 0 | ok |
-| webkit | s/webp-mixed-codecs.webp | imagedecoder | 547 / 547 | 0 / 0 | 50 / 50 | 0 | 4 | 0 | 0 | ok |
-| webkit | s/webp-mixed-codecs.webp | webp-anmf | 0 / 0 | 616 / 616 | 0 / 0 | 0 | 3 | 0 | 0 | ok |
+| webkit | s/webp-mixed-codecs.webp | imagedecoder | 549 / 549 | 0 / 0 | 50 / 50 | 0 | 4 | 0 | 0 | ok |
+| webkit | s/webp-mixed-codecs.webp | webp-anmf | 0 / 0 | 615 / 615 | 0 / 0 | 0 | 3 | 0 | 0 | ok |
 
 **All checks passed** (rows marked "known" are the documented WebKit ImageDecoder bug, which `auto` routes around).

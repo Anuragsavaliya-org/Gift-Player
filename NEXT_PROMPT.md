@@ -1,57 +1,88 @@
-# NEXT PROMPT — Phase 5: PAG via libpag (lazy-loaded)
+# NEXT PROMPT — Phase 6: Public API, queue, cache (+ PAG text follow-up)
 
-Phase 4.1 is approved (1c97792). The decision rule did its job: the reviewer's preferred option (B) lost on data, and A is correct. The extra load time (+6–10 ms absolute) is negligible next to the network fetch; Phase 6 preloading will hide it anyway.
+Phase 5 is approved (1c5c9ce). One shared WebGL context, frame-exact mapping and the 0-leak results are excellent. You were right to flag the complex-script text problem instead of hiding it.
 
-**Firefox:** stop trying locally. The macOS 27 incompatibility is out of our hands. Firefox coverage will come from a Linux CI job in Phase 7. Log this in PROGRESS.md.
+## Part A — PAG complex-script text (do first, small)
 
-## Part A — Integration design
+Owner decision: PAG is low priority for now, and personalised names are not in use yet (they are planned for later). Keep this part minimal.
 
-- Use the official `libpag` npm package, **pinned to an exact version**. Check its license and record it in PROGRESS.md.
-- **Lazy load:** a dynamic `import()` runs only when detection returns `pag`. The core bundle must not contain libpag; verify this with a bundle check that fails if it does.
-- **WASM location:** add an option `pagWasmUrl`. The default is a pinned-version jsDelivr URL; self-hosting is an override. Document the CSP needs (`wasm-unsafe-eval`, plus `connect-src`/`script-src` for the CDN). Measure the JS and WASM sizes and the first-PAG cold load time, and report them.
-- **Rendering model:** libpag renders through WebGL into its own canvas, so don't fight that.
-  - Implement a `PagFrameSource` adapter that satisfies the existing `FrameSource` contract (`frameCount`, `frameDuration`, `loopCount`, `drawFrame`, `destroy`). Get these values from the PAG file's duration and frame rate.
-  - Drive libpag from **our** `Ticker` (setProgress for the frame, then flush), not from libpag's own play loop. This keeps loops, events, seek and the later queue behaving identically for every format.
-  - If driving it frame by frame turns out to be too slow, measure it, and only then consider libpag's own loop with mapped events. Record why.
-  - Share `Viewport` for content modes, DPR and resize, as SVGA and images do.
+1. **Warn once:** when `setText` targets a PAG text layer and the text contains characters that need shaping or bidi (Devanagari, Gujarati and other Indic scripts, Arabic, Hebrew, etc.), log one `console.warn` per player that explains the limitation.
+2. **Document it** in PROGRESS.md under "Known limitations".
+3. **Do NOT build `setTextImage` and do NOT do the upstream libpag check now.** Both are deferred to the future personalisation phase. Log them in PROGRESS.md as deferred items.
 
-## Part B — WebGL context safety (critical for the gift queue)
+## Part B — Public API (`GiftPlayer`)
 
-Browsers cap active WebGL contexts at about 16. A live stream that plays hundreds of PAG gifts must never hit "Too many active WebGL contexts".
+This is the product's face. Design it carefully and type it fully, with TSDoc on everything exported.
 
-- `destroy()` must release everything: PAGView, PAGFile, the surface, and the WebGL context. Use `WEBGL_lose_context` if libpag doesn't release it itself.
-- Leak test: 100 create → play → destroy cycles in Chromium and WebKit. Count live WebGL contexts and listen for `webglcontextlost` warnings. Report the counts.
-- Also test 5 PAG players alive at once, playing, then destroyed in a random order.
+```ts
+const player = new GiftPlayer(container, { contentMode, loops, pauseWhenHidden, ... });
+const info = await player.load(src, { replacements?, signal? }); // {format, width, height, frameCount, durationMs, editableKeys}
+await player.play();            // resolves on end; rejects on error/abort
+player.pause(); player.resume(); player.stop(); player.seek(frame);
+player.setText / setImage / setHidden / clearReplacement / getEditableKeys
+player.on('loaded'|'start'|'loop'|'end'|'error', fn); // 'frame' is opt-in only (cost)
+player.destroy(); // idempotent
+```
 
-## Part C — Dynamic replacement (the ecosystem feature)
+Requirements:
+- **Format-agnostic:** one 2D canvas per player, reused across formats when `load()` is called again (PAG keeps its shared-context path).
+- **Load races:** `load(A)` followed quickly by `load(B)` means A is aborted and its result discarded; it never flashes on screen. `destroy()` during a load or during play is safe. `signal` is supported.
+- **Replacements** can be passed to `load()` so they are applied before the first frame, which avoids a flash of the original text. They can also be set afterwards. Unknown keys warn and never throw.
+- **Errors:** typed `GiftPlayerError` codes. Include at least `unsupported-format`, `parse-failed`, `network`, `decode-failed`, `engine-load-failed` (for example when the PAG CDN is blocked by CSP), and `aborted`.
+- **pauseWhenHidden** (default true): pause on `visibilitychange` and resume from the same frame, with no fast-forward burst.
+- **SSR-safe:** importing the package in Node (Next.js server components and route handlers) must not touch `window` or `document` at import time. Add a test that imports the built package in plain Node. svgagifts.com is Next.js, so this matters on day one.
 
-PAG addresses editable layers by index and layer name, not by our SVGA keys.
+## Part C — `GiftQueue` (the live-stream use case)
 
-- Map `setText(key, text, style)` and `setImage(key, source)` onto PAG's editable text and image layers. A key can be the layer name, or `#<index>` as a fallback.
-- Add `getEditableKeys()`, which returns the available replaceable layers (name, index, type). Add the same method to SVGA, returning sprite image keys, so the API matches across formats.
-- Use `replacement.pag` as the test file.
-- **Non-Latin text test, for both PAG and SVGA:** gift sender names arrive in every script. Test `setText` with Hindi (e.g. "राहुल"), Gujarati (e.g. "અનુરાગ"), Arabic (RTL, e.g. "محمد") and an emoji name. If PAG needs registered fallback fonts, find out how and document what the SDK user has to do.
-  - Visually check that glyphs render: no tofu boxes, and correct RTL order.
-  - Save screenshots to `reports/text/` for the reviewer.
+```ts
+const queue = new GiftQueue(player, { maxLength, preloadAhead: 2, coalesce: false });
+const handle = queue.add(src, { priority?, replacements?, loops? }); // handle.cancel()
+queue.pause(); queue.resume(); queue.clear();
+queue.on('item-start'|'item-end'|'item-error'|'change'|'idle', fn);
+```
 
-## Part D — Verification
+- Plays one gift at a time. A higher priority goes first; equal priorities are FIFO.
+- `maxLength`: when full, drop the lowest-priority item, oldest first, and emit a `dropped` reason.
+- **Preload ahead:** while the current gift plays, fetch, parse and decode the next N gifts, including warming the PAG engine. The first frame of the next gift must appear without a visible gap. Measure the gap between items and report it.
+- **On error:** emit `item-error`, skip to the next item, and never stall the queue.
+- **`coalesce` (optional):** identical consecutive pending items (same resolved source and same replacements) merge into one item with a `count`. It plays once and exposes `count` for a "×10" combo badge in the host UI. Live streams send the same gift many times in a row.
 
-- **Frame accuracy:** for both samples, compare our `drawFrame(i)` against libpag rendering the same progress directly. The output must be identical, which proves the adapter's frame and progress mapping.
-- **Timing and loops:** the same checks as the Phase 4 timing test.
-- **Browsers:** Chromium and WebKit, with per-browser results.
-- **Perf:** average and p95 frame time for both samples in both browsers.
-- **Playground:** PAG on the compare page, with a "PAG engine loading…" state, the editable-keys list, and a live replacement demo.
+## Part D — Cache and preload
+
+- An LRU of **loaded assets** (parsed and decoded), keyed by resolved source. The budget is in **estimated decoded bytes** (width × height × 4 for images), not item count. Default 64 MB, configurable.
+- **Ref-counting:** an asset in use by any player is never evicted. Two players showing the same gift share the decoded images. Renderers must stop destroying shared images and release them through the cache instead. Re-run the leak tests to prove this.
+- `GiftPlayer.preload(srcs)` at module level, which feeds the cache.
+- Browser HTTP caching is left to the browser. No Cache Storage persistence.
+
+## Part E — Source resolver
+
+- `GiftPlayer.registerResolver(scheme, async (ref) => url | ArrayBuffer | Blob)`, for example the scheme `gift:` for `gift:12345`.
+- Build the hook only, with tests. Do not implement any marketplace API.
+
+## Verification
+
+- **API contract tests in the browser:** load races, destroy mid-load and mid-play, abort via signal, errors for each code, the visibility pause, and replacements applied before the first frame.
+- **Queue stress test:** 200 mixed-format items (SVGA, GIF, WebP, PAG, with some deliberately broken), random priorities and some cancels, in Chromium and WebKit. Report:
+  - the order is correct;
+  - no stalls;
+  - the gap between items (avg and p95);
+  - peak and final memory counters;
+  - open bitmaps, `<img>` holders, WebGL contexts and rAF all return to 0 after `destroy()`.
+- **Cache tests:** eviction by byte budget, no eviction of in-use assets, and shared images released exactly once.
+- **SSR import test** in Node.
+- **Playground:** a "live stream simulator" page that fires random gifts into a queue, with priority, combo/coalesce and a broken-file toggle, and shows a live counters panel.
 
 ## Out of scope
 
-The public `GiftPlayer` API, queue and cache (Phase 6), VAP, Lottie.
+The Flutter plugin, the marketplace API, React wrappers, README polish and CI (Phase 7).
 
 ## End of task
 
 The usual: all checks pass; commit; update PROGRESS.md; overwrite REVIEW.md. Include:
-- **Sizes:** JS chunk, WASM, cold-load time;
-- a **WebGL context leak table**;
-- **Text rendering results**: for each script and format, pass or fail plus the screenshot path;
-- the perf table.
+- the **public API surface**: a list of every export;
+- the **queue stress table**;
+- **gap-between-items numbers**;
+- the **cache test results**;
+- confirmation that the PAG complex-script warning is in place.
 
 Then stop.

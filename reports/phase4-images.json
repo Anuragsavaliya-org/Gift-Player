@@ -1,5 +1,5 @@
 {
- "date": "2026-10-24T06:31:30.664Z",
+ "date": "2026-10-24T07:46:51.953Z",
  "cycles": 50,
  "browsers": {
   "chromium": {
@@ -36,7 +36,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 5,
-     "ms": 28,
+     "ms": 31,
      "ok": true
     },
     {
@@ -72,7 +72,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 20,
+     "ms": 19,
      "ok": true
     },
     {
@@ -126,7 +126,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 11,
+     "ms": 10,
      "ok": true
     },
     {
@@ -180,7 +180,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 11,
+     "ms": 9,
      "ok": true
     },
     {
@@ -360,7 +360,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 3,
-     "ms": 3,
+     "ms": 4,
      "ok": true
     },
     {
@@ -414,64 +414,64 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 3,
-     "ms": 3,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-loop-1.gif",
-     "path": "imagedecoder",
-     "usedPath": "imagedecoder",
-     "size": "40x30",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 0,
-     "reason": "ImageDecoder",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 3,
-     "ms": 3,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-loop-1.gif",
-     "path": "fallback",
-     "usedPath": "gif-fallback",
-     "size": "40x30",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 0,
-     "reason": "forced fallback",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 0,
-     "ms": 7,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-loop-3.gif",
-     "path": "auto",
-     "usedPath": "imagedecoder",
-     "size": "40x30",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 0,
-     "reason": "ImageDecoder",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 3,
      "ms": 4,
      "ok": true
     },
     {
+     "file": "synthetic/gif-loop-1.gif",
+     "path": "imagedecoder",
+     "usedPath": "imagedecoder",
+     "size": "40x30",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 0,
+     "reason": "ImageDecoder",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 3,
+     "ms": 3,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-loop-1.gif",
+     "path": "fallback",
+     "usedPath": "gif-fallback",
+     "size": "40x30",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 0,
+     "reason": "forced fallback",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 0,
+     "ms": 7,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-loop-3.gif",
+     "path": "auto",
+     "usedPath": "imagedecoder",
+     "size": "40x30",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 0,
+     "reason": "ImageDecoder",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 3,
+     "ms": 3,
+     "ok": true
+    },
+    {
      "file": "synthetic/gif-loop-3.gif",
      "path": "imagedecoder",
      "usedPath": "imagedecoder",
@@ -558,7 +558,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 6,
+     "ms": 7,
      "ok": true
     },
     {
@@ -576,7 +576,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 5,
-     "ms": 6,
+     "ms": 7,
      "ok": true
     },
     {
@@ -612,7 +612,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 12,
+     "ms": 14,
      "ok": true
     },
     {
@@ -738,7 +738,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 2,
-     "ms": 1,
+     "ms": 0,
      "ok": true
     },
     {
@@ -810,7 +810,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 2,
-     "ms": 0,
+     "ms": 1,
      "ok": true
     },
     {
@@ -864,7 +864,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 3,
-     "ms": 3,
+     "ms": 2,
      "ok": true
     },
     {
@@ -935,7 +935,7 @@
      "maxPercent": 0,
      "maxDelta": 1.33,
      "first": [],
-     "peakOpen": 2,
+     "peakOpen": 1,
      "ms": 8,
      "ok": true
     },
@@ -1008,7 +1008,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 4,
+     "ms": 3,
      "ok": true
     },
     {
@@ -1098,7 +1098,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 2,
-     "ms": 7,
+     "ms": 6,
      "ok": true
     },
     {
@@ -1116,7 +1116,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 3,
-     "ms": 3,
+     "ms": 2,
      "ok": true
     },
     {
@@ -1134,7 +1134,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 3,
-     "ms": 2,
+     "ms": 3,
      "ok": true
     },
     {
@@ -1205,8 +1205,8 @@
      "maxPercent": 0,
      "maxDelta": 0,
      "first": [],
-     "peakOpen": 3,
-     "ms": 7,
+     "peakOpen": 2,
+     "ms": 6,
      "ok": true
     },
     {
@@ -1314,7 +1314,7 @@
      "maxDelta": 1,
      "first": [],
      "peakOpen": 3,
-     "ms": 10,
+     "ms": 11,
      "ok": true
     },
     {
@@ -1550,7 +1550,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 166,
+     "ms": 161,
      "ok": true
     },
     {
@@ -1568,7 +1568,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 145,
+     "ms": 138,
      "ok": true
     },
     {
@@ -1586,7 +1586,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 317,
+     "ms": 316,
      "ok": true
     },
     {
@@ -1622,7 +1622,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 156,
+     "ms": 151,
      "ok": true
     },
     {
@@ -1640,7 +1640,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 345,
+     "ms": 342,
      "ok": true
     },
     {
@@ -1658,7 +1658,7 @@
      "maxDelta": 2,
      "first": [],
      "peakOpen": 1,
-     "ms": 17,
+     "ms": 15,
      "ok": true
     },
     {
@@ -1698,7 +1698,7 @@
       }
      ],
      "peakOpen": 1,
-     "ms": 16,
+     "ms": 15,
      "ok": false
     },
     {
@@ -1734,7 +1734,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 64,
+     "ms": 63,
      "ok": true
     },
     {
@@ -1770,7 +1770,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 83,
+     "ms": 86,
      "ok": true
     },
     {
@@ -1788,7 +1788,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 135,
+     "ms": 133,
      "ok": true
     },
     {
@@ -1824,7 +1824,7 @@
      "maxDelta": 1.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 256,
+     "ms": 259,
      "ok": true
     },
     {
@@ -1842,7 +1842,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 119,
+     "ms": 117,
      "ok": true
     },
     {
@@ -1860,7 +1860,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 121,
+     "ms": 119,
      "ok": true
     },
     {
@@ -1878,7 +1878,7 @@
      "maxDelta": 1.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 223,
+     "ms": 221,
      "ok": true
     },
     {
@@ -1896,7 +1896,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 119,
+     "ms": 113,
      "ok": true
     },
     {
@@ -1932,7 +1932,7 @@
      "maxDelta": 1.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 226,
+     "ms": 224,
      "ok": true
     },
     {
@@ -1950,7 +1950,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 119,
+     "ms": 120,
      "ok": true
     },
     {
@@ -1968,7 +1968,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 119,
+     "ms": 122,
      "ok": true
     },
     {
@@ -1986,65 +1986,11 @@
      "maxDelta": 1.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 230,
+     "ms": 233,
      "ok": true
     },
     {
      "file": "corpus/10021_android_1521634082_middle.webp",
-     "path": "auto",
-     "usedPath": "imagedecoder",
-     "size": "360x278",
-     "frames": 40,
-     "checked": 62,
-     "tolerance": 3,
-     "reason": "ImageDecoder",
-     "oracle": "local",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 4,
-     "ms": 119,
-     "ok": true
-    },
-    {
-     "file": "corpus/10021_android_1521634082_middle.webp",
-     "path": "imagedecoder",
-     "usedPath": "imagedecoder",
-     "size": "360x278",
-     "frames": 40,
-     "checked": 62,
-     "tolerance": 3,
-     "reason": "ImageDecoder",
-     "oracle": "local",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 4,
-     "ms": 127,
-     "ok": true
-    },
-    {
-     "file": "corpus/10021_android_1521634082_middle.webp",
-     "path": "fallback",
-     "usedPath": "webp-anmf",
-     "size": "360x278",
-     "frames": 40,
-     "checked": 62,
-     "tolerance": 3,
-     "reason": "forced fallback",
-     "oracle": "local",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 1.99,
-     "first": [],
-     "peakOpen": 4,
-     "ms": 298,
-     "ok": true
-    },
-    {
-     "file": "corpus/10022_android_1531282915_middle.webp",
      "path": "auto",
      "usedPath": "imagedecoder",
      "size": "360x278",
@@ -2062,6 +2008,60 @@
      "ok": true
     },
     {
+     "file": "corpus/10021_android_1521634082_middle.webp",
+     "path": "imagedecoder",
+     "usedPath": "imagedecoder",
+     "size": "360x278",
+     "frames": 40,
+     "checked": 62,
+     "tolerance": 3,
+     "reason": "ImageDecoder",
+     "oracle": "local",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 4,
+     "ms": 122,
+     "ok": true
+    },
+    {
+     "file": "corpus/10021_android_1521634082_middle.webp",
+     "path": "fallback",
+     "usedPath": "webp-anmf",
+     "size": "360x278",
+     "frames": 40,
+     "checked": 62,
+     "tolerance": 3,
+     "reason": "forced fallback",
+     "oracle": "local",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 1.99,
+     "first": [],
+     "peakOpen": 4,
+     "ms": 229,
+     "ok": true
+    },
+    {
+     "file": "corpus/10022_android_1531282915_middle.webp",
+     "path": "auto",
+     "usedPath": "imagedecoder",
+     "size": "360x278",
+     "frames": 40,
+     "checked": 62,
+     "tolerance": 3,
+     "reason": "ImageDecoder",
+     "oracle": "local",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 4,
+     "ms": 102,
+     "ok": true
+    },
+    {
      "file": "corpus/10022_android_1531282915_middle.webp",
      "path": "imagedecoder",
      "usedPath": "imagedecoder",
@@ -2076,7 +2076,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 108,
+     "ms": 103,
      "ok": true
     },
     {
@@ -2094,7 +2094,7 @@
      "maxDelta": 1.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 203,
+     "ms": 204,
      "ok": true
     },
     {
@@ -2148,7 +2148,7 @@
      "maxDelta": 1.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 214,
+     "ms": 216,
      "ok": true
     },
     {
@@ -2166,7 +2166,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 152,
+     "ms": 153,
      "ok": true
     },
     {
@@ -2202,7 +2202,7 @@
      "maxDelta": 1.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 284,
+     "ms": 297,
      "ok": true
     },
     {
@@ -2220,7 +2220,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 137,
+     "ms": 130,
      "ok": true
     },
     {
@@ -2238,7 +2238,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 124,
+     "ms": 121,
      "ok": true
     },
     {
@@ -2256,7 +2256,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 351,
+     "ms": 352,
      "ok": true
     },
     {
@@ -2274,7 +2274,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 157,
+     "ms": 139,
      "ok": true
     },
     {
@@ -2310,7 +2310,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 407,
+     "ms": 386,
      "ok": true
     },
     {
@@ -2328,7 +2328,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 143,
+     "ms": 162,
      "ok": true
     },
     {
@@ -2346,7 +2346,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 142,
+     "ms": 184,
      "ok": true
     },
     {
@@ -2364,7 +2364,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 412,
+     "ms": 425,
      "ok": true
     },
     {
@@ -2382,7 +2382,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 62,
+     "ms": 61,
      "ok": true
     },
     {
@@ -2400,7 +2400,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 66,
+     "ms": 63,
      "ok": true
     },
     {
@@ -2418,7 +2418,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 150,
+     "ms": 154,
      "ok": true
     },
     {
@@ -2454,7 +2454,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 3,
-     "ms": 27,
+     "ms": 30,
      "ok": true
     },
     {
@@ -2472,7 +2472,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 3,
-     "ms": 36,
+     "ms": 40,
      "ok": true
     }
    ],
@@ -2484,10 +2484,10 @@
      "frames": 7,
      "emitted": 14,
      "lateDraws": 1,
-     "meanErrMs": 12.5,
-     "maxAbsErrMs": 18.2,
+     "meanErrMs": 11.8,
+     "maxAbsErrMs": 16.3,
      "expectedTotalMs": 2140,
-     "measuredTotalMs": 2155,
+     "measuredTotalMs": 2151,
      "ok": true
     },
     {
@@ -2497,10 +2497,10 @@
      "frames": 7,
      "emitted": 14,
      "lateDraws": 0,
-     "meanErrMs": 11.6,
-     "maxAbsErrMs": 15.9,
+     "meanErrMs": 7.8,
+     "maxAbsErrMs": 12.4,
      "expectedTotalMs": 2140,
-     "measuredTotalMs": 2153,
+     "measuredTotalMs": 2146,
      "ok": true
     },
     {
@@ -2510,36 +2510,36 @@
      "frames": 6,
      "emitted": 12,
      "lateDraws": 1,
-     "meanErrMs": 10.2,
-     "maxAbsErrMs": 15.8,
-     "expectedTotalMs": 940,
-     "measuredTotalMs": 952,
-     "ok": true
-    },
-    {
-     "file": "synthetic/webp-delays.webp",
-     "path": "fallback",
-     "usedPath": "webp-anmf",
-     "frames": 6,
-     "emitted": 12,
-     "lateDraws": 2,
-     "meanErrMs": 12.1,
-     "maxAbsErrMs": 16.3,
+     "meanErrMs": 13.3,
+     "maxAbsErrMs": 17.8,
      "expectedTotalMs": 940,
      "measuredTotalMs": 949,
      "ok": true
     },
     {
+     "file": "synthetic/webp-delays.webp",
+     "path": "fallback",
+     "usedPath": "webp-anmf",
+     "frames": 6,
+     "emitted": 12,
+     "lateDraws": 2,
+     "meanErrMs": 5.5,
+     "maxAbsErrMs": 9.8,
+     "expectedTotalMs": 940,
+     "measuredTotalMs": 943,
+     "ok": true
+    },
+    {
      "file": "synthetic/gif-mixed.gif",
      "path": "imagedecoder",
      "usedPath": "imagedecoder",
      "frames": 8,
      "emitted": 16,
      "lateDraws": 1,
-     "meanErrMs": 8.2,
-     "maxAbsErrMs": 17,
+     "meanErrMs": 10.2,
+     "maxAbsErrMs": 17.5,
      "expectedTotalMs": 1560,
-     "measuredTotalMs": 1567,
+     "measuredTotalMs": 1574,
      "ok": true
     },
     {
@@ -2549,10 +2549,10 @@
      "frames": 8,
      "emitted": 16,
      "lateDraws": 0,
-     "meanErrMs": 9.8,
-     "maxAbsErrMs": 15.6,
+     "meanErrMs": 9.2,
+     "maxAbsErrMs": 16.5,
      "expectedTotalMs": 1560,
-     "measuredTotalMs": 1575,
+     "measuredTotalMs": 1563,
      "ok": true
     },
     {
@@ -2562,10 +2562,10 @@
      "frames": 5,
      "emitted": 10,
      "lateDraws": 1,
-     "meanErrMs": 8.3,
-     "maxAbsErrMs": 16,
+     "meanErrMs": 9.8,
+     "maxAbsErrMs": 17,
      "expectedTotalMs": 800,
-     "measuredTotalMs": 806,
+     "measuredTotalMs": 803,
      "ok": true
     },
     {
@@ -2575,10 +2575,10 @@
      "frames": 5,
      "emitted": 10,
      "lateDraws": 2,
-     "meanErrMs": 8.2,
+     "meanErrMs": 7.7,
      "maxAbsErrMs": 16.2,
      "expectedTotalMs": 800,
-     "measuredTotalMs": 812,
+     "measuredTotalMs": 811,
      "ok": true
     },
     {
@@ -2588,10 +2588,10 @@
      "frames": 44,
      "emitted": 44,
      "lateDraws": 1,
-     "meanErrMs": 10.9,
-     "maxAbsErrMs": 18,
+     "meanErrMs": 8.8,
+     "maxAbsErrMs": 17,
      "expectedTotalMs": 3960,
-     "measuredTotalMs": 3971,
+     "measuredTotalMs": 3969,
      "ok": true
     },
     {
@@ -2601,10 +2601,10 @@
      "frames": 44,
      "emitted": 44,
      "lateDraws": 0,
-     "meanErrMs": 8.2,
-     "maxAbsErrMs": 15.2,
+     "meanErrMs": 9.2,
+     "maxAbsErrMs": 16.8,
      "expectedTotalMs": 3960,
-     "measuredTotalMs": 3968,
+     "measuredTotalMs": 3977,
      "ok": true
     },
     {
@@ -2614,10 +2614,10 @@
      "frames": 100,
      "emitted": 100,
      "lateDraws": 1,
-     "meanErrMs": 10,
-     "maxAbsErrMs": 10.6,
+     "meanErrMs": 17.5,
+     "maxAbsErrMs": 18.6,
      "expectedTotalMs": 10000,
-     "measuredTotalMs": 10010,
+     "measuredTotalMs": 10018,
      "ok": true
     },
     {
@@ -2627,10 +2627,10 @@
      "frames": 100,
      "emitted": 100,
      "lateDraws": 1,
-     "meanErrMs": 11.8,
-     "maxAbsErrMs": 12.4,
+     "meanErrMs": 3.4,
+     "maxAbsErrMs": 4.4,
      "expectedTotalMs": 10000,
-     "measuredTotalMs": 10012,
+     "measuredTotalMs": 10003,
      "ok": true
     }
    ],
@@ -2653,7 +2653,7 @@
      "resolvedLoops": 2,
      "expectedPlays": 2,
      "observedPlays": 2,
-     "endedAfterMs": 306,
+     "endedAfterMs": 310,
      "expectedMs": 300,
      "ok": true
     },
@@ -2664,7 +2664,7 @@
      "resolvedLoops": 4,
      "expectedPlays": 4,
      "observedPlays": 4,
-     "endedAfterMs": 611,
+     "endedAfterMs": 608,
      "expectedMs": 600,
      "ok": true
     },
@@ -2675,7 +2675,7 @@
      "resolvedLoops": 1,
      "expectedPlays": 1,
      "observedPlays": 1,
-     "endedAfterMs": 162,
+     "endedAfterMs": 161,
      "expectedMs": 150,
      "ok": true
     },
@@ -2697,7 +2697,7 @@
      "resolvedLoops": 1,
      "expectedPlays": 1,
      "observedPlays": 1,
-     "endedAfterMs": 162,
+     "endedAfterMs": 159,
      "expectedMs": 150,
      "ok": true
     },
@@ -2708,7 +2708,7 @@
      "resolvedLoops": 3,
      "expectedPlays": 3,
      "observedPlays": 3,
-     "endedAfterMs": 463,
+     "endedAfterMs": 459,
      "expectedMs": 450,
      "ok": true
     },
@@ -2719,7 +2719,7 @@
      "resolvedLoops": 2,
      "expectedPlays": 2,
      "observedPlays": 2,
-     "endedAfterMs": 312,
+     "endedAfterMs": 311,
      "expectedMs": 300,
      "ok": true
     },
@@ -2730,7 +2730,7 @@
      "resolvedLoops": 3,
      "expectedPlays": 3,
      "observedPlays": 3,
-     "endedAfterMs": 461,
+     "endedAfterMs": 460,
      "expectedMs": 450,
      "ok": true
     },
@@ -2752,7 +2752,7 @@
      "frameDurationMs": 300,
      "fileLoopCount": 1,
      "observedPlays": 1,
-     "endedAfterMs": 303,
+     "endedAfterMs": 314,
      "expectedMs": 300,
      "option": null,
      "resolvedLoops": 1,
@@ -2767,7 +2767,7 @@
      "frameDurationMs": 300,
      "fileLoopCount": 1,
      "observedPlays": 1,
-     "endedAfterMs": 305,
+     "endedAfterMs": 315,
      "expectedMs": 300,
      "option": null,
      "resolvedLoops": 1,
@@ -2782,7 +2782,7 @@
      "frameDurationMs": 300,
      "fileLoopCount": 1,
      "observedPlays": 1,
-     "endedAfterMs": 309,
+     "endedAfterMs": 307,
      "expectedMs": 300,
      "option": null,
      "resolvedLoops": 1,
@@ -2797,7 +2797,7 @@
      "frameDurationMs": 300,
      "fileLoopCount": 1,
      "observedPlays": 1,
-     "endedAfterMs": 313,
+     "endedAfterMs": 307,
      "expectedMs": 300,
      "option": null,
      "resolvedLoops": 1,
@@ -2838,7 +2838,7 @@
      "path": "fallback",
      "usedPath": "gif-fallback",
      "cycles": 50,
-     "framesDrawn": 330,
+     "framesDrawn": 302,
      "created": {
       "videoFrames": 0,
       "bitmaps": 0,
@@ -2866,12 +2866,12 @@
      "cycles": 50,
      "framesDrawn": 250,
      "created": {
-      "videoFrames": 618,
+      "videoFrames": 612,
       "bitmaps": 0,
       "decoders": 50
      },
      "closed": {
-      "videoFrames": 618,
+      "videoFrames": 612,
       "bitmaps": 0,
       "decoders": 50
      },
@@ -2880,7 +2880,7 @@
       "bitmaps": 0,
       "decoders": 0
      },
-     "peakOpenPerRenderer": 6,
+     "peakOpenPerRenderer": 7,
      "rafOutstanding": 0,
      "resizeObserversLive": 0,
      "ok": true
@@ -2890,15 +2890,15 @@
      "path": "fallback",
      "usedPath": "webp-anmf",
      "cycles": 50,
-     "framesDrawn": 250,
+     "framesDrawn": 249,
      "created": {
       "videoFrames": 0,
-      "bitmaps": 567,
+      "bitmaps": 585,
       "decoders": 0
      },
      "closed": {
       "videoFrames": 0,
-      "bitmaps": 567,
+      "bitmaps": 585,
       "decoders": 0
      },
      "stillOpen": {
@@ -2918,12 +2918,12 @@
      "cycles": 50,
      "framesDrawn": 250,
      "created": {
-      "videoFrames": 750,
+      "videoFrames": 751,
       "bitmaps": 0,
       "decoders": 50
      },
      "closed": {
-      "videoFrames": 750,
+      "videoFrames": 751,
       "bitmaps": 0,
       "decoders": 50
      },
@@ -2932,7 +2932,7 @@
       "bitmaps": 0,
       "decoders": 0
      },
-     "peakOpenPerRenderer": 6,
+     "peakOpenPerRenderer": 7,
      "rafOutstanding": 0,
      "resizeObserversLive": 0,
      "ok": true
@@ -2968,14 +2968,14 @@
      "path": "imagedecoder",
      "usedPath": "imagedecoder",
      "cycles": 50,
-     "framesDrawn": 250,
+     "framesDrawn": 251,
      "created": {
-      "videoFrames": 550,
+      "videoFrames": 546,
       "bitmaps": 0,
       "decoders": 50
      },
      "closed": {
-      "videoFrames": 550,
+      "videoFrames": 546,
       "bitmaps": 0,
       "decoders": 50
      },
@@ -2994,15 +2994,15 @@
      "path": "fallback",
      "usedPath": "webp-anmf",
      "cycles": 50,
-     "framesDrawn": 249,
+     "framesDrawn": 250,
      "created": {
       "videoFrames": 0,
-      "bitmaps": 647,
+      "bitmaps": 648,
       "decoders": 0
      },
      "closed": {
       "videoFrames": 0,
-      "bitmaps": 647,
+      "bitmaps": 648,
       "decoders": 0
      },
      "stillOpen": {
@@ -3051,7 +3051,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 82,
+     "ms": 97,
      "ok": true
     },
     {
@@ -3069,7 +3069,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 5,
-     "ms": 37,
+     "ms": 36,
      "ok": true
     },
     {
@@ -3087,7 +3087,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 7,
+     "ms": 6,
      "ok": true
     },
     {
@@ -3105,7 +3105,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 5,
+     "ms": 3,
      "ok": true
     },
     {
@@ -3123,7 +3123,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 8,
+     "ms": 11,
      "ok": true
     },
     {
@@ -3206,7 +3206,7 @@
       }
      ],
      "peakOpen": 4,
-     "ms": 9,
+     "ms": 11,
      "ok": false
     },
     {
@@ -3242,7 +3242,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 6,
+     "ms": 4,
      "ok": true
     },
     {
@@ -3260,7 +3260,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 19,
+     "ms": 14,
      "ok": true
     },
     {
@@ -3361,7 +3361,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 3,
+     "ms": 2,
      "ok": true
     },
     {
@@ -3415,7 +3415,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 3,
+     "ms": 2,
      "ok": true
     },
     {
@@ -3451,7 +3451,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 3,
-     "ms": 6,
+     "ms": 9,
      "ok": true
     },
     {
@@ -3492,6 +3492,60 @@
     },
     {
      "file": "synthetic/gif-loop-1.gif",
+     "path": "imagedecoder",
+     "usedPath": "imagedecoder",
+     "size": "40x30",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 0,
+     "reason": "ImageDecoder",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 3,
+     "ms": 6,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-loop-1.gif",
+     "path": "fallback",
+     "usedPath": "gif-fallback",
+     "size": "40x30",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 0,
+     "reason": "forced fallback",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 0,
+     "ms": 3,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-loop-3.gif",
+     "path": "auto",
+     "usedPath": "gif-fallback",
+     "size": "40x30",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 0,
+     "reason": "ImageDecoder failed the GIF self-test (known WebKit bug)",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 0,
+     "ms": 2,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-loop-3.gif",
      "path": "imagedecoder",
      "usedPath": "imagedecoder",
      "size": "40x30",
@@ -3509,60 +3563,6 @@
      "ok": true
     },
     {
-     "file": "synthetic/gif-loop-1.gif",
-     "path": "fallback",
-     "usedPath": "gif-fallback",
-     "size": "40x30",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 0,
-     "reason": "forced fallback",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 0,
-     "ms": 2,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-loop-3.gif",
-     "path": "auto",
-     "usedPath": "gif-fallback",
-     "size": "40x30",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 0,
-     "reason": "ImageDecoder failed the GIF self-test (known WebKit bug)",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 0,
-     "ms": 2,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-loop-3.gif",
-     "path": "imagedecoder",
-     "usedPath": "imagedecoder",
-     "size": "40x30",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 0,
-     "reason": "ImageDecoder",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 3,
-     "ms": 6,
-     "ok": true
-    },
-    {
      "file": "synthetic/gif-loop-3.gif",
      "path": "fallback",
      "usedPath": "gif-fallback",
@@ -3577,7 +3577,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 3,
+     "ms": 2,
      "ok": true
     },
     {
@@ -3750,7 +3750,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 1,
-     "ms": 3,
+     "ms": 4,
      "ok": true
     },
     {
@@ -3833,7 +3833,7 @@
       }
      ],
      "peakOpen": 4,
-     "ms": 10,
+     "ms": 8,
      "ok": false
     },
     {
@@ -3851,7 +3851,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 4,
+     "ms": 3,
      "ok": true
     },
     {
@@ -3902,7 +3902,7 @@
       }
      ],
      "peakOpen": 2,
-     "ms": 4,
+     "ms": 6,
      "ok": false
     },
     {
@@ -3971,7 +3971,7 @@
       }
      ],
      "peakOpen": 2,
-     "ms": 5,
+     "ms": 4,
      "ok": false
     },
     {
@@ -4007,7 +4007,7 @@
      "maxDelta": 2,
      "first": [],
      "peakOpen": 2,
-     "ms": 8,
+     "ms": 7,
      "ok": true
     },
     {
@@ -4061,7 +4061,7 @@
      "maxDelta": 0.8,
      "first": [],
      "peakOpen": 2,
-     "ms": 11,
+     "ms": 6,
      "ok": true
     },
     {
@@ -4108,7 +4108,7 @@
       }
      ],
      "peakOpen": 3,
-     "ms": 10,
+     "ms": 6,
      "ok": false
     },
     {
@@ -4126,7 +4126,7 @@
      "maxDelta": 0.8,
      "first": [],
      "peakOpen": 2,
-     "ms": 8,
+     "ms": 7,
      "ok": true
     },
     {
@@ -4144,7 +4144,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 19,
+     "ms": 17,
      "ok": true
     },
     {
@@ -4162,7 +4162,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 21,
+     "ms": 14,
      "ok": true
     },
     {
@@ -4180,7 +4180,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 18,
+     "ms": 19,
      "ok": true
     },
     {
@@ -4198,7 +4198,7 @@
      "maxDelta": 2,
      "first": [],
      "peakOpen": 3,
-     "ms": 14,
+     "ms": 9,
      "ok": true
     },
     {
@@ -4245,7 +4245,7 @@
       }
      ],
      "peakOpen": 4,
-     "ms": 11,
+     "ms": 8,
      "ok": false
     },
     {
@@ -4263,7 +4263,7 @@
      "maxDelta": 2,
      "first": [],
      "peakOpen": 3,
-     "ms": 12,
+     "ms": 9,
      "ok": true
     },
     {
@@ -4275,6 +4275,150 @@
      "checked": 7,
      "tolerance": 3,
      "reason": "ImageDecoder failed the WEBP self-test (known WebKit bug)",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 2,
+     "ms": 11,
+     "ok": true
+    },
+    {
+     "file": "synthetic/webp-loop-0.webp",
+     "path": "imagedecoder",
+     "usedPath": "imagedecoder",
+     "size": "48x36",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 3,
+     "reason": "ImageDecoder",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 3,
+     "ms": 6,
+     "ok": true
+    },
+    {
+     "file": "synthetic/webp-loop-0.webp",
+     "path": "fallback",
+     "usedPath": "webp-anmf",
+     "size": "48x36",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 3,
+     "reason": "forced fallback",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 2,
+     "ms": 8,
+     "ok": true
+    },
+    {
+     "file": "synthetic/webp-loop-1.webp",
+     "path": "auto",
+     "usedPath": "webp-anmf",
+     "size": "48x36",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 3,
+     "reason": "ImageDecoder failed the WEBP self-test (known WebKit bug)",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 2,
+     "ms": 8,
+     "ok": true
+    },
+    {
+     "file": "synthetic/webp-loop-1.webp",
+     "path": "imagedecoder",
+     "usedPath": "imagedecoder",
+     "size": "48x36",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 3,
+     "reason": "ImageDecoder",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 3,
+     "ms": 9,
+     "ok": true
+    },
+    {
+     "file": "synthetic/webp-loop-1.webp",
+     "path": "fallback",
+     "usedPath": "webp-anmf",
+     "size": "48x36",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 3,
+     "reason": "forced fallback",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 2,
+     "ms": 7,
+     "ok": true
+    },
+    {
+     "file": "synthetic/webp-loop-3.webp",
+     "path": "auto",
+     "usedPath": "webp-anmf",
+     "size": "48x36",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 3,
+     "reason": "ImageDecoder failed the WEBP self-test (known WebKit bug)",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 2,
+     "ms": 7,
+     "ok": true
+    },
+    {
+     "file": "synthetic/webp-loop-3.webp",
+     "path": "imagedecoder",
+     "usedPath": "imagedecoder",
+     "size": "48x36",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 3,
+     "reason": "ImageDecoder",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 3,
+     "ms": 6,
+     "ok": true
+    },
+    {
+     "file": "synthetic/webp-loop-3.webp",
+     "path": "fallback",
+     "usedPath": "webp-anmf",
+     "size": "48x36",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 3,
+     "reason": "forced fallback",
      "oracle": "golden",
      "mismatchedFrames": 0,
      "maxPercent": 0,
@@ -4282,150 +4426,6 @@
      "first": [],
      "peakOpen": 2,
      "ms": 6,
-     "ok": true
-    },
-    {
-     "file": "synthetic/webp-loop-0.webp",
-     "path": "imagedecoder",
-     "usedPath": "imagedecoder",
-     "size": "48x36",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 3,
-     "reason": "ImageDecoder",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 3,
-     "ms": 7,
-     "ok": true
-    },
-    {
-     "file": "synthetic/webp-loop-0.webp",
-     "path": "fallback",
-     "usedPath": "webp-anmf",
-     "size": "48x36",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 3,
-     "reason": "forced fallback",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 2,
-     "ms": 7,
-     "ok": true
-    },
-    {
-     "file": "synthetic/webp-loop-1.webp",
-     "path": "auto",
-     "usedPath": "webp-anmf",
-     "size": "48x36",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 3,
-     "reason": "ImageDecoder failed the WEBP self-test (known WebKit bug)",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 2,
-     "ms": 7,
-     "ok": true
-    },
-    {
-     "file": "synthetic/webp-loop-1.webp",
-     "path": "imagedecoder",
-     "usedPath": "imagedecoder",
-     "size": "48x36",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 3,
-     "reason": "ImageDecoder",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 3,
-     "ms": 8,
-     "ok": true
-    },
-    {
-     "file": "synthetic/webp-loop-1.webp",
-     "path": "fallback",
-     "usedPath": "webp-anmf",
-     "size": "48x36",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 3,
-     "reason": "forced fallback",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 2,
-     "ms": 8,
-     "ok": true
-    },
-    {
-     "file": "synthetic/webp-loop-3.webp",
-     "path": "auto",
-     "usedPath": "webp-anmf",
-     "size": "48x36",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 3,
-     "reason": "ImageDecoder failed the WEBP self-test (known WebKit bug)",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 2,
-     "ms": 7,
-     "ok": true
-    },
-    {
-     "file": "synthetic/webp-loop-3.webp",
-     "path": "imagedecoder",
-     "usedPath": "imagedecoder",
-     "size": "48x36",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 3,
-     "reason": "ImageDecoder",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 3,
-     "ms": 7,
-     "ok": true
-    },
-    {
-     "file": "synthetic/webp-loop-3.webp",
-     "path": "fallback",
-     "usedPath": "webp-anmf",
-     "size": "48x36",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 3,
-     "reason": "forced fallback",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 2,
-     "ms": 9,
      "ok": true
     },
     {
@@ -4490,7 +4490,7 @@
       }
      ],
      "peakOpen": 4,
-     "ms": 13,
+     "ms": 12,
      "ok": false
     },
     {
@@ -4508,7 +4508,7 @@
      "maxDelta": 1,
      "first": [],
      "peakOpen": 3,
-     "ms": 15,
+     "ms": 16,
      "ok": true
     },
     {
@@ -4526,7 +4526,7 @@
      "maxDelta": 1,
      "first": [],
      "peakOpen": 3,
-     "ms": 11,
+     "ms": 13,
      "ok": true
     },
     {
@@ -4562,7 +4562,7 @@
      "maxDelta": 1,
      "first": [],
      "peakOpen": 3,
-     "ms": 14,
+     "ms": 11,
      "ok": true
     },
     {
@@ -4598,7 +4598,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 1,
-     "ms": 4,
+     "ms": 3,
      "ok": true
     },
     {
@@ -4634,7 +4634,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 1,
-     "ms": 5,
+     "ms": 6,
      "ok": true
     },
     {
@@ -4674,7 +4674,7 @@
       }
      ],
      "peakOpen": 1,
-     "ms": 10,
+     "ms": 6,
      "ok": false
     },
     {
@@ -4728,7 +4728,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 1,
-     "ms": 5,
+     "ms": 4,
      "ok": true
     },
     {
@@ -4746,7 +4746,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 1,
-     "ms": 2,
+     "ms": 4,
      "ok": true
     },
     {
@@ -4764,7 +4764,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 1,
-     "ms": 3,
+     "ms": 2,
      "ok": true
     },
     {
@@ -4782,7 +4782,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 1,
-     "ms": 4,
+     "ms": 3,
      "ok": true
     },
     {
@@ -4820,7 +4820,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 233,
+     "ms": 249,
      "ok": true
     },
     {
@@ -4838,7 +4838,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 350,
+     "ms": 336,
      "ok": true
     },
     {
@@ -4856,7 +4856,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 164,
+     "ms": 159,
      "ok": true
     },
     {
@@ -4874,7 +4874,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 210,
+     "ms": 208,
      "ok": true
     },
     {
@@ -4892,7 +4892,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 284,
+     "ms": 267,
      "ok": true
     },
     {
@@ -4910,7 +4910,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 208,
+     "ms": 207,
      "ok": true
     },
     {
@@ -4928,7 +4928,7 @@
      "maxDelta": 2,
      "first": [],
      "peakOpen": 1,
-     "ms": 28,
+     "ms": 26,
      "ok": true
     },
     {
@@ -4946,7 +4946,7 @@
      "maxDelta": 2,
      "first": [],
      "peakOpen": 1,
-     "ms": 50,
+     "ms": 45,
      "ok": true
     },
     {
@@ -4964,7 +4964,7 @@
      "maxDelta": 2,
      "first": [],
      "peakOpen": 1,
-     "ms": 25,
+     "ms": 28,
      "ok": true
     },
     {
@@ -4982,7 +4982,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 212,
+     "ms": 196,
      "ok": true
     },
     {
@@ -5000,7 +5000,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 5,
-     "ms": 295,
+     "ms": 290,
      "ok": true
     },
     {
@@ -5018,7 +5018,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 197,
+     "ms": 188,
      "ok": true
     },
     {
@@ -5083,7 +5083,7 @@
       }
      ],
      "peakOpen": 4,
-     "ms": 329,
+     "ms": 315,
      "ok": false
     },
     {
@@ -5101,7 +5101,7 @@
      "maxDelta": 0.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 202,
+     "ms": 195,
      "ok": true
     },
     {
@@ -5119,7 +5119,7 @@
      "maxDelta": 0.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 199,
+     "ms": 196,
      "ok": true
     },
     {
@@ -5166,7 +5166,7 @@
       }
      ],
      "peakOpen": 4,
-     "ms": 318,
+     "ms": 305,
      "ok": false
     },
     {
@@ -5184,7 +5184,7 @@
      "maxDelta": 0.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 197,
+     "ms": 200,
      "ok": true
     },
     {
@@ -5202,7 +5202,7 @@
      "maxDelta": 0.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 185,
+     "ms": 182,
      "ok": true
     },
     {
@@ -5249,7 +5249,7 @@
       }
      ],
      "peakOpen": 4,
-     "ms": 300,
+     "ms": 281,
      "ok": false
     },
     {
@@ -5267,7 +5267,7 @@
      "maxDelta": 0.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 183,
+     "ms": 185,
      "ok": true
     },
     {
@@ -5285,7 +5285,7 @@
      "maxDelta": 0.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 188,
+     "ms": 192,
      "ok": true
     },
     {
@@ -5312,14 +5312,14 @@
       {
        "order": "sequential",
        "frame": 8,
-       "percent": 85.924,
+       "percent": 85.937,
        "maxDelta": 255,
        "at": "(0,0) ours=0,0,0,255 ref=0,0,0,0"
       },
       {
        "order": "sequential",
        "frame": 16,
-       "percent": 83.457,
+       "percent": 83.461,
        "maxDelta": 255,
        "at": "(0,0) ours=0,0,0,255 ref=0,0,0,0"
       },
@@ -5332,7 +5332,7 @@
       }
      ],
      "peakOpen": 4,
-     "ms": 277,
+     "ms": 286,
      "ok": false
     },
     {
@@ -5350,7 +5350,7 @@
      "maxDelta": 0.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 210,
+     "ms": 188,
      "ok": true
     },
     {
@@ -5368,7 +5368,7 @@
      "maxDelta": 0.98,
      "first": [],
      "peakOpen": 4,
-     "ms": 204,
+     "ms": 186,
      "ok": true
     },
     {
@@ -5415,7 +5415,7 @@
       }
      ],
      "peakOpen": 4,
-     "ms": 303,
+     "ms": 277,
      "ok": false
     },
     {
@@ -5433,7 +5433,7 @@
      "maxDelta": 0.98,
      "first": [],
      "peakOpen": 4,
-     "ms": 186,
+     "ms": 187,
      "ok": true
     },
     {
@@ -5451,7 +5451,7 @@
      "maxDelta": 0.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 166,
+     "ms": 161,
      "ok": true
     },
     {
@@ -5498,7 +5498,7 @@
       }
      ],
      "peakOpen": 4,
-     "ms": 258,
+     "ms": 261,
      "ok": false
     },
     {
@@ -5534,7 +5534,7 @@
      "maxDelta": 0.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 188,
+     "ms": 190,
      "ok": true
     },
     {
@@ -5554,7 +5554,7 @@
       {
        "order": "sequential",
        "frame": 0,
-       "percent": 87.381,
+       "percent": 87.382,
        "maxDelta": 255,
        "at": "(0,0) ours=0,0,0,255 ref=0,0,0,0"
       },
@@ -5581,7 +5581,7 @@
       }
      ],
      "peakOpen": 4,
-     "ms": 321,
+     "ms": 310,
      "ok": false
     },
     {
@@ -5599,7 +5599,7 @@
      "maxDelta": 0.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 191,
+     "ms": 188,
      "ok": true
     },
     {
@@ -5617,7 +5617,7 @@
      "maxDelta": 0.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 231,
+     "ms": 233,
      "ok": true
     },
     {
@@ -5631,13 +5631,13 @@
      "reason": "ImageDecoder",
      "oracle": "golden",
      "mismatchedFrames": 15,
-     "maxPercent": 79.24,
+     "maxPercent": 79.276,
      "maxDelta": 255,
      "first": [
       {
        "order": "sequential",
        "frame": 0,
-       "percent": 79.24,
+       "percent": 79.276,
        "maxDelta": 255,
        "at": "(0,0) ours=0,2,4,255 ref=0,73,146,7"
       },
@@ -5664,7 +5664,7 @@
       }
      ],
      "peakOpen": 4,
-     "ms": 366,
+     "ms": 357,
      "ok": false
     },
     {
@@ -5682,7 +5682,7 @@
      "maxDelta": 0.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 230,
+     "ms": 231,
      "ok": true
     },
     {
@@ -5700,7 +5700,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 271,
+     "ms": 247,
      "ok": true
     },
     {
@@ -5718,7 +5718,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 454,
+     "ms": 425,
      "ok": true
     },
     {
@@ -5727,6 +5727,114 @@
      "usedPath": "gif-fallback",
      "size": "498x498",
      "frames": 26,
+     "checked": 15,
+     "tolerance": 0,
+     "reason": "forced fallback",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 0,
+     "ms": 237,
+     "ok": true
+    },
+    {
+     "file": "corpus/1648542972231emoji-in-love.gif",
+     "path": "auto",
+     "usedPath": "gif-fallback",
+     "size": "498x498",
+     "frames": 28,
+     "checked": 15,
+     "tolerance": 0,
+     "reason": "ImageDecoder failed the GIF self-test (known WebKit bug)",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 0,
+     "ms": 256,
+     "ok": true
+    },
+    {
+     "file": "corpus/1648542972231emoji-in-love.gif",
+     "path": "imagedecoder",
+     "usedPath": "imagedecoder",
+     "size": "498x498",
+     "frames": 28,
+     "checked": 15,
+     "tolerance": 0,
+     "reason": "ImageDecoder",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 4,
+     "ms": 418,
+     "ok": true
+    },
+    {
+     "file": "corpus/1648542972231emoji-in-love.gif",
+     "path": "fallback",
+     "usedPath": "gif-fallback",
+     "size": "498x498",
+     "frames": 28,
+     "checked": 15,
+     "tolerance": 0,
+     "reason": "forced fallback",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 0,
+     "ms": 256,
+     "ok": true
+    },
+    {
+     "file": "corpus/1648543432503love-you.gif",
+     "path": "auto",
+     "usedPath": "gif-fallback",
+     "size": "498x498",
+     "frames": 28,
+     "checked": 15,
+     "tolerance": 0,
+     "reason": "ImageDecoder failed the GIF self-test (known WebKit bug)",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 0,
+     "ms": 260,
+     "ok": true
+    },
+    {
+     "file": "corpus/1648543432503love-you.gif",
+     "path": "imagedecoder",
+     "usedPath": "imagedecoder",
+     "size": "498x498",
+     "frames": 28,
+     "checked": 15,
+     "tolerance": 0,
+     "reason": "ImageDecoder",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 4,
+     "ms": 433,
+     "ok": true
+    },
+    {
+     "file": "corpus/1648543432503love-you.gif",
+     "path": "fallback",
+     "usedPath": "gif-fallback",
+     "size": "498x498",
+     "frames": 28,
      "checked": 15,
      "tolerance": 0,
      "reason": "forced fallback",
@@ -5737,114 +5845,6 @@
      "first": [],
      "peakOpen": 0,
      "ms": 257,
-     "ok": true
-    },
-    {
-     "file": "corpus/1648542972231emoji-in-love.gif",
-     "path": "auto",
-     "usedPath": "gif-fallback",
-     "size": "498x498",
-     "frames": 28,
-     "checked": 15,
-     "tolerance": 0,
-     "reason": "ImageDecoder failed the GIF self-test (known WebKit bug)",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 0,
-     "ms": 267,
-     "ok": true
-    },
-    {
-     "file": "corpus/1648542972231emoji-in-love.gif",
-     "path": "imagedecoder",
-     "usedPath": "imagedecoder",
-     "size": "498x498",
-     "frames": 28,
-     "checked": 15,
-     "tolerance": 0,
-     "reason": "ImageDecoder",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 4,
-     "ms": 424,
-     "ok": true
-    },
-    {
-     "file": "corpus/1648542972231emoji-in-love.gif",
-     "path": "fallback",
-     "usedPath": "gif-fallback",
-     "size": "498x498",
-     "frames": 28,
-     "checked": 15,
-     "tolerance": 0,
-     "reason": "forced fallback",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 0,
-     "ms": 266,
-     "ok": true
-    },
-    {
-     "file": "corpus/1648543432503love-you.gif",
-     "path": "auto",
-     "usedPath": "gif-fallback",
-     "size": "498x498",
-     "frames": 28,
-     "checked": 15,
-     "tolerance": 0,
-     "reason": "ImageDecoder failed the GIF self-test (known WebKit bug)",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 0,
-     "ms": 277,
-     "ok": true
-    },
-    {
-     "file": "corpus/1648543432503love-you.gif",
-     "path": "imagedecoder",
-     "usedPath": "imagedecoder",
-     "size": "498x498",
-     "frames": 28,
-     "checked": 15,
-     "tolerance": 0,
-     "reason": "ImageDecoder",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 4,
-     "ms": 417,
-     "ok": true
-    },
-    {
-     "file": "corpus/1648543432503love-you.gif",
-     "path": "fallback",
-     "usedPath": "gif-fallback",
-     "size": "498x498",
-     "frames": 28,
-     "checked": 15,
-     "tolerance": 0,
-     "reason": "forced fallback",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 0,
-     "ms": 269,
      "ok": true
     },
     {
@@ -5862,7 +5862,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 190,
+     "ms": 178,
      "ok": true
     },
     {
@@ -5880,7 +5880,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 5,
-     "ms": 370,
+     "ms": 335,
      "ok": true
     },
     {
@@ -5898,7 +5898,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 190,
+     "ms": 177,
      "ok": true
     },
     {
@@ -5916,7 +5916,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 2,
-     "ms": 84,
+     "ms": 76,
      "ok": true
     },
     {
@@ -5963,7 +5963,7 @@
       }
      ],
      "peakOpen": 3,
-     "ms": 122,
+     "ms": 120,
      "ok": false
     },
     {
@@ -5981,7 +5981,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 2,
-     "ms": 80,
+     "ms": 78,
      "ok": true
     }
    ],
@@ -5993,10 +5993,10 @@
      "frames": 7,
      "emitted": 14,
      "lateDraws": 1,
-     "meanErrMs": 8.2,
-     "maxAbsErrMs": 13,
+     "meanErrMs": 9.4,
+     "maxAbsErrMs": 14,
      "expectedTotalMs": 2140,
-     "measuredTotalMs": 2147,
+     "measuredTotalMs": 2151,
      "ok": true
     },
     {
@@ -6006,10 +6006,10 @@
      "frames": 7,
      "emitted": 14,
      "lateDraws": 0,
-     "meanErrMs": 9.8,
-     "maxAbsErrMs": 14,
+     "meanErrMs": 10.1,
+     "maxAbsErrMs": 15,
      "expectedTotalMs": 2140,
-     "measuredTotalMs": 2148,
+     "measuredTotalMs": 2151,
      "ok": true
     },
     {
@@ -6019,10 +6019,10 @@
      "frames": 6,
      "emitted": 12,
      "lateDraws": 1,
-     "meanErrMs": 6.8,
+     "meanErrMs": 8.1,
      "maxAbsErrMs": 12,
      "expectedTotalMs": 940,
-     "measuredTotalMs": 944,
+     "measuredTotalMs": 945,
      "ok": true
     },
     {
@@ -6032,10 +6032,10 @@
      "frames": 6,
      "emitted": 12,
      "lateDraws": 2,
-     "meanErrMs": 9.6,
-     "maxAbsErrMs": 15,
+     "meanErrMs": 8.8,
+     "maxAbsErrMs": 13,
      "expectedTotalMs": 940,
-     "measuredTotalMs": 951,
+     "measuredTotalMs": 946,
      "ok": true
     },
     {
@@ -6045,10 +6045,10 @@
      "frames": 8,
      "emitted": 16,
      "lateDraws": 1,
-     "meanErrMs": 8,
-     "maxAbsErrMs": 14,
+     "meanErrMs": 9.2,
+     "maxAbsErrMs": 16,
      "expectedTotalMs": 1560,
-     "measuredTotalMs": 1574,
+     "measuredTotalMs": 1573,
      "ok": true
     },
     {
@@ -6058,10 +6058,10 @@
      "frames": 8,
      "emitted": 16,
      "lateDraws": 0,
-     "meanErrMs": 7,
-     "maxAbsErrMs": 14,
+     "meanErrMs": 7.2,
+     "maxAbsErrMs": 15,
      "expectedTotalMs": 1560,
-     "measuredTotalMs": 1570,
+     "measuredTotalMs": 1569,
      "ok": true
     },
     {
@@ -6071,10 +6071,10 @@
      "frames": 5,
      "emitted": 10,
      "lateDraws": 1,
-     "meanErrMs": 6.8,
-     "maxAbsErrMs": 14,
+     "meanErrMs": 7.8,
+     "maxAbsErrMs": 15,
      "expectedTotalMs": 800,
-     "measuredTotalMs": 804,
+     "measuredTotalMs": 800,
      "ok": true
     },
     {
@@ -6084,10 +6084,10 @@
      "frames": 5,
      "emitted": 10,
      "lateDraws": 2,
-     "meanErrMs": 6.4,
+     "meanErrMs": 7.5,
      "maxAbsErrMs": 15,
      "expectedTotalMs": 800,
-     "measuredTotalMs": 811,
+     "measuredTotalMs": 805,
      "ok": true
     },
     {
@@ -6097,10 +6097,10 @@
      "frames": 44,
      "emitted": 44,
      "lateDraws": 1,
-     "meanErrMs": 7.3,
-     "maxAbsErrMs": 15,
+     "meanErrMs": 7.8,
+     "maxAbsErrMs": 17,
      "expectedTotalMs": 3960,
-     "measuredTotalMs": 3971,
+     "measuredTotalMs": 3964,
      "ok": true
     },
     {
@@ -6110,10 +6110,10 @@
      "frames": 44,
      "emitted": 44,
      "lateDraws": 0,
-     "meanErrMs": 7.6,
-     "maxAbsErrMs": 18,
+     "meanErrMs": 8,
+     "maxAbsErrMs": 16,
      "expectedTotalMs": 3960,
-     "measuredTotalMs": 3970,
+     "measuredTotalMs": 3966,
      "ok": true
     },
     {
@@ -6123,10 +6123,10 @@
      "frames": 100,
      "emitted": 100,
      "lateDraws": 1,
-     "meanErrMs": 1.9,
-     "maxAbsErrMs": 3,
+     "meanErrMs": 7.8,
+     "maxAbsErrMs": 9,
      "expectedTotalMs": 10000,
-     "measuredTotalMs": 10003,
+     "measuredTotalMs": 10009,
      "ok": true
     },
     {
@@ -6136,10 +6136,10 @@
      "frames": 100,
      "emitted": 100,
      "lateDraws": 1,
-     "meanErrMs": 4.9,
-     "maxAbsErrMs": 6,
+     "meanErrMs": 10.4,
+     "maxAbsErrMs": 12,
      "expectedTotalMs": 10000,
-     "measuredTotalMs": 10006,
+     "measuredTotalMs": 10011,
      "ok": true
     }
    ],
@@ -6162,7 +6162,7 @@
      "resolvedLoops": 2,
      "expectedPlays": 2,
      "observedPlays": 2,
-     "endedAfterMs": 309,
+     "endedAfterMs": 302,
      "expectedMs": 300,
      "ok": true
     },
@@ -6173,7 +6173,7 @@
      "resolvedLoops": 4,
      "expectedPlays": 4,
      "observedPlays": 4,
-     "endedAfterMs": 602,
+     "endedAfterMs": 606,
      "expectedMs": 600,
      "ok": true
     },
@@ -6184,7 +6184,7 @@
      "resolvedLoops": 1,
      "expectedPlays": 1,
      "observedPlays": 1,
-     "endedAfterMs": 156,
+     "endedAfterMs": 154,
      "expectedMs": 150,
      "ok": true
     },
@@ -6206,7 +6206,7 @@
      "resolvedLoops": 1,
      "expectedPlays": 1,
      "observedPlays": 1,
-     "endedAfterMs": 153,
+     "endedAfterMs": 167,
      "expectedMs": 150,
      "ok": true
     },
@@ -6228,7 +6228,7 @@
      "resolvedLoops": 2,
      "expectedPlays": 2,
      "observedPlays": 2,
-     "endedAfterMs": 312,
+     "endedAfterMs": 309,
      "expectedMs": 300,
      "ok": true
     },
@@ -6239,7 +6239,7 @@
      "resolvedLoops": 3,
      "expectedPlays": 3,
      "observedPlays": 3,
-     "endedAfterMs": 460,
+     "endedAfterMs": 459,
      "expectedMs": 450,
      "ok": true
     },
@@ -6261,7 +6261,7 @@
      "frameDurationMs": 300,
      "fileLoopCount": 1,
      "observedPlays": 1,
-     "endedAfterMs": 316,
+     "endedAfterMs": 303,
      "expectedMs": 300,
      "option": null,
      "resolvedLoops": 1,
@@ -6276,7 +6276,7 @@
      "frameDurationMs": 300,
      "fileLoopCount": 1,
      "observedPlays": 1,
-     "endedAfterMs": 317,
+     "endedAfterMs": 302,
      "expectedMs": 300,
      "option": null,
      "resolvedLoops": 1,
@@ -6291,7 +6291,7 @@
      "frameDurationMs": 300,
      "fileLoopCount": 1,
      "observedPlays": 1,
-     "endedAfterMs": 301,
+     "endedAfterMs": 309,
      "expectedMs": 300,
      "option": null,
      "resolvedLoops": 1,
@@ -6306,7 +6306,7 @@
      "frameDurationMs": 300,
      "fileLoopCount": 1,
      "observedPlays": 1,
-     "endedAfterMs": 301,
+     "endedAfterMs": 307,
      "expectedMs": 300,
      "option": null,
      "resolvedLoops": 1,
@@ -6321,14 +6321,14 @@
      "path": "imagedecoder",
      "usedPath": "imagedecoder",
      "cycles": 50,
-     "framesDrawn": 251,
+     "framesDrawn": 250,
      "created": {
-      "videoFrames": 648,
+      "videoFrames": 643,
       "bitmaps": 0,
       "decoders": 50
      },
      "closed": {
-      "videoFrames": 648,
+      "videoFrames": 643,
       "bitmaps": 0,
       "decoders": 50
      },
@@ -6347,7 +6347,7 @@
      "path": "fallback",
      "usedPath": "gif-fallback",
      "cycles": 50,
-     "framesDrawn": 302,
+     "framesDrawn": 300,
      "created": {
       "videoFrames": 0,
       "bitmaps": 0,
@@ -6373,14 +6373,14 @@
      "path": "imagedecoder",
      "usedPath": "imagedecoder",
      "cycles": 50,
-     "framesDrawn": 246,
+     "framesDrawn": 243,
      "created": {
-      "videoFrames": 611,
+      "videoFrames": 618,
       "bitmaps": 0,
       "decoders": 50
      },
      "closed": {
-      "videoFrames": 611,
+      "videoFrames": 618,
       "bitmaps": 0,
       "decoders": 50
      },
@@ -6389,7 +6389,7 @@
       "bitmaps": 0,
       "decoders": 0
      },
-     "peakOpenPerRenderer": 7,
+     "peakOpenPerRenderer": 6,
      "rafOutstanding": 0,
      "resizeObserversLive": 0,
      "ok": true
@@ -6399,15 +6399,15 @@
      "path": "fallback",
      "usedPath": "webp-anmf",
      "cycles": 50,
-     "framesDrawn": 249,
+     "framesDrawn": 250,
      "created": {
       "videoFrames": 0,
-      "bitmaps": 522,
+      "bitmaps": 511,
       "decoders": 0
      },
      "closed": {
       "videoFrames": 0,
-      "bitmaps": 522,
+      "bitmaps": 511,
       "decoders": 0
      },
      "stillOpen": {
@@ -6425,14 +6425,14 @@
      "path": "imagedecoder",
      "usedPath": "imagedecoder",
      "cycles": 50,
-     "framesDrawn": 250,
+     "framesDrawn": 249,
      "created": {
-      "videoFrames": 751,
+      "videoFrames": 743,
       "bitmaps": 0,
       "decoders": 50
      },
      "closed": {
-      "videoFrames": 751,
+      "videoFrames": 743,
       "bitmaps": 0,
       "decoders": 50
      },
@@ -6441,7 +6441,7 @@
       "bitmaps": 0,
       "decoders": 0
      },
-     "peakOpenPerRenderer": 7,
+     "peakOpenPerRenderer": 6,
      "rafOutstanding": 0,
      "resizeObserversLive": 0,
      "ok": true
@@ -6477,14 +6477,14 @@
      "path": "imagedecoder",
      "usedPath": "imagedecoder",
      "cycles": 50,
-     "framesDrawn": 250,
+     "framesDrawn": 249,
      "created": {
-      "videoFrames": 547,
+      "videoFrames": 549,
       "bitmaps": 0,
       "decoders": 50
      },
      "closed": {
-      "videoFrames": 547,
+      "videoFrames": 549,
       "bitmaps": 0,
       "decoders": 50
      },
@@ -6503,15 +6503,15 @@
      "path": "fallback",
      "usedPath": "webp-anmf",
      "cycles": 50,
-     "framesDrawn": 250,
+     "framesDrawn": 249,
      "created": {
       "videoFrames": 0,
-      "bitmaps": 616,
+      "bitmaps": 615,
       "decoders": 0
      },
      "closed": {
       "videoFrames": 0,
-      "bitmaps": 616,
+      "bitmaps": 615,
       "decoders": 0
      },
      "stillOpen": {

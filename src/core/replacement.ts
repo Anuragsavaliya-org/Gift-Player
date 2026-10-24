@@ -13,6 +13,7 @@ export interface TextStyle {
   stroke?: { color: string; width: number };
 }
 
+/** Options for `setImage`. */
 export interface ImageOptions {
   /** How the image fills the layout rect. Default 'fill' (stretch), like the original bitmap. */
   fit?: 'fill' | 'cover' | 'contain';

@@ -77,14 +77,14 @@ describe('loadPagEngine', () => {
     warn.mockRestore();
   });
 
-  it('wraps a failed module load in a fetch-failed error that names the CSP, and allows a retry', async () => {
-    await expect(e.loadPagEngine({ pagModule: async () => { throw new Error('blocked by CSP'); } })).rejects.toMatchObject({ code: 'fetch-failed', message: expect.stringMatching(/Content-Security-Policy/) });
+  it('wraps a failed module load in a engine-load-failed error that names the CSP, and allows a retry', async () => {
+    await expect(e.loadPagEngine({ pagModule: async () => { throw new Error('blocked by CSP'); } })).rejects.toMatchObject({ code: 'engine-load-failed', message: expect.stringMatching(/Content-Security-Policy/) });
     const m = mockEngine();
     await expect(e.loadPagEngine({ pagModule: m.pagModule })).resolves.toBeTruthy(); // not stuck on the failure
   });
 
   it('wraps a WASM failure and mentions wasm-unsafe-eval', async () => {
-    await expect(e.loadPagEngine({ pagModule: async () => ({ PAGInit: async () => { throw new Error('CompileError'); } }) })).rejects.toMatchObject({ code: 'fetch-failed', message: expect.stringMatching(/wasm-unsafe-eval/) });
+    await expect(e.loadPagEngine({ pagModule: async () => ({ PAGInit: async () => { throw new Error('CompileError'); } }) })).rejects.toMatchObject({ code: 'engine-load-failed', message: expect.stringMatching(/wasm-unsafe-eval/) });
   });
 
   it('reports "WebGL is not available" as unsupported-format', async () => {

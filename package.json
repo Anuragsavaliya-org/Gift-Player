@@ -34,7 +34,8 @@
     "gen:synthetic": "node scripts/gen-synthetic.mjs",
     "verify:images": "node scripts/verify-images.mjs",
     "check:bundle": "node scripts/check-bundle.mjs",
-    "verify:pag": "node scripts/verify-pag.mjs"
+    "verify:pag": "node scripts/verify-pag.mjs",
+    "verify:api": "node scripts/verify-api.mjs"
   },
   "devDependencies": {
     "@types/node": "^26.6.5",

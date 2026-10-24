@@ -10,7 +10,14 @@ export type { ContentMode } from './view';
 
 type Ctx2D = CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D;
 
-export type SvgaRendererOptions = ViewportOptions;
+export interface SvgaRendererOptions extends ViewportOptions {
+  /**
+   * True when the decoded `bitmaps` are shared with other renderers (they belong to the asset cache): `destroy()` then
+   * leaves them open and does not clear the map; whoever lent them releases them. Default false: the renderer owns them.
+   * Images the renderer creates itself for `setImage` replacements are always its own.
+   */
+  sharedImages?: boolean;
+}
 
 export type { TextStyle, ImageOptions } from '../../../core/replacement';
 import type { ImageOptions, TextStyle } from '../../../core/replacement';
@@ -57,7 +64,7 @@ const warn = (msg: string) => console.warn(`[gift-player] ${msg}`);
  * Canvas2D renderer for a parsed SVGA movie. `drawFrame(i)` is the core: the same frame always
  * yields the same pixels (no time or randomness involved).
  *
- * Ownership: the renderer takes ownership of `bitmaps` (and of images it creates for replacements)
+ * Ownership: the renderer takes ownership of `bitmaps` unless `sharedImages` is set (and of images it creates for replacements)
  * and closes them in `destroy()`. ImageBitmaps the caller passes to `setImage` are not closed.
  *
  * The canvas must be sized by CSS (e.g. `width:100%; height:100%`); the renderer sizes the backing
@@ -78,6 +85,7 @@ export class SvgaRenderer implements FrameSource {
   private offCtx: Ctx2D | null = null;
   private bitmaps: Map<string, SvgaBitmap>;
   private current = -1;
+  private readonly sharedImages: boolean;
   private destroyed = false;
 
   constructor(
@@ -88,6 +96,7 @@ export class SvgaRenderer implements FrameSource {
   ) {
     this.movie = movie;
     this.bitmaps = bitmaps;
+    this.sharedImages = options.sharedImages === true;
     const ctx = canvas.getContext('2d');
     if (!ctx) throw new GiftPlayerError('invalid-input', 'Could not get a 2D context from the canvas.');
     this.ctx = ctx;
@@ -332,9 +341,9 @@ export class SvgaRenderer implements FrameSource {
       try {
         res = await fetch(source);
       } catch (cause) {
-        throw new GiftPlayerError('fetch-failed', `Failed to fetch image ${source}`, { cause });
+        throw new GiftPlayerError('network', `Failed to fetch image ${source}`, { cause });
       }
-      if (!res.ok) throw new GiftPlayerError('fetch-failed', `Failed to fetch image ${source}: HTTP ${res.status}`);
+      if (!res.ok) throw new GiftPlayerError('network', `Failed to fetch image ${source}: HTTP ${res.status}`);
       bitmap = await decodeImageElement(await res.blob());
     } else {
       bitmap = await decodeImageElement(source as Blob);
@@ -419,8 +428,10 @@ export class SvgaRenderer implements FrameSource {
     this.ctx.setTransform(1, 0, 0, 1, 0, 0);
     this.ctx.clearRect(0, 0, this.width, this.height);
     for (const key of [...this.replacementImages.keys()]) this.releaseReplacement(key);
-    for (const b of this.bitmaps.values()) b.close();
-    this.bitmaps.clear();
+    if (!this.sharedImages) {
+      for (const b of this.bitmaps.values()) b.close();
+      this.bitmaps.clear();
+    }
     for (const rt of this.runtimes) {
       rt.bitmap = null;
       rt.image = null;

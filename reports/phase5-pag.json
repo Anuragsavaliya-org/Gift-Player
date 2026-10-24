@@ -1,5 +1,5 @@
 {
-  "date": "2026-10-24T06:28:27.920Z",
+  "date": "2026-10-24T07:44:23.624Z",
   "cycles": 100,
   "browsers": {
     "chromium": {
@@ -8,8 +8,8 @@
         "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
         "offscreenCanvas": true,
         "webAssembly": true,
-        "engineLoadMs": 24,
-        "coldLoadToFirstFrameMs": 135,
+        "engineLoadMs": 38,
+        "coldLoadToFirstFrameMs": 125,
         "moduleResource": {
           "url": "http://localhost:5197/__libpag/libpag.esm.js?import",
           "encodedBytes": 296532,
@@ -22,7 +22,7 @@
           "encodedBytes": 1575140,
           "decodedBytes": 1575140,
           "transferBytes": 1575440,
-          "ms": 4
+          "ms": 15
         },
         "frameCount": 28,
         "glContexts": {
@@ -31,27 +31,27 @@
             "offscreen"
           ]
         },
-        "secondRendererToFirstFrameMs": 5
+        "secondRendererToFirstFrameMs": 4
       },
       "supportCdn": {
         "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
         "offscreenCanvas": true,
         "webAssembly": true,
-        "engineLoadMs": 558,
-        "coldLoadToFirstFrameMs": 598,
+        "engineLoadMs": 1583,
+        "coldLoadToFirstFrameMs": 1635,
         "moduleResource": {
           "url": "https://cdn.jsdelivr.net/npm/libpag@4.5.85/lib/libpag.esm.js",
           "encodedBytes": 62123,
           "decodedBytes": 296532,
           "transferBytes": 62423,
-          "ms": 316
+          "ms": 1245
         },
         "wasmResource": {
           "url": "https://cdn.jsdelivr.net/npm/libpag@4.5.85/lib/libpag.wasm",
           "encodedBytes": 460567,
           "decodedBytes": 1575140,
           "transferBytes": 460867,
-          "ms": 225
+          "ms": 296
         },
         "frameCount": 28,
         "glContexts": {
@@ -60,7 +60,7 @@
             "offscreen"
           ]
         },
-        "secondRendererToFirstFrameMs": 11
+        "secondRendererToFirstFrameMs": 4
       },
       "frames": [
         {
@@ -123,20 +123,20 @@
           "file": "like.pag",
           "frames": 28,
           "emitted": 56,
-          "meanErrMs": 9.4,
-          "maxAbsErrMs": 14.9,
+          "meanErrMs": 7.5,
+          "maxAbsErrMs": 12.2,
           "expectedTotalMs": 2333,
-          "measuredTotalMs": 2348,
+          "measuredTotalMs": 2346,
           "ok": true
         },
         {
           "file": "replacement.pag",
           "frames": 60,
           "emitted": 120,
-          "meanErrMs": 10.9,
-          "maxAbsErrMs": 11.6,
+          "meanErrMs": 14.6,
+          "maxAbsErrMs": 15.1,
           "expectedTotalMs": 2000,
-          "measuredTotalMs": 2011,
+          "measuredTotalMs": 2015,
           "ok": true
         }
       ],
@@ -148,7 +148,7 @@
           "resolvedLoops": 1,
           "expectedPlays": 1,
           "observedPlays": 1,
-          "endedAfterMs": 1179,
+          "endedAfterMs": 1168,
           "expectedMs": 1167,
           "ok": true
         },
@@ -159,7 +159,7 @@
           "resolvedLoops": 3,
           "expectedPlays": 3,
           "observedPlays": 3,
-          "endedAfterMs": 3504,
+          "endedAfterMs": 3508,
           "expectedMs": 3500,
           "ok": true
         },
@@ -180,7 +180,7 @@
         "sharedMode": {
           "viewsCreated": 100,
           "viewsDisposed": 100,
-          "framesDrawn": 438,
+          "framesDrawn": 411,
           "errors": 0,
           "webglContextsCreated": 1,
           "webglContextTypes": [
@@ -459,17 +459,17 @@
           "frames": 28,
           "renderAndCopy": {
             "n": 112,
-            "avg": 0.4,
+            "avg": 0.38,
             "p50": 0.4,
             "p95": 0.6,
-            "max": 1.4
+            "max": 1.1
           },
           "withReadback": {
             "n": 112,
-            "avg": 2.56,
+            "avg": 2.35,
             "p50": 2.1,
-            "p95": 3,
-            "max": 54.5
+            "p95": 2.5,
+            "max": 43.7
           }
         },
         {
@@ -479,17 +479,17 @@
           "frames": 28,
           "renderAndCopy": {
             "n": 112,
-            "avg": 0.52,
-            "p50": 0.6,
-            "p95": 0.8,
-            "max": 1.1
+            "avg": 0.44,
+            "p50": 0.5,
+            "p95": 0.7,
+            "max": 1
           },
           "withReadback": {
             "n": 112,
-            "avg": 7.26,
-            "p50": 7.3,
-            "p95": 10.5,
-            "max": 38
+            "avg": 6.69,
+            "p50": 7,
+            "p95": 9,
+            "max": 30.6
           }
         },
         {
@@ -502,14 +502,14 @@
             "avg": 0.21,
             "p50": 0.2,
             "p95": 0.3,
-            "max": 7.2
+            "max": 7.3
           },
           "withReadback": {
             "n": 240,
-            "avg": 7.27,
-            "p50": 7.1,
-            "p95": 8.9,
-            "max": 13.6
+            "avg": 7.34,
+            "p50": 7.2,
+            "p95": 8.6,
+            "max": 14.9
           }
         },
         {
@@ -519,17 +519,17 @@
           "frames": 60,
           "renderAndCopy": {
             "n": 240,
-            "avg": 0.18,
+            "avg": 0.19,
             "p50": 0.1,
             "p95": 0.3,
-            "max": 6.8
+            "max": 10.6
           },
           "withReadback": {
             "n": 240,
-            "avg": 7.09,
-            "p50": 6.9,
-            "p95": 8.5,
-            "max": 13
+            "avg": 7.04,
+            "p50": 6.8,
+            "p95": 8.7,
+            "max": 20.9
           }
         }
       ]
@@ -540,8 +540,8 @@
         "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/27.2 Safari/605.1.15",
         "offscreenCanvas": true,
         "webAssembly": true,
-        "engineLoadMs": 46,
-        "coldLoadToFirstFrameMs": 118,
+        "engineLoadMs": 59,
+        "coldLoadToFirstFrameMs": 130,
         "moduleResource": {
           "url": "http://localhost:5197/__libpag/libpag.esm.js?import",
           "encodedBytes": 296581,
@@ -554,36 +554,7 @@
           "encodedBytes": 1575368,
           "decodedBytes": 1575140,
           "transferBytes": 1575668,
-          "ms": 4
-        },
-        "frameCount": 28,
-        "glContexts": {
-          "created": 1,
-          "types": [
-            "offscreen"
-          ]
-        },
-        "secondRendererToFirstFrameMs": 5
-      },
-      "supportCdn": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/27.2 Safari/605.1.15",
-        "offscreenCanvas": true,
-        "webAssembly": true,
-        "engineLoadMs": 487,
-        "coldLoadToFirstFrameMs": 523,
-        "moduleResource": {
-          "url": "https://cdn.jsdelivr.net/npm/libpag@4.5.85/lib/libpag.esm.js",
-          "encodedBytes": 0,
-          "decodedBytes": 0,
-          "transferBytes": 0,
-          "ms": 275
-        },
-        "wasmResource": {
-          "url": "https://cdn.jsdelivr.net/npm/libpag@4.5.85/lib/libpag.wasm",
-          "encodedBytes": 0,
-          "decodedBytes": 0,
-          "transferBytes": 0,
-          "ms": 190
+          "ms": 7
         },
         "frameCount": 28,
         "glContexts": {
@@ -593,6 +564,35 @@
           ]
         },
         "secondRendererToFirstFrameMs": 6
+      },
+      "supportCdn": {
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/27.2 Safari/605.1.15",
+        "offscreenCanvas": true,
+        "webAssembly": true,
+        "engineLoadMs": 351,
+        "coldLoadToFirstFrameMs": 390,
+        "moduleResource": {
+          "url": "https://cdn.jsdelivr.net/npm/libpag@4.5.85/lib/libpag.esm.js",
+          "encodedBytes": 0,
+          "decodedBytes": 0,
+          "transferBytes": 0,
+          "ms": 224
+        },
+        "wasmResource": {
+          "url": "https://cdn.jsdelivr.net/npm/libpag@4.5.85/lib/libpag.wasm",
+          "encodedBytes": 0,
+          "decodedBytes": 0,
+          "transferBytes": 0,
+          "ms": 103
+        },
+        "frameCount": 28,
+        "glContexts": {
+          "created": 1,
+          "types": [
+            "offscreen"
+          ]
+        },
+        "secondRendererToFirstFrameMs": 8
       },
       "frames": [
         {
@@ -632,21 +632,21 @@
         {
           "file": "like.pag",
           "frames": 28,
-          "emitted": 55,
-          "meanErrMs": 6.2,
-          "maxAbsErrMs": 11.3,
+          "emitted": 56,
+          "meanErrMs": 7.9,
+          "maxAbsErrMs": 19.3,
           "expectedTotalMs": 2333,
-          "measuredTotalMs": 2344,
+          "measuredTotalMs": 2336,
           "ok": true
         },
         {
           "file": "replacement.pag",
           "frames": 60,
-          "emitted": 117,
-          "meanErrMs": 2.3,
-          "maxAbsErrMs": 8.3,
+          "emitted": 96,
+          "meanErrMs": 11.6,
+          "maxAbsErrMs": 17,
           "expectedTotalMs": 2000,
-          "measuredTotalMs": 2002,
+          "measuredTotalMs": 2000,
           "ok": true
         }
       ],
@@ -658,7 +658,7 @@
           "resolvedLoops": 1,
           "expectedPlays": 1,
           "observedPlays": 1,
-          "endedAfterMs": 1169,
+          "endedAfterMs": 1180,
           "expectedMs": 1167,
           "ok": true
         },
@@ -669,7 +669,7 @@
           "resolvedLoops": 3,
           "expectedPlays": 3,
           "observedPlays": 3,
-          "endedAfterMs": 3505,
+          "endedAfterMs": 3511,
           "expectedMs": 3500,
           "ok": true
         },
@@ -690,7 +690,7 @@
         "sharedMode": {
           "viewsCreated": 100,
           "viewsDisposed": 100,
-          "framesDrawn": 410,
+          "framesDrawn": 400,
           "errors": 0,
           "webglContextsCreated": 1,
           "webglContextTypes": [
@@ -969,17 +969,17 @@
           "frames": 28,
           "renderAndCopy": {
             "n": 112,
-            "avg": 0.49,
+            "avg": 0.47,
             "p50": 0,
             "p95": 1,
-            "max": 4
+            "max": 11
           },
           "withReadback": {
             "n": 112,
-            "avg": 4.67,
-            "p50": 3,
-            "p95": 6,
-            "max": 235
+            "avg": 4.32,
+            "p50": 2,
+            "p95": 3,
+            "max": 231
           }
         },
         {
@@ -989,17 +989,17 @@
           "frames": 28,
           "renderAndCopy": {
             "n": 112,
-            "avg": 0.38,
+            "avg": 0.3,
             "p50": 0,
             "p95": 1,
             "max": 1
           },
           "withReadback": {
             "n": 112,
-            "avg": 3.29,
+            "avg": 3.13,
             "p50": 2,
             "p95": 3,
-            "max": 121
+            "max": 119
           }
         },
         {
@@ -1009,17 +1009,17 @@
           "frames": 60,
           "renderAndCopy": {
             "n": 240,
-            "avg": 0.12,
+            "avg": 0.08,
             "p50": 0,
             "p95": 1,
             "max": 5
           },
           "withReadback": {
             "n": 240,
-            "avg": 4.11,
+            "avg": 3.62,
             "p50": 2,
             "p95": 3,
-            "max": 424
+            "max": 346
           }
         },
         {
@@ -1029,17 +1029,17 @@
           "frames": 60,
           "renderAndCopy": {
             "n": 240,
-            "avg": 0.1,
+            "avg": 0.03,
             "p50": 0,
-            "p95": 1,
-            "max": 2
+            "p95": 0,
+            "max": 1
           },
           "withReadback": {
             "n": 240,
-            "avg": 3.56,
+            "avg": 2.85,
             "p50": 2,
             "p95": 3,
-            "max": 336
+            "max": 193
           }
         }
       ]

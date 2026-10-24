@@ -1,5 +1,5 @@
 {
-  "date": "2026-10-24T06:30:22.839Z",
+  "date": "2026-10-24T07:45:47.653Z",
   "step": 5,
   "diff": [
     {
@@ -1158,73 +1158,48 @@
       "heapGrowthKB_for_2400_drawFrames": 0,
       "drawFrameCall": {
         "n": 1200,
-        "avg": 0.045,
+        "avg": 0.032,
         "p50": 0,
         "p95": 0.1,
-        "max": 0.6
+        "max": 0.2
       },
       "drawFramePlusRaster": {
         "n": 1200,
-        "avg": 4.362,
-        "p50": 4.5,
-        "p95": 8,
-        "max": 13.7
+        "avg": 4.224,
+        "p50": 4.4,
+        "p95": 7.5,
+        "max": 9.2
       }
     },
     "oracleDpr1": {
       "n": 1200,
-      "avg": 4.225,
+      "avg": 4.22,
       "p50": 4.3,
-      "p95": 7.6,
-      "max": 12.5
+      "p95": 7.5,
+      "max": 12.2
     },
     "dpr2": {
       "backing": "750x1334",
       "heapGrowthKB_for_2400_drawFrames": 0,
       "drawFrameCall": {
         "n": 1200,
-        "avg": 0.048,
+        "avg": 0.037,
         "p50": 0,
         "p95": 0.1,
-        "max": 6
+        "max": 4.4
       },
       "drawFramePlusRaster": {
         "n": 1200,
-        "avg": 4.332,
-        "p50": 4.5,
-        "p95": 7.8,
-        "max": 9.6
+        "avg": 4.224,
+        "p50": 4.4,
+        "p95": 7.6,
+        "max": 8.5
       }
     }
   },
   "perfGpu": {
     "sample": "Pink-Heart-Rocket.svga",
     "dpr1": {
-      "backing": "750x1334",
-      "heapGrowthKB_for_2400_drawFrames": 0,
-      "drawFrameCall": {
-        "n": 1200,
-        "avg": 0.052,
-        "p50": 0,
-        "p95": 0.2,
-        "max": 0.6
-      },
-      "drawFramePlusRaster": {
-        "n": 1200,
-        "avg": 4.435,
-        "p50": 4.5,
-        "p95": 8.1,
-        "max": 11.7
-      }
-    },
-    "oracleDpr1": {
-      "n": 1200,
-      "avg": 4.249,
-      "p50": 4.3,
-      "p95": 7.7,
-      "max": 10.2
-    },
-    "dpr2": {
       "backing": "750x1334",
       "heapGrowthKB_for_2400_drawFrames": 0,
       "drawFrameCall": {
@@ -1236,10 +1211,35 @@
       },
       "drawFramePlusRaster": {
         "n": 1200,
-        "avg": 4.262,
+        "avg": 4.224,
         "p50": 4.4,
-        "p95": 7.7,
-        "max": 9.4
+        "p95": 7.6,
+        "max": 9.2
+      }
+    },
+    "oracleDpr1": {
+      "n": 1200,
+      "avg": 4.175,
+      "p50": 4.2,
+      "p95": 7.6,
+      "max": 9.4
+    },
+    "dpr2": {
+      "backing": "750x1334",
+      "heapGrowthKB_for_2400_drawFrames": 0,
+      "drawFrameCall": {
+        "n": 1200,
+        "avg": 0.041,
+        "p50": 0,
+        "p95": 0.1,
+        "max": 5.9
+      },
+      "drawFramePlusRaster": {
+        "n": 1200,
+        "avg": 4.214,
+        "p50": 4.3,
+        "p95": 7.6,
+        "max": 12.1
       }
     }
   },

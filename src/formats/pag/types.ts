@@ -77,7 +77,8 @@ export interface PagModuleLike {
   PAGView: { init(file: PagFileLike, canvas: HTMLCanvasElement | OffscreenCanvas, options?: { useScale?: boolean; useCanvas2D?: boolean; firstFrame?: boolean }): Promise<PagViewLike | undefined> };
   PAGImage: { fromSource(source: ImageBitmap | HTMLCanvasElement | HTMLImageElement): PagImageLike };
   PAGFont: { registerFont(family: string, data: File): Promise<void>; registerFallbackFontNames(names?: string[]): void };
-  globalCanvas: { retain(): void; release(): void };
+  /** libpag's shared WebGL canvas (reference counted); `canvas` is null while no view holds it. */
+  globalCanvas: { retain(): void; release(): void; readonly canvas: HTMLCanvasElement | OffscreenCanvas | null };
 }
 
 /** What `libpag.esm.js` exports. */

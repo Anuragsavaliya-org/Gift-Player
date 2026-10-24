@@ -3,6 +3,7 @@ import type { SvgaMovie } from './types';
 /** A decoded, drawable image owned by whoever holds it: an `ImageBitmap`, or an `<img>` with a `close()` added. */
 export type SvgaBitmap = CanvasImageSource & { readonly width: number; readonly height: number; close(): void };
 
+/** Decoded images of an SVGA movie, and the keys that could not be decoded. */
 export interface DecodedSvgaImages {
   bitmaps: Map<string, SvgaBitmap>;
   /** Keys whose bytes the browser could not decode (they are simply absent from `bitmaps`). */
@@ -36,6 +37,7 @@ export async function decodeImageElement(blob: Blob): Promise<SvgaBitmap> {
     await img.decode();
   } catch (e) {
     URL.revokeObjectURL(url);
+    img.src = ''; // a failed decode must not leave a holder behind
     throw e;
   }
   URL.revokeObjectURL(url); // the browser keeps the encoded data it needs; the URL is not required to re-decode
@@ -72,6 +74,7 @@ export async function decodeSvgaImages(movie: SvgaMovie, options: DecodeOptions 
   return { bitmaps, failed };
 }
 
+/** Closes every image in the map and empties it. */
 export function releaseSvgaImages(bitmaps: Map<string, SvgaBitmap>): void {
   for (const b of bitmaps.values()) b.close();
   bitmaps.clear();

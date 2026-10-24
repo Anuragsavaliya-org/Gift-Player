@@ -10,10 +10,16 @@ export async function readSource(src: GiftSource, init?: RequestInit): Promise<U
     try {
       res = await fetch(src, init);
     } catch (cause) {
-      throw new GiftPlayerError('fetch-failed', `Failed to fetch ${src}`, { cause });
+      if (init?.signal?.aborted || (cause as Error)?.name === 'AbortError') throw new GiftPlayerError('aborted', 'The load was aborted.', { cause });
+      throw new GiftPlayerError('network', `Failed to fetch ${src}`, { cause });
     }
-    if (!res.ok) throw new GiftPlayerError('fetch-failed', `Failed to fetch ${src}: HTTP ${res.status}`);
-    return new Uint8Array(await res.arrayBuffer());
+    if (!res.ok) throw new GiftPlayerError('network', `Failed to fetch ${src}: HTTP ${res.status}`);
+    try {
+      return new Uint8Array(await res.arrayBuffer());
+    } catch (cause) {
+      if (init?.signal?.aborted || (cause as Error)?.name === 'AbortError') throw new GiftPlayerError('aborted', 'The load was aborted.', { cause });
+      throw new GiftPlayerError('network', `Failed to read ${src}`, { cause });
+    }
   }
   if (src instanceof ArrayBuffer) return new Uint8Array(src);
   if (ArrayBuffer.isView(src)) return new Uint8Array(src.buffer, src.byteOffset, src.byteLength);

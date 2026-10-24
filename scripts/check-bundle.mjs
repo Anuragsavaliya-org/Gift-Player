@@ -13,8 +13,8 @@ const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'));
 // String literals from inside libpag / its emscripten runtime: they survive minification (identifiers do not).
 const MARKERS = ['PAGInit fail! Please check', 'Make context current fail!', 'ANGLE_instanced_arrays', 'EXT_texture_filter_anisotropic', 'Tencent is pleased'];
-const MAX_BYTES = 130 * 1024; // each dist file; the whole package without the PAG engine
-const MAX_BUNDLED = 80 * 1024; // what a consumer's minified bundle of everything may weigh; libpag alone adds ~130 KB minified
+const MAX_BYTES = 190 * 1024; // each dist file; the whole package without the PAG engine
+const MAX_BUNDLED = 120 * 1024; // what a consumer's minified bundle of everything may weigh; libpag alone adds ~130 KB minified
 const problems = [];
 
 for (const f of ['dist/index.js', 'dist/index.cjs']) {

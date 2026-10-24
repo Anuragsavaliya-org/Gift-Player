@@ -14,3 +14,13 @@ export { PagRenderer, loadPagEngine, releasePagEngineContext, setPagFallbackFont
 export type { PagRendererOptions, PagEngineOptions } from './formats/pag';
 export type { EditableKey } from './core/frame-source';
 export { registerFont, type FontData } from './core/fonts';
+
+// Public player API
+export { GiftPlayer, getDefaultCache, registerResolver } from './player';
+export type { GiftInfo, GiftPlayerEvents, GiftPlayerOptions, LoadOptions, LoadedGift, PreloadOptions, PreloadResult, Replacement, ReplacementImage, Replacements, ResolvedSource, SourceResolver } from './player';
+export { GiftQueue } from './queue';
+export type { DropReason, GiftQueueEvents, GiftQueueOptions, QueueAddOptions, QueueHandle, QueueItemInfo, QueueItemStatus, QueueStats } from './queue';
+export { AssetCache, DEFAULT_CACHE_BYTES } from './cache/asset-cache';
+export type { AssetCacheOptions, CacheLoaded, CacheStats, Lease } from './cache/asset-cache';
+export type { TextStyle, ImageOptions } from './core/replacement';
+export type { ContentMode } from './core/viewport';

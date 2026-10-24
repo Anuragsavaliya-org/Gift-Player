@@ -409,3 +409,47 @@ SVGA (browser canvas text) shapes Hindi, Gujarati and Arabic correctly, RTL incl
 
 ### Known issues / open
 Firefox: none locally (Linux CI in Phase 7). Chromium frame-0 nondeterminism above. libpag declares its own runtime deps; only dev-installed here.
+
+## Phase 6 — Public API, queue, cache (+ PAG text follow-up) ✅ (awaiting review)
+Numbers: `reports/phase6-api.json` (`npm run verify:api`, Chromium 156 + WebKit 27.2). Unit tests: 256 (Vitest). Harness: `playground/verify-player.{html,ts}`; resource counters: `playground/lib/counters.ts`; simulator: `playground/stream.html`.
+
+### Part A: PAG complex-script text
+`PagRenderer.setText` logs ONE `console.warn` per player when the text contains Indic, Arabic, Hebrew, Thai, Khmer, Myanmar (etc.) characters (regex over U+0590–U+0DFF, U+0E00–U+109F, U+1780–U+17FF, U+FB1D–U+FEFF); Latin, CJK, emoji do not warn; SVGA never warns (browser text drawing shapes correctly). Verified in both browsers (`api` task).
+
+### Known limitations
+- **PAG text cannot shape complex scripts or do RTL** (libpag draws glyph by glyph, no shaper): Hindi/Gujarati marks misplaced, Arabic isolated and left-to-right. Use SVGA for personalised names in those scripts. Details and screenshots: Phase 5, `reports/text/`.
+- A GIF/WebP whose file says "loop forever" would hold a queue forever: `GiftQueue` therefore plays each gift once unless the item (`loops`) or the queue (`defaultLoops`) says otherwise.
+- `GiftPlayer` has no replaceable layers for GIF/WebP: `setText`/`setImage` warn and do nothing.
+- Firefox: Linux CI in Phase 7.
+
+### Deferred (per owner, for the future personalisation phase)
+- `setTextImage`: SDK-side shaping/rasterising of complex-script text into an image fed to a PAG image layer.
+- Checking upstream libpag for a shaping fix.
+
+### Public API (all in `src/index.ts`, TSDoc on every export)
+- `GiftPlayer` (`src/player/player.ts`): `new GiftPlayer(container, {contentMode, loops, pauseWhenHidden = true, devicePixelRatio, observeResize, cache, staticDurationMs, pagModuleUrl, pagWasmUrl, pagModule})`; `load(src, {replacements, signal, loops}) -> {format,width,height,frameCount,durationMs,editableKeys}`; `play()` (resolves at the end, rejects `aborted` on stop/new load/destroy); `pause() resume() stop() seek(frame)`; `setText setImage setHidden clearReplacement getEditableKeys`; `on/off('loaded'|'start'|'loop'|'end'|'error'|'frame')` (`frame` only emitted while someone listens); `destroy()` (idempotent); getters `playing`, `current`, `lastSwapMs`; statics `preload(srcs)`, `registerResolver(scheme, fn)`, `getCache()`, `setCacheBudget(bytes)`.
+- **One canvas** per player, created in the container, reused for every `load()` and every format; PAG keeps its shared-WebGL-context path.
+- **Load races:** a new `load()` (or `signal`, or `destroy()`) aborts the one in flight; loads are serialised through a tail promise so two never touch the canvas together. The previous gift stays on screen (and playing) while the new one downloads and is replaced at the moment the new one is ready: from then to the new first frame the canvas is blank (`lastSwapMs`, measured below).
+- **Replacements in `load()`** are applied (text sync, images awaited) before frame 0 is drawn; a failing replacement image is reported through `error` and the gift still shows. Unknown keys warn, never throw.
+- **Errors:** `GiftPlayerError.code`: `unsupported-format`, `invalid-input`, `network` (was `fetch-failed`), `parse-failed`, `decode-failed`, `engine-load-failed` (was a `fetch-failed` of the PAG engine; also for a blocked WASM), `aborted`. Every public rejection is a `GiftPlayerError`.
+- **pauseWhenHidden:** `visibilitychange` pauses the ticker (position kept) and resumes it from the same frame: no catch-up burst (checked: ≤ 3 frames after 700 ms hidden).
+- **SSR:** importing the package touches no browser global (test runs the built ESM and CJS with `window`/`document`/`navigator`/`self`/`location`/`requestAnimationFrame` made to throw on any access). The default cache is created lazily. `new GiftPlayer` on a server throws `invalid-input`.
+- `GiftQueue` (`src/queue/queue.ts`): see below. `AssetCache` (`src/cache/asset-cache.ts`): see below. Resolvers in `src/player/asset.ts`.
+
+### GiftQueue
+`new GiftQueue(player, {maxLength = ∞, preloadAhead = 2, coalesce = false, defaultLoops = 1})`; `add(src, {priority = 0, replacements, loops}) -> {id, status, count, cancel(), done}`; `pause() resume() clear() skip() destroy()`; `length`, `isPlaying`, `stats`; events `item-begin`, `item-start`, `item-end`, `item-error`, `item-dropped` (`reason: overflow | cancelled | cleared`), `change`, `idle`.
+- One at a time; higher priority first, FIFO within a priority; `add()` starts the loop in a microtask, so a burst added in one go is ordered as a whole.
+- Full: the lowest priority goes, oldest first (the new item too, if it is the lowest), with `item-dropped`.
+- Preload: the next `preloadAhead` waiting gifts are held in the cache (fetched, parsed, SVGA images decoded, PAG engine loaded and warmed); holds are released when an item leaves that window or starts.
+- A failed gift (also a failed preload) is reported by `item-error` and skipped; stress run below shows no stall.
+- `coalesce`: an `add()` identical (source identity, priority, loops, replacements) to the waiting item it would directly follow joins it; `count` is the combo number (`item-start.count`); cancelling one merged add lowers the count.
+- `stats.gapsMs` / `blankMs`: for gifts that were already waiting: gift end → next first frame on screen, and the blank-canvas part of it.
+
+### Cache and resolvers
+- `AssetCache`: LRU by estimated decoded bytes (default 64 MB): SVGA = decoded `w*h*4` per image + encoded copies; GIF/WebP = file + one frame; PAG = 4 x file. Reference counted: a leased asset is never evicted (the cache may exceed the budget while it is in use and evicts as soon as it is released). Concurrent requests share one load; the load aborts only when every requester has aborted. `SvgaRenderer` got `sharedImages` (the cache owns the images; the renderer neither closes nor clears them). Replacement images stay owned by their renderer.
+- Not cached: ArrayBuffer/Blob sources (loaded privately, disposed with the player). Browser HTTP cache is left to the browser.
+- `registerResolver('gift', async (ref) => url | ArrayBuffer | Blob)`: hook only (a URL result becomes the cache key). Reserved: http, https, blob, data, file.
+- `releasePagEngineContext()` now also calls `WEBGL_lose_context` when it released the last reference (libpag only dropped its references, the context stayed alive): the page's live WebGL contexts really go to 0.
+
+### Verification (both browsers pass; details in REVIEW.md)
+`api` 45 checks, `engine` 4, `cache` 13, `leaks` (100 cycles), `stress` (200 items + 120 items with maxLength 20). Fixes found by the verification: failed `<img>` decodes left a holder with `src` set (now cleared); the first queue item started before `add()` returned (now a microtask); `item-begin` event added.
