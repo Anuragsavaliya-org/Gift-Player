@@ -1,7 +1,7 @@
 # REVIEW — Phase 7: Hardening, packaging, React wrapper, CI
 
 ## Status
-Done. Nothing published; `license` and the package name untouched. `npm run ci:local` (every step of the workflow, Chromium + WebKit) passes: typecheck, 273 tests (14 files, incl. SSR and React), build, `check:bundle`, `npm pack --dry-run`, and `verify:browser`, `verify:corpus`, `verify:images`, `verify:pag`, `verify:api` in both browsers. **Firefox has not run anywhere yet: its first results come from the first CI run** (no git remote). Commit: see `git log` (`Phase 7: ...`).
+Done. Nothing published; `license` and the package name untouched. `npm run ci:local` (every step of the workflow, Chromium + WebKit) passes: typecheck, 273 tests (14 files, incl. SSR and React), build, `check:bundle`, `npm pack --dry-run`, and `verify:browser`, `verify:corpus`, `verify:images`, `verify:pag`, `verify:api` in both browsers. **Firefox has not run anywhere yet: its first results come from the first CI run** (no git remote). Commit: `8a8f6f6` (a tiny follow-up commit only records this line).
 
 ## Part A: `clearOnEnd` test results (Chromium and WebKit, 23 checks each, all pass)
 | check | SVGA | GIF | WebP | PAG |
