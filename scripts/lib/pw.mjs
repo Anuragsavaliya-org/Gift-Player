@@ -9,7 +9,7 @@ export const BROWSERS = { chromium, firefox, webkit };
 export async function runInBrowser(name, url, { timeout = 180000, viewport = { width: 1000, height: 800 }, setup } = {}) {
   // 'chromium' uses the full Chromium in its new headless mode (channel 'chromium'): the default headless
   // *shell* does not run image animations or paint like a real browser.
-  const browser = await BROWSERS[name].launch(name === 'chromium' ? { channel: 'chromium', headless: true } : { headless: true });
+  const browser = await BROWSERS[name].launch(name === 'chromium' ? { channel: 'chromium', headless: true, args: ['--js-flags=--expose-gc'] } : { headless: true });
   try {
     const context = await browser.newContext({ viewport, deviceScaleFactor: 1 });
     const page = await context.newPage();

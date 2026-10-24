@@ -10,11 +10,15 @@ import { Ticker } from '../src/core/ticker';
 import { decodeSvgaImages, parseSvga } from '../src/formats/svga';
 import { SvgaRenderer, type ContentMode } from '../src/formats/svga/render/renderer';
 import type { SvgaFrame, SvgaMovie, SvgaSprite } from '../src/formats/svga/types';
+import { mipConfig } from '../src/formats/svga/render/mips';
 import { pixelDiff } from './lib/diff';
 import { createOracle, type OracleMode } from './lib/oracle';
 import { sampleBytes, sampleUrl } from './lib/samples';
 
 const q = new URLSearchParams(location.search);
+if (q.get('bias') !== null) mipConfig.bias = Number(q.get('bias'));
+if (q.get('dims') === 'floor') mipConfig.floorDims = true;
+if (q.get('resize')) mipConfig.resize = q.get('resize') as 'high';
 const task = q.get('task') ?? 'diff';
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const nextFrame = () => new Promise<number>((r) => requestAnimationFrame(r));
@@ -35,10 +39,17 @@ function box(width: number, height: number): HTMLDivElement {
   return d;
 }
 
-async function load(name: string) {
+/** Candidate image strategies (Phase 4.1): `src=bitmap|img` picks the decoded source, `mips=1` adds our mip chains. */
+const variantOf = (p: URLSearchParams) => ({
+  source: (p.get('src') === 'img' ? 'img' : 'bitmap') as 'img' | 'bitmap',
+  mips: p.get('mips') === '1',
+  smoothing: (p.get('smooth') as ImageSmoothingQuality | null) ?? 'low',
+});
+
+async function load(name: string, p: URLSearchParams = q) {
   const bytes = await sampleBytes(name);
   const movie = parseSvga(bytes);
-  const { bitmaps, failed } = await decodeSvgaImages(movie);
+  const { bitmaps, failed } = await decodeSvgaImages(movie, { source: variantOf(p).source });
   if (failed.length) throw new Error(`image decode failed: ${failed.join(',')}`);
   return { movie, bitmaps, url: await sampleUrl(name) };
 }
@@ -49,7 +60,7 @@ async function runDiff(p: URLSearchParams = q) {
   const step = Number(p.get('step') ?? 5);
   const tol = Number(p.get('tol') ?? 10);
   const [mode, oracleMode] = MODES[p.get('mode') ?? 'aspectFit']!;
-  const { movie, bitmaps, url } = await load(name);
+  const { movie, bitmaps, url } = await load(name, p);
   if (p.get('mimicOracleAlpha') === '1') {
     // Diagnostic only: svgaplayerweb skips any sprite with frame alpha < 0.05; reproduce that on our side.
     for (const sp of movie.sprites) sp.frames = sp.frames.map((fr) => (fr.alpha > 0 && fr.alpha < 0.05 ? { ...fr, alpha: 0 } : fr));
@@ -62,16 +73,9 @@ async function runDiff(p: URLSearchParams = q) {
   const mine = document.createElement('canvas');
   mine.style.cssText = `width:${w}px;height:${h}px`;
   box(w, h).append(mine);
-  if (p.get('srcimg') === '1') {
-    // Diagnostic: hand the renderer <img> elements (what svgaplayerweb draws) instead of ImageBitmaps.
-    for (const [k, v] of movie.images) {
-      const im = new Image();
-      im.src = URL.createObjectURL(new Blob([v.data as BlobPart], { type: v.mime }));
-      await im.decode();
-      (bitmaps as unknown as Map<string, unknown>).set(k, Object.assign(im, { close() { /* not an ImageBitmap */ } }));
-    }
-  }
-  const r = new SvgaRenderer(mine, movie, bitmaps, { contentMode: mode, devicePixelRatio: 1, imageSmoothing: (p.get('smooth') as ImageSmoothingQuality | null) ?? 'low' });
+  const v = variantOf(p);
+  const r = new SvgaRenderer(mine, movie, bitmaps, { contentMode: mode, devicePixelRatio: 1, imageSmoothing: v.smoothing, mips: v.mips });
+  await r.ready();
 
   const frames: number[] = [];
   const from = Number(p.get('from') ?? 0);
@@ -240,22 +244,16 @@ async function runPerf() {
     const mine = document.createElement('canvas');
     mine.style.cssText = `width:${w}px;height:${h}px`;
     box(w, h).append(mine);
-    if (q.get('srcimg') === '1') {
-      for (const [k, v] of movie.images) {
-        const im = new Image();
-        im.src = URL.createObjectURL(new Blob([v.data as BlobPart], { type: v.mime }));
-        await im.decode();
-        (bitmaps as unknown as Map<string, unknown>).set(k, Object.assign(im, { close() { /* not an ImageBitmap */ } }));
-      }
-    }
-    const r = new SvgaRenderer(mine, movie, bitmaps, { devicePixelRatio: dpr, imageSmoothing: (q.get('smooth') as ImageSmoothingQuality | null) ?? 'low' });
+    const pv = variantOf(q);
+    const r = new SvgaRenderer(mine, movie, bitmaps, { devicePixelRatio: dpr, imageSmoothing: pv.smoothing, mips: pv.mips });
+    await r.ready();
     const ctx = mine.getContext('2d')!;
     const flush = () => ctx.getImageData(0, 0, 1, 1); // readback forces the deferred raster to finish
     for (let f = 0; f < movie.frames; f++) { r.drawFrame(f); flush(); } // warm-up
     // Allocation check: JS heap growth (no GC in between) across many frames. A per-frame allocation of even
     // a few hundred bytes would add up to many MB over this many draws.
     const gc = (window as unknown as { gc?: () => void }).gc;
-    const heapNow = () => (performance as unknown as { memory: { usedJSHeapSize: number } }).memory.usedJSHeapSize;
+    const heapNow = () => (performance as unknown as { memory?: { usedJSHeapSize: number } }).memory?.usedJSHeapSize ?? 0; // Chromium only
     gc?.(); gc?.();
     const heap0 = heapNow();
     for (let p = 0; p < 10; p++) for (let f = 0; f < movie.frames; f++) r.drawFrame(f);
@@ -684,9 +682,102 @@ async function runReplace() {
   return { passed: checks.filter((c) => c.ok).length, failed: checks.filter((c) => !c.ok).length, checks };
 }
 
+// ------------------------------------------------------------------------------------------------
+/** Diff of many files in one page (same variant for all). */
+async function runDiffAll() {
+  const out: unknown[] = [];
+  for (const f of (q.get('files') ?? '').split(',').filter(Boolean)) {
+    const p = new URLSearchParams(q);
+    p.set('sample', f);
+    try {
+      const r = (await runDiff(p)) as { meanPercent: number; maxPercent: number; worstFrame: number; compared: number };
+      out.push({ file: f, meanPercent: r.meanPercent, maxPercent: r.maxPercent, worstFrame: r.worstFrame, compared: r.compared });
+    } catch (e) {
+      out.push({ file: f, error: String((e as Error).message ?? e).slice(0, 200) });
+    }
+  }
+  return out;
+}
+
+/** Load time = decode images (+ mips) + construct renderer + first draw with raster flush, median of `reps`. */
+async function runLoadTime() {
+  const reps = Number(q.get('reps') ?? 7);
+  const v = variantOf(q);
+  const out: unknown[] = [];
+  for (const f of (q.get('files') ?? '').split(',').filter(Boolean)) {
+    const bytes = await sampleBytes(f);
+    const movie = parseSvga(bytes);
+    const decode: number[] = [];
+    const total: number[] = [];
+    for (let i = 0; i < reps + 1; i++) {
+      const cv = document.createElement('canvas');
+      cv.style.cssText = `width:${movie.viewBox.width}px;height:${movie.viewBox.height}px`;
+      document.body.append(cv);
+      const t0 = performance.now();
+      const { bitmaps } = await decodeSvgaImages(movie, { source: v.source });
+      const t1 = performance.now();
+      const r = new SvgaRenderer(cv, movie, bitmaps, { devicePixelRatio: 1, mips: v.mips, imageSmoothing: v.smoothing });
+      await r.ready();
+      r.drawFrame(movie.frames >> 1);
+      cv.getContext('2d')!.getImageData(0, 0, 1, 1);
+      const t2 = performance.now();
+      r.destroy();
+      cv.remove();
+      if (i > 0) { decode.push(t1 - t0); total.push(t2 - t0); } // first iteration warms caches
+    }
+    const med = (a: number[]) => [...a].sort((x, y) => x - y)[a.length >> 1]!;
+    out.push({ file: f, images: movie.images.size, decodeMs: round(med(decode), 1), totalMs: round(med(total), 1), minTotalMs: round(Math.min(...total), 1) });
+  }
+  return out;
+}
+
+/**
+ * Memory over load/destroy cycles. Phase markers are reported to Node through `window.__sample(label)` (exposed by
+ * Playwright), which records the browser's total resident memory (RSS) at that moment.
+ */
+async function runMemory() {
+  const cycles = Number(q.get('cycles') ?? 20);
+  const f = q.get('file') ?? 'Pink-Heart-Rocket.svga';
+  const v = variantOf(q);
+  const sample = (window as unknown as { __sample?: (label: string) => Promise<void> }).__sample;
+  const gc = (window as unknown as { gc?: () => void }).gc;
+  const settle = async () => {
+    if (gc) { gc(); gc(); }
+    else {
+      // No gc() in this browser: allocate and drop large buffers to push the engine into collecting.
+      for (let i = 0; i < 16; i++) { const a = new Uint8Array(32 * 1024 * 1024); a[a.length - 1] = i; }
+    }
+    await sleep(600);
+  };
+  const bytes = await sampleBytes(f);
+  const movie = parseSvga(bytes);
+  await settle();
+  await sample?.('baseline');
+  const frames = Array.from({ length: Math.min(12, movie.frames) }, (_, i) => Math.floor((i * movie.frames) / 12));
+  for (let i = 0; i < cycles; i++) {
+    const cv = document.createElement('canvas');
+    cv.style.cssText = `width:${movie.viewBox.width}px;height:${movie.viewBox.height}px`;
+    document.body.append(cv);
+    const { bitmaps } = await decodeSvgaImages(movie, { source: v.source });
+    const r = new SvgaRenderer(cv, movie, bitmaps, { devicePixelRatio: 1, mips: v.mips, imageSmoothing: v.smoothing });
+    await r.ready();
+    for (const fr of frames) { r.drawFrame(fr); cv.getContext('2d')!.getImageData(0, 0, 1, 1); }
+    if (i === 0) { await sleep(300); await sample?.('loaded'); }
+    r.destroy();
+    cv.remove();
+  }
+  await settle();
+  await sample?.('after-cycles');
+  await sleep(1500);
+  await settle();
+  await sample?.('after-cycles-settled');
+  const mem = (performance as unknown as { memory?: { usedJSHeapSize: number } }).memory;
+  return { file: f, cycles, variant: v, jsHeapMB: mem ? round(mem.usedJSHeapSize / 1048576, 1) : null, gcAvailable: !!gc };
+}
+
 (async () => {
   try {
-    const result = task === 'diff' ? await runDiff() : task === 'corpus' ? await runCorpus() : task === 'diffview' ? await runDiffView() : task === 'perf' ? await runPerf() : task === 'leaks' ? await runLeaks() : await runReplace();
+    const result = task === 'diff' ? await runDiff() : task === 'diffall' ? await runDiffAll() : task === 'loadtime' ? await runLoadTime() : task === 'memory' ? await runMemory() : task === 'corpus' ? await runCorpus() : task === 'diffview' ? await runDiffView() : task === 'perf' ? await runPerf() : task === 'leaks' ? await runLeaks() : await runReplace();
     (window as unknown as { __result: unknown }).__result = result;
     const out = document.getElementById('out');
     if (out) out.textContent = JSON.stringify(result, null, 1);

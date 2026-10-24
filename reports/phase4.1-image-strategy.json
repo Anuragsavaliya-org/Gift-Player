@@ -1,0 +1,1619 @@
+{
+ "date": "2026-10-24T05:23:36.947Z",
+ "step": 10,
+ "files": 24,
+ "results": {
+  "chromium": {
+   "baseline": {
+    "diff": [
+     {
+      "file": "Fiery-Red-Dragon.svga",
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "compared": 11
+     },
+     {
+      "file": "Glossy-Pink-Lips.svga",
+      "meanPercent": 0.043,
+      "maxPercent": 0.224,
+      "worstFrame": 30,
+      "compared": 8
+     },
+     {
+      "file": "Pink-Heart-Rocket.svga",
+      "meanPercent": 0.002,
+      "maxPercent": 0.029,
+      "worstFrame": 230,
+      "compared": 25
+     },
+     {
+      "file": "Rocket.svga",
+      "meanPercent": 0.328,
+      "maxPercent": 0.434,
+      "worstFrame": 60,
+      "compared": 49
+     },
+     {
+      "file": "angel.svga",
+      "meanPercent": 0.007,
+      "maxPercent": 0.028,
+      "worstFrame": 40,
+      "compared": 7
+     },
+     {
+      "file": "kingset.svga",
+      "meanPercent": 0.002,
+      "maxPercent": 0.007,
+      "worstFrame": 30,
+      "compared": 7
+     },
+     {
+      "file": "matteBitmap.svga",
+      "meanPercent": 0.001,
+      "maxPercent": 0.003,
+      "worstFrame": 20,
+      "compared": 4
+     },
+     {
+      "file": "matteRect.svga",
+      "meanPercent": 0.117,
+      "maxPercent": 0.252,
+      "worstFrame": 29,
+      "compared": 4
+     },
+     {
+      "file": "corpus/119040-20211122_111625_1637550985956.svga",
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "compared": 11
+     },
+     {
+      "file": "corpus/119040-20220228_151532_1646032532038.svga",
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "compared": 6
+     },
+     {
+      "file": "corpus/40001099.svga",
+      "meanPercent": 2.229,
+      "maxPercent": 3.658,
+      "worstFrame": 30,
+      "compared": 7
+     },
+     {
+      "file": "corpus/40001114.svga",
+      "meanPercent": 3.121,
+      "maxPercent": 4.376,
+      "worstFrame": 70,
+      "compared": 9
+     },
+     {
+      "file": "corpus/40001143.svga",
+      "meanPercent": 2.817,
+      "maxPercent": 4.581,
+      "worstFrame": 50,
+      "compared": 13
+     },
+     {
+      "file": "corpus/40001144.svga",
+      "meanPercent": 11.647,
+      "maxPercent": 15.721,
+      "worstFrame": 50,
+      "compared": 9
+     },
+     {
+      "file": "corpus/40001289.svga",
+      "meanPercent": 1.706,
+      "maxPercent": 5.584,
+      "worstFrame": 20,
+      "compared": 14
+     },
+     {
+      "file": "corpus/40001415.svga",
+      "meanPercent": 3.689,
+      "maxPercent": 6.869,
+      "worstFrame": 40,
+      "compared": 7
+     },
+     {
+      "file": "corpus/40001421.svga",
+      "meanPercent": 2.954,
+      "maxPercent": 3.736,
+      "worstFrame": 80,
+      "compared": 14
+     },
+     {
+      "file": "corpus/40001423.svga",
+      "meanPercent": 2.549,
+      "maxPercent": 3.306,
+      "worstFrame": 50,
+      "compared": 10
+     },
+     {
+      "file": "corpus/40001427.svga",
+      "meanPercent": 8.501,
+      "maxPercent": 15.573,
+      "worstFrame": 30,
+      "compared": 11
+     },
+     {
+      "file": "corpus/40001508.svga",
+      "meanPercent": 2.741,
+      "maxPercent": 5.138,
+      "worstFrame": 60,
+      "compared": 9
+     },
+     {
+      "file": "corpus/40001575.svga",
+      "meanPercent": 3.613,
+      "maxPercent": 4.974,
+      "worstFrame": 80,
+      "compared": 15
+     },
+     {
+      "file": "corpus/40001576.svga",
+      "meanPercent": 4.675,
+      "maxPercent": 6.065,
+      "worstFrame": 110,
+      "compared": 13
+     },
+     {
+      "file": "corpus/40001577.svga",
+      "meanPercent": 4.776,
+      "maxPercent": 6.715,
+      "worstFrame": 89,
+      "compared": 10
+     },
+     {
+      "file": "corpus/40001578.svga",
+      "meanPercent": 5.767,
+      "maxPercent": 7.906,
+      "worstFrame": 70,
+      "compared": 9
+     }
+    ],
+    "perfLarge": {
+     "sample": "Pink-Heart-Rocket.svga",
+     "dpr1": {
+      "backing": "750x1334",
+      "heapGrowthKB_for_2400_drawFrames": 1,
+      "drawFrameCall": {
+       "n": 720,
+       "avg": 0.057,
+       "p50": 0.1,
+       "p95": 0.1,
+       "max": 0.2
+      },
+      "drawFramePlusRaster": {
+       "n": 720,
+       "avg": 4.412,
+       "p50": 4.4,
+       "p95": 8.1,
+       "max": 13.1
+      }
+     },
+     "oracleDpr1": {
+      "n": 720,
+      "avg": 4.52,
+      "p50": 4.6,
+      "p95": 8.2,
+      "max": 28.8
+     },
+     "dpr2": {
+      "backing": "750x1334",
+      "heapGrowthKB_for_2400_drawFrames": 0,
+      "drawFrameCall": {
+       "n": 720,
+       "avg": 0.075,
+       "p50": 0.1,
+       "p95": 0.2,
+       "max": 0.4
+      },
+      "drawFramePlusRaster": {
+       "n": 720,
+       "avg": 4.688,
+       "p50": 4.8,
+       "p95": 8.8,
+       "max": 12.7
+      }
+     }
+    },
+    "perfSmall": {
+     "sample": "corpus/40001427.svga",
+     "dpr1": {
+      "backing": "204x156",
+      "heapGrowthKB_for_2400_drawFrames": 14,
+      "drawFrameCall": {
+       "n": 288,
+       "avg": 0.267,
+       "p50": 0.3,
+       "p95": 0.4,
+       "max": 2.1
+      },
+      "drawFramePlusRaster": {
+       "n": 288,
+       "avg": 1.351,
+       "p50": 1.3,
+       "p95": 1.7,
+       "max": 3.6
+      }
+     },
+     "oracleDpr1": {
+      "n": 288,
+      "avg": 1.66,
+      "p50": 1.4,
+      "p95": 3.3,
+      "max": 8.1
+     },
+     "dpr2": {
+      "backing": "204x156",
+      "heapGrowthKB_for_2400_drawFrames": 0,
+      "drawFrameCall": {
+       "n": 288,
+       "avg": 0.297,
+       "p50": 0.3,
+       "p95": 0.5,
+       "max": 0.8
+      },
+      "drawFramePlusRaster": {
+       "n": 288,
+       "avg": 1.514,
+       "p50": 1.4,
+       "p95": 2.4,
+       "max": 3.8
+      }
+     }
+    },
+    "loadtime": [
+     {
+      "file": "Pink-Heart-Rocket.svga",
+      "images": 29,
+      "decodeMs": 5.4,
+      "totalMs": 8.8,
+      "minTotalMs": 6.1
+     },
+     {
+      "file": "Fiery-Red-Dragon.svga",
+      "images": 36,
+      "decodeMs": 4.6,
+      "totalMs": 7.7,
+      "minTotalMs": 6.8
+     },
+     {
+      "file": "corpus/40001576.svga",
+      "images": 55,
+      "decodeMs": 6.2,
+      "totalMs": 12.2,
+      "minTotalMs": 10.7
+     },
+     {
+      "file": "corpus/40001427.svga",
+      "images": 28,
+      "decodeMs": 4.5,
+      "totalMs": 9.5,
+      "minTotalMs": 8.6
+     }
+    ],
+    "memoryRun": {
+     "file": "Pink-Heart-Rocket.svga",
+     "cycles": 20,
+     "variant": {
+      "source": "bitmap",
+      "mips": false,
+      "smoothing": "low"
+     },
+     "jsHeapMB": 9.5,
+     "gcAvailable": true
+    },
+    "memoryRss": {
+     "baseline": 855.7,
+     "loaded": 895.1,
+     "after-cycles": 712.3,
+     "after-cycles-settled": 539
+    }
+   },
+   "A": {
+    "diff": [
+     {
+      "file": "Fiery-Red-Dragon.svga",
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "compared": 11
+     },
+     {
+      "file": "Glossy-Pink-Lips.svga",
+      "meanPercent": 0.027,
+      "maxPercent": 0.215,
+      "worstFrame": 30,
+      "compared": 8
+     },
+     {
+      "file": "Pink-Heart-Rocket.svga",
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "compared": 25
+     },
+     {
+      "file": "Rocket.svga",
+      "meanPercent": 0.328,
+      "maxPercent": 0.434,
+      "worstFrame": 60,
+      "compared": 49
+     },
+     {
+      "file": "angel.svga",
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "compared": 7
+     },
+     {
+      "file": "kingset.svga",
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "compared": 7
+     },
+     {
+      "file": "matteBitmap.svga",
+      "meanPercent": 0.001,
+      "maxPercent": 0.003,
+      "worstFrame": 20,
+      "compared": 4
+     },
+     {
+      "file": "matteRect.svga",
+      "meanPercent": 0.117,
+      "maxPercent": 0.252,
+      "worstFrame": 29,
+      "compared": 4
+     },
+     {
+      "file": "corpus/119040-20211122_111625_1637550985956.svga",
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "compared": 11
+     },
+     {
+      "file": "corpus/119040-20220228_151532_1646032532038.svga",
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "compared": 6
+     },
+     {
+      "file": "corpus/40001099.svga",
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "compared": 7
+     },
+     {
+      "file": "corpus/40001114.svga",
+      "meanPercent": 0,
+      "maxPercent": 0.003,
+      "worstFrame": 0,
+      "compared": 9
+     },
+     {
+      "file": "corpus/40001143.svga",
+      "meanPercent": 0.014,
+      "maxPercent": 0.176,
+      "worstFrame": 110,
+      "compared": 13
+     },
+     {
+      "file": "corpus/40001144.svga",
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "compared": 9
+     },
+     {
+      "file": "corpus/40001289.svga",
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "compared": 14
+     },
+     {
+      "file": "corpus/40001415.svga",
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "compared": 7
+     },
+     {
+      "file": "corpus/40001421.svga",
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "compared": 14
+     },
+     {
+      "file": "corpus/40001423.svga",
+      "meanPercent": 0.024,
+      "maxPercent": 0.236,
+      "worstFrame": 0,
+      "compared": 10
+     },
+     {
+      "file": "corpus/40001427.svga",
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "compared": 11
+     },
+     {
+      "file": "corpus/40001508.svga",
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "compared": 9
+     },
+     {
+      "file": "corpus/40001575.svga",
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "compared": 15
+     },
+     {
+      "file": "corpus/40001576.svga",
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "compared": 13
+     },
+     {
+      "file": "corpus/40001577.svga",
+      "meanPercent": 0.012,
+      "maxPercent": 0.119,
+      "worstFrame": 0,
+      "compared": 10
+     },
+     {
+      "file": "corpus/40001578.svga",
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "compared": 9
+     }
+    ],
+    "perfLarge": {
+     "sample": "Pink-Heart-Rocket.svga",
+     "dpr1": {
+      "backing": "750x1334",
+      "heapGrowthKB_for_2400_drawFrames": 1,
+      "drawFrameCall": {
+       "n": 720,
+       "avg": 0.079,
+       "p50": 0.1,
+       "p95": 0.2,
+       "max": 0.5
+      },
+      "drawFramePlusRaster": {
+       "n": 720,
+       "avg": 5.163,
+       "p50": 5.2,
+       "p95": 10,
+       "max": 20.2
+      }
+     },
+     "oracleDpr1": {
+      "n": 720,
+      "avg": 4.477,
+      "p50": 4.6,
+      "p95": 8.1,
+      "max": 10.2
+     },
+     "dpr2": {
+      "backing": "750x1334",
+      "heapGrowthKB_for_2400_drawFrames": 0,
+      "drawFrameCall": {
+       "n": 720,
+       "avg": 0.054,
+       "p50": 0,
+       "p95": 0.1,
+       "max": 0.3
+      },
+      "drawFramePlusRaster": {
+       "n": 720,
+       "avg": 4.535,
+       "p50": 4.7,
+       "p95": 8.2,
+       "max": 15
+      }
+     }
+    },
+    "perfSmall": {
+     "sample": "corpus/40001427.svga",
+     "dpr1": {
+      "backing": "204x156",
+      "heapGrowthKB_for_2400_drawFrames": 14,
+      "drawFrameCall": {
+       "n": 288,
+       "avg": 0.15,
+       "p50": 0.1,
+       "p95": 0.2,
+       "max": 0.7
+      },
+      "drawFramePlusRaster": {
+       "n": 288,
+       "avg": 1.224,
+       "p50": 1.2,
+       "p95": 1.4,
+       "max": 3.9
+      }
+     },
+     "oracleDpr1": {
+      "n": 288,
+      "avg": 1.751,
+      "p50": 1.4,
+      "p95": 3.3,
+      "max": 16.7
+     },
+     "dpr2": {
+      "backing": "204x156",
+      "heapGrowthKB_for_2400_drawFrames": 0,
+      "drawFrameCall": {
+       "n": 288,
+       "avg": 0.171,
+       "p50": 0.2,
+       "p95": 0.3,
+       "max": 0.5
+      },
+      "drawFramePlusRaster": {
+       "n": 288,
+       "avg": 1.302,
+       "p50": 1.3,
+       "p95": 1.7,
+       "max": 2.7
+      }
+     }
+    },
+    "loadtime": [
+     {
+      "file": "Pink-Heart-Rocket.svga",
+      "images": 29,
+      "decodeMs": 9.7,
+      "totalMs": 14.2,
+      "minTotalMs": 13.7
+     },
+     {
+      "file": "Fiery-Red-Dragon.svga",
+      "images": 36,
+      "decodeMs": 13.3,
+      "totalMs": 17.2,
+      "minTotalMs": 15.8
+     },
+     {
+      "file": "corpus/40001576.svga",
+      "images": 55,
+      "decodeMs": 14.2,
+      "totalMs": 22.3,
+      "minTotalMs": 19.3
+     },
+     {
+      "file": "corpus/40001427.svga",
+      "images": 28,
+      "decodeMs": 9.9,
+      "totalMs": 16,
+      "minTotalMs": 14.6
+     }
+    ],
+    "memoryRun": {
+     "file": "Pink-Heart-Rocket.svga",
+     "cycles": 20,
+     "variant": {
+      "source": "img",
+      "mips": false,
+      "smoothing": "low"
+     },
+     "jsHeapMB": 9.4,
+     "gcAvailable": true
+    },
+    "memoryRss": {
+     "baseline": 851.9,
+     "loaded": 897.2,
+     "after-cycles": 450,
+     "after-cycles-settled": 275.1
+    }
+   },
+   "B": {
+    "diff": [
+     {
+      "file": "Fiery-Red-Dragon.svga",
+      "meanPercent": 0.017,
+      "maxPercent": 0.186,
+      "worstFrame": 50,
+      "compared": 11
+     },
+     {
+      "file": "Glossy-Pink-Lips.svga",
+      "meanPercent": 0.037,
+      "maxPercent": 0.216,
+      "worstFrame": 30,
+      "compared": 8
+     },
+     {
+      "file": "Pink-Heart-Rocket.svga",
+      "meanPercent": 0.001,
+      "maxPercent": 0.007,
+      "worstFrame": 230,
+      "compared": 25
+     },
+     {
+      "file": "Rocket.svga",
+      "meanPercent": 0.328,
+      "maxPercent": 0.434,
+      "worstFrame": 60,
+      "compared": 49
+     },
+     {
+      "file": "angel.svga",
+      "meanPercent": 0.001,
+      "maxPercent": 0.004,
+      "worstFrame": 40,
+      "compared": 7
+     },
+     {
+      "file": "kingset.svga",
+      "meanPercent": 0.001,
+      "maxPercent": 0.007,
+      "worstFrame": 10,
+      "compared": 7
+     },
+     {
+      "file": "matteBitmap.svga",
+      "meanPercent": 0.001,
+      "maxPercent": 0.003,
+      "worstFrame": 20,
+      "compared": 4
+     },
+     {
+      "file": "matteRect.svga",
+      "meanPercent": 0.117,
+      "maxPercent": 0.252,
+      "worstFrame": 29,
+      "compared": 4
+     },
+     {
+      "file": "corpus/119040-20211122_111625_1637550985956.svga",
+      "meanPercent": 0.017,
+      "maxPercent": 0.186,
+      "worstFrame": 50,
+      "compared": 11
+     },
+     {
+      "file": "corpus/119040-20220228_151532_1646032532038.svga",
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "compared": 6
+     },
+     {
+      "file": "corpus/40001099.svga",
+      "meanPercent": 0.769,
+      "maxPercent": 1.207,
+      "worstFrame": 30,
+      "compared": 7
+     },
+     {
+      "file": "corpus/40001114.svga",
+      "meanPercent": 0.312,
+      "maxPercent": 2.394,
+      "worstFrame": 10,
+      "compared": 9
+     },
+     {
+      "file": "corpus/40001143.svga",
+      "meanPercent": 0.602,
+      "maxPercent": 1.203,
+      "worstFrame": 40,
+      "compared": 13
+     },
+     {
+      "file": "corpus/40001144.svga",
+      "meanPercent": 3.615,
+      "maxPercent": 8.39,
+      "worstFrame": 10,
+      "compared": 9
+     },
+     {
+      "file": "corpus/40001289.svga",
+      "meanPercent": 0.808,
+      "maxPercent": 2.489,
+      "worstFrame": 10,
+      "compared": 14
+     },
+     {
+      "file": "corpus/40001415.svga",
+      "meanPercent": 0.728,
+      "maxPercent": 1.948,
+      "worstFrame": 0,
+      "compared": 7
+     },
+     {
+      "file": "corpus/40001421.svga",
+      "meanPercent": 0.92,
+      "maxPercent": 1.266,
+      "worstFrame": 10,
+      "compared": 14
+     },
+     {
+      "file": "corpus/40001423.svga",
+      "meanPercent": 1.006,
+      "maxPercent": 1.562,
+      "worstFrame": 90,
+      "compared": 10
+     },
+     {
+      "file": "corpus/40001427.svga",
+      "meanPercent": 3.237,
+      "maxPercent": 9.38,
+      "worstFrame": 10,
+      "compared": 11
+     },
+     {
+      "file": "corpus/40001508.svga",
+      "meanPercent": 0.846,
+      "maxPercent": 2.596,
+      "worstFrame": 60,
+      "compared": 9
+     },
+     {
+      "file": "corpus/40001575.svga",
+      "meanPercent": 1.044,
+      "maxPercent": 1.753,
+      "worstFrame": 10,
+      "compared": 15
+     },
+     {
+      "file": "corpus/40001576.svga",
+      "meanPercent": 2.417,
+      "maxPercent": 2.841,
+      "worstFrame": 70,
+      "compared": 13
+     },
+     {
+      "file": "corpus/40001577.svga",
+      "meanPercent": 1.368,
+      "maxPercent": 2.825,
+      "worstFrame": 10,
+      "compared": 10
+     },
+     {
+      "file": "corpus/40001578.svga",
+      "meanPercent": 2.342,
+      "maxPercent": 4.72,
+      "worstFrame": 10,
+      "compared": 9
+     }
+    ],
+    "perfLarge": {
+     "sample": "Pink-Heart-Rocket.svga",
+     "dpr1": {
+      "backing": "750x1334",
+      "heapGrowthKB_for_2400_drawFrames": 277,
+      "drawFrameCall": {
+       "n": 720,
+       "avg": 0.142,
+       "p50": 0.1,
+       "p95": 0.2,
+       "max": 24.8
+      },
+      "drawFramePlusRaster": {
+       "n": 720,
+       "avg": 4.875,
+       "p50": 4.9,
+       "p95": 9.1,
+       "max": 37.4
+      }
+     },
+     "oracleDpr1": {
+      "n": 720,
+      "avg": 4.912,
+      "p50": 5,
+      "p95": 9.3,
+      "max": 22.2
+     },
+     "dpr2": {
+      "backing": "750x1334",
+      "heapGrowthKB_for_2400_drawFrames": 295,
+      "drawFrameCall": {
+       "n": 720,
+       "avg": 0.054,
+       "p50": 0.1,
+       "p95": 0.1,
+       "max": 0.2
+      },
+      "drawFramePlusRaster": {
+       "n": 720,
+       "avg": 4.312,
+       "p50": 4.4,
+       "p95": 7.9,
+       "max": 8.9
+      }
+     }
+    },
+    "perfSmall": {
+     "sample": "corpus/40001427.svga",
+     "dpr1": {
+      "backing": "204x156",
+      "heapGrowthKB_for_2400_drawFrames": 14,
+      "drawFrameCall": {
+       "n": 288,
+       "avg": 0.247,
+       "p50": 0.2,
+       "p95": 0.6,
+       "max": 0.9
+      },
+      "drawFramePlusRaster": {
+       "n": 288,
+       "avg": 1.371,
+       "p50": 1.3,
+       "p95": 2.2,
+       "max": 4.2
+      }
+     },
+     "oracleDpr1": {
+      "n": 288,
+      "avg": 1.425,
+      "p50": 1.3,
+      "p95": 2.3,
+      "max": 6.3
+     },
+     "dpr2": {
+      "backing": "204x156",
+      "heapGrowthKB_for_2400_drawFrames": 0,
+      "drawFrameCall": {
+       "n": 288,
+       "avg": 0.214,
+       "p50": 0.2,
+       "p95": 0.3,
+       "max": 0.4
+      },
+      "drawFramePlusRaster": {
+       "n": 288,
+       "avg": 1.22,
+       "p50": 1.2,
+       "p95": 1.4,
+       "max": 2.1
+      }
+     }
+    },
+    "loadtime": [
+     {
+      "file": "Pink-Heart-Rocket.svga",
+      "images": 29,
+      "decodeMs": 4.8,
+      "totalMs": 10.1,
+      "minTotalMs": 8.3
+     },
+     {
+      "file": "Fiery-Red-Dragon.svga",
+      "images": 36,
+      "decodeMs": 5.4,
+      "totalMs": 9.3,
+      "minTotalMs": 7.9
+     },
+     {
+      "file": "corpus/40001576.svga",
+      "images": 55,
+      "decodeMs": 6.6,
+      "totalMs": 18.2,
+      "minTotalMs": 16.4
+     },
+     {
+      "file": "corpus/40001427.svga",
+      "images": 28,
+      "decodeMs": 3.8,
+      "totalMs": 12.9,
+      "minTotalMs": 12
+     }
+    ],
+    "memoryRun": {
+     "file": "Pink-Heart-Rocket.svga",
+     "cycles": 20,
+     "variant": {
+      "source": "bitmap",
+      "mips": true,
+      "smoothing": "low"
+     },
+     "jsHeapMB": 9.4,
+     "gcAvailable": true
+    },
+    "memoryRss": {
+     "baseline": 937.8,
+     "loaded": 900,
+     "after-cycles": 905.3,
+     "after-cycles-settled": 572.6
+    }
+   }
+  },
+  "webkit": {
+   "baseline": {
+    "diff": [
+     {
+      "file": "Fiery-Red-Dragon.svga",
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "compared": 11
+     },
+     {
+      "file": "Glossy-Pink-Lips.svga",
+      "meanPercent": 0.031,
+      "maxPercent": 0.214,
+      "worstFrame": 30,
+      "compared": 8
+     },
+     {
+      "file": "Pink-Heart-Rocket.svga",
+      "meanPercent": 0,
+      "maxPercent": 0.001,
+      "worstFrame": 150,
+      "compared": 25
+     },
+     {
+      "file": "Rocket.svga",
+      "meanPercent": 0.326,
+      "maxPercent": 0.434,
+      "worstFrame": 60,
+      "compared": 49
+     },
+     {
+      "file": "angel.svga",
+      "meanPercent": 0,
+      "maxPercent": 0.001,
+      "worstFrame": 40,
+      "compared": 7
+     },
+     {
+      "file": "kingset.svga",
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "compared": 7
+     },
+     {
+      "file": "matteBitmap.svga",
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "compared": 4
+     },
+     {
+      "file": "matteRect.svga",
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "compared": 4
+     },
+     {
+      "file": "corpus/119040-20211122_111625_1637550985956.svga",
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "compared": 11
+     },
+     {
+      "file": "corpus/119040-20220228_151532_1646032532038.svga",
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "compared": 6
+     },
+     {
+      "file": "corpus/40001099.svga",
+      "meanPercent": 0.025,
+      "maxPercent": 0.044,
+      "worstFrame": 50,
+      "compared": 7
+     },
+     {
+      "file": "corpus/40001114.svga",
+      "meanPercent": 0.024,
+      "maxPercent": 0.056,
+      "worstFrame": 40,
+      "compared": 9
+     },
+     {
+      "file": "corpus/40001143.svga",
+      "meanPercent": 0.143,
+      "maxPercent": 0.371,
+      "worstFrame": 10,
+      "compared": 13
+     },
+     {
+      "file": "corpus/40001144.svga",
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "compared": 9
+     },
+     {
+      "file": "corpus/40001289.svga",
+      "meanPercent": 0.065,
+      "maxPercent": 0.321,
+      "worstFrame": 20,
+      "compared": 14
+     },
+     {
+      "file": "corpus/40001415.svga",
+      "meanPercent": 0.127,
+      "maxPercent": 0.16,
+      "worstFrame": 57,
+      "compared": 7
+     },
+     {
+      "file": "corpus/40001421.svga",
+      "meanPercent": 0.072,
+      "maxPercent": 0.132,
+      "worstFrame": 80,
+      "compared": 14
+     },
+     {
+      "file": "corpus/40001423.svga",
+      "meanPercent": 0.315,
+      "maxPercent": 0.465,
+      "worstFrame": 90,
+      "compared": 10
+     },
+     {
+      "file": "corpus/40001427.svga",
+      "meanPercent": 0.291,
+      "maxPercent": 0.531,
+      "worstFrame": 50,
+      "compared": 11
+     },
+     {
+      "file": "corpus/40001508.svga",
+      "meanPercent": 0.022,
+      "maxPercent": 0.097,
+      "worstFrame": 30,
+      "compared": 9
+     },
+     {
+      "file": "corpus/40001575.svga",
+      "meanPercent": 0.036,
+      "maxPercent": 0.088,
+      "worstFrame": 40,
+      "compared": 15
+     },
+     {
+      "file": "corpus/40001576.svga",
+      "meanPercent": 0.82,
+      "maxPercent": 1.188,
+      "worstFrame": 50,
+      "compared": 13
+     },
+     {
+      "file": "corpus/40001577.svga",
+      "meanPercent": 0.266,
+      "maxPercent": 0.682,
+      "worstFrame": 89,
+      "compared": 10
+     },
+     {
+      "file": "corpus/40001578.svga",
+      "meanPercent": 0.232,
+      "maxPercent": 0.324,
+      "worstFrame": 20,
+      "compared": 9
+     }
+    ],
+    "perfLarge": {
+     "error": "heapNow@http://localhost:5194/verify.ts:418:43\nrunPerf@http://localhost:5194/verify.ts:421:24\n@http://localhost:5194/verify.ts:1533:295"
+    },
+    "perfSmall": {
+     "error": "heapNow@http://localhost:5194/verify.ts:418:43\nrunPerf@http://localhost:5194/verify.ts:421:24\n@http://localhost:5194/verify.ts:1533:295"
+    },
+    "loadtime": [
+     {
+      "file": "Pink-Heart-Rocket.svga",
+      "images": 29,
+      "decodeMs": 23,
+      "totalMs": 31,
+      "minTotalMs": 29
+     },
+     {
+      "file": "Fiery-Red-Dragon.svga",
+      "images": 36,
+      "decodeMs": 24,
+      "totalMs": 30,
+      "minTotalMs": 27
+     },
+     {
+      "file": "corpus/40001576.svga",
+      "images": 55,
+      "decodeMs": 26,
+      "totalMs": 33,
+      "minTotalMs": 33
+     },
+     {
+      "file": "corpus/40001427.svga",
+      "images": 28,
+      "decodeMs": 21,
+      "totalMs": 29,
+      "minTotalMs": 27
+     }
+    ],
+    "memoryRun": {
+     "file": "Pink-Heart-Rocket.svga",
+     "cycles": 20,
+     "variant": {
+      "source": "bitmap",
+      "mips": false,
+      "smoothing": "low"
+     },
+     "jsHeapMB": null,
+     "gcAvailable": false
+    },
+    "memoryRss": {
+     "baseline": 329,
+     "loaded": 337.2,
+     "after-cycles": 308.6,
+     "after-cycles-settled": 238
+    }
+   },
+   "A": {
+    "diff": [
+     {
+      "file": "Fiery-Red-Dragon.svga",
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "compared": 11
+     },
+     {
+      "file": "Glossy-Pink-Lips.svga",
+      "meanPercent": 0.027,
+      "maxPercent": 0.213,
+      "worstFrame": 30,
+      "compared": 8
+     },
+     {
+      "file": "Pink-Heart-Rocket.svga",
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 150,
+      "compared": 25
+     },
+     {
+      "file": "Rocket.svga",
+      "meanPercent": 0.326,
+      "maxPercent": 0.434,
+      "worstFrame": 60,
+      "compared": 49
+     },
+     {
+      "file": "angel.svga",
+      "meanPercent": 0,
+      "maxPercent": 0.001,
+      "worstFrame": 40,
+      "compared": 7
+     },
+     {
+      "file": "kingset.svga",
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "compared": 7
+     },
+     {
+      "file": "matteBitmap.svga",
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "compared": 4
+     },
+     {
+      "file": "matteRect.svga",
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "compared": 4
+     },
+     {
+      "file": "corpus/119040-20211122_111625_1637550985956.svga",
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "compared": 11
+     },
+     {
+      "file": "corpus/119040-20220228_151532_1646032532038.svga",
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "compared": 6
+     },
+     {
+      "file": "corpus/40001099.svga",
+      "meanPercent": 0,
+      "maxPercent": 0.003,
+      "worstFrame": 0,
+      "compared": 7
+     },
+     {
+      "file": "corpus/40001114.svga",
+      "meanPercent": 0.012,
+      "maxPercent": 0.033,
+      "worstFrame": 70,
+      "compared": 9
+     },
+     {
+      "file": "corpus/40001143.svga",
+      "meanPercent": 0.016,
+      "maxPercent": 0.201,
+      "worstFrame": 110,
+      "compared": 13
+     },
+     {
+      "file": "corpus/40001144.svga",
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "compared": 9
+     },
+     {
+      "file": "corpus/40001289.svga",
+      "meanPercent": 0.001,
+      "maxPercent": 0.006,
+      "worstFrame": 30,
+      "compared": 14
+     },
+     {
+      "file": "corpus/40001415.svga",
+      "meanPercent": 0.005,
+      "maxPercent": 0.013,
+      "worstFrame": 0,
+      "compared": 7
+     },
+     {
+      "file": "corpus/40001421.svga",
+      "meanPercent": 0.015,
+      "maxPercent": 0.038,
+      "worstFrame": 0,
+      "compared": 14
+     },
+     {
+      "file": "corpus/40001423.svga",
+      "meanPercent": 0,
+      "maxPercent": 0.003,
+      "worstFrame": 70,
+      "compared": 10
+     },
+     {
+      "file": "corpus/40001427.svga",
+      "meanPercent": 0.006,
+      "maxPercent": 0.016,
+      "worstFrame": 30,
+      "compared": 11
+     },
+     {
+      "file": "corpus/40001508.svga",
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "compared": 9
+     },
+     {
+      "file": "corpus/40001575.svga",
+      "meanPercent": 0.015,
+      "maxPercent": 0.038,
+      "worstFrame": 120,
+      "compared": 15
+     },
+     {
+      "file": "corpus/40001576.svga",
+      "meanPercent": 0.06,
+      "maxPercent": 0.104,
+      "worstFrame": 60,
+      "compared": 13
+     },
+     {
+      "file": "corpus/40001577.svga",
+      "meanPercent": 0.059,
+      "maxPercent": 0.176,
+      "worstFrame": 89,
+      "compared": 10
+     },
+     {
+      "file": "corpus/40001578.svga",
+      "meanPercent": 0.012,
+      "maxPercent": 0.041,
+      "worstFrame": 40,
+      "compared": 9
+     }
+    ],
+    "perfLarge": {
+     "error": "heapNow@http://localhost:5194/verify.ts:418:43\nrunPerf@http://localhost:5194/verify.ts:421:24\n@http://localhost:5194/verify.ts:1533:295"
+    },
+    "perfSmall": {
+     "error": "heapNow@http://localhost:5194/verify.ts:418:43\nrunPerf@http://localhost:5194/verify.ts:421:24\n@http://localhost:5194/verify.ts:1533:295"
+    },
+    "loadtime": [
+     {
+      "file": "Pink-Heart-Rocket.svga",
+      "images": 29,
+      "decodeMs": 15,
+      "totalMs": 20,
+      "minTotalMs": 19
+     },
+     {
+      "file": "Fiery-Red-Dragon.svga",
+      "images": 36,
+      "decodeMs": 16,
+      "totalMs": 19,
+      "minTotalMs": 18
+     },
+     {
+      "file": "corpus/40001576.svga",
+      "images": 55,
+      "decodeMs": 23,
+      "totalMs": 28,
+      "minTotalMs": 27
+     },
+     {
+      "file": "corpus/40001427.svga",
+      "images": 28,
+      "decodeMs": 13,
+      "totalMs": 16,
+      "minTotalMs": 15
+     }
+    ],
+    "memoryRun": {
+     "file": "Pink-Heart-Rocket.svga",
+     "cycles": 20,
+     "variant": {
+      "source": "img",
+      "mips": false,
+      "smoothing": "low"
+     },
+     "jsHeapMB": null,
+     "gcAvailable": false
+    },
+    "memoryRss": {
+     "baseline": 393.7,
+     "loaded": 384.4,
+     "after-cycles": 394.8,
+     "after-cycles-settled": 301
+    }
+   },
+   "B": {
+    "diff": [
+     {
+      "file": "Fiery-Red-Dragon.svga",
+      "meanPercent": 0.019,
+      "maxPercent": 0.209,
+      "worstFrame": 50,
+      "compared": 11
+     },
+     {
+      "file": "Glossy-Pink-Lips.svga",
+      "meanPercent": 0.06,
+      "maxPercent": 0.222,
+      "worstFrame": 30,
+      "compared": 8
+     },
+     {
+      "file": "Pink-Heart-Rocket.svga",
+      "meanPercent": 0.003,
+      "maxPercent": 0.032,
+      "worstFrame": 230,
+      "compared": 25
+     },
+     {
+      "file": "Rocket.svga",
+      "meanPercent": 0.327,
+      "maxPercent": 0.434,
+      "worstFrame": 60,
+      "compared": 49
+     },
+     {
+      "file": "angel.svga",
+      "meanPercent": 0.008,
+      "maxPercent": 0.031,
+      "worstFrame": 40,
+      "compared": 7
+     },
+     {
+      "file": "kingset.svga",
+      "meanPercent": 0.003,
+      "maxPercent": 0.007,
+      "worstFrame": 30,
+      "compared": 7
+     },
+     {
+      "file": "matteBitmap.svga",
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "compared": 4
+     },
+     {
+      "file": "matteRect.svga",
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "compared": 4
+     },
+     {
+      "file": "corpus/119040-20211122_111625_1637550985956.svga",
+      "meanPercent": 0.019,
+      "maxPercent": 0.209,
+      "worstFrame": 50,
+      "compared": 11
+     },
+     {
+      "file": "corpus/119040-20220228_151532_1646032532038.svga",
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "compared": 6
+     },
+     {
+      "file": "corpus/40001099.svga",
+      "meanPercent": 3.492,
+      "maxPercent": 4.022,
+      "worstFrame": 30,
+      "compared": 7
+     },
+     {
+      "file": "corpus/40001114.svga",
+      "meanPercent": 3.605,
+      "maxPercent": 4.336,
+      "worstFrame": 71,
+      "compared": 9
+     },
+     {
+      "file": "corpus/40001143.svga",
+      "meanPercent": 3.538,
+      "maxPercent": 5.373,
+      "worstFrame": 50,
+      "compared": 13
+     },
+     {
+      "file": "corpus/40001144.svga",
+      "meanPercent": 15.197,
+      "maxPercent": 16.77,
+      "worstFrame": 50,
+      "compared": 9
+     },
+     {
+      "file": "corpus/40001289.svga",
+      "meanPercent": 2.537,
+      "maxPercent": 7.089,
+      "worstFrame": 20,
+      "compared": 14
+     },
+     {
+      "file": "corpus/40001415.svga",
+      "meanPercent": 4.962,
+      "maxPercent": 7.086,
+      "worstFrame": 40,
+      "compared": 7
+     },
+     {
+      "file": "corpus/40001421.svga",
+      "meanPercent": 4.353,
+      "maxPercent": 4.682,
+      "worstFrame": 80,
+      "compared": 14
+     },
+     {
+      "file": "corpus/40001423.svga",
+      "meanPercent": 3.675,
+      "maxPercent": 4.663,
+      "worstFrame": 90,
+      "compared": 10
+     },
+     {
+      "file": "corpus/40001427.svga",
+      "meanPercent": 11.529,
+      "maxPercent": 18.429,
+      "worstFrame": 30,
+      "compared": 11
+     },
+     {
+      "file": "corpus/40001508.svga",
+      "meanPercent": 2.508,
+      "maxPercent": 5.053,
+      "worstFrame": 60,
+      "compared": 9
+     },
+     {
+      "file": "corpus/40001575.svga",
+      "meanPercent": 4.149,
+      "maxPercent": 5.543,
+      "worstFrame": 40,
+      "compared": 15
+     },
+     {
+      "file": "corpus/40001576.svga",
+      "meanPercent": 5.595,
+      "maxPercent": 7.004,
+      "worstFrame": 50,
+      "compared": 13
+     },
+     {
+      "file": "corpus/40001577.svga",
+      "meanPercent": 6.22,
+      "maxPercent": 7.541,
+      "worstFrame": 89,
+      "compared": 10
+     },
+     {
+      "file": "corpus/40001578.svga",
+      "meanPercent": 8.68,
+      "maxPercent": 9.342,
+      "worstFrame": 10,
+      "compared": 9
+     }
+    ],
+    "perfLarge": {
+     "error": "heapNow@http://localhost:5194/verify.ts:418:43\nrunPerf@http://localhost:5194/verify.ts:421:24\n@http://localhost:5194/verify.ts:1533:295"
+    },
+    "perfSmall": {
+     "error": "heapNow@http://localhost:5194/verify.ts:418:43\nrunPerf@http://localhost:5194/verify.ts:421:24\n@http://localhost:5194/verify.ts:1533:295"
+    },
+    "loadtime": [
+     {
+      "file": "Pink-Heart-Rocket.svga",
+      "images": 29,
+      "decodeMs": 24,
+      "totalMs": 65,
+      "minTotalMs": 59
+     },
+     {
+      "file": "Fiery-Red-Dragon.svga",
+      "images": 36,
+      "decodeMs": 26,
+      "totalMs": 38,
+      "minTotalMs": 32
+     },
+     {
+      "file": "corpus/40001576.svga",
+      "images": 55,
+      "decodeMs": 38,
+      "totalMs": 135,
+      "minTotalMs": 116
+     },
+     {
+      "file": "corpus/40001427.svga",
+      "images": 28,
+      "decodeMs": 23,
+      "totalMs": 69,
+      "minTotalMs": 67
+     }
+    ],
+    "memoryRun": {
+     "file": "Pink-Heart-Rocket.svga",
+     "cycles": 20,
+     "variant": {
+      "source": "bitmap",
+      "mips": true,
+      "smoothing": "low"
+     },
+     "jsHeapMB": null,
+     "gcAvailable": false
+    },
+    "memoryRss": {
+     "baseline": 343.2,
+     "loaded": 365.5,
+     "after-cycles": 323.7,
+     "after-cycles-settled": 252.6
+    }
+   }
+  }
+ }
+}
