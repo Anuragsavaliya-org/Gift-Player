@@ -1,7 +1,7 @@
 # REVIEW — Phase 5: PAG via libpag (lazy-loaded)
 
 ## Status
-Done, with **one failing item you need to decide on: PAG cannot render Hindi, Gujarati or Arabic correctly** (details and options below). Build, typecheck, 228 Vitest tests, `check:bundle`, `verify:pag` (22/22 task runs, Chromium 156 + WebKit 27.2), `verify:browser` and `verify:images` pass. Raw numbers: `reports/phase5-pag.json`. Commit hash: see git log (`Phase 5: ...`).
+Done, with **one failing item you need to decide on: PAG cannot render Hindi, Gujarati or Arabic correctly** (details and options below). Build, typecheck, 228 Vitest tests, `check:bundle`, `verify:pag` (22/22 task runs, Chromium 156 + WebKit 27.2), `verify:browser` and `verify:images` pass. Raw numbers: `reports/phase5-pag.json`. Commit: `1c5c9ce` (a tiny follow-up commit only records this line).
 
 ## What was built
 - `libpag` 4.5.85 (Apache-2.0), exact-pinned, **lazy**: dynamic `import()` from jsDelivr (pinned version) the first time detection returns `pag`. Options `pagModuleUrl`, `pagWasmUrl` (self-host), `pagModule`. `npm run check:bundle` fails if the core bundle contains libpag (core incl. the PAG adapter: 34.3 KB min / 13.3 KB gzip).
