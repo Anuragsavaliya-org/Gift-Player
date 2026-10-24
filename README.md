@@ -1,5 +1,7 @@
 # @incodes/gift-player
 
+[![CI](https://github.com/Anuragsavaliya-org/Gift-Player/actions/workflows/ci.yml/badge.svg)](https://github.com/Anuragsavaliya-org/Gift-Player/actions/workflows/ci.yml)
+
 Play animated gift files through one API: **SVGA** (1.x and 2.x), **GIF**, **animated and static WebP**, and **PAG**. Plain TypeScript, no framework needed, with a React wrapper and a queue for live streams.
 
 ```sh
@@ -64,7 +66,7 @@ export function Gift({ name }: { name: string }) {
 |---|---|
 | Chrome / Chromium | verified (Chromium 156) |
 | Safari / WebKit | verified with Playwright WebKit 27.2 on macOS; real iPhones not yet tested |
-| Firefox | verified in CI only (the CI workflow runs the whole suite in Firefox; no local results yet) |
+| Firefox | verified in CI only (GitHub Actions, Firefox 157 on Linux with software WebGL); not run on a developer machine yet |
 
 Needs: Canvas 2D, ES2022, `fetch`. PAG additionally needs WebAssembly and WebGL.
 
@@ -144,7 +146,7 @@ Everything rejects with a `GiftPlayerError`; `error.code` is one of:
 ## Known limitations
 
 * **PAG text cannot shape complex scripts.** libpag draws text glyph by glyph: Hindi / Gujarati marks come out misplaced, Arabic is drawn as isolated letters in left-to-right order. Latin, CJK and emoji are fine. `setText` on a PAG gift logs one warning per player when the text needs shaping. SVGA renders these scripts correctly: use SVGA for personalised names in them.
-* **Firefox is verified in CI only.** Playwright's Firefox does not start on the macOS version this was developed on; the GitHub Actions workflow runs the whole suite in Firefox on Linux.
+* **Firefox is verified in CI only.** Playwright's Firefox does not start on the macOS version this was developed on; the GitHub Actions workflow runs the whole suite (SVGA, GIF, WebP, PAG, player, queue, React) in Firefox 157 on Linux. Headless Firefox without a GPU has no WebGL at all, so CI runs the PAG suites in a headed Firefox on a virtual display with Mesa software GL; PAG itself works in Firefox as soon as WebGL exists.
 * **iOS on real devices is not yet tested.** Safari is covered through Playwright's WebKit build on macOS.
 * **SVGA images are decoded through `<img>` elements** (they scale down better than `ImageBitmap` in Chromium), so SVGA playback needs a DOM: it cannot run in a Web Worker / `OffscreenCanvas`.
 * A GIF or WebP that loops forever never ends: `play()` stays pending (the queue plays each gift once by default for this reason).

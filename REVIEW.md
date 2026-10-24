@@ -1,49 +1,50 @@
-# REVIEW — Phase 7: Hardening, packaging, React wrapper, CI
+# REVIEW — Phase 7.1: License, repository, first push, CI
 
 ## Status
-Done. Nothing published; `license` and the package name untouched. `npm run ci:local` (every step of the workflow, Chromium + WebKit) passes: typecheck, 273 tests (14 files, incl. SSR and React), build, `check:bundle`, `npm pack --dry-run`, and `verify:browser`, `verify:corpus`, `verify:images`, `verify:pag`, `verify:api` in both browsers. **Firefox has not run anywhere yet: its first results come from the first CI run** (no git remote). Commit: `8a8f6f6` (a tiny follow-up commit only records this line).
+Pushed to https://github.com/Anuragsavaliya-org/Gift-Player (`main`). **CI is green in all four jobs: checks, chromium, firefox, webkit** (Firefox ran for the first time; details below). Nothing published to npm.
 
-## Part A: `clearOnEnd` test results (Chromium and WebKit, 23 checks each, all pass)
-| check | SVGA | GIF | WebP | PAG |
-|---|---|---|---|---|
-| `end` event still sees the last frame; afterwards the canvas has 0 visible pixels (default) | pass | pass | pass | pass |
-| `clearOnEnd:false` keeps the last frame | pass | pass | pass | pass |
-| `player.clear()` blanks it; `load({clearOnEnd:true})` overrides the player option | pass | pass | pass | pass |
-| `play()` after a clear shows the gift again | pass | pass | pass | pass |
-Queue: next gift still downloading (400 ms delay): blank in every sampled frame between the two gifts (pass); next gift prepared: hand-over blank = the swap only (< 60 ms, pass); blank after the last gift (pass). Unit test of the queue's rule (blank unless the next one is prepared; also after a failure). Decision 4 is documented precisely in the `load()` TSDoc and README: a gift still PLAYING when `load()` is called stays until the new one is ready; an ENDED gift is already gone.
+**Hashes changed:** to honour "do not upload any svga or webp file" the whole history was rewritten before the first push (`git filter-branch`, 21 commits). The commits you reviewed have new hashes (e.g. Phase 7 `8a8f6f6`/`ca2f6cf` is now `4fe3ca0`/`5a6d5d5`). The old history stays only in the local branch `backup-before-purge` (not pushed).
 
-## Export lists (the SSR test asserts these exactly, ESM and CJS)
-- **`@incodes/gift-player`**: `AssetCache`, `DEFAULT_CACHE_BYTES`, `GiftPlayer`, `GiftPlayerError`, `GiftQueue`, `VERSION`, `detectFormat`, `getDefaultCache`, `registerFont`, `registerResolver`, `releasePagEngineContext`, `setPagFallbackFonts`. Types: `AssetCacheOptions`, `CacheLoaded`, `CacheStats`, `ContentMode`, `DropReason`, `EditableKey`, `FontData`, `FormatInfo`, `GiftErrorCode`, `GiftFormat`, `GiftInfo`, `GiftPlayerEvents`, `GiftPlayerOptions`, `GiftQueueEvents`, `GiftQueueOptions`, `GiftSource`, `ImageOptions`, `Lease`, `LoadOptions`, `LoadedGift`, `PagEngineOptions`, `PreloadOptions`, `PreloadResult`, `QueueAddOptions`, `QueueHandle`, `QueueItemInfo`, `QueueItemStatus`, `QueueStats`, `Replacement`, `ReplacementImage`, `Replacements`, `ResolvedSource`, `SourceResolver`, `TextStyle`. Flagged: `LoadedGift`, `PagEngineOptions`, `CacheLoaded`, `Lease`, `GiftSource` are types only; they stay at the root because public signatures mention them.
-- **`/advanced`** (unstable, not semver): `DEFAULT_PAG_MODULE_URL`, `DEFAULT_PAG_WASM_URL`, `PAG_VERSION`, `PagRenderer`, `decodeSvgaImages`, `detectSource`, `loadPagEngine`, `parseSvga`, `readSource`, `releaseSvgaImages`; types `DecodedSvgaImages`, `PagRendererOptions`, `SvgaMovie` and the other SVGA model types.
-- **`/react`**: `GiftPlayerView`, `useGiftQueue`; types `GiftPlayerViewProps`, `GiftQueueState`, `UseGiftQueueResult`.
+## License and metadata
+`LICENSE` (MIT, Copyright (c) 2026 Incodes Lab); `package.json`: `license: MIT`, `repository`, `bugs`, `homepage`; tarball now 27 files including `LICENSE`; README: placeholder wording removed, new section "Third-party runtime code" (libpag, Apache-2.0, loaded from a CDN at runtime, not bundled). The GitHub repo had a template commit (LICENSE, README); merged, our files kept, no force push.
 
-## Bundle sizes and caps (what a consumer's bundler produces, minified; cap = measured + 10 %)
-| entry | measured | gzip | cap |
+## Sample attribution (`samples/THIRD_PARTY.md`)
+| file | source | license | status |
 |---|---|---|---|
-| root | 83,488 B | 29,210 B | 91,837 B |
-| `/advanced` | 35,786 B | 13,848 B | 39,365 B |
-| `/react` (includes the root; React external) | 85,084 B | 29,735 B | 93,593 B |
-libpag is searched in all three bundles and in every dist file; React must not be in root or `/advanced`. Negative tests (all fail the check as they should): libpag string in `/advanced`, libpag string in a shared chunk, `import "react"` in the root, +16 KB padding in the root.
+| `angel.svga`, `kingset.svga` | github.com/svga/SVGA-Samples | YY Inc., "learning use only, commercial use prohibited" | **removed from the repo and all history** (owner: no svga) |
+| `Rocket.svga`, `matteBitmap.svga`, `matteRect.svga` | github.com/svga/SVGA-Samples (hash-identical) | none stated (repo has no license file) | **removed** |
+| `Fiery-Red-Dragon.svga`, `Glossy-Pink-Lips.svga`, `Pink-Heart-Rocket.svga` | svgagifts.com free products | owner: may stay | **removed anyway** (owner: no svga of any kind) |
+| `static.webp` | gstatic.com/webp/gallery/1.webp (Kjetil Birkeland Moe) | "reproduced with permission of the author" | **removed** |
+| `animated.webp` | gstatic.com/webp/animated/1.webp | none found | **removed** |
+| `samples/synthetic/*.webp` (13 files) | ours | MIT | **removed from git** (owner: no webp); generated by `npm run samples:generate` |
+| `like.pag`, `replacement.pag` | github.com/Tencent/libpag `assets/` (hash-identical) | Apache-2.0 | kept, attribution in THIRD_PARTY.md |
+| `rotating-earth.gif` | commons.wikimedia.org Rotating_earth_(large).gif (hash-identical) | CC BY-SA 3.0 (Marvel, from NASA imagery) | kept, attribution in THIRD_PARTY.md |
+| `synthetic/*.gif`, `samples/expected.json` | ours | MIT | gif kept; `expected.json` now generated, git-ignored |
+Deleted from git (listed as asked): the 10 `.svga`, 2 `.webp` in `samples/`, 13 synthetic `.webp`, `samples/expected.json`, `reports/corpus.{json,md}`, `reports/corpus-samples.{json,md}` (they list the private corpus files; also purged from history and ignored). Replacement: `npm run samples:generate` makes same-named stand-ins (`tools/synthetic/svga-samples.ts`, MIT) with the same features the tests rely on, and the synthetic WebPs. Existing files are never overwritten, so your real files still work locally (I put them back; local `vitest` passes on both sets).
 
-## Tarball (`npm pack`): 26 files, 280 kB packed, 1.0 MB unpacked
-`README.md`, `package.json`; `dist/`: `index`, `advanced`, `react` each as `.js` + `.cjs` + `.d.ts` + `.d.cts` + source maps, shared chunks `chunk-5SLTWGUA.js` (52.8 kB) and `chunk-QFXKZKO5.cjs` (57.5 kB), and `source-DUNPmnfN.d.ts/.d.cts` (shared types). No tests, samples, reports, scripts or playground. `exports` (import + require + types for each entry), `typesVersions`, `files`, `sideEffects:false`, `engines` (node >= 18), optional peer `react >= 18`.
+## Pre-push scan (whole history, 21 commits)
+- Secrets / tokens / keys / `.env`: none.
+- Absolute local paths: none in code or reports; the volume name `/Volumes/XITIJ` appears twice in prose of old PROGRESS/NEXT_PROMPT text (still in history; harmless, say if you want it scrubbed).
+- `samples/corpus/`, `samples/.fonts/`, `samples/.golden/`: never committed. Corpus reports: purged.
+- **Public now:** commit author `anuragMac <anurag.xitijinfo@gmail.com>` on every commit. I did not change it (not asked); say if you want a noreply address (needs another rewrite and force push).
 
-## Fresh-project results (tarball installed into new projects outside the repo; Chromium and WebKit)
-| project | code needed | result |
-|---|---|---|
-| **Vite 8 vanilla-ts** (TypeScript 6) | `main.ts`: 4 lines (import, `new GiftPlayer(el)`, `await player.load('/rocket.svga')`, `await player.play()`) + `style="width:360px;height:360px"` on the `#app` div | `tsc && vite build` passes (bundle 76.8 kB, 26.9 kB gzip, no libpag); `vite dev` and `vite preview` play it; one canvas, blank after the end |
-| **Next.js 16.4, App Router, React 19.3** | client component `gift.tsx`: 6 lines (`'use client'`, import `GiftPlayerView`, a function returning `<GiftPlayerView src=... style={{width:360,height:360}} />`); server component imports `VERSION`, `detectFormat`, a type; route handler calls `detectFormat` | `next build` passes; `next start` and `next dev` (StrictMode) play an SVGA and a PAG gift (engine from the jsDelivr default); one canvas each; blank after the end; no console problems; route handler returned `{"format":"pag"}` |
-Friction: only that the box needs a size (a zero-height element shows nothing; README says so). No bundler config, `transpilePackages` or `ssr:false` was needed.
+## Push
+`git push origin main` after merging the template commit: fast-forward, no force. Remote has the 21 rewritten commits + merge + the CI fixes below.
 
-## React wrapper tests
-11 Vitest + jsdom tests with a scripted player/queue (mount/unmount, `src` change aborts the load in flight and discards its result, StrictMode leaves 1 live player and plays once, `replacements` diff applies in place incl. when they change mid-load, `contentMode` re-fit, errors vs aborts, `useGiftQueue` lifecycle and stats) + a real-browser page (`verify-react`, 24 checks, both browsers): StrictMode for GIF, WebP, PAG and SVGA (one canvas, loaded once, ended once, blank after), `src` change mid-load, replacements changed and removed without a reload, 40 mount/unmount cycles incl. mid-load, `useGiftQueue` with three gifts; every Phase 6 counter (bitmaps, `<img>`, blob URLs, rAF, ResizeObservers) back at baseline, 0 WebGL contexts after `releasePagEngineContext()`, no double closes.
+## CI results (final run: all green)
+| job | result |
+|---|---|
+| checks (typecheck, samples:generate, 273 tests incl. SSR, build, `check:bundle`, `npm pack --dry-run`) | success |
+| browsers (chromium) | `verify:browser`, `verify:corpus`, `verify:images`, `verify:pag`, `verify:api`: success |
+| browsers (webkit) | same five: success |
+| browsers (firefox 157) | same five: success |
+First runs and what they found: the first run failed `verify:pag` in all three browsers. (1) Chromium and WebKit (Linux): the 5-player destroy-in-random-order check waited a fixed 120 ms for the survivors to render, too short for the software GL of the runner (my test, not the library): it now polls up to 4 s and prints the reason on failure; thresholds unchanged. (2) Firefox: see below. Also changed: every suite step runs even if an earlier one failed (`if: !cancelled()`), reports are uploaded as artifacts. Git-ignored `fonts` check is skipped in CI (a copied system font).
 
-## CI steps run locally (`npm run ci:local --browsers=chromium,webkit`)
-typecheck 2 s · tests incl. SSR 4 s · build 2 s · `check:bundle` · `npm pack --dry-run` · then per browser: `verify:browser` (40 / 31 s) · `verify:corpus` (14 / 16 s; the real corpus exists on this machine, so it ran for real; in CI it reports "waiting for files" and passes) · `verify:images` (108 / 120 s) · `verify:pag` (43 / 42 s) · `verify:api` (106 / 110 s). All ok. Workflow: `.github/workflows/ci.yml` (job `checks`; matrix job `browsers` for chromium, firefox, webkit; reports uploaded as artifacts). Not runnable here: the YAML itself on GitHub, Firefox, `npx playwright install --with-deps` on Ubuntu.
-Changes to make the suites CI-ready (flag if you disagree): every verify script takes `--browser`; `verify-all` / `verify-corpus` moved from a local Chrome to Playwright and now exit non-zero on failure; `verify:browser` passes on the diff with svgaplayerweb's known quirks neutralised (the raw 10.5 % on Pink-Heart-Rocket is the documented oracle quirk); its determinism check reads a software canvas; the font-registration check skips when the git-ignored `samples/.fonts/` is missing; the PAG timing check retries up to 3 times with unchanged thresholds (a single scheduler stall failed one WebKit run; `attempts` is reported). A run with an explicit `--browser` writes git-ignored `<report>-<browser>.*` and never overwrites the committed reports.
+## Firefox findings (first time ever; Firefox 157, Linux)
+- Passed on the first Firefox run, unchanged: SVGA rendering vs svgaplayerweb (41 checks, all 8 stand-ins ≤ 0.001 % with the reference's quirks neutralised, same as the other browsers), GIF/WebP (ImageDecoder reliable for both: self-tests pass, 28 synthetic + 3 real files), corpus skip, cache/leak counters.
+- **PAG and everything that loads a PAG gift failed: headless Firefox has no WebGL on the runner** (`Failed to create WebGL context ... Exhausted GL driver options (FEATURE_FAILURE_WEBGL_EXHAUSTED_DRIVERS)`; `webgl.force-enabled` did not help). Not a bug in our code: PAG needs WebGL. Fix in the harness only: the PAG and API suites run in a headed Firefox under `xvfb-run` with Mesa software GL (`PW_HEADED=1`, apt packages in the workflow). Then all pass: 45 + 23 + 13 + 24 API/clear/cache/React checks, queue stress 200 items (0 order violations, 0 stalls), WebGL contexts created for 100 PAG cycles: 1, lost 0 (control with libpag's default mode: 24 created, 0 lost by Firefox, unlike Chromium/WebKit which lose 9).
+- Numbers, for the record (software GL, so slower than a real GPU): PAG cold load from the CDN 281 ms; render+copy avg 19–22 ms/frame at 244² … 800²; queue gap avg 10 ms, p95 35 ms (Chromium/WebKit on a Mac: 6 / 17 ms).
+- README browser table updated (Firefox: verified in CI, Linux, software WebGL; not run on a developer machine) and CI badge added.
 
-## Open owner decisions
-1. **Package name** (`@incodes/gift-player` is a placeholder; the README says so).
-2. **License** (`UNLICENSED` now; libpag, loaded at runtime, is Apache-2.0).
-3. **GitHub repo** (none yet: CI has never run, and Firefox only runs there).
-4. **Real iPhone testing** (Safari is covered only through Playwright's WebKit on macOS).
+## Anything still blocking
+Nothing. Open owner items: the author email in public history; real-iPhone testing; Firefox with a real GPU (only software GL verified); GitHub's Node 20 deprecation warning for `actions/checkout@v4` etc. (works today, bump the action versions later).
