@@ -414,6 +414,14 @@ export class SvgaRenderer implements FrameSource {
     if (old.owned) old.bitmap.close();
   }
 
+  /** Blanks the canvas; the next `drawFrame` paints again. */
+  clear(): void {
+    if (this.destroyed) return;
+    this.current = -1;
+    this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+    this.ctx.clearRect(0, 0, this.width, this.height);
+  }
+
   private redraw(): void {
     if (this.current >= 0) this.drawFrame(this.current);
   }

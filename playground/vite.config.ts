@@ -11,6 +11,7 @@ const TYPES: Record<string, string> = {
 
 /** Serves the repo's samples/ folder at /samples/* and lists a folder at /__list/<dir> (dev server only). */
 export default defineConfig({
+  resolve: { alias: { '@gift-player/root': resolve(__dirname, '../src/index.ts') } }, // how src/react imports the root entry
   plugins: [
     {
       name: 'serve-samples',

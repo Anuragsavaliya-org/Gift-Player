@@ -5,8 +5,12 @@ import { beforeAll, describe, expect, it } from 'vitest';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 
-/** The names a host app imports. A rename or removal is a breaking change and must show up here. */
-const PUBLIC = ['GiftPlayer', 'GiftQueue', 'GiftPlayerError', 'AssetCache', 'registerResolver', 'getDefaultCache', 'detectFormat', 'registerFont', 'PAG_VERSION'];
+/** Runtime exports per entry point. A rename or removal is a breaking change and must show up here. */
+const ENTRIES: Record<string, string[]> = {
+  index: ['AssetCache', 'DEFAULT_CACHE_BYTES', 'GiftPlayer', 'GiftPlayerError', 'GiftQueue', 'VERSION', 'detectFormat', 'getDefaultCache', 'registerFont', 'registerResolver', 'releasePagEngineContext', 'setPagFallbackFonts'],
+  advanced: ['DEFAULT_PAG_MODULE_URL', 'DEFAULT_PAG_WASM_URL', 'PAG_VERSION', 'PagRenderer', 'decodeSvgaImages', 'detectSource', 'loadPagEngine', 'parseSvga', 'readSource', 'releaseSvgaImages'],
+  react: ['GiftPlayerView', 'useGiftQueue'],
+};
 
 // Next.js evaluates the package on the server (route handlers, server components): importing it must not touch window/document.
 const probe = `
@@ -14,23 +18,37 @@ const probe = `
     Object.defineProperty(globalThis, k, { configurable: true, get() { throw new Error('touched ' + k + ' at import time'); } });
   }
 `;
+const listKeys = (v: string) => `console.log(JSON.stringify(Object.keys(${v}).sort()));`;
 
-describe('SSR safety', () => {
+describe('SSR safety and export lists', () => {
   beforeAll(() => {
-    execFileSync('npx', ['tsup'], { cwd: root, stdio: 'ignore' });
-  }, 120_000);
+    execFileSync('npm', ['run', 'build'], { cwd: root, stdio: 'ignore' });
+  }, 180_000);
 
-  it('the built ESM package imports in plain Node without touching browser globals', () => {
-    const out = execFileSync(process.execPath, ['--input-type=module', '-e', `${probe}; const m = await import(${JSON.stringify(join(root, 'dist/index.js'))}); console.log(JSON.stringify(${JSON.stringify(PUBLIC)}.map((k) => typeof m[k])));`], { encoding: 'utf8' });
-    expect(JSON.parse(out.trim())).toEqual(PUBLIC.map((k) => (k === 'PAG_VERSION' ? 'string' : 'function')));
+  for (const [entry, names] of Object.entries(ENTRIES)) {
+    it(`${entry}: the built ESM entry imports in plain Node without touching browser globals, and exports exactly the contract`, () => {
+      const out = execFileSync(process.execPath, ['--input-type=module', '-e', `${probe}; const m = await import(${JSON.stringify(join(root, `dist/${entry}.js`))}); ${listKeys('m')}`], { encoding: 'utf8' });
+      expect(JSON.parse(out.trim())).toEqual(names);
+    });
+
+    it(`${entry}: so does the CommonJS entry`, () => {
+      const out = execFileSync(process.execPath, ['-e', `${probe}; const m = require(${JSON.stringify(join(root, `dist/${entry}.cjs`))}); ${listKeys('m')}`], { encoding: 'utf8' });
+      expect(JSON.parse(out.trim())).toEqual(names);
+    });
+  }
+
+  it('the PAG engine state is shared between the root and /advanced entries (one engine per page)', () => {
+    const out = execFileSync(
+      process.execPath,
+      ['-e', `const a = require(${JSON.stringify(join(root, 'dist/index.cjs'))}); const b = require(${JSON.stringify(join(root, 'dist/advanced.cjs'))});
+        const key = Symbol.for('@gift-player/pag-engine');
+        console.log(JSON.stringify({ stateOnGlobal: typeof globalThis[key], sameChunk: a.GiftPlayer !== undefined && b.PagRenderer !== undefined }));`],
+      { encoding: 'utf8' },
+    );
+    expect(JSON.parse(out.trim())).toEqual({ stateOnGlobal: 'object', sameChunk: true });
   });
 
-  it('the built CJS package does too', () => {
-    const out = execFileSync(process.execPath, ['-e', `${probe}; const m = require(${JSON.stringify(join(root, 'dist/index.cjs'))}); console.log(JSON.stringify(${JSON.stringify(PUBLIC)}.map((k) => typeof m[k])));`], { encoding: 'utf8' });
-    expect(JSON.parse(out.trim())).toEqual(PUBLIC.map((k) => (k === 'PAG_VERSION' ? 'string' : 'function')));
-  });
-
-  it('server-side helpers work: detect, error codes, queue construction is deferred to the browser', () => {
+  it('server-side helpers work; constructing a player on the server is a clear error', () => {
     const out = execFileSync(
       process.execPath,
       ['--input-type=module', '-e', `const m = await import(${JSON.stringify(join(root, 'dist/index.js'))});

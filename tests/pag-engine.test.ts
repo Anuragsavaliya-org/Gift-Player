@@ -7,6 +7,7 @@ const pkg = JSON.parse(readFileSync(join(__dirname, '../package.json'), 'utf8'))
 /** A fresh copy of the engine module (it keeps page-wide singletons). */
 const fresh = async () => {
   vi.resetModules();
+  delete (globalThis as Record<symbol, unknown>)[Symbol.for('@gift-player/pag-engine')]; // the engine state lives on globalThis
   return import('../src/formats/pag/engine');
 };
 

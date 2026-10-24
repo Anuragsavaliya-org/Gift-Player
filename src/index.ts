@@ -1,26 +1,27 @@
+/**
+ * Public API of the package (the semver contract). Low-level building blocks live in the `/advanced` subpath, React bindings in `/react`.
+ */
 export const VERSION = '0.0.0';
 
-export { detectFormat, type FormatInfo, type GiftFormat } from './core/detect';
-export { detectSource } from './core/inspect';
-export { readSource, type GiftSource } from './core/source';
-export { GiftPlayerError, type GiftErrorCode } from './core/errors';
-
-export { parseSvga, decodeSvgaImages, releaseSvgaImages } from './formats/svga';
-export type * from './formats/svga/types';
-export type { DecodedSvgaImages } from './formats/svga/decode-images';
-
-// PAG: only the thin adapter lives in this package; the engine (libpag, ~1.9 MB) is fetched lazily at runtime.
-export { PagRenderer, loadPagEngine, releasePagEngineContext, setPagFallbackFonts, PAG_VERSION, DEFAULT_PAG_MODULE_URL, DEFAULT_PAG_WASM_URL } from './formats/pag';
-export type { PagRendererOptions, PagEngineOptions } from './formats/pag';
-export type { EditableKey } from './core/frame-source';
-export { registerFont, type FontData } from './core/fonts';
-
-// Public player API
-export { GiftPlayer, getDefaultCache, registerResolver } from './player';
+// Players
+export { GiftPlayer, getDefaultCache } from './player';
 export type { GiftInfo, GiftPlayerEvents, GiftPlayerOptions, LoadOptions, LoadedGift, PreloadOptions, PreloadResult, Replacement, ReplacementImage, Replacements, ResolvedSource, SourceResolver } from './player';
 export { GiftQueue } from './queue';
 export type { DropReason, GiftQueueEvents, GiftQueueOptions, QueueAddOptions, QueueHandle, QueueItemInfo, QueueItemStatus, QueueStats } from './queue';
+
+// Cache and sources
 export { AssetCache, DEFAULT_CACHE_BYTES } from './cache/asset-cache';
 export type { AssetCacheOptions, CacheLoaded, CacheStats, Lease } from './cache/asset-cache';
+export { registerResolver } from './player/asset';
+export type { GiftSource } from './core/source';
+
+// Errors, detection, fonts, PAG engine housekeeping
+export { GiftPlayerError, type GiftErrorCode } from './core/errors';
+export { detectFormat, type FormatInfo, type GiftFormat } from './core/detect';
+export { registerFont, type FontData } from './core/fonts';
+export { setPagFallbackFonts, releasePagEngineContext, type PagEngineOptions } from './formats/pag/engine';
+
+// Shared types
+export type { EditableKey } from './core/frame-source';
 export type { TextStyle, ImageOptions } from './core/replacement';
 export type { ContentMode } from './core/viewport';

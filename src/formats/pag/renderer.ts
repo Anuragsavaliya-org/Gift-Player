@@ -179,6 +179,22 @@ export class PagRenderer implements FrameSource {
     return false;
   }
 
+  /** Blanks the canvas (after any frame being rendered has landed); the next `drawFrame` paints again. */
+  clear(): void {
+    if (this.destroyed) return;
+    this.wanted = -1;
+    this.current = -1;
+    this.settle();
+    const blank = () => {
+      if (this.destroyed || this.wanted >= 0) return;
+      const ctx = this.canvas.getContext('2d');
+      ctx?.setTransform(1, 0, 0, 1, 0, 0);
+      ctx?.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    };
+    blank();
+    this.pumpDone.then(blank, blank); // a flush that was already running copies its frame in when it finishes
+  }
+
   ready(index: number): Promise<void> {
     if (this.destroyed) return Promise.resolve();
     const i = Math.min(this.count - 1, Math.max(0, Math.floor(index)));
@@ -198,11 +214,11 @@ export class PagRenderer implements FrameSource {
     this.pumping = true;
     this.pumpDone = (async () => {
       try {
-        while (!this.destroyed && this.current !== this.wanted) {
+        while (!this.destroyed && this.wanted >= 0 && this.current !== this.wanted) {
           const i = this.wanted;
           this.view.setProgress(this.progressOf(i));
           await this.view.flush();
-          if (this.destroyed) break;
+          if (this.destroyed || this.wanted < 0) break; // cleared while rendering
           this.current = i;
           this.settle();
         }

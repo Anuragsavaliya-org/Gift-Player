@@ -398,7 +398,7 @@ export class GiftQueue {
     let error: GiftPlayerError | null = null;
     try {
       if (item.preloadError) throw item.preloadError;
-      await this.player.load(item.src, { replacements: item.replacements, loops: item.loops ?? this.defaultLoops, signal: ctl.signal });
+      await this.player.load(item.src, { replacements: item.replacements, loops: item.loops ?? this.defaultLoops, clearOnEnd: false, signal: ctl.signal });
       this.releaseHold(item); // the player now holds the gift itself
       if (gapStart !== null && item.status === 'playing') {
         this.stats.gapsMs.push(performance.now() - gapStart);
@@ -421,6 +421,10 @@ export class GiftQueue {
     const info = this.info(item);
     for (const h of item.handles) h.finish(outcome);
     this.current = null;
+    // Hand-over: when the next gift is already prepared (held in the cache) its load swaps the canvas within a few ms, so the last
+    // frame stays until then. Otherwise (nothing waiting, or the next one still downloading, or this one failed) the canvas goes blank.
+    const next = this.waiting[0];
+    if (!(outcome === 'done' && next && next.hold && !this.paused)) this.player.clear();
     this.lastEndAt = outcome === 'done' && this.waiting.length > 0 ? performance.now() : null;
     if (error) this.events.emit('item-error', { ...info, error });
     this.events.emit('item-end', { ...info, status: outcome });

@@ -30,6 +30,11 @@ export interface GiftPlayerOptions {
   contentMode?: ContentMode;
   /** Number of plays; 0 or Infinity = forever. Default: the file's own count, else once. `load()` can override per gift. */
   loops?: number;
+  /**
+   * Clear the canvas to transparent when the last play ends (after the `end` event), so a finished gift never stays frozen over the
+   * video. Default true. `false` keeps the last frame on screen. Can be overridden per `load()`.
+   */
+  clearOnEnd?: boolean;
   /** Pause while the page is hidden and continue from the same frame afterwards. Default true. */
   pauseWhenHidden?: boolean;
   /** Default `window.devicePixelRatio`. */
@@ -54,6 +59,8 @@ export interface LoadOptions {
   signal?: AbortSignal;
   /** Number of plays for this gift (overrides the player option and the file). 0 = forever. */
   loops?: number;
+  /** Overrides the player's `clearOnEnd` for this gift. */
+  clearOnEnd?: boolean;
 }
 
 /** What `load()` resolves to. */
@@ -92,6 +99,7 @@ interface Renderer extends FrameSource {
   setHidden?(key: string, hidden: boolean): void;
   clearReplacement?(key: string): void;
   setContentMode?(mode: ContentMode): void;
+  clear?(): void;
 }
 
 let defaultCache: AssetCache<LoadedGift> | null = null;
@@ -141,6 +149,7 @@ export class GiftPlayer {
   private lastFrame = -1;
   private loopsDone = 0;
   private swapMs = 0;
+  private clearAtEnd = true;
   private readonly onVisibility = () => this.visibilityChanged();
 
   /**
@@ -164,7 +173,10 @@ export class GiftPlayer {
   /**
    * Loads a gift (URL, `scheme:ref` for a registered resolver, ArrayBuffer, or Blob/File) and shows its first frame; call `play()` to
    * animate. A second `load()` while one is in flight aborts the first (which rejects with `aborted` and never reaches the screen).
-   * The previous gift stays on screen and keeps playing while the new one downloads; it is replaced at the moment the new one is ready.
+   *
+   * What is on screen meanwhile: a gift that is still PLAYING when `load()` is called keeps playing while the new one downloads, and is
+   * replaced at the moment the new one is ready. A gift that has ENDED is already gone (`clearOnEnd`, default true), so the canvas is
+   * blank until the new gift is ready; with `clearOnEnd: false` its last frame stays until then.
    */
   async load(src: GiftSource, options: LoadOptions = {}): Promise<GiftInfo> {
     if (this.destroyed) throw aborted('The player is destroyed.');
@@ -202,6 +214,7 @@ export class GiftPlayer {
         this.teardown(aborted('The load was aborted.'));
         throw aborted('The load was aborted.');
       }
+      this.clearAtEnd = options.clearOnEnd ?? this.options.clearOnEnd ?? true;
       const loops = resolveLoops(options.loops ?? this.options.loops, renderer);
       this.ticker = new Ticker({
         frames: renderer.frameCount,
@@ -328,6 +341,11 @@ export class GiftPlayer {
     this.settle(aborted('Playback was stopped.'));
   }
 
+  /** Blanks the canvas now (the frame on screen is forgotten; a playing gift paints its next frame again). Use it after `stop()` or with `clearOnEnd: false`. */
+  clear(): void {
+    this.renderer?.clear?.();
+  }
+
   /** Shows frame `frame` (clamped); keeps playing if it was playing. */
   seek(frame: number): void {
     if (!this.ticker) return;
@@ -376,7 +394,8 @@ export class GiftPlayer {
   }
 
   private onEnd(): void {
-    this.events.emit('end', undefined);
+    this.events.emit('end', undefined); // listeners still see the last frame
+    if (this.clearAtEnd) this.renderer?.clear?.();
     this.settle(null);
   }
 

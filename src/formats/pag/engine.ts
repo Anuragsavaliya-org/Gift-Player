@@ -33,19 +33,28 @@ export interface PagEngine {
   loadMs: number;
 }
 
-let loading: Promise<PagEngine> | null = null;
-let loadedKey = '';
-let anchorHeld = false;
+interface EngineState {
+  loading: Promise<PagEngine> | null;
+  loadedKey: string;
+  anchorHeld: boolean;
+}
+
+/**
+ * One engine per page, even when this module is present more than once (the CommonJS build repeats shared code in each entry file, and a
+ * page may bundle two copies of the package): the state hangs off `globalThis` under a registered symbol.
+ */
+const STATE_KEY = Symbol.for('@gift-player/pag-engine');
+const state: EngineState = ((globalThis as Record<symbol, EngineState | undefined>)[STATE_KEY] ??= { loading: null, loadedKey: '', anchorHeld: false });
 
 /** Holds one reference to libpag's shared WebGL canvas (see below); idempotent. */
 function holdContext(PAG: PagModuleLike): void {
-  if (anchorHeld) return;
+  if (state.anchorHeld) return;
   try {
     // Every PAG view in Canvas2D mode retains/releases the same shared WebGL canvas, so without this the context would be
     // destroyed whenever the last gift ends and a new one created for the next. With hundreds of gifts the browser's
     // ~16 context limit becomes a real risk. Holding one reference keeps exactly one context alive for the page.
     PAG.globalCanvas.retain();
-    anchorHeld = true;
+    state.anchorHeld = true;
   } catch (cause) {
     throw new GiftPlayerError('unsupported-format', 'WebGL is not available, which PAG needs.', { cause });
   }
@@ -59,11 +68,11 @@ export async function loadPagEngine(options: PagEngineOptions = {}): Promise<Pag
   const moduleUrl = options.pagModuleUrl ?? DEFAULT_PAG_MODULE_URL;
   const wasmUrl = options.pagWasmUrl ?? DEFAULT_PAG_WASM_URL;
   const key = options.pagModule ? 'custom-loader' : `${moduleUrl}|${wasmUrl}`;
-  if (loading) {
-    if (key !== loadedKey) console.warn(`[gift-player] the PAG engine is already loaded from ${loadedKey}; ignoring ${key}.`);
+  if (state.loading) {
+    if (key !== state.loadedKey) console.warn(`[gift-player] the PAG engine is already loaded from ${state.loadedKey}; ignoring ${key}.`);
   } else {
-    loadedKey = key;
-    loading = (async () => {
+    state.loadedKey = key;
+    state.loading = (async () => {
       const t0 = performance.now();
       let exports: PagModuleExports;
       try {
@@ -80,11 +89,11 @@ export async function loadPagEngine(options: PagEngineOptions = {}): Promise<Pag
       }
       return { PAG, loadMs: Math.round(performance.now() - t0) };
     })();
-    loading.catch(() => {
-      loading = null; // allow a retry after a failed load
+    state.loading.catch(() => {
+      state.loading = null; // allow a retry after a failed load
     });
   }
-  const engine = await loading;
+  const engine = await state.loading!;
   holdContext(engine.PAG);
   return engine;
 }
@@ -94,10 +103,10 @@ export async function loadPagEngine(options: PagEngineOptions = {}): Promise<Pag
  * context again. Views that are still alive keep their own reference.
  */
 export async function releasePagEngineContext(): Promise<void> {
-  if (!loading || !anchorHeld) return;
-  const engine = await loading.catch(() => null);
+  if (!state.loading || !state.anchorHeld) return;
+  const engine = await state.loading.catch(() => null);
   if (!engine) return;
-  anchorHeld = false;
+  state.anchorHeld = false;
   const canvas = engine.PAG.globalCanvas.canvas;
   const gl = canvas ? (canvas.getContext('webgl') as WebGLRenderingContext | null) : null; // the existing context, not a new one
   engine.PAG.globalCanvas.release();

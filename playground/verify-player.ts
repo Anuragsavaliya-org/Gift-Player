@@ -356,9 +356,86 @@ async function runApi() {
 }
 
 
+
+// ------------------------------------------------------------------------------------------------
+async function runClear() {
+  const nextRaf = () => new Promise<void>((r) => requestAnimationFrame(() => r()));
+  for (const file of ['Rocket.svga', 'rotating-earth.gif', 'animated.webp', 'replacement.pag']) {
+    await guarded(`clearOnEnd ${file}`, async () => {
+      const el = box(200, 200);
+      const p = newPlayer(el);
+      await p.load(S(file), { loops: 1 });
+      let inkAtEnd = -1;
+      p.on('end', () => { inkAtEnd = ink(canvasOf(el)); });
+      const done = p.play();
+      p.seek(Math.max(0, (p.current?.frameCount ?? 2) - 2));
+      await done;
+      await sleep(150); await nextRaf();
+      check(`${file}: the last frame is visible in the \`end\` event, and the canvas is fully transparent afterwards (clearOnEnd default)`, inkAtEnd > 0 && ink(canvasOf(el)) === 0, { inkAtEnd, inkAfter: ink(canvasOf(el)) });
+      await p.play(); // replay after a clear paints again
+      check(`${file}: play() after the clear shows the gift again`, true);
+      p.destroy();
+      const el2 = box(200, 200);
+      const p2 = newPlayer(el2, { clearOnEnd: false });
+      await p2.load(S(file), { loops: 1 });
+      const d2 = p2.play();
+      p2.seek(Math.max(0, (p2.current?.frameCount ?? 2) - 2));
+      await d2;
+      await sleep(150); await nextRaf();
+      const kept = ink(canvasOf(el2));
+      check(`${file}: clearOnEnd:false keeps the last frame`, kept > 0, { ink: kept });
+      p2.clear();
+      await sleep(100);
+      check(`${file}: player.clear() blanks it on demand`, ink(canvasOf(el2)) === 0);
+      // per-load override
+      await p2.load(S(file), { loops: 1, clearOnEnd: true });
+      const d3 = p2.play();
+      p2.seek(Math.max(0, (p2.current?.frameCount ?? 2) - 2));
+      await d3;
+      await sleep(150);
+      check(`${file}: load({clearOnEnd:true}) overrides the player option`, ink(canvasOf(el2)) === 0);
+      p2.destroy();
+    });
+  }
+
+  await guarded('queue blank between', async () => {
+    const off = registerResolver('slowq', async (ref) => { await sleep(400); return S(ref); });
+    const el = box(200, 200);
+    const player = newPlayer(el);
+    const queue = new GiftQueue(player, { preloadAhead: 0 }); // nothing is prepared: B starts downloading only when A is over
+    let sampling = false;
+    const samples: number[] = [];
+    let betweenStart = 0;
+    const loop = async () => { while (true) { if (sampling) samples.push(ink(canvasOf(el))); await nextRaf(); if (stop) return; } };
+    let stop = false;
+    void loop();
+    queue.on('item-start', (i) => { if (String(i.src).startsWith('slowq')) sampling = false; else player.seek(Math.max(0, (player.current?.frameCount ?? 2) - 2)); });
+    queue.on('item-end', (i) => { if (!String(i.src).startsWith('slowq')) { sampling = true; betweenStart = performance.now(); } });
+    queue.add(S('Rocket.svga'));
+    queue.add('slowq:angel.svga');
+    await new Promise<void>((r) => queue.on('item-start', (i) => { if (String(i.src).startsWith('slowq')) r(); }));
+    const waited = performance.now() - betweenStart;
+    check('queue, next gift still downloading: the canvas is blank (0 visible pixels in every frame between the two gifts)', samples.length >= 5 && samples.every((n) => n === 0), { frameSamples: samples.length, maxInk: Math.max(0, ...samples), betweenMs: Math.round(waited) });
+    // and a gift that is prepared hands over without a blank in between being longer than the swap itself
+    const q2 = new GiftQueue(player, { preloadAhead: 2 });
+    const blanks: number[] = [];
+    q2.on('item-start', () => { player.seek(Math.max(0, (player.current?.frameCount ?? 2) - 2)); });
+    q2.add(S('Rocket.svga')); q2.add(S('kingset.svga')); q2.add(S('angel.svga'));
+    await new Promise<void>((r) => q2.on('idle', () => r()));
+    blanks.push(...q2.stats.blankMs);
+    check('queue, next gift prepared: hand-over keeps the fast path (blank only for the swap itself)', blanks.length === 2 && blanks.every((b) => b < 60), blanks.map((b) => round(b)));
+    await nextRaf(); await nextRaf();
+    check('queue idle: the canvas is blank after the last gift', ink(canvasOf(el)) === 0);
+    stop = true;
+    queue.destroy(); q2.destroy(); player.destroy(); off();
+  });
+  cleanup();
+  return { checks, passed: checks.filter((c) => c.ok).length, failed: checks.filter((c) => !c.ok).length };
+}
+
 // ------------------------------------------------------------------------------------------------
 async function runCache() {
-  const svgaKeys = async (f: string) => { const { parseSvga } = await import('../src/index'); return parseSvga(await bytesOf(f)).images.size; };
+  const svgaKeys = async (f: string) => { const { parseSvga } = await import('../src/advanced'); return parseSvga(await bytesOf(f)).images.size; };
   const nAngel = await svgaKeys('angel.svga');
   const base = counters.snapshot();
   const dc0 = { ...counters.doubleCloses };
@@ -628,7 +705,7 @@ async function runStress() {
 
 (async () => {
   try {
-    const result = task === 'stress' ? await runStress() : task === 'leaks' ? await runLeaks() : task === 'cache' ? await runCache() : task === 'engine' ? await runEngine() : task === 'api' ? await runApi() : { error: `unknown task ${task}` };
+    const result = task === 'clear' ? await runClear() : task === 'stress' ? await runStress() : task === 'leaks' ? await runLeaks() : task === 'cache' ? await runCache() : task === 'engine' ? await runEngine() : task === 'api' ? await runApi() : { error: `unknown task ${task}` };
     (window as unknown as { __result: unknown }).__result = result;
     const out = document.getElementById('out');
     if (out) out.textContent = JSON.stringify(result, null, 1).slice(0, 6000);

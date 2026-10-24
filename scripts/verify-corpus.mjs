@@ -1,9 +1,10 @@
 // Real-corpus smoke test: parse + render-vs-oracle + feature census for every .svga in a directory.
 //   npm run verify:corpus                       # samples/corpus/ (git-ignored; the owner drops real files there)
 //   npm run verify:corpus -- --dir=samples      # dry run on the repo samples
-//   options: --step=10  --limit=N  --threshold=2
+//   options: --step=10  --limit=N  --threshold=2  --browser=chromium|webkit|firefox (default chromium)
 // Writes reports/corpus.json + reports/corpus.md (or corpus-<dir>.* for any other directory).
-import { spawn, execFileSync } from 'node:child_process';
+import { spawn } from 'node:child_process';
+import { runInBrowser } from './lib/pw.mjs';
 import { existsSync, mkdirSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import { basename, dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -11,12 +12,14 @@ import { fileURLToPath } from 'node:url';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const samples = join(root, 'samples');
 const opt = (n, d) => process.argv.find((a) => a.startsWith(`--${n}=`))?.split('=').slice(1).join('=') ?? d;
+const browser = opt('browser', 'chromium');
 const dir = resolve(root, opt('dir', 'samples/corpus'));
 const step = opt('step', '10');
 const threshold = Number(opt('threshold', 2));
 const limit = Number(opt('limit', 0));
 const isDefault = dir === join(samples, 'corpus');
-const tag = isDefault ? 'corpus' : `corpus-${basename(dir)}`;
+const explicit = process.argv.some((a) => a.startsWith('--browser='));
+const tag = (isDefault ? 'corpus' : `corpus-${basename(dir)}`) + (explicit ? `-${browser}` : '');
 const port = 5197;
 
 if (relative(samples, dir).startsWith('..')) {
@@ -39,12 +42,11 @@ if (files.length === 0) {
   const vite = spawn('npx', ['vite', 'playground', '--port', String(port), '--strictPort'], { cwd: root, stdio: 'ignore' });
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
   const base = `http://localhost:${port}/verify.html`;
-  const run = (query, extra = []) => {
+  const run = async (query) => {
     try {
-      const out = execFileSync('node', [join(root, 'scripts/headless.mjs'), `${base}?${query}`, '--timeout=900000', ...extra], { cwd: root, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'], maxBuffer: 1 << 28 });
-      return JSON.parse(out.trim().split('\n').pop());
+      return (await runInBrowser(browser, `${base}?${query}`, { timeout: 900000 })).result;
     } catch (e) {
-      return { error: `harness failed: ${String(e.message).slice(0, 200)}` };
+      return { error: `harness failed: ${String(e.message).split('\n')[0].slice(0, 200)}` };
     }
   };
   try {
@@ -53,9 +55,9 @@ if (files.length === 0) {
     for (const [i, f] of files.entries()) {
       const name = rel ? `${rel}/${f}` : f;
       process.stdout.write(`[${i + 1}/${files.length}] ${f} ... `);
-      const r = run(`task=corpus&file=${encodeURIComponent(name)}&step=${step}`);
+      const r = await run(`task=corpus&file=${encodeURIComponent(name)}&step=${step}`);
       r.file = f;
-      if (r.diff && r.diff.maxPercent > threshold) r.diagnosis = diagnose(name, r);
+      if (r.diff && r.diff.maxPercent > threshold) r.diagnosis = await diagnose(name, r);
       report.files.push(r);
       console.log(r.parse?.ok ? (r.diff ? `max ${r.diff.maxPercent}%` : `parsed; diff failed: ${r.diffError}`) : `PARSE FAILED: ${r.parse?.message ?? r.error}`);
     }
@@ -64,7 +66,7 @@ if (files.length === 0) {
   }
 
   /** Re-renders with each oracle quirk neutralised; whichever brings the file under the threshold is the cause. */
-  function diagnose(name, r) {
+  async function diagnose(name, r) {
     const q = `task=diff&sample=${encodeURIComponent(name)}&step=${step}`;
     const tries = [
       ['mimicOracleAlpha=1', 'svgaplayerweb skips sprites with alpha < 0.05 (we draw them)'],
@@ -72,7 +74,7 @@ if (files.length === 0) {
       ['mimicOracleAlpha=1&oracleIsolate=1', 'both svgaplayerweb quirks: alpha < 0.05 cutoff and whole-canvas matte'],
     ];
     for (const [flags, why] of tries) {
-      const d = run(`${q}&${flags}`);
+      const d = await run(`${q}&${flags}`);
       if (d.maxPercent !== undefined && d.maxPercent <= threshold) return { text: why, confidence: 'proven (diff drops below threshold when the quirk is neutralised)', afterMax: d.maxPercent };
     }
     const c = r.census;

@@ -2,14 +2,14 @@
 // playground dev server and writes reports/phase5-pag.json (+ the text screenshots to reports/text/).
 //   node scripts/verify-pag.mjs [--browsers=chromium,webkit] [--cycles=100]
 import { spawn } from 'node:child_process';
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { runInBrowser } from './lib/pw.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const opt = (n, d) => process.argv.find((a) => a.startsWith(`--${n}=`))?.split('=')[1] ?? d;
-const browsers = opt('browsers', 'chromium,webkit').split(',');
+const browsers = (opt('browser', null) ?? opt('browsers', 'chromium,webkit')).split(','); // --browser=webkit or --browsers=chromium,webkit
 const cycles = opt('cycles', '100');
 const port = 5197;
 const base = `http://localhost:${port}/verify-pag.html`;
@@ -33,6 +33,7 @@ const TASKS = [
 try {
   for (let i = 0; i < 60; i++) { try { await fetch(`http://localhost:${port}/`); break; } catch { await sleep(250); } }
   mkdirSync(join(root, 'reports/text'), { recursive: true });
+  let failed = false;
   const report = { date: new Date().toISOString(), cycles: Number(cycles), browsers: {} };
   for (const b of browsers) {
     const entry = (report.browsers[b] = {});
@@ -45,15 +46,22 @@ try {
           entry[name] = result.rows;
         } else entry[name] = result;
         const ok = result?.error ? false : Array.isArray(result) ? result.every((r) => r.ok !== false) : result?.ok !== false && (result?.failed ?? 0) === 0;
-        console.log(`${b.padEnd(9)} ${name.padEnd(11)} ${ok ? 'ok' : 'CHECK'}`);
+        if (!ok) failed = true;
+        console.log(`${b.padEnd(9)} ${name.padEnd(11)} ${result?.skipped ? `skipped (${result.skipped})` : ok ? 'ok' : 'CHECK'}`);
       } catch (e) {
+        failed = true;
         entry[name] = { error: String(e.message).split('\n')[0] };
         console.log(`${b.padEnd(9)} ${name.padEnd(11)} ERROR ${entry[name].error}`);
       }
     }
   }
-  writeFileSync(join(root, 'reports/phase5-pag.json'), JSON.stringify(report, null, 2) + '\n');
+  // A run for one browser (--browser=webkit) keeps the other browsers' earlier results in the file.
+  const file = join(root, 'reports/phase5-pag.json');
+  const earlier = existsSync(file) ? JSON.parse(readFileSync(file, 'utf8')).browsers ?? {} : {};
+  report.browsers = { ...earlier, ...report.browsers };
+  writeFileSync(file, JSON.stringify(report, null, 2) + '\n');
   console.log('wrote reports/phase5-pag.json');
+  if (failed) process.exitCode = 1;
 } finally {
   vite.kill('SIGKILL');
 }

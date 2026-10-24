@@ -2,28 +2,30 @@
 // against the playground dev server and writes reports/phase6-api.json.
 //   node scripts/verify-api.mjs [--browsers=chromium,webkit] [--items=200] [--cycles=100]
 import { spawn } from 'node:child_process';
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { runInBrowser } from './lib/pw.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const opt = (n, d) => process.argv.find((a) => a.startsWith(`--${n}=`))?.split('=')[1] ?? d;
-const browsers = opt('browsers', 'chromium,webkit').split(',');
+const browsers = (opt('browser', null) ?? opt('browsers', 'chromium,webkit')).split(','); // --browser=webkit or --browsers=chromium,webkit
 const items = opt('items', '200');
 const cycles = opt('cycles', '100');
 const port = 5196;
-const base = `http://localhost:${port}/verify-player.html`;
+const base = `http://localhost:${port}`;
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const vite = spawn('npx', ['vite', 'playground', '--port', String(port), '--strictPort'], { cwd: root, stdio: 'ignore' });
 
 // `engine` first and alone: the PAG engine loads once per page, and that task needs the first load to fail.
 const TASKS = [
-  ['engine', 'task=engine'],
-  ['api', 'task=api'],
-  ['cache', 'task=cache'],
-  ['leaks', `task=leaks&cycles=${cycles}`],
-  ['stress', `task=stress&items=${items}`],
+  ['engine', 'verify-player.html?task=engine'],
+  ['api', 'verify-player.html?task=api'],
+  ['clear', 'verify-player.html?task=clear'],
+  ['cache', 'verify-player.html?task=cache'],
+  ['leaks', `verify-player.html?task=leaks&cycles=${cycles}`],
+  ['stress', `verify-player.html?task=stress&items=${items}`],
+  ['react', 'verify-react.html'],
 ];
 
 try {
@@ -35,7 +37,7 @@ try {
     const entry = (report.browsers[b] = {});
     for (const [name, query] of TASKS) {
       try {
-        const { result, version } = await runInBrowser(b, `${base}?${query}`, { timeout: 900000 });
+        const { result, version } = await runInBrowser(b, `${base}/${query}`, { timeout: 900000 });
         entry.version = version;
         entry[name] = result;
         const ok = result?.error ? false : name === 'stress' || name === 'leaks' ? result.ok === true : result.failed === 0;
@@ -49,7 +51,11 @@ try {
       }
     }
   }
-  writeFileSync(join(root, 'reports/phase6-api.json'), JSON.stringify(report, null, 2) + '\n');
+  // A run for one browser (--browser=webkit) keeps the other browsers' earlier results in the file.
+  const file = join(root, 'reports/phase6-api.json');
+  const earlier = existsSync(file) ? JSON.parse(readFileSync(file, 'utf8')).browsers ?? {} : {};
+  report.browsers = { ...earlier, ...report.browsers };
+  writeFileSync(file, JSON.stringify(report, null, 2) + '\n');
   console.log('wrote reports/phase6-api.json');
   if (failed) process.exitCode = 1;
 } finally {

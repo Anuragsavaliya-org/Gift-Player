@@ -12,3 +12,11 @@ samples/.golden/
 
 # system fonts copied here for the font-registration test (not redistributable)
 samples/.fonts/
+
+# generated API reference (npm run docs)
+docs/api/
+
+# per-browser outputs of `--browser=<name>` runs (CI artifacts; the committed reports are the default runs)
+reports/*-chromium.*
+reports/*-firefox.*
+reports/*-webkit.*

@@ -33,6 +33,8 @@ export interface FrameSource {
   /** Resolves once frame `i` can be drawn synchronously. */
   ready(i: number): Promise<void>;
   destroy(): void;
+  /** Blanks the canvas now and forgets the frame that was showing (a later `drawFrame` paints again). */
+  clear?(): void;
   /** Replaceable layers (renderers that support dynamic replacement implement this). */
   getEditableKeys?(): EditableKey[];
 }

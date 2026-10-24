@@ -1,0 +1,14 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["src/index.ts", "src/advanced.ts", "src/react/index.ts"],
+  "entryPointStrategy": "resolve",
+  "tsconfig": "tsconfig.json",
+  "out": "docs/api",
+  "name": "Gift Player API",
+  "excludePrivate": true,
+  "excludeInternal": true,
+  "disableSources": true,
+  "readme": "none",
+  "skipErrorChecking": false,
+  "validation": { "notExported": false, "invalidLink": true }
+}

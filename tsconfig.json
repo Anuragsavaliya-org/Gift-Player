@@ -10,7 +10,8 @@
     "isolatedModules": true,
     "types": ["node", "vite/client"],
     "skipLibCheck": true,
-    "noEmit": true
+    "noEmit": true,
+    "paths": { "@gift-player/root": ["./src/index.ts"] }
   },
   "include": ["src", "tests", "playground", "tools"]
 }

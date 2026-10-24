@@ -11,7 +11,7 @@ import { runInBrowser } from './lib/pw.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const opt = (n, d) => process.argv.find((a) => a.startsWith(`--${n}=`))?.split('=')[1] ?? d;
-const browsers = opt('browsers', 'chromium,webkit,firefox').split(',');
+const browsers = (opt('browser', null) ?? opt('browsers', 'chromium,webkit,firefox')).split(','); // --browser=webkit or --browsers=chromium,webkit
 const cycles = opt('cycles', '50');
 const withCorpus = !process.argv.includes('--no-corpus');
 const port = 5195;
@@ -126,8 +126,9 @@ for (const [b, R] of Object.entries(report.browsers)) for (const r of R.leaks ??
 md.push('', failures ? `**${failures} unexpected failure(s).**` : '**All checks passed** (rows marked "known" are the documented WebKit ImageDecoder bug, which `auto` routes around).');
 
 mkdirSync(join(root, 'reports'), { recursive: true });
-writeFileSync(join(root, 'reports/phase4-images.json'), JSON.stringify(report, null, 1) + '\n');
-writeFileSync(join(root, 'reports/phase4-images.md'), md.join('\n') + '\n');
+const suffix = process.argv.some((a) => a.startsWith('--browser=')) ? `-${browsers.join('+')}` : ''; // a run for named browsers (CI) never overwrites the committed default report
+writeFileSync(join(root, `reports/phase4-images${suffix}.json`), JSON.stringify(report, null, 1) + '\n');
+writeFileSync(join(root, `reports/phase4-images${suffix}.md`), md.join('\n') + '\n');
 console.log(md.slice(md.indexOf('## Browser support'), md.indexOf('## Browser support') + 10).join('\n'));
 console.log(failures ? `\n${failures} unexpected failure(s); see reports/phase4-images.md` : '\nall checks passed; see reports/phase4-images.md');
 process.exit(failures ? 1 : 0);

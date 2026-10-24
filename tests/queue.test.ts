@@ -11,6 +11,8 @@ class FakePlayer {
   loaded: unknown[] = [];
   current: object | null = null;
   lastSwapMs = 1;
+  clears = 0;
+  clear() { this.clears++; }
   playMs = 8;
   private startListeners = new Set<() => void>();
   private pending: { resolve(): void; reject(e: unknown): void; timer: ReturnType<typeof setTimeout> } | null = null;
@@ -197,6 +199,28 @@ describe('GiftQueue', () => {
     other.queue.add('z');
     await other.idle;
     expect(other.player.loaded[0]).toMatchObject({ loops: 4 });
+  });
+
+  it('blanks the canvas when the next gift is not ready, keeps the last frame for a prepared hand-over', async () => {
+    const { queue, player, idle } = setup({ preloadAhead: 1 }, 25);
+    queue.add('a');
+    await tick();
+    queue.add('b'); // preloaded while a plays: the hand-over keeps a's last frame
+    await new Promise((r) => setTimeout(r, 40)); // a ended, b is playing
+    expect(player.clears).toBe(0);
+    await idle;
+    expect(player.clears).toBe(1); // after the last gift: blank
+    const second = setup({ preloadAhead: 0 }, 10); // nothing is ever prepared: every end blanks
+    second.queue.add('x');
+    await tick();
+    second.queue.add('y');
+    await second.idle;
+    expect(second.player.clears).toBe(2);
+    const failing = setup({ preloadAhead: 1 }, 10);
+    failing.queue.add('p');
+    failing.queue.add('bad1');
+    await failing.idle;
+    expect(failing.player.clears).toBeGreaterThanOrEqual(2); // a failed gift also blanks (the previous frame must not linger)
   });
 
   it('records the time between consecutive gifts that were already waiting', async () => {

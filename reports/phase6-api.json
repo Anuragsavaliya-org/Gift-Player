@@ -1,787 +1,8 @@
 {
-  "date": "2026-10-24T07:42:14.293Z",
+  "date": "2026-10-24T08:47:29.326Z",
   "items": 200,
   "cycles": 100,
   "browsers": {
-    "chromium": {
-      "version": "156.0.8078.4",
-      "engine": {
-        "checks": [
-          {
-            "name": "engine-load-failed: PAG engine URL blocked / wrong, also emitted as an `error` event",
-            "ok": true,
-            "detail": {
-              "code": "engine-load-failed",
-              "events": [
-                "engine-load-failed"
-              ]
-            }
-          },
-          {
-            "name": "engine-load-failed: module loads but the WASM is blocked",
-            "ok": true,
-            "detail": "engine-load-failed"
-          },
-          {
-            "name": "non-PAG gifts are unaffected by the blocked engine",
-            "ok": true
-          },
-          {
-            "name": "the engine loads fine afterwards (a failed load is retried)",
-            "ok": true
-          }
-        ],
-        "passed": 4,
-        "failed": 0
-      },
-      "api": {
-        "checks": [
-          {
-            "name": "load() returns format, size, frames, duration and editable keys for every format",
-            "ok": true,
-            "detail": {
-              "angel.svga": "svga 750x750 60f 4000ms keys=26",
-              "rotating-earth.gif": "gif 400x400 44f 3960ms keys=0",
-              "animated.webp": "webp 300x225 100f 10000ms keys=0",
-              "replacement.pag": "pag 800x800 60f 1000ms keys=1"
-            }
-          },
-          {
-            "name": "one canvas is reused across formats",
-            "ok": true
-          },
-          {
-            "name": "destroy() removes the canvas",
-            "ok": true
-          },
-          {
-            "name": "load(A) then load(B): A rejects with aborted, B resolves",
-            "ok": true,
-            "detail": {
-              "A": "aborted",
-              "B": "resolved"
-            }
-          },
-          {
-            "name": "only B emits `loaded`",
-            "ok": true,
-            "detail": [
-              "svga",
-              "svga"
-            ]
-          },
-          {
-            "name": "A is never drawn on the canvas, B is",
-            "ok": true,
-            "detail": {
-              "sawA": false,
-              "finalEqualsReferenceB": false,
-              "refHash": -2007494794,
-              "final": -506455491,
-              "inkFinal": 1179,
-              "inkRef": 1150
-            }
-          },
-          {
-            "name": "a burst of 5 loads: the first 4 abort, the last resolves",
-            "ok": true,
-            "detail": [
-              "aborted",
-              "aborted",
-              "aborted",
-              "aborted",
-              "resolved"
-            ]
-          },
-          {
-            "name": "player.current is the last gift",
-            "ok": true
-          },
-          {
-            "name": "destroy() during load: load rejects with aborted, canvas removed",
-            "ok": true
-          },
-          {
-            "name": "load() after destroy() rejects with aborted",
-            "ok": true
-          },
-          {
-            "name": "destroy() twice does not throw",
-            "ok": true
-          },
-          {
-            "name": "destroy() during play: play() rejects with aborted",
-            "ok": true
-          },
-          {
-            "name": "AbortSignal aborts a load in flight",
-            "ok": true
-          },
-          {
-            "name": "an already aborted signal rejects at once",
-            "ok": true
-          },
-          {
-            "name": "the player is usable after an aborted load",
-            "ok": true
-          },
-          {
-            "name": "stop(): play() rejects with aborted and frame 0 is shown",
-            "ok": true
-          },
-          {
-            "name": "unsupported-format: random bytes",
-            "ok": true,
-            "detail": "unsupported-format"
-          },
-          {
-            "name": "network: HTTP 404 and an unreachable host",
-            "ok": true,
-            "detail": {
-              "http404": "network",
-              "unreachable": "network"
-            }
-          },
-          {
-            "name": "parse-failed: truncated SVGA / truncated PAG",
-            "ok": true,
-            "detail": {
-              "svga": "unsupported-format",
-              "pag": "parse-failed"
-            }
-          },
-          {
-            "name": "decode-failed: an SVGA whose images cannot be decoded",
-            "ok": true,
-            "detail": "decode-failed"
-          },
-          {
-            "name": "truncated GIF / WebP: a typed error or a (partial) picture, never a raw error",
-            "ok": true,
-            "detail": {
-              "gif": "resolved",
-              "webp": "resolved"
-            }
-          },
-          {
-            "name": "invalid-input: bad argument / play() before load()",
-            "ok": true,
-            "detail": {
-              "badArg": "invalid-input",
-              "playBeforeLoad": "invalid-input"
-            }
-          },
-          {
-            "name": "aborted is covered by the race, destroy and signal checks above",
-            "ok": true
-          },
-          {
-            "name": "every failure above is a GiftPlayerError (no raw errors escape)",
-            "ok": true,
-            "detail": {
-              "garbage": "unsupported-format",
-              "http404": "network",
-              "unreachable": "network",
-              "truncatedSvga": "unsupported-format",
-              "truncatedGif": "resolved",
-              "truncatedWebp": "resolved",
-              "corruptSvgaImage": "decode-failed",
-              "truncatedPag": "parse-failed",
-              "badArg": "invalid-input",
-              "playBeforeLoad": "invalid-input"
-            }
-          },
-          {
-            "name": "hidden: playback is paused (no frames advance)",
-            "ok": true,
-            "detail": {
-              "framesWhileHidden": 0
-            }
-          },
-          {
-            "name": "visible again: continues from the same frame, no fast-forward burst",
-            "ok": true,
-            "detail": {
-              "atHide": 5,
-              "firstAfter": 6,
-              "advancedBy": 1
-            }
-          },
-          {
-            "name": "pauseWhenHidden:false keeps playing while hidden",
-            "ok": true,
-            "detail": 5
-          },
-          {
-            "name": "SVGA replacement passed to load(): on screen at `loaded`, identical to setText afterwards, different from the original",
-            "ok": true,
-            "detail": {
-              "file": "kingset.svga",
-              "key": "banner",
-              "atLoaded": -1969667754,
-              "afterSetText": -1342289287,
-              "original": 296703033
-            }
-          },
-          {
-            "name": "PAG image replacement passed to load(): visible at `loaded` (frame 0 already contains it)",
-            "ok": true,
-            "detail": {
-              "greenPixelsAtLoaded": 2304,
-              "keys": [
-                {
-                  "key": "#0",
-                  "type": "image",
-                  "index": 0,
-                  "name": ""
-                }
-              ]
-            }
-          },
-          {
-            "name": "unknown replacement keys warn and never throw",
-            "ok": true,
-            "detail": {
-              "threw": false,
-              "warnings": 5
-            }
-          },
-          {
-            "name": "setText on a GIF warns instead of throwing",
-            "ok": true
-          },
-          {
-            "name": "PAG complex-script text: exactly one warning per player (Hindi, Gujarati, Arabic), none for Latin",
-            "ok": true,
-            "detail": {
-              "firstPlayer": 1,
-              "bothPlayers": 2
-            }
-          },
-          {
-            "name": "SVGA renders these scripts itself: no warning",
-            "ok": true
-          },
-          {
-            "name": "events: loaded, start (once), loop x2, end (once) for 3 plays",
-            "ok": true,
-            "detail": "loaded,start,loop,loop,end"
-          },
-          {
-            "name": "`frame` is emitted only while someone listens",
-            "ok": true
-          },
-          {
-            "name": "no `frame` events after unsubscribe",
-            "ok": true
-          },
-          {
-            "name": "pause() holds the frame",
-            "ok": true
-          },
-          {
-            "name": "resume() continues",
-            "ok": true
-          },
-          {
-            "name": "seek() shows that frame",
-            "ok": true
-          },
-          {
-            "name": "registerResolver: gift:1 -> SVGA, gift:2 -> GIF",
-            "ok": true
-          },
-          {
-            "name": "after unregistering, gift:1 is just a bad URL (network error)",
-            "ok": true
-          },
-          {
-            "name": "preload() reports cached / failed / skipped and never rejects",
-            "ok": true,
-            "detail": [
-              "cached",
-              "cached",
-              "failed",
-              "skipped"
-            ]
-          },
-          {
-            "name": "a preloaded gift loads without a network request",
-            "ok": true,
-            "detail": 0.9
-          },
-          {
-            "name": "setContentMode works",
-            "ok": true
-          },
-          {
-            "name": "no unhandled promise rejections escaped (every rejection reached a caller)",
-            "ok": true,
-            "detail": []
-          }
-        ],
-        "passed": 45,
-        "failed": 0
-      },
-      "cache": {
-        "checks": [
-          {
-            "name": "two players showing one gift share one set of decoded images",
-            "ok": true,
-            "detail": {
-              "images": 26,
-              "afterFirstPlayer": 26,
-              "afterSecondPlayer": 26
-            }
-          },
-          {
-            "name": "one load, one hit, one entry in use",
-            "ok": true,
-            "detail": {
-              "bytes": 3051501,
-              "maxBytes": 67108864,
-              "entries": 1,
-              "inUse": 1,
-              "loading": 0,
-              "hits": 1,
-              "misses": 1,
-              "evictions": 0,
-              "disposed": 0
-            }
-          },
-          {
-            "name": "both players draw identical pictures from the shared images",
-            "ok": true
-          },
-          {
-            "name": "destroying one player leaves the shared images open (the other still uses them)",
-            "ok": true
-          },
-          {
-            "name": "a replacement image is the player's own: +1 while set",
-            "ok": true
-          },
-          {
-            "name": "after the last player: the replacement is closed, the cached images stay (idle, evictable)",
-            "ok": true,
-            "detail": {
-              "imgs": 26
-            }
-          },
-          {
-            "name": "clear(): images closed exactly once, nothing left",
-            "ok": true,
-            "detail": {
-              "disposed": 1,
-              "doubleCloses": 0
-            }
-          },
-          {
-            "name": "budget of 1 byte: assets in use are never evicted (both stay open and keep rendering)",
-            "ok": true,
-            "detail": {
-              "bytes": 5959409,
-              "maxBytes": 1,
-              "entries": 2,
-              "inUse": 2,
-              "loading": 0,
-              "hits": 0,
-              "misses": 2,
-              "evictions": 0,
-              "disposed": 0
-            }
-          },
-          {
-            "name": "released: the idle asset is over budget and is evicted at once, its images closed; the other stays",
-            "ok": true
-          },
-          {
-            "name": "everything released: cache empty, no images left",
-            "ok": true,
-            "detail": {
-              "imgs": 0
-            }
-          },
-          {
-            "name": "LRU by estimated decoded bytes: bytes stay within the budget, the oldest are evicted",
-            "ok": true,
-            "detail": {
-              "budget": 5959419,
-              "sizes": [
-                3051501,
-                2907908,
-                4381541,
-                370988
-              ],
-              "bytes": 4752529,
-              "stillCached": [
-                false,
-                false,
-                true,
-                true
-              ]
-            }
-          },
-          {
-            "name": "destroy(): every cached image closed",
-            "ok": true,
-            "detail": {
-              "before": 17,
-              "after": 0
-            }
-          },
-          {
-            "name": "no image closed twice, no blob URL or bitmap left behind",
-            "ok": true,
-            "detail": {
-              "final": {
-                "bitmaps": 0,
-                "imgs": 0,
-                "blobUrls": 0,
-                "glAlive": 0,
-                "raf": 0,
-                "resizeObservers": 0,
-                "jsHeapMB": 45
-              },
-              "base": {
-                "bitmaps": 0,
-                "imgs": 0,
-                "blobUrls": 0,
-                "glAlive": 0,
-                "raf": 0,
-                "resizeObservers": 0,
-                "jsHeapMB": 8
-              }
-            }
-          }
-        ],
-        "passed": 13,
-        "failed": 0
-      },
-      "leaks": {
-        "cycles": 100,
-        "perFormat": {
-          "svga": 30,
-          "gif": 20,
-          "webp": 30,
-          "pag": 20
-        },
-        "errors": 0,
-        "played": 35,
-        "base": {
-          "bitmaps": 0,
-          "imgs": 0,
-          "blobUrls": 0,
-          "glAlive": 0,
-          "raf": 0,
-          "resizeObservers": 0,
-          "jsHeapMB": 15
-        },
-        "peak": {
-          "bitmaps": 1,
-          "imgs": 27,
-          "blobUrls": 26,
-          "glAlive": 1,
-          "raf": 2,
-          "resizeObservers": 1,
-          "jsHeapMB": 69
-        },
-        "afterAllPlayersDestroyed": {
-          "bitmaps": 0,
-          "imgs": 0,
-          "blobUrls": 0,
-          "glAlive": 1,
-          "raf": 0,
-          "resizeObservers": 0,
-          "jsHeapMB": 15
-        },
-        "cacheWhenIdle": {
-          "bytes": 769501,
-          "maxBytes": 1572864,
-          "entries": 6,
-          "inUse": 0,
-          "loading": 0,
-          "hits": 0,
-          "misses": 100,
-          "evictions": 94,
-          "disposed": 94
-        },
-        "afterCacheDestroyed": {
-          "bitmaps": 0,
-          "imgs": 0,
-          "blobUrls": 0,
-          "glAlive": 1,
-          "raf": 0,
-          "resizeObservers": 0,
-          "jsHeapMB": 15
-        },
-        "glAliveBeforeEngineRelease": 1,
-        "final": {
-          "bitmaps": 0,
-          "imgs": 0,
-          "blobUrls": 0,
-          "glAlive": 0,
-          "raf": 0,
-          "resizeObservers": 0,
-          "jsHeapMB": 15
-        },
-        "glContextsCreated": 1,
-        "glContextLostEvents": 1,
-        "doubleCloses": {
-          "bitmaps": 0,
-          "imgs": 0
-        },
-        "ok": true
-      },
-      "stress": {
-        "runs": [
-          {
-            "label": "200 items, unbounded queue",
-            "items": 200,
-            "maxLength": null,
-            "outcome": "idle",
-            "totalMs": 32724,
-            "settledHandles": 200,
-            "statuses": {
-              "done": 152,
-              "cancelled": 27,
-              "failed": 21
-            },
-            "queueStats": {
-              "played": 152,
-              "failed": 21,
-              "cancelled": 27,
-              "dropped": 0
-            },
-            "orderViolations": 0,
-            "orderViolationExamples": [],
-            "dropsWereLowestPriority": true,
-            "dropExamples": [],
-            "dropEvents": 27,
-            "stalls": 0,
-            "longestItemMs": 8017,
-            "longestItem": "svga /samples/Rocket.svga (played in full on purpose)",
-            "longestSilenceMs": 8015,
-            "brokenItems": 26,
-            "brokenAllFailedOrRemoved": true,
-            "gap": {
-              "n": 133,
-              "avgMs": 5.7,
-              "p95Ms": 17.5,
-              "maxMs": 26.7,
-              "blankAvgMs": 5.3,
-              "blankP95Ms": 17.1
-            },
-            "gapByNextFormat": {
-              "svga": {
-                "n": 47,
-                "avgMs": 1.9,
-                "p95Ms": 3.3
-              },
-              "webp": {
-                "n": 32,
-                "avgMs": 4.1,
-                "p95Ms": 10
-              },
-              "pag": {
-                "n": 34,
-                "avgMs": 14.2,
-                "p95Ms": 18.7
-              },
-              "gif": {
-                "n": 20,
-                "avgMs": 2.5,
-                "p95Ms": 5.6
-              }
-            },
-            "playerErrors": 15,
-            "memory": {
-              "base": {
-                "bitmaps": 0,
-                "imgs": 0,
-                "blobUrls": 0,
-                "glAlive": 0,
-                "raf": 0,
-                "resizeObservers": 0,
-                "jsHeapMB": 4
-              },
-              "peak": {
-                "bitmaps": 1,
-                "imgs": 52,
-                "blobUrls": 26,
-                "glAlive": 1,
-                "raf": 1,
-                "resizeObservers": 0,
-                "jsHeapMB": 24
-              },
-              "cachePeak": {
-                "cacheBytesPeak": 13135612,
-                "cacheEntriesPeak": 14,
-                "inUsePeak": 3
-              },
-              "cacheWhenIdle": {
-                "bytes": 13135612,
-                "maxBytes": 25165824,
-                "entries": 14,
-                "inUse": 1,
-                "loading": 0,
-                "hits": 290,
-                "misses": 17,
-                "evictions": 0,
-                "disposed": 0
-              },
-              "whenIdle": {
-                "bitmaps": 0,
-                "imgs": 53,
-                "blobUrls": 0,
-                "glAlive": 1,
-                "raf": 0,
-                "resizeObservers": 0,
-                "jsHeapMB": 12
-              },
-              "afterDestroy": {
-                "bitmaps": 0,
-                "imgs": 0,
-                "blobUrls": 0,
-                "glAlive": 1,
-                "raf": 0,
-                "resizeObservers": 0,
-                "jsHeapMB": 12
-              }
-            },
-            "doubleCloses": {
-              "bitmaps": 0,
-              "imgs": 0
-            },
-            "ok": true
-          },
-          {
-            "label": "120 items, maxLength 20 (overflow drops)",
-            "items": 120,
-            "maxLength": 20,
-            "outcome": "idle",
-            "totalMs": 2842,
-            "settledHandles": 120,
-            "statuses": {
-              "dropped": 95,
-              "done": 22,
-              "failed": 3
-            },
-            "queueStats": {
-              "played": 22,
-              "failed": 3,
-              "cancelled": 0,
-              "dropped": 95
-            },
-            "orderViolations": 0,
-            "orderViolationExamples": [],
-            "dropsWereLowestPriority": true,
-            "dropExamples": [],
-            "dropEvents": 28,
-            "stalls": 0,
-            "longestItemMs": 216,
-            "longestItem": "webp /samples/animated.webp",
-            "longestSilenceMs": 197,
-            "brokenItems": 17,
-            "brokenAllFailedOrRemoved": true,
-            "gap": {
-              "n": 19,
-              "avgMs": 5.3,
-              "p95Ms": 16.6,
-              "maxMs": 16.6,
-              "blankAvgMs": 4.7,
-              "blankP95Ms": 16.3
-            },
-            "gapByNextFormat": {
-              "gif": {
-                "n": 5,
-                "avgMs": 2.6,
-                "p95Ms": 4.3
-              },
-              "webp": {
-                "n": 7,
-                "avgMs": 4.4,
-                "p95Ms": 8.4
-              },
-              "pag": {
-                "n": 3,
-                "avgMs": 16.4,
-                "p95Ms": 16.6
-              },
-              "svga": {
-                "n": 4,
-                "avgMs": 2.2,
-                "p95Ms": 3.9
-              }
-            },
-            "playerErrors": 1,
-            "memory": {
-              "base": {
-                "bitmaps": 0,
-                "imgs": 0,
-                "blobUrls": 0,
-                "glAlive": 1,
-                "raf": 0,
-                "resizeObservers": 0,
-                "jsHeapMB": 12
-              },
-              "peak": {
-                "bitmaps": 1,
-                "imgs": 52,
-                "blobUrls": 26,
-                "glAlive": 1,
-                "raf": 1,
-                "resizeObservers": 0,
-                "jsHeapMB": 24
-              },
-              "cachePeak": {
-                "cacheBytesPeak": 12759337,
-                "cacheEntriesPeak": 12,
-                "inUsePeak": 3
-              },
-              "cacheWhenIdle": {
-                "bytes": 12759337,
-                "maxBytes": 25165824,
-                "entries": 12,
-                "inUse": 1,
-                "loading": 0,
-                "hits": 32,
-                "misses": 13,
-                "evictions": 0,
-                "disposed": 0
-              },
-              "whenIdle": {
-                "bitmaps": 0,
-                "imgs": 52,
-                "blobUrls": 0,
-                "glAlive": 1,
-                "raf": 0,
-                "resizeObservers": 0,
-                "jsHeapMB": 13
-              },
-              "afterDestroy": {
-                "bitmaps": 0,
-                "imgs": 0,
-                "blobUrls": 0,
-                "glAlive": 1,
-                "raf": 0,
-                "resizeObservers": 0,
-                "jsHeapMB": 13
-              }
-            },
-            "doubleCloses": {
-              "bitmaps": 0,
-              "imgs": 0
-            },
-            "ok": true
-          }
-        ],
-        "glAliveAtEnd": 0,
-        "glContextsCreated": 1,
-        "glContextLostEvents": 1,
-        "ok": true
-      }
-    },
     "webkit": {
       "version": "27.2",
       "engine": {
@@ -1087,7 +308,7 @@
           {
             "name": "a preloaded gift loads without a network request",
             "ok": true,
-            "detail": 0
+            "detail": 1
           },
           {
             "name": "setContentMode works",
@@ -1100,6 +321,141 @@
           }
         ],
         "passed": 45,
+        "failed": 0
+      },
+      "clear": {
+        "checks": [
+          {
+            "name": "Rocket.svga: the last frame is visible in the `end` event, and the canvas is fully transparent afterwards (clearOnEnd default)",
+            "ok": true,
+            "detail": {
+              "inkAtEnd": 7591,
+              "inkAfter": 0
+            }
+          },
+          {
+            "name": "Rocket.svga: play() after the clear shows the gift again",
+            "ok": true
+          },
+          {
+            "name": "Rocket.svga: clearOnEnd:false keeps the last frame",
+            "ok": true,
+            "detail": {
+              "ink": 7591
+            }
+          },
+          {
+            "name": "Rocket.svga: player.clear() blanks it on demand",
+            "ok": true
+          },
+          {
+            "name": "Rocket.svga: load({clearOnEnd:true}) overrides the player option",
+            "ok": true
+          },
+          {
+            "name": "rotating-earth.gif: the last frame is visible in the `end` event, and the canvas is fully transparent afterwards (clearOnEnd default)",
+            "ok": true,
+            "detail": {
+              "inkAtEnd": 40000,
+              "inkAfter": 0
+            }
+          },
+          {
+            "name": "rotating-earth.gif: play() after the clear shows the gift again",
+            "ok": true
+          },
+          {
+            "name": "rotating-earth.gif: clearOnEnd:false keeps the last frame",
+            "ok": true,
+            "detail": {
+              "ink": 40000
+            }
+          },
+          {
+            "name": "rotating-earth.gif: player.clear() blanks it on demand",
+            "ok": true
+          },
+          {
+            "name": "rotating-earth.gif: load({clearOnEnd:true}) overrides the player option",
+            "ok": true
+          },
+          {
+            "name": "animated.webp: the last frame is visible in the `end` event, and the canvas is fully transparent afterwards (clearOnEnd default)",
+            "ok": true,
+            "detail": {
+              "inkAtEnd": 30000,
+              "inkAfter": 0
+            }
+          },
+          {
+            "name": "animated.webp: play() after the clear shows the gift again",
+            "ok": true
+          },
+          {
+            "name": "animated.webp: clearOnEnd:false keeps the last frame",
+            "ok": true,
+            "detail": {
+              "ink": 30000
+            }
+          },
+          {
+            "name": "animated.webp: player.clear() blanks it on demand",
+            "ok": true
+          },
+          {
+            "name": "animated.webp: load({clearOnEnd:true}) overrides the player option",
+            "ok": true
+          },
+          {
+            "name": "replacement.pag: the last frame is visible in the `end` event, and the canvas is fully transparent afterwards (clearOnEnd default)",
+            "ok": true,
+            "detail": {
+              "inkAtEnd": 992,
+              "inkAfter": 0
+            }
+          },
+          {
+            "name": "replacement.pag: play() after the clear shows the gift again",
+            "ok": true
+          },
+          {
+            "name": "replacement.pag: clearOnEnd:false keeps the last frame",
+            "ok": true,
+            "detail": {
+              "ink": 992
+            }
+          },
+          {
+            "name": "replacement.pag: player.clear() blanks it on demand",
+            "ok": true
+          },
+          {
+            "name": "replacement.pag: load({clearOnEnd:true}) overrides the player option",
+            "ok": true
+          },
+          {
+            "name": "queue, next gift still downloading: the canvas is blank (0 visible pixels in every frame between the two gifts)",
+            "ok": true,
+            "detail": {
+              "frameSamples": 26,
+              "maxInk": 0,
+              "betweenMs": 465
+            }
+          },
+          {
+            "name": "queue, next gift prepared: hand-over keeps the fast path (blank only for the swap itself)",
+            "ok": true,
+            "detail": [
+              3,
+              1
+            ]
+          },
+          {
+            "name": "queue idle: the canvas is blank after the last gift",
+            "ok": true
+          }
+        ],
+        "passed": 23,
         "failed": 0
       },
       "cache": {
@@ -1319,7 +675,7 @@
             "items": 200,
             "maxLength": null,
             "outcome": "idle",
-            "totalMs": 32550,
+            "totalMs": 32580,
             "settledHandles": 200,
             "statuses": {
               "done": 152,
@@ -1338,39 +694,39 @@
             "dropExamples": [],
             "dropEvents": 27,
             "stalls": 0,
-            "longestItemMs": 8016,
+            "longestItemMs": 8017,
             "longestItem": "svga /samples/Rocket.svga (played in full on purpose)",
-            "longestSilenceMs": 8004,
+            "longestSilenceMs": 8008,
             "brokenItems": 26,
             "brokenAllFailedOrRemoved": true,
             "gap": {
               "n": 133,
-              "avgMs": 6,
-              "p95Ms": 17,
-              "maxMs": 27,
-              "blankAvgMs": 5.6,
-              "blankP95Ms": 17
+              "avgMs": 6.4,
+              "p95Ms": 18,
+              "maxMs": 32,
+              "blankAvgMs": 6,
+              "blankP95Ms": 18
             },
             "gapByNextFormat": {
               "svga": {
                 "n": 47,
-                "avgMs": 1.8,
-                "p95Ms": 3
+                "avgMs": 1.9,
+                "p95Ms": 6
               },
               "webp": {
                 "n": 32,
-                "avgMs": 6.6,
-                "p95Ms": 15
+                "avgMs": 7.8,
+                "p95Ms": 12
               },
               "pag": {
                 "n": 34,
-                "avgMs": 13.8,
-                "p95Ms": 26
+                "avgMs": 13.7,
+                "p95Ms": 27
               },
               "gif": {
                 "n": 20,
-                "avgMs": 2.1,
-                "p95Ms": 5
+                "avgMs": 2.3,
+                "p95Ms": 6
               }
             },
             "playerErrors": 15,
@@ -1439,7 +795,7 @@
             "items": 120,
             "maxLength": 20,
             "outcome": "idle",
-            "totalMs": 2759,
+            "totalMs": 2786,
             "settledHandles": 120,
             "statuses": {
               "dropped": 95,
@@ -1456,20 +812,20 @@
             "orderViolationExamples": [],
             "dropsWereLowestPriority": true,
             "dropExamples": [],
-            "dropEvents": 29,
+            "dropEvents": 28,
             "stalls": 0,
-            "longestItemMs": 214,
+            "longestItemMs": 216,
             "longestItem": "webp /samples/animated.webp",
             "longestSilenceMs": 181,
             "brokenItems": 17,
             "brokenAllFailedOrRemoved": true,
             "gap": {
               "n": 19,
-              "avgMs": 5.9,
-              "p95Ms": 18,
-              "maxMs": 18,
-              "blankAvgMs": 5.1,
-              "blankP95Ms": 18
+              "avgMs": 5.8,
+              "p95Ms": 22,
+              "maxMs": 22,
+              "blankAvgMs": 5.4,
+              "blankP95Ms": 20
             },
             "gapByNextFormat": {
               "gif": {
@@ -1479,17 +835,17 @@
               },
               "webp": {
                 "n": 7,
-                "avgMs": 5.6,
-                "p95Ms": 10
+                "avgMs": 7,
+                "p95Ms": 17
               },
               "pag": {
                 "n": 3,
-                "avgMs": 17.3,
-                "p95Ms": 18
+                "avgMs": 14,
+                "p95Ms": 22
               },
               "svga": {
                 "n": 4,
-                "avgMs": 3.3,
+                "avgMs": 2.8,
                 "p95Ms": 6
               }
             },
@@ -1559,6 +915,1312 @@
         "glContextsCreated": 1,
         "glContextLostEvents": 1,
         "ok": true
+      },
+      "react": {
+        "checks": [
+          {
+            "name": "StrictMode synthetic/gif-loop-1.gif: one canvas, loaded once, ended once, no errors",
+            "ok": true,
+            "detail": {
+              "canvases": 1,
+              "loads": 1,
+              "ends": 1,
+              "errors": 0
+            }
+          },
+          {
+            "name": "StrictMode synthetic/gif-loop-1.gif: the canvas is blank after the end (clearOnEnd)",
+            "ok": true
+          },
+          {
+            "name": "StrictMode synthetic/gif-loop-1.gif: after unmount nothing is left in the DOM",
+            "ok": true
+          },
+          {
+            "name": "StrictMode synthetic/webp-loop-1.webp: one canvas, loaded once, ended once, no errors",
+            "ok": true,
+            "detail": {
+              "canvases": 1,
+              "loads": 1,
+              "ends": 1,
+              "errors": 0
+            }
+          },
+          {
+            "name": "StrictMode synthetic/webp-loop-1.webp: the canvas is blank after the end (clearOnEnd)",
+            "ok": true
+          },
+          {
+            "name": "StrictMode synthetic/webp-loop-1.webp: after unmount nothing is left in the DOM",
+            "ok": true
+          },
+          {
+            "name": "StrictMode replacement.pag: one canvas, loaded once, ended once, no errors",
+            "ok": true,
+            "detail": {
+              "canvases": 1,
+              "loads": 1,
+              "ends": 1,
+              "errors": 0
+            }
+          },
+          {
+            "name": "StrictMode replacement.pag: the canvas is blank after the end (clearOnEnd)",
+            "ok": true
+          },
+          {
+            "name": "StrictMode replacement.pag: after unmount nothing is left in the DOM",
+            "ok": true
+          },
+          {
+            "name": "StrictMode matteRect.svga: one canvas, loaded once, ended once, no errors",
+            "ok": true,
+            "detail": {
+              "canvases": 1,
+              "loads": 1,
+              "ends": 1,
+              "errors": 0
+            }
+          },
+          {
+            "name": "StrictMode matteRect.svga: the canvas is blank after the end (clearOnEnd)",
+            "ok": true
+          },
+          {
+            "name": "StrictMode matteRect.svga: after unmount nothing is left in the DOM",
+            "ok": true
+          },
+          {
+            "name": "src changed during the load: only the last gift reports loaded, no errors",
+            "ok": true,
+            "detail": {
+              "loaded": [
+                "svga"
+              ],
+              "errors": 0
+            }
+          },
+          {
+            "name": "replacements changed: the picture changes in place, without a reload",
+            "ok": true,
+            "detail": {
+              "key": "banner",
+              "reloads": 0
+            }
+          },
+          {
+            "name": "replacements removed: the original comes back, without a reload",
+            "ok": true,
+            "detail": {
+              "yellowWithText": 344,
+              "yellowAfterRemoval": 0,
+              "key": "banner"
+            }
+          },
+          {
+            "name": "after the src / replacements run: counters are back at the baseline (the cache holds idle images only)",
+            "ok": true
+          },
+          {
+            "name": "40 StrictMode mount/unmount cycles (some mid-load, some mid-play): no errors",
+            "ok": true,
+            "detail": 0
+          },
+          {
+            "name": "...and every counter is back at the baseline: bitmaps, <img>, blob URLs, rAF, ResizeObservers",
+            "ok": true,
+            "detail": {
+              "bitmaps": 0,
+              "imgs": 0,
+              "blobUrls": 0,
+              "glAlive": 1,
+              "raf": 0,
+              "resizeObservers": 0,
+              "jsHeapMB": null
+            }
+          },
+          {
+            "name": "useGiftQueue: the queue exists after mount, one canvas",
+            "ok": true,
+            "detail": 1
+          },
+          {
+            "name": "useGiftQueue: three gifts played, stats updated",
+            "ok": true,
+            "detail": {
+              "pending": 0,
+              "playing": false,
+              "paused": false,
+              "played": 3,
+              "failed": 0,
+              "cancelled": 0,
+              "dropped": 0
+            }
+          },
+          {
+            "name": "useGiftQueue: canvas blank after the last gift",
+            "ok": true
+          },
+          {
+            "name": "useGiftQueue: unmount returns every counter to the baseline",
+            "ok": true,
+            "detail": {
+              "bitmaps": 0,
+              "imgs": 0,
+              "blobUrls": 0,
+              "glAlive": 1,
+              "raf": 0,
+              "resizeObservers": 0,
+              "jsHeapMB": null
+            }
+          },
+          {
+            "name": "WebGL contexts: 0 alive after releasePagEngineContext()",
+            "ok": true,
+            "detail": {
+              "created": 1,
+              "alive": 0
+            }
+          },
+          {
+            "name": "no image or bitmap was closed twice",
+            "ok": true,
+            "detail": {
+              "bitmaps": 0,
+              "imgs": 0
+            }
+          }
+        ],
+        "passed": 24,
+        "failed": 0,
+        "peak": {
+          "bitmaps": 3,
+          "imgs": 52,
+          "blobUrls": 26,
+          "glAlive": 1,
+          "raf": 1,
+          "resizeObservers": 1,
+          "jsHeapMB": null
+        },
+        "final": {
+          "bitmaps": 0,
+          "imgs": 0,
+          "blobUrls": 0,
+          "glAlive": 0,
+          "raf": 0,
+          "resizeObservers": 0,
+          "jsHeapMB": null
+        }
+      }
+    },
+    "chromium": {
+      "version": "156.0.8078.4",
+      "engine": {
+        "checks": [
+          {
+            "name": "engine-load-failed: PAG engine URL blocked / wrong, also emitted as an `error` event",
+            "ok": true,
+            "detail": {
+              "code": "engine-load-failed",
+              "events": [
+                "engine-load-failed"
+              ]
+            }
+          },
+          {
+            "name": "engine-load-failed: module loads but the WASM is blocked",
+            "ok": true,
+            "detail": "engine-load-failed"
+          },
+          {
+            "name": "non-PAG gifts are unaffected by the blocked engine",
+            "ok": true
+          },
+          {
+            "name": "the engine loads fine afterwards (a failed load is retried)",
+            "ok": true
+          }
+        ],
+        "passed": 4,
+        "failed": 0
+      },
+      "api": {
+        "checks": [
+          {
+            "name": "load() returns format, size, frames, duration and editable keys for every format",
+            "ok": true,
+            "detail": {
+              "angel.svga": "svga 750x750 60f 4000ms keys=26",
+              "rotating-earth.gif": "gif 400x400 44f 3960ms keys=0",
+              "animated.webp": "webp 300x225 100f 10000ms keys=0",
+              "replacement.pag": "pag 800x800 60f 1000ms keys=1"
+            }
+          },
+          {
+            "name": "one canvas is reused across formats",
+            "ok": true
+          },
+          {
+            "name": "destroy() removes the canvas",
+            "ok": true
+          },
+          {
+            "name": "load(A) then load(B): A rejects with aborted, B resolves",
+            "ok": true,
+            "detail": {
+              "A": "aborted",
+              "B": "resolved"
+            }
+          },
+          {
+            "name": "only B emits `loaded`",
+            "ok": true,
+            "detail": [
+              "svga",
+              "svga"
+            ]
+          },
+          {
+            "name": "A is never drawn on the canvas, B is",
+            "ok": true,
+            "detail": {
+              "sawA": false,
+              "finalEqualsReferenceB": false,
+              "refHash": -2007494794,
+              "final": -506455491,
+              "inkFinal": 1179,
+              "inkRef": 1150
+            }
+          },
+          {
+            "name": "a burst of 5 loads: the first 4 abort, the last resolves",
+            "ok": true,
+            "detail": [
+              "aborted",
+              "aborted",
+              "aborted",
+              "aborted",
+              "resolved"
+            ]
+          },
+          {
+            "name": "player.current is the last gift",
+            "ok": true
+          },
+          {
+            "name": "destroy() during load: load rejects with aborted, canvas removed",
+            "ok": true
+          },
+          {
+            "name": "load() after destroy() rejects with aborted",
+            "ok": true
+          },
+          {
+            "name": "destroy() twice does not throw",
+            "ok": true
+          },
+          {
+            "name": "destroy() during play: play() rejects with aborted",
+            "ok": true
+          },
+          {
+            "name": "AbortSignal aborts a load in flight",
+            "ok": true
+          },
+          {
+            "name": "an already aborted signal rejects at once",
+            "ok": true
+          },
+          {
+            "name": "the player is usable after an aborted load",
+            "ok": true
+          },
+          {
+            "name": "stop(): play() rejects with aborted and frame 0 is shown",
+            "ok": true
+          },
+          {
+            "name": "unsupported-format: random bytes",
+            "ok": true,
+            "detail": "unsupported-format"
+          },
+          {
+            "name": "network: HTTP 404 and an unreachable host",
+            "ok": true,
+            "detail": {
+              "http404": "network",
+              "unreachable": "network"
+            }
+          },
+          {
+            "name": "parse-failed: truncated SVGA / truncated PAG",
+            "ok": true,
+            "detail": {
+              "svga": "unsupported-format",
+              "pag": "parse-failed"
+            }
+          },
+          {
+            "name": "decode-failed: an SVGA whose images cannot be decoded",
+            "ok": true,
+            "detail": "decode-failed"
+          },
+          {
+            "name": "truncated GIF / WebP: a typed error or a (partial) picture, never a raw error",
+            "ok": true,
+            "detail": {
+              "gif": "resolved",
+              "webp": "resolved"
+            }
+          },
+          {
+            "name": "invalid-input: bad argument / play() before load()",
+            "ok": true,
+            "detail": {
+              "badArg": "invalid-input",
+              "playBeforeLoad": "invalid-input"
+            }
+          },
+          {
+            "name": "aborted is covered by the race, destroy and signal checks above",
+            "ok": true
+          },
+          {
+            "name": "every failure above is a GiftPlayerError (no raw errors escape)",
+            "ok": true,
+            "detail": {
+              "garbage": "unsupported-format",
+              "http404": "network",
+              "unreachable": "network",
+              "truncatedSvga": "unsupported-format",
+              "truncatedGif": "resolved",
+              "truncatedWebp": "resolved",
+              "corruptSvgaImage": "decode-failed",
+              "truncatedPag": "parse-failed",
+              "badArg": "invalid-input",
+              "playBeforeLoad": "invalid-input"
+            }
+          },
+          {
+            "name": "hidden: playback is paused (no frames advance)",
+            "ok": true,
+            "detail": {
+              "framesWhileHidden": 0
+            }
+          },
+          {
+            "name": "visible again: continues from the same frame, no fast-forward burst",
+            "ok": true,
+            "detail": {
+              "atHide": 5,
+              "firstAfter": 6,
+              "advancedBy": 1
+            }
+          },
+          {
+            "name": "pauseWhenHidden:false keeps playing while hidden",
+            "ok": true,
+            "detail": 5
+          },
+          {
+            "name": "SVGA replacement passed to load(): on screen at `loaded`, identical to setText afterwards, different from the original",
+            "ok": true,
+            "detail": {
+              "file": "kingset.svga",
+              "key": "banner",
+              "atLoaded": -1969667754,
+              "afterSetText": -1342289287,
+              "original": 296703033
+            }
+          },
+          {
+            "name": "PAG image replacement passed to load(): visible at `loaded` (frame 0 already contains it)",
+            "ok": true,
+            "detail": {
+              "greenPixelsAtLoaded": 2304,
+              "keys": [
+                {
+                  "key": "#0",
+                  "type": "image",
+                  "index": 0,
+                  "name": ""
+                }
+              ]
+            }
+          },
+          {
+            "name": "unknown replacement keys warn and never throw",
+            "ok": true,
+            "detail": {
+              "threw": false,
+              "warnings": 5
+            }
+          },
+          {
+            "name": "setText on a GIF warns instead of throwing",
+            "ok": true
+          },
+          {
+            "name": "PAG complex-script text: exactly one warning per player (Hindi, Gujarati, Arabic), none for Latin",
+            "ok": true,
+            "detail": {
+              "firstPlayer": 1,
+              "bothPlayers": 2
+            }
+          },
+          {
+            "name": "SVGA renders these scripts itself: no warning",
+            "ok": true
+          },
+          {
+            "name": "events: loaded, start (once), loop x2, end (once) for 3 plays",
+            "ok": true,
+            "detail": "loaded,start,loop,loop,end"
+          },
+          {
+            "name": "`frame` is emitted only while someone listens",
+            "ok": true
+          },
+          {
+            "name": "no `frame` events after unsubscribe",
+            "ok": true
+          },
+          {
+            "name": "pause() holds the frame",
+            "ok": true
+          },
+          {
+            "name": "resume() continues",
+            "ok": true
+          },
+          {
+            "name": "seek() shows that frame",
+            "ok": true
+          },
+          {
+            "name": "registerResolver: gift:1 -> SVGA, gift:2 -> GIF",
+            "ok": true
+          },
+          {
+            "name": "after unregistering, gift:1 is just a bad URL (network error)",
+            "ok": true
+          },
+          {
+            "name": "preload() reports cached / failed / skipped and never rejects",
+            "ok": true,
+            "detail": [
+              "cached",
+              "cached",
+              "failed",
+              "skipped"
+            ]
+          },
+          {
+            "name": "a preloaded gift loads without a network request",
+            "ok": true,
+            "detail": 1
+          },
+          {
+            "name": "setContentMode works",
+            "ok": true
+          },
+          {
+            "name": "no unhandled promise rejections escaped (every rejection reached a caller)",
+            "ok": true,
+            "detail": []
+          }
+        ],
+        "passed": 45,
+        "failed": 0
+      },
+      "clear": {
+        "checks": [
+          {
+            "name": "Rocket.svga: the last frame is visible in the `end` event, and the canvas is fully transparent afterwards (clearOnEnd default)",
+            "ok": true,
+            "detail": {
+              "inkAtEnd": 7679,
+              "inkAfter": 0
+            }
+          },
+          {
+            "name": "Rocket.svga: play() after the clear shows the gift again",
+            "ok": true
+          },
+          {
+            "name": "Rocket.svga: clearOnEnd:false keeps the last frame",
+            "ok": true,
+            "detail": {
+              "ink": 7679
+            }
+          },
+          {
+            "name": "Rocket.svga: player.clear() blanks it on demand",
+            "ok": true
+          },
+          {
+            "name": "Rocket.svga: load({clearOnEnd:true}) overrides the player option",
+            "ok": true
+          },
+          {
+            "name": "rotating-earth.gif: the last frame is visible in the `end` event, and the canvas is fully transparent afterwards (clearOnEnd default)",
+            "ok": true,
+            "detail": {
+              "inkAtEnd": 40000,
+              "inkAfter": 0
+            }
+          },
+          {
+            "name": "rotating-earth.gif: play() after the clear shows the gift again",
+            "ok": true
+          },
+          {
+            "name": "rotating-earth.gif: clearOnEnd:false keeps the last frame",
+            "ok": true,
+            "detail": {
+              "ink": 40000
+            }
+          },
+          {
+            "name": "rotating-earth.gif: player.clear() blanks it on demand",
+            "ok": true
+          },
+          {
+            "name": "rotating-earth.gif: load({clearOnEnd:true}) overrides the player option",
+            "ok": true
+          },
+          {
+            "name": "animated.webp: the last frame is visible in the `end` event, and the canvas is fully transparent afterwards (clearOnEnd default)",
+            "ok": true,
+            "detail": {
+              "inkAtEnd": 30000,
+              "inkAfter": 0
+            }
+          },
+          {
+            "name": "animated.webp: play() after the clear shows the gift again",
+            "ok": true
+          },
+          {
+            "name": "animated.webp: clearOnEnd:false keeps the last frame",
+            "ok": true,
+            "detail": {
+              "ink": 30000
+            }
+          },
+          {
+            "name": "animated.webp: player.clear() blanks it on demand",
+            "ok": true
+          },
+          {
+            "name": "animated.webp: load({clearOnEnd:true}) overrides the player option",
+            "ok": true
+          },
+          {
+            "name": "replacement.pag: the last frame is visible in the `end` event, and the canvas is fully transparent afterwards (clearOnEnd default)",
+            "ok": true,
+            "detail": {
+              "inkAtEnd": 992,
+              "inkAfter": 0
+            }
+          },
+          {
+            "name": "replacement.pag: play() after the clear shows the gift again",
+            "ok": true
+          },
+          {
+            "name": "replacement.pag: clearOnEnd:false keeps the last frame",
+            "ok": true,
+            "detail": {
+              "ink": 992
+            }
+          },
+          {
+            "name": "replacement.pag: player.clear() blanks it on demand",
+            "ok": true
+          },
+          {
+            "name": "replacement.pag: load({clearOnEnd:true}) overrides the player option",
+            "ok": true
+          },
+          {
+            "name": "queue, next gift still downloading: the canvas is blank (0 visible pixels in every frame between the two gifts)",
+            "ok": true,
+            "detail": {
+              "frameSamples": 26,
+              "maxInk": 0,
+              "betweenMs": 469
+            }
+          },
+          {
+            "name": "queue, next gift prepared: hand-over keeps the fast path (blank only for the swap itself)",
+            "ok": true,
+            "detail": [
+              6.4,
+              0.4
+            ]
+          },
+          {
+            "name": "queue idle: the canvas is blank after the last gift",
+            "ok": true
+          }
+        ],
+        "passed": 23,
+        "failed": 0
+      },
+      "cache": {
+        "checks": [
+          {
+            "name": "two players showing one gift share one set of decoded images",
+            "ok": true,
+            "detail": {
+              "images": 26,
+              "afterFirstPlayer": 26,
+              "afterSecondPlayer": 26
+            }
+          },
+          {
+            "name": "one load, one hit, one entry in use",
+            "ok": true,
+            "detail": {
+              "bytes": 3051501,
+              "maxBytes": 67108864,
+              "entries": 1,
+              "inUse": 1,
+              "loading": 0,
+              "hits": 1,
+              "misses": 1,
+              "evictions": 0,
+              "disposed": 0
+            }
+          },
+          {
+            "name": "both players draw identical pictures from the shared images",
+            "ok": true
+          },
+          {
+            "name": "destroying one player leaves the shared images open (the other still uses them)",
+            "ok": true
+          },
+          {
+            "name": "a replacement image is the player's own: +1 while set",
+            "ok": true
+          },
+          {
+            "name": "after the last player: the replacement is closed, the cached images stay (idle, evictable)",
+            "ok": true,
+            "detail": {
+              "imgs": 26
+            }
+          },
+          {
+            "name": "clear(): images closed exactly once, nothing left",
+            "ok": true,
+            "detail": {
+              "disposed": 1,
+              "doubleCloses": 0
+            }
+          },
+          {
+            "name": "budget of 1 byte: assets in use are never evicted (both stay open and keep rendering)",
+            "ok": true,
+            "detail": {
+              "bytes": 5959409,
+              "maxBytes": 1,
+              "entries": 2,
+              "inUse": 2,
+              "loading": 0,
+              "hits": 0,
+              "misses": 2,
+              "evictions": 0,
+              "disposed": 0
+            }
+          },
+          {
+            "name": "released: the idle asset is over budget and is evicted at once, its images closed; the other stays",
+            "ok": true
+          },
+          {
+            "name": "everything released: cache empty, no images left",
+            "ok": true,
+            "detail": {
+              "imgs": 0
+            }
+          },
+          {
+            "name": "LRU by estimated decoded bytes: bytes stay within the budget, the oldest are evicted",
+            "ok": true,
+            "detail": {
+              "budget": 5959419,
+              "sizes": [
+                3051501,
+                2907908,
+                4381541,
+                370988
+              ],
+              "bytes": 4752529,
+              "stillCached": [
+                false,
+                false,
+                true,
+                true
+              ]
+            }
+          },
+          {
+            "name": "destroy(): every cached image closed",
+            "ok": true,
+            "detail": {
+              "before": 17,
+              "after": 0
+            }
+          },
+          {
+            "name": "no image closed twice, no blob URL or bitmap left behind",
+            "ok": true,
+            "detail": {
+              "final": {
+                "bitmaps": 0,
+                "imgs": 0,
+                "blobUrls": 0,
+                "glAlive": 0,
+                "raf": 0,
+                "resizeObservers": 0,
+                "jsHeapMB": 38
+              },
+              "base": {
+                "bitmaps": 0,
+                "imgs": 0,
+                "blobUrls": 0,
+                "glAlive": 0,
+                "raf": 0,
+                "resizeObservers": 0,
+                "jsHeapMB": 9
+              }
+            }
+          }
+        ],
+        "passed": 13,
+        "failed": 0
+      },
+      "leaks": {
+        "cycles": 100,
+        "perFormat": {
+          "svga": 30,
+          "gif": 20,
+          "webp": 30,
+          "pag": 20
+        },
+        "errors": 0,
+        "played": 35,
+        "base": {
+          "bitmaps": 0,
+          "imgs": 0,
+          "blobUrls": 0,
+          "glAlive": 0,
+          "raf": 0,
+          "resizeObservers": 0,
+          "jsHeapMB": 4
+        },
+        "peak": {
+          "bitmaps": 1,
+          "imgs": 27,
+          "blobUrls": 26,
+          "glAlive": 1,
+          "raf": 2,
+          "resizeObservers": 1,
+          "jsHeapMB": 56
+        },
+        "afterAllPlayersDestroyed": {
+          "bitmaps": 0,
+          "imgs": 0,
+          "blobUrls": 0,
+          "glAlive": 1,
+          "raf": 0,
+          "resizeObservers": 0,
+          "jsHeapMB": 53
+        },
+        "cacheWhenIdle": {
+          "bytes": 769501,
+          "maxBytes": 1572864,
+          "entries": 6,
+          "inUse": 0,
+          "loading": 0,
+          "hits": 0,
+          "misses": 100,
+          "evictions": 94,
+          "disposed": 94
+        },
+        "afterCacheDestroyed": {
+          "bitmaps": 0,
+          "imgs": 0,
+          "blobUrls": 0,
+          "glAlive": 1,
+          "raf": 0,
+          "resizeObservers": 0,
+          "jsHeapMB": 53
+        },
+        "glAliveBeforeEngineRelease": 1,
+        "final": {
+          "bitmaps": 0,
+          "imgs": 0,
+          "blobUrls": 0,
+          "glAlive": 0,
+          "raf": 0,
+          "resizeObservers": 0,
+          "jsHeapMB": 53
+        },
+        "glContextsCreated": 1,
+        "glContextLostEvents": 1,
+        "doubleCloses": {
+          "bitmaps": 0,
+          "imgs": 0
+        },
+        "ok": true
+      },
+      "stress": {
+        "runs": [
+          {
+            "label": "200 items, unbounded queue",
+            "items": 200,
+            "maxLength": null,
+            "outcome": "idle",
+            "totalMs": 32753,
+            "settledHandles": 200,
+            "statuses": {
+              "done": 152,
+              "cancelled": 27,
+              "failed": 21
+            },
+            "queueStats": {
+              "played": 152,
+              "failed": 21,
+              "cancelled": 27,
+              "dropped": 0
+            },
+            "orderViolations": 0,
+            "orderViolationExamples": [],
+            "dropsWereLowestPriority": true,
+            "dropExamples": [],
+            "dropEvents": 27,
+            "stalls": 0,
+            "longestItemMs": 8017,
+            "longestItem": "svga /samples/Rocket.svga (played in full on purpose)",
+            "longestSilenceMs": 8016,
+            "brokenItems": 26,
+            "brokenAllFailedOrRemoved": true,
+            "gap": {
+              "n": 133,
+              "avgMs": 5.7,
+              "p95Ms": 16.5,
+              "maxMs": 35.5,
+              "blankAvgMs": 5.3,
+              "blankP95Ms": 16
+            },
+            "gapByNextFormat": {
+              "svga": {
+                "n": 47,
+                "avgMs": 1.5,
+                "p95Ms": 3
+              },
+              "webp": {
+                "n": 32,
+                "avgMs": 4.5,
+                "p95Ms": 9.6
+              },
+              "pag": {
+                "n": 34,
+                "avgMs": 14.5,
+                "p95Ms": 21.3
+              },
+              "gif": {
+                "n": 20,
+                "avgMs": 2.2,
+                "p95Ms": 4.9
+              }
+            },
+            "playerErrors": 15,
+            "memory": {
+              "base": {
+                "bitmaps": 0,
+                "imgs": 0,
+                "blobUrls": 0,
+                "glAlive": 0,
+                "raf": 0,
+                "resizeObservers": 0,
+                "jsHeapMB": 4
+              },
+              "peak": {
+                "bitmaps": 1,
+                "imgs": 52,
+                "blobUrls": 26,
+                "glAlive": 1,
+                "raf": 1,
+                "resizeObservers": 0,
+                "jsHeapMB": 18
+              },
+              "cachePeak": {
+                "cacheBytesPeak": 13135612,
+                "cacheEntriesPeak": 14,
+                "inUsePeak": 3
+              },
+              "cacheWhenIdle": {
+                "bytes": 13135612,
+                "maxBytes": 25165824,
+                "entries": 14,
+                "inUse": 1,
+                "loading": 0,
+                "hits": 291,
+                "misses": 17,
+                "evictions": 0,
+                "disposed": 0
+              },
+              "whenIdle": {
+                "bitmaps": 0,
+                "imgs": 53,
+                "blobUrls": 0,
+                "glAlive": 1,
+                "raf": 0,
+                "resizeObservers": 0,
+                "jsHeapMB": 12
+              },
+              "afterDestroy": {
+                "bitmaps": 0,
+                "imgs": 0,
+                "blobUrls": 0,
+                "glAlive": 1,
+                "raf": 0,
+                "resizeObservers": 0,
+                "jsHeapMB": 12
+              }
+            },
+            "doubleCloses": {
+              "bitmaps": 0,
+              "imgs": 0
+            },
+            "ok": true
+          },
+          {
+            "label": "120 items, maxLength 20 (overflow drops)",
+            "items": 120,
+            "maxLength": 20,
+            "outcome": "idle",
+            "totalMs": 2877,
+            "settledHandles": 120,
+            "statuses": {
+              "dropped": 95,
+              "done": 22,
+              "failed": 3
+            },
+            "queueStats": {
+              "played": 22,
+              "failed": 3,
+              "cancelled": 0,
+              "dropped": 95
+            },
+            "orderViolations": 0,
+            "orderViolationExamples": [],
+            "dropsWereLowestPriority": true,
+            "dropExamples": [],
+            "dropEvents": 28,
+            "stalls": 0,
+            "longestItemMs": 216,
+            "longestItem": "webp /samples/animated.webp",
+            "longestSilenceMs": 197,
+            "brokenItems": 17,
+            "brokenAllFailedOrRemoved": true,
+            "gap": {
+              "n": 19,
+              "avgMs": 4.6,
+              "p95Ms": 14.7,
+              "maxMs": 14.7,
+              "blankAvgMs": 4.1,
+              "blankP95Ms": 14.4
+            },
+            "gapByNextFormat": {
+              "gif": {
+                "n": 5,
+                "avgMs": 4.3,
+                "p95Ms": 14.7
+              },
+              "webp": {
+                "n": 7,
+                "avgMs": 3.4,
+                "p95Ms": 5.2
+              },
+              "pag": {
+                "n": 3,
+                "avgMs": 10.4,
+                "p95Ms": 12.8
+              },
+              "svga": {
+                "n": 4,
+                "avgMs": 2.7,
+                "p95Ms": 5.6
+              }
+            },
+            "playerErrors": 1,
+            "memory": {
+              "base": {
+                "bitmaps": 0,
+                "imgs": 0,
+                "blobUrls": 0,
+                "glAlive": 1,
+                "raf": 0,
+                "resizeObservers": 0,
+                "jsHeapMB": 12
+              },
+              "peak": {
+                "bitmaps": 1,
+                "imgs": 52,
+                "blobUrls": 26,
+                "glAlive": 1,
+                "raf": 1,
+                "resizeObservers": 0,
+                "jsHeapMB": 18
+              },
+              "cachePeak": {
+                "cacheBytesPeak": 12759337,
+                "cacheEntriesPeak": 12,
+                "inUsePeak": 3
+              },
+              "cacheWhenIdle": {
+                "bytes": 12759337,
+                "maxBytes": 25165824,
+                "entries": 12,
+                "inUse": 1,
+                "loading": 0,
+                "hits": 32,
+                "misses": 13,
+                "evictions": 0,
+                "disposed": 0
+              },
+              "whenIdle": {
+                "bitmaps": 0,
+                "imgs": 52,
+                "blobUrls": 0,
+                "glAlive": 1,
+                "raf": 0,
+                "resizeObservers": 0,
+                "jsHeapMB": 13
+              },
+              "afterDestroy": {
+                "bitmaps": 0,
+                "imgs": 0,
+                "blobUrls": 0,
+                "glAlive": 1,
+                "raf": 0,
+                "resizeObservers": 0,
+                "jsHeapMB": 13
+              }
+            },
+            "doubleCloses": {
+              "bitmaps": 0,
+              "imgs": 0
+            },
+            "ok": true
+          }
+        ],
+        "glAliveAtEnd": 0,
+        "glContextsCreated": 1,
+        "glContextLostEvents": 1,
+        "ok": true
+      },
+      "react": {
+        "checks": [
+          {
+            "name": "StrictMode synthetic/gif-loop-1.gif: one canvas, loaded once, ended once, no errors",
+            "ok": true,
+            "detail": {
+              "canvases": 1,
+              "loads": 1,
+              "ends": 1,
+              "errors": 0
+            }
+          },
+          {
+            "name": "StrictMode synthetic/gif-loop-1.gif: the canvas is blank after the end (clearOnEnd)",
+            "ok": true
+          },
+          {
+            "name": "StrictMode synthetic/gif-loop-1.gif: after unmount nothing is left in the DOM",
+            "ok": true
+          },
+          {
+            "name": "StrictMode synthetic/webp-loop-1.webp: one canvas, loaded once, ended once, no errors",
+            "ok": true,
+            "detail": {
+              "canvases": 1,
+              "loads": 1,
+              "ends": 1,
+              "errors": 0
+            }
+          },
+          {
+            "name": "StrictMode synthetic/webp-loop-1.webp: the canvas is blank after the end (clearOnEnd)",
+            "ok": true
+          },
+          {
+            "name": "StrictMode synthetic/webp-loop-1.webp: after unmount nothing is left in the DOM",
+            "ok": true
+          },
+          {
+            "name": "StrictMode replacement.pag: one canvas, loaded once, ended once, no errors",
+            "ok": true,
+            "detail": {
+              "canvases": 1,
+              "loads": 1,
+              "ends": 1,
+              "errors": 0
+            }
+          },
+          {
+            "name": "StrictMode replacement.pag: the canvas is blank after the end (clearOnEnd)",
+            "ok": true
+          },
+          {
+            "name": "StrictMode replacement.pag: after unmount nothing is left in the DOM",
+            "ok": true
+          },
+          {
+            "name": "StrictMode matteRect.svga: one canvas, loaded once, ended once, no errors",
+            "ok": true,
+            "detail": {
+              "canvases": 1,
+              "loads": 1,
+              "ends": 1,
+              "errors": 0
+            }
+          },
+          {
+            "name": "StrictMode matteRect.svga: the canvas is blank after the end (clearOnEnd)",
+            "ok": true
+          },
+          {
+            "name": "StrictMode matteRect.svga: after unmount nothing is left in the DOM",
+            "ok": true
+          },
+          {
+            "name": "src changed during the load: only the last gift reports loaded, no errors",
+            "ok": true,
+            "detail": {
+              "loaded": [
+                "svga"
+              ],
+              "errors": 0
+            }
+          },
+          {
+            "name": "replacements changed: the picture changes in place, without a reload",
+            "ok": true,
+            "detail": {
+              "key": "banner",
+              "reloads": 0
+            }
+          },
+          {
+            "name": "replacements removed: the original comes back, without a reload",
+            "ok": true,
+            "detail": {
+              "yellowWithText": 330,
+              "yellowAfterRemoval": 0,
+              "key": "banner"
+            }
+          },
+          {
+            "name": "after the src / replacements run: counters are back at the baseline (the cache holds idle images only)",
+            "ok": true
+          },
+          {
+            "name": "40 StrictMode mount/unmount cycles (some mid-load, some mid-play): no errors",
+            "ok": true,
+            "detail": 0
+          },
+          {
+            "name": "...and every counter is back at the baseline: bitmaps, <img>, blob URLs, rAF, ResizeObservers",
+            "ok": true,
+            "detail": {
+              "bitmaps": 0,
+              "imgs": 0,
+              "blobUrls": 0,
+              "glAlive": 1,
+              "raf": 0,
+              "resizeObservers": 0,
+              "jsHeapMB": 24
+            }
+          },
+          {
+            "name": "useGiftQueue: the queue exists after mount, one canvas",
+            "ok": true,
+            "detail": 1
+          },
+          {
+            "name": "useGiftQueue: three gifts played, stats updated",
+            "ok": true,
+            "detail": {
+              "pending": 0,
+              "playing": false,
+              "paused": false,
+              "played": 3,
+              "failed": 0,
+              "cancelled": 0,
+              "dropped": 0
+            }
+          },
+          {
+            "name": "useGiftQueue: canvas blank after the last gift",
+            "ok": true
+          },
+          {
+            "name": "useGiftQueue: unmount returns every counter to the baseline",
+            "ok": true,
+            "detail": {
+              "bitmaps": 0,
+              "imgs": 0,
+              "blobUrls": 0,
+              "glAlive": 1,
+              "raf": 0,
+              "resizeObservers": 0,
+              "jsHeapMB": 27
+            }
+          },
+          {
+            "name": "WebGL contexts: 0 alive after releasePagEngineContext()",
+            "ok": true,
+            "detail": {
+              "created": 1,
+              "alive": 0
+            }
+          },
+          {
+            "name": "no image or bitmap was closed twice",
+            "ok": true,
+            "detail": {
+              "bitmaps": 0,
+              "imgs": 0
+            }
+          }
+        ],
+        "passed": 24,
+        "failed": 0,
+        "peak": {
+          "bitmaps": 1,
+          "imgs": 52,
+          "blobUrls": 26,
+          "glAlive": 1,
+          "raf": 1,
+          "resizeObservers": 1,
+          "jsHeapMB": 33
+        },
+        "final": {
+          "bitmaps": 0,
+          "imgs": 0,
+          "blobUrls": 0,
+          "glAlive": 0,
+          "raf": 0,
+          "resizeObservers": 0,
+          "jsHeapMB": 27
+        }
       }
     }
   }

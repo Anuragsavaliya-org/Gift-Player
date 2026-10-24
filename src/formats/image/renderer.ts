@@ -160,6 +160,15 @@ export class AnimatedImageRenderer implements FrameSource {
     return true;
   }
 
+  /** Blanks the canvas; the next `drawFrame` paints again. */
+  clear(): void {
+    if (this.destroyed) return;
+    this.current = -1;
+    this.wanted = -1;
+    this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  }
+
   ready(i: number): Promise<void> {
     return this.provider.ready(Math.min(this.frameCount - 1, Math.max(0, i | 0)));
   }

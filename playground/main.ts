@@ -1,12 +1,5 @@
-import {
-  decodeSvgaImages,
-  detectFormat,
-  parseSvga,
-  readSource,
-  releaseSvgaImages,
-  type GiftSource,
-  type SvgaMovie,
-} from '../src';
+import { detectFormat, type GiftSource } from '../src';
+import { decodeSvgaImages, parseSvga, readSource, releaseSvgaImages, type SvgaMovie } from '../src/advanced';
 
 const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
 const drop = $('drop');

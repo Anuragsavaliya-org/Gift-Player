@@ -1,88 +1,93 @@
-# NEXT PROMPT — Phase 6: Public API, queue, cache (+ PAG text follow-up)
+# NEXT PROMPT — Phase 7: Hardening, packaging, React wrapper, CI
 
-Phase 5 is approved (1c5c9ce). One shared WebGL context, frame-exact mapping and the 0-leak results are excellent. You were right to flag the complex-script text problem instead of hiding it.
+Phase 6 is approved (8e8ef5b). The queue, cache and leak results are strong. Your decisions 1, 2, 3 and 5 are accepted. Decision 4 needs a fix (Part A). **Do not publish anything to npm, and do not change `license` or the package name.** The owner decides both.
 
-## Part A — PAG complex-script text (do first, small)
+## Part A — Gift must disappear after it ends
 
-Owner decision: PAG is low priority for now, and personalised names are not in use yet (they are planned for later). Keep this part minimal.
+Gifts are overlays on top of a live video. A finished gift whose last frame stays frozen on screen is a visible bug.
 
-1. **Warn once:** when `setText` targets a PAG text layer and the text contains characters that need shaping or bidi (Devanagari, Gujarati and other Indic scripts, Arabic, Hebrew, etc.), log one `console.warn` per player that explains the limitation.
-2. **Document it** in PROGRESS.md under "Known limitations".
-3. **Do NOT build `setTextImage` and do NOT do the upstream libpag check now.** Both are deferred to the future personalisation phase. Log them in PROGRESS.md as deferred items.
+- Add the option `clearOnEnd` (default `true`). After `end`, the canvas is cleared to transparent. `clearOnEnd: false` keeps the last frame.
+- Queue: when the next item is not ready yet, the canvas must be **blank**, not the previous gift's last frame. When it is ready, keep the current fast hand-over.
+- Your decision 4 (keep the old gift on screen while a new one downloads) still applies to a manual `load()` called **during playback** only. Document that precisely.
+- Tests in both browsers:
+  - after `end` with an empty queue, the canvas is fully transparent;
+  - with `clearOnEnd: false`, the last frame stays;
+  - a queue with a slow (delayed) next item shows a blank canvas in between.
 
-## Part B — Public API (`GiftPlayer`)
+## Part B — Trim the public API (semver contract)
 
-This is the product's face. Design it carefully and type it fully, with TSDoc on everything exported.
+Every root export becomes a promise we must keep. Keep these at the root:
 
-```ts
-const player = new GiftPlayer(container, { contentMode, loops, pauseWhenHidden, ... });
-const info = await player.load(src, { replacements?, signal? }); // {format, width, height, frameCount, durationMs, editableKeys}
-await player.play();            // resolves on end; rejects on error/abort
-player.pause(); player.resume(); player.stop(); player.seek(frame);
-player.setText / setImage / setHidden / clearReplacement / getEditableKeys
-player.on('loaded'|'start'|'loop'|'end'|'error', fn); // 'frame' is opt-in only (cost)
-player.destroy(); // idempotent
-```
+`GiftPlayer`, `GiftQueue`, `AssetCache`, `GiftPlayerError`, `registerResolver`, `registerFont`, `detectFormat`, `setPagFallbackFonts`, `releasePagEngineContext`, `getDefaultCache`, `DEFAULT_CACHE_BYTES`, `VERSION`, and the public types.
 
-Requirements:
-- **Format-agnostic:** one 2D canvas per player, reused across formats when `load()` is called again (PAG keeps its shared-context path).
-- **Load races:** `load(A)` followed quickly by `load(B)` means A is aborted and its result discarded; it never flashes on screen. `destroy()` during a load or during play is safe. `signal` is supported.
-- **Replacements** can be passed to `load()` so they are applied before the first frame, which avoids a flash of the original text. They can also be set afterwards. Unknown keys warn and never throw.
-- **Errors:** typed `GiftPlayerError` codes. Include at least `unsupported-format`, `parse-failed`, `network`, `decode-failed`, `engine-load-failed` (for example when the PAG CDN is blocked by CSP), and `aborted`.
-- **pauseWhenHidden** (default true): pause on `visibilitychange` and resume from the same frame, with no fast-forward burst.
-- **SSR-safe:** importing the package in Node (Next.js server components and route handlers) must not touch `window` or `document` at import time. Add a test that imports the built package in plain Node. svgagifts.com is Next.js, so this matters on day one.
+Move everything low-level (`parseSvga`, `decodeSvgaImages`, `releaseSvgaImages`, `PagRenderer`, `loadPagEngine`, `readSource`, `detectSource`, the PAG URL constants, the SVGA model types) to a subpath export, `<pkg>/advanced`. Mark it in TSDoc as unstable and not covered by semver.
 
-## Part C — `GiftQueue` (the live-stream use case)
+Update the SSR test so it covers both entry points. If something must stay at the root, flag it and give the reason.
 
-```ts
-const queue = new GiftQueue(player, { maxLength, preloadAhead: 2, coalesce: false });
-const handle = queue.add(src, { priority?, replacements?, loops? }); // handle.cancel()
-queue.pause(); queue.resume(); queue.clear();
-queue.on('item-start'|'item-end'|'item-error'|'change'|'idle', fn);
-```
+## Part C — Bundle cap
 
-- Plays one gift at a time. A higher priority goes first; equal priorities are FIFO.
-- `maxLength`: when full, drop the lowest-priority item, oldest first, and emit a `dropped` reason.
-- **Preload ahead:** while the current gift plays, fetch, parse and decode the next N gifts, including warming the PAG engine. The first frame of the next gift must appear without a visible gap. Measure the gap between items and report it.
-- **On error:** emit `item-error`, skip to the next item, and never stall the queue.
-- **`coalesce` (optional):** identical consecutive pending items (same resolved source and same replacements) merge into one item with a `count`. It plays once and exposes `count` for a "×10" combo badge in the host UI. Live streams send the same gift many times in a row.
+The caps were raised to 190 KB / 120 KB. That is too loose, and loose caps are how bloat creeps in. Set `check:bundle` to the **measured size + 10%** for each entry point (root, `/advanced`, `/react`), and still fail if libpag is included anywhere.
 
-## Part D — Cache and preload
+## Part D — React wrapper (`<pkg>/react`)
 
-- An LRU of **loaded assets** (parsed and decoded), keyed by resolved source. The budget is in **estimated decoded bytes** (width × height × 4 for images), not item count. Default 64 MB, configurable.
-- **Ref-counting:** an asset in use by any player is never evicted. Two players showing the same gift share the decoded images. Renderers must stop destroying shared images and release them through the cache instead. Re-run the leak tests to prove this.
-- `GiftPlayer.preload(srcs)` at module level, which feeds the cache.
-- Browser HTTP caching is left to the browser. No Cache Storage persistence.
+svgagifts.com is Next.js, and most adopting developers use React.
 
-## Part E — Source resolver
+- Add a `<GiftPlayerView src replacements loops contentMode onLoad onEnd onError className style />` component, plus a `useGiftQueue(options)` hook that returns `{ queue, containerRef, stats }`.
+- Put `'use client'` at the top. React ≥ 18 is a **peerDependency**. React must never end up in the root bundle.
+- Lifecycle:
+  - unmount destroys the player;
+  - changing `src` reloads, with the abort race handled;
+  - **React StrictMode double mount/unmount must not leak** or double-play;
+  - changing `replacements` updates without a reload.
+- Tests: Vitest + jsdom for the lifecycle logic, using a mocked player, plus one real browser test that mounts in StrictMode and checks the Phase 6 counters return to 0.
 
-- `GiftPlayer.registerResolver(scheme, async (ref) => url | ArrayBuffer | Blob)`, for example the scheme `gift:` for `gift:12345`.
-- Build the hook only, with tests. Do not implement any marketplace API.
+## Part E — README and docs
 
-## Verification
+Discuss nothing here with the owner; just write it, concise and accurate. Cover:
+- install;
+- a 10-line quick start for vanilla, for the queue, and for React/Next.js (both client component and server-component import);
+- supported formats and the browser support table;
+- PAG setup (CDN default, self-hosting the WASM, CSP lines);
+- replacements and `getEditableKeys`;
+- the cache and preload;
+- error codes;
+- **known limitations**, stated honestly: PAG complex-script text; Firefox verified in CI only; iOS real devices not yet tested; `<img>` sources not usable in Workers.
 
-- **API contract tests in the browser:** load races, destroy mid-load and mid-play, abort via signal, errors for each code, the visibility pause, and replacements applied before the first frame.
-- **Queue stress test:** 200 mixed-format items (SVGA, GIF, WebP, PAG, with some deliberately broken), random priorities and some cancels, in Chromium and WebKit. Report:
-  - the order is correct;
-  - no stalls;
-  - the gap between items (avg and p95);
-  - peak and final memory counters;
-  - open bitmaps, `<img>` holders, WebGL contexts and rAF all return to 0 after `destroy()`.
-- **Cache tests:** eviction by byte budget, no eviction of in-use assets, and shared images released exactly once.
-- **SSR import test** in Node.
-- **Playground:** a "live stream simulator" page that fires random gifts into a queue, with priority, combo/coalesce and a broken-file toggle, and shows a live counters panel.
+Also generate an API reference from TSDoc (`npm run docs`, typedoc). Do not commit the generated output.
 
-## Out of scope
+## Part F — CI (GitHub Actions)
 
-The Flutter plugin, the marketplace API, React wrappers, README polish and CI (Phase 7).
+Add `.github/workflows/ci.yml`, running on `ubuntu-latest` with Node LTS:
+- `npm ci`, typecheck, unit tests, build, `check:bundle`, the SSR test;
+- every Playwright verify suite in **chromium, firefox and webkit**, using repo samples and synthetic files only. The corpus is private and git-ignored, so CI must skip it cleanly.
+
+Make every verify script accept `--browser`.
+
+There is no git remote yet. Run all CI steps locally for chromium and webkit to prove the workflow is correct, and state that Firefox results will come from the first CI run.
+
+## Part G — Packaging and the real-world install test
+
+- `package.json`:
+  - an `exports` map covering root, `/advanced` and `/react` (each with import, require and types);
+  - `sideEffects: false`, unless a file really has side effects; if so, list it;
+  - a `files` whitelist;
+  - `engines`;
+  - `peerDependencies` plus `peerDependenciesMeta` (React optional).
+- `npm pack --dry-run`: list the tarball contents and size. No tests, samples, reports or playground may be in it.
+- **Fresh-project test**, the real developer experience. Install the packed tarball into:
+  1. a new Vite vanilla app, which plays an SVGA in ≤ 10 lines;
+  2. a new **Next.js (App Router)** app, where a server component imports a type or constant, a client component renders `<GiftPlayerView>`, and `next build` succeeds.
+
+  Run both in Chromium. Report the exact lines of code each needed, and any friction you hit (this goes into the README).
 
 ## End of task
 
 The usual: all checks pass; commit; update PROGRESS.md; overwrite REVIEW.md. Include:
-- the **public API surface**: a list of every export;
-- the **queue stress table**;
-- **gap-between-items numbers**;
-- the **cache test results**;
-- confirmation that the PAG complex-script warning is in place.
+- the final export lists per entry point;
+- the bundle sizes and caps;
+- the tarball contents;
+- the fresh-project results (Vite and Next.js);
+- the CI steps run locally;
+- the `clearOnEnd` test results.
 
-Then stop.
+List the open owner decisions: package name, license, GitHub repo, and real-iPhone testing. Then stop.

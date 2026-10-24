@@ -2,7 +2,8 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { zlibSync as deflate } from 'fflate';
 import { describe, expect, it } from 'vitest';
-import { detectFormat, detectSource, GiftPlayerError } from '../src';
+import { detectSource } from '../src/advanced';
+import { detectFormat, GiftPlayerError } from '../src';
 import { detectInternal } from '../src/core/detect';
 
 const samplesDir = join(__dirname, '../samples');

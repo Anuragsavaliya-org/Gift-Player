@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Everything that needs no browser. `npm test` includes the SSR test, which builds the package and imports every entry point in plain Node.
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+      - run: npm run check:bundle
+      - name: Packed tarball contents
+        run: npm pack --dry-run
+
+  # Every Playwright verification suite, once per browser. Only repo samples and synthetic files are used: the real corpus
+  # (samples/corpus/) is private and git-ignored, so `verify:corpus` reports "waiting for files" and passes.
+  browsers:
+    needs: checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      # chromium is always needed: verify:images takes its golden frames from Chromium's ImageDecoder.
+      - run: npx playwright install --with-deps chromium ${{ matrix.browser }}
+      - run: npm run verify:browser -- --browser=${{ matrix.browser }}
+      - run: npm run verify:corpus -- --browser=${{ matrix.browser }}
+      - run: npm run verify:images -- --browser=${{ matrix.browser }}
+      - run: npm run verify:pag -- --browser=${{ matrix.browser }}
+      - run: npm run verify:api -- --browser=${{ matrix.browser }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reports-${{ matrix.browser }}
+          path: reports/
+          retention-days: 7

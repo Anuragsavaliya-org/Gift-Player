@@ -683,6 +683,7 @@ async function runReplace() {
     const cv = document.createElement('canvas');
     cv.style.cssText = 'width:375px;height:375px';
     box(375, 375).append(cv);
+    cv.getContext('2d', { willReadFrequently: true }); // a software canvas: an accelerated one may switch raster mode between reads, which is not a renderer difference
     const r = new SvgaRenderer(cv, movie, bitmaps, { devicePixelRatio: 1 });
     const grab = () => cv.getContext('2d')!.getImageData(0, 0, cv.width, cv.height).data;
     r.drawFrame(30); const a = grab().slice();
