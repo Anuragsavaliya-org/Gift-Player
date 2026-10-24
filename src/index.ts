@@ -1,7 +1,8 @@
 /**
  * Public API of the package (the semver contract). Low-level building blocks live in the `/advanced` subpath, React bindings in `/react`.
  */
-export const VERSION = '0.0.0';
+/** The version of this package (a test checks it equals `package.json`). */
+export const VERSION = '0.1.0';
 
 // Players
 export { GiftPlayer, getDefaultCache } from './player';

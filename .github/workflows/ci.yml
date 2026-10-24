@@ -2,11 +2,13 @@ name: CI
 
 on:
   push:
+    branches: ['**']
   pull_request:
+  workflow_call: # reused by release.yml, so a release runs exactly the same checks
 
 concurrency:
-  group: ci-${{ github.ref }}
-  cancel-in-progress: true
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name != 'workflow_call' }}
 
 jobs:
   # Everything that needs no browser. `npm test` includes the SSR test, which builds the package and imports every entry point in plain Node.
@@ -14,8 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: lts/*
           cache: npm
@@ -41,8 +43,8 @@ jobs:
       matrix:
         browser: [chromium, firefox, webkit]
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: lts/*
           cache: npm
@@ -69,7 +71,7 @@ jobs:
         env:
           PW_HEADED: ${{ matrix.browser == 'firefox' && '1' || '' }}
         if: ${{ !cancelled() }} # every suite reports, even after another one failed
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: reports-${{ matrix.browser }}

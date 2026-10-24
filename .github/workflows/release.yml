@@ -1,0 +1,96 @@
+name: Release
+
+# Publishes to npm (with provenance) and creates the GitHub Release when a version tag is pushed: `git tag v0.1.0 && git push origin v0.1.0`.
+# Never publish from a laptop. See RELEASING.md for the one-time setup (npm trusted publishing or an NPM_TOKEN secret).
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+jobs:
+  # 1. The tag must be exactly v<package.json version>, and the changelog must have that version.
+  verify-tag:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.check.outputs.version }}
+    steps:
+      - uses: actions/checkout@v7
+      - id: check
+        run: |
+          version=$(node -p "require('./package.json').version")
+          if [ "$GITHUB_REF_NAME" != "v$version" ]; then
+            echo "::error::The tag $GITHUB_REF_NAME does not match package.json version $version (expected v$version)."
+            exit 1
+          fi
+          if ! grep -q "^## \[$version\]" CHANGELOG.md; then
+            echo "::error::CHANGELOG.md has no '## [$version]' section."
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+  # 2. The same checks as every push: typecheck, tests (incl. SSR), build, check:bundle, npm pack --dry-run, and every browser suite in chromium, firefox and webkit.
+  ci:
+    needs: verify-tag
+    uses: ./.github/workflows/ci.yml
+    permissions:
+      contents: read
+
+  # 3. Publish and release.
+  publish:
+    needs: [verify-tag, ci]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # the GitHub Release
+      id-token: write # provenance, and npm trusted publishing (OIDC)
+    env:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }} # optional fallback: used only when the secret exists
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: lts/*
+          registry-url: https://registry.npmjs.org
+      # Trusted publishing needs npm >= 11.5.1 and Node >= 22.14.0 (https://docs.npmjs.com/trusted-publishers).
+      - name: Check npm and Node versions (upgrade npm if it is too old)
+        run: |
+          node -e "const [a,b,c]=process.versions.node.split('.').map(Number); if (a<22||(a===22&&b<14)) { console.error('Node '+process.versions.node+' is older than 22.14.0'); process.exit(1); }"
+          need=11.5.1
+          have=$(npm --version)
+          if [ "$(printf '%s\n%s\n' "$need" "$have" | sort -V | head -1)" != "$need" ]; then
+            echo "npm $have is older than $need: upgrading"
+            npm install -g npm@^11.5.1
+          fi
+          echo "node $(node --version), npm $(npm --version)"
+      - run: npm ci
+      - run: npm run build
+      - run: npm pack --dry-run
+      # Pre-releases (0.2.0-rc.1) go to the `next` dist-tag, so `npm install` keeps giving the last stable version.
+      - name: Choose the dist-tag
+        id: tag
+        run: |
+          case "${{ needs.verify-tag.outputs.version }}" in
+            *-*) echo "args=--tag next" >> "$GITHUB_OUTPUT"; echo "prerelease=--prerelease" >> "$GITHUB_OUTPUT" ;;
+            *)   echo "args=" >> "$GITHUB_OUTPUT"; echo "prerelease=" >> "$GITHUB_OUTPUT" ;;
+          esac
+      # Mode 1 (preferred): trusted publishing. No secret: npm exchanges the workflow's OIDC identity for a short-lived publish credential.
+      - name: Publish to npm (trusted publishing, OIDC)
+        if: env.NPM_TOKEN == ''
+        run: npm publish --access public --provenance ${{ steps.tag.outputs.args }}
+      # Mode 2 (fallback): a granular access token in the repository secret NPM_TOKEN, e.g. for the very first publish.
+      - name: Publish to npm (NPM_TOKEN secret)
+        if: env.NPM_TOKEN != ''
+        run: npm publish --access public --provenance ${{ steps.tag.outputs.args }}
+        env:
+          NODE_AUTH_TOKEN: ${{ env.NPM_TOKEN }}
+      - name: Release notes from CHANGELOG.md
+        run: |
+          version="${{ needs.verify-tag.outputs.version }}"
+          awk -v v="$version" '$0 ~ "^## \\[" v "\\]" {on=1; next} /^## \[/ {on=0} on' CHANGELOG.md > notes.md
+          [ -s notes.md ] || { echo "::error::The CHANGELOG section for $version is empty."; exit 1; }
+          cat notes.md
+      - name: Create the GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" --verify-tag --title "$GITHUB_REF_NAME" --notes-file notes.md ${{ steps.tag.outputs.prerelease }}

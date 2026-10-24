@@ -1,6 +1,6 @@
 {
   "name": "@incodes/gift-player",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Play animated gift files (SVGA, GIF, WebP, PAG) through one API.",
   "license": "MIT",
   "author": "Incodes Lab <svgagifts@gmail.com>",
@@ -63,7 +63,8 @@
   "files": [
     "dist",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "CHANGELOG.md"
   ],
   "sideEffects": false,
   "engines": {
