@@ -1,5 +1,5 @@
 {
-  "date": "2026-10-24T12:08:36.793Z",
+  "date": "2026-10-24T12:20:58.623Z",
   "cycles": 100,
   "browsers": {
     "webkit": {
@@ -516,25 +516,101 @@
     },
     "chromium": {
       "version": "156.0.8078.4",
+      "gl": {
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "ok": true,
+        "htmlCanvas.webgl": {
+          "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)",
+          "vendor": "Google Inc. (Apple)",
+          "version": "WebGL 1.0 (OpenGL ES 2.0 Chromium)",
+          "maxTexture": 16384,
+          "lost": false
+        },
+        "htmlCanvas.webgl.libpagAttrs": {
+          "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)",
+          "vendor": "Google Inc. (Apple)",
+          "version": "WebGL 1.0 (OpenGL ES 2.0 Chromium)",
+          "maxTexture": 16384,
+          "lost": false
+        },
+        "offscreen.webgl": {
+          "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)",
+          "vendor": "Google Inc. (Apple)",
+          "version": "WebGL 1.0 (OpenGL ES 2.0 Chromium)",
+          "maxTexture": 16384,
+          "lost": false
+        },
+        "offscreen.webgl.libpagAttrs": {
+          "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)",
+          "vendor": "Google Inc. (Apple)",
+          "version": "WebGL 1.0 (OpenGL ES 2.0 Chromium)",
+          "maxTexture": 16384,
+          "lost": false
+        },
+        "htmlCanvas.webgl2": {
+          "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)",
+          "vendor": "Google Inc. (Apple)",
+          "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+          "maxTexture": 16384,
+          "lost": false
+        },
+        "htmlCanvas.webgl2.libpagAttrs": {
+          "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)",
+          "vendor": "Google Inc. (Apple)",
+          "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+          "maxTexture": 16384,
+          "lost": false
+        },
+        "offscreen.webgl2": {
+          "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)",
+          "vendor": "Google Inc. (Apple)",
+          "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+          "maxTexture": 16384,
+          "lost": false
+        },
+        "offscreen.webgl2.libpagAttrs": {
+          "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)",
+          "vendor": "Google Inc. (Apple)",
+          "version": "WebGL 2.0 (OpenGL ES 3.0 Chromium)",
+          "maxTexture": 16384,
+          "lost": false
+        },
+        "htmlCanvas.experimental-webgl": {
+          "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)",
+          "vendor": "Google Inc. (Apple)",
+          "version": "WebGL 1.0 (OpenGL ES 2.0 Chromium)",
+          "maxTexture": 16384,
+          "lost": false
+        },
+        "htmlCanvas.experimental-webgl.libpagAttrs": {
+          "renderer": "ANGLE (Apple, ANGLE Metal Renderer: Apple M2, Unspecified Version)",
+          "vendor": "Google Inc. (Apple)",
+          "version": "WebGL 1.0 (OpenGL ES 2.0 Chromium)",
+          "maxTexture": 16384,
+          "lost": false
+        },
+        "offscreen.experimental-webgl": "threw: TypeError: Failed to execute 'getContext' on 'OffscreenCanvas': The provided value 'experimental-webgl' is not a valid enum value of type OffscreenRenderingContextType.",
+        "offscreen.experimental-webgl.libpagAttrs": "threw: TypeError: Failed to execute 'getContext' on 'OffscreenCanvas': The provided value 'experimental-webgl' is not a valid enum value of type OffscreenRenderingContextType."
+      },
       "support": {
         "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
         "offscreenCanvas": true,
         "webAssembly": true,
-        "engineLoadMs": 47,
-        "coldLoadToFirstFrameMs": 127,
+        "engineLoadMs": 53,
+        "coldLoadToFirstFrameMs": 124,
         "moduleResource": {
           "url": "http://localhost:5197/__libpag/libpag.esm.js?import",
           "encodedBytes": 296532,
           "decodedBytes": 296532,
           "transferBytes": 296832,
-          "ms": 6
+          "ms": 3
         },
         "wasmResource": {
           "url": "http://localhost:5197/__libpag/libpag.wasm",
           "encodedBytes": 1575140,
           "decodedBytes": 1575140,
           "transferBytes": 1575440,
-          "ms": 10
+          "ms": 17
         },
         "frameCount": 28,
         "glContexts": {
@@ -543,27 +619,27 @@
             "offscreen"
           ]
         },
-        "secondRendererToFirstFrameMs": 4
+        "secondRendererToFirstFrameMs": 3
       },
       "supportCdn": {
         "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
         "offscreenCanvas": true,
         "webAssembly": true,
-        "engineLoadMs": 929,
-        "coldLoadToFirstFrameMs": 989,
+        "engineLoadMs": 345,
+        "coldLoadToFirstFrameMs": 389,
         "moduleResource": {
           "url": "https://cdn.jsdelivr.net/npm/libpag@4.5.85/lib/libpag.esm.js",
           "encodedBytes": 62123,
           "decodedBytes": 296532,
           "transferBytes": 62423,
-          "ms": 506
+          "ms": 224
         },
         "wasmResource": {
           "url": "https://cdn.jsdelivr.net/npm/libpag@4.5.85/lib/libpag.wasm",
           "encodedBytes": 460567,
           "decodedBytes": 1575140,
           "transferBytes": 460867,
-          "ms": 378
+          "ms": 100
         },
         "frameCount": 28,
         "glContexts": {
@@ -572,7 +648,7 @@
             "offscreen"
           ]
         },
-        "secondRendererToFirstFrameMs": 7
+        "secondRendererToFirstFrameMs": 2
       },
       "frames": [
         {
@@ -635,10 +711,10 @@
           "file": "like.pag",
           "frames": 28,
           "emitted": 56,
-          "meanErrMs": 12.9,
-          "maxAbsErrMs": 17.8,
+          "meanErrMs": 6.7,
+          "maxAbsErrMs": 11.6,
           "expectedTotalMs": 2333,
-          "measuredTotalMs": 2343,
+          "measuredTotalMs": 2335,
           "attempts": 1,
           "ok": true
         },
@@ -647,9 +723,9 @@
           "frames": 60,
           "emitted": 120,
           "meanErrMs": 13.1,
-          "maxAbsErrMs": 13.6,
+          "maxAbsErrMs": 14.1,
           "expectedTotalMs": 2000,
-          "measuredTotalMs": 2012,
+          "measuredTotalMs": 2014,
           "attempts": 1,
           "ok": true
         }
@@ -673,7 +749,7 @@
           "resolvedLoops": 3,
           "expectedPlays": 3,
           "observedPlays": 3,
-          "endedAfterMs": 3508,
+          "endedAfterMs": 3514,
           "expectedMs": 3500,
           "ok": true
         },
@@ -694,7 +770,7 @@
         "sharedMode": {
           "viewsCreated": 100,
           "viewsDisposed": 100,
-          "framesDrawn": 422,
+          "framesDrawn": 410,
           "errors": 0,
           "webglContextsCreated": 1,
           "webglContextTypes": [
@@ -730,7 +806,8 @@
               4
             ],
             "allRenderedBeforeDestroy": true,
-            "eachDestroyClearedItsCanvasAndOthersKeptPlaying": true
+            "eachDestroyClearedItsCanvasAndOthersKeptPlaying": true,
+            "failures": []
           },
           {
             "round": 1,
@@ -742,7 +819,8 @@
               1
             ],
             "allRenderedBeforeDestroy": true,
-            "eachDestroyClearedItsCanvasAndOthersKeptPlaying": true
+            "eachDestroyClearedItsCanvasAndOthersKeptPlaying": true,
+            "failures": []
           },
           {
             "round": 2,
@@ -754,7 +832,8 @@
               4
             ],
             "allRenderedBeforeDestroy": true,
-            "eachDestroyClearedItsCanvasAndOthersKeptPlaying": true
+            "eachDestroyClearedItsCanvasAndOthersKeptPlaying": true,
+            "failures": []
           },
           {
             "round": 3,
@@ -766,7 +845,8 @@
               2
             ],
             "allRenderedBeforeDestroy": true,
-            "eachDestroyClearedItsCanvasAndOthersKeptPlaying": true
+            "eachDestroyClearedItsCanvasAndOthersKeptPlaying": true,
+            "failures": []
           },
           {
             "round": 4,
@@ -778,7 +858,8 @@
               4
             ],
             "allRenderedBeforeDestroy": true,
-            "eachDestroyClearedItsCanvasAndOthersKeptPlaying": true
+            "eachDestroyClearedItsCanvasAndOthersKeptPlaying": true,
+            "failures": []
           },
           {
             "round": 5,
@@ -790,7 +871,8 @@
               2
             ],
             "allRenderedBeforeDestroy": true,
-            "eachDestroyClearedItsCanvasAndOthersKeptPlaying": true
+            "eachDestroyClearedItsCanvasAndOthersKeptPlaying": true,
+            "failures": []
           }
         ],
         "webglContextsCreatedDuringTest": 1,
@@ -973,17 +1055,17 @@
           "frames": 28,
           "renderAndCopy": {
             "n": 112,
-            "avg": 0.91,
-            "p50": 0.9,
-            "p95": 1.8,
-            "max": 2.1
+            "avg": 0.41,
+            "p50": 0.4,
+            "p95": 0.7,
+            "max": 1
           },
           "withReadback": {
             "n": 112,
-            "avg": 3.82,
-            "p50": 3.3,
-            "p95": 7.7,
-            "max": 47.1
+            "avg": 2.38,
+            "p50": 2.2,
+            "p95": 2.8,
+            "max": 39.3
           }
         },
         {
@@ -993,17 +1075,17 @@
           "frames": 28,
           "renderAndCopy": {
             "n": 112,
-            "avg": 0.67,
-            "p50": 0.6,
-            "p95": 1.5,
-            "max": 2.1
+            "avg": 0.43,
+            "p50": 0.5,
+            "p95": 0.7,
+            "max": 0.8
           },
           "withReadback": {
             "n": 112,
-            "avg": 8.34,
-            "p50": 8.4,
-            "p95": 14.9,
-            "max": 40.3
+            "avg": 6.46,
+            "p50": 7,
+            "p95": 8.5,
+            "max": 29.2
           }
         },
         {
@@ -1013,17 +1095,17 @@
           "frames": 60,
           "renderAndCopy": {
             "n": 240,
-            "avg": 0.22,
+            "avg": 0.23,
             "p50": 0.2,
-            "p95": 0.3,
-            "max": 7.5
+            "p95": 0.4,
+            "max": 7.4
           },
           "withReadback": {
             "n": 240,
-            "avg": 7.24,
-            "p50": 7,
-            "p95": 8.7,
-            "max": 14.4
+            "avg": 7.64,
+            "p50": 7.5,
+            "p95": 9.7,
+            "max": 14.5
           }
         },
         {
@@ -1033,17 +1115,17 @@
           "frames": 60,
           "renderAndCopy": {
             "n": 240,
-            "avg": 0.47,
+            "avg": 0.18,
             "p50": 0.2,
-            "p95": 0.8,
-            "max": 30.5
+            "p95": 0.3,
+            "max": 6.5
           },
           "withReadback": {
             "n": 240,
-            "avg": 10.13,
-            "p50": 8.7,
-            "p95": 18.2,
-            "max": 54
+            "avg": 7.25,
+            "p50": 7.2,
+            "p95": 8.3,
+            "max": 12.8
           }
         }
       ]

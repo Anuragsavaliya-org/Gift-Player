@@ -56,7 +56,7 @@ function holdContext(PAG: PagModuleLike): void {
     PAG.globalCanvas.retain();
     state.anchorHeld = true;
   } catch (cause) {
-    throw new GiftPlayerError('unsupported-format', 'WebGL is not available, which PAG needs.', { cause });
+    throw new GiftPlayerError('unsupported-format', `WebGL is not available, which PAG needs (${(cause as Error)?.message ?? cause}).`, { cause });
   }
 }
 

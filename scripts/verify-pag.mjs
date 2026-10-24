@@ -17,6 +17,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const vite = spawn('npx', ['vite', 'playground', '--port', String(port), '--strictPort'], { cwd: root, stdio: 'ignore' });
 
 const TASKS = [
+  ['gl', 'task=gl'], // informational: what WebGL this browser offers
   ['support', 'task=support'],
   ['supportCdn', 'task=support&cdn=1'], // pinned jsDelivr defaults: the real cold load
   ['frames', 'task=frames'],

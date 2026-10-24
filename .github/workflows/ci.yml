@@ -53,9 +53,13 @@ jobs:
       - run: npm run samples:generate
       - run: npm run verify:browser -- --browser=${{ matrix.browser }}
       - run: npm run verify:corpus -- --browser=${{ matrix.browser }}
+        if: ${{ !cancelled() }} # every suite reports, even after another one failed
       - run: npm run verify:images -- --browser=${{ matrix.browser }}
+        if: ${{ !cancelled() }} # every suite reports, even after another one failed
       - run: npm run verify:pag -- --browser=${{ matrix.browser }}
+        if: ${{ !cancelled() }} # every suite reports, even after another one failed
       - run: npm run verify:api -- --browser=${{ matrix.browser }}
+        if: ${{ !cancelled() }} # every suite reports, even after another one failed
       - uses: actions/upload-artifact@v4
         if: always()
         with:

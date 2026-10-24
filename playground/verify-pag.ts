@@ -326,19 +326,25 @@ async function runMulti() {
     const order = players.map((_, i) => i).sort(() => rnd() - 0.5);
     const orderLog: number[] = [];
     const survivorsOk: boolean[] = [];
+    const failures: string[] = [];
     for (const idx of order) {
       const p = players[idx]!;
       p.ticker.destroy(); p.r.destroy(); await p.r.disposed;
       orderLog.push(idx);
       const inkAfterDestroy = inkOf(pixels(p.c));
-      // everyone still alive keeps animating
+      // everyone still alive keeps animating: poll until each has shown a new frame (a software-GL machine may need a second)
       const alive = players.filter((x) => !orderLog.includes(players.indexOf(x)));
       const before = alive.map((x) => x.seen.size);
-      await sleep(120);
-      survivorsOk.push(inkAfterDestroy === 0 && alive.every((x, j) => x.seen.size >= before[j]! && inkOf(pixels(x.c)) > 0) && alive.every((x, j) => x.seen.size > before[j]! || x.seen.size === x.r.frameCount));
+      const t0 = performance.now();
+      const progressed = () => alive.every((x, j) => x.seen.size > before[j]! || x.seen.size === x.r.frameCount);
+      while (!progressed() && performance.now() - t0 < 4000) await sleep(20);
+      const aliveInk = alive.map((x) => inkOf(pixels(x.c)));
+      const ok = inkAfterDestroy === 0 && progressed() && aliveInk.every((n) => n > 0);
+      if (!ok) failures.push(`after destroying #${idx}: inkOfDestroyed=${inkAfterDestroy}, survivorsProgressed=${progressed()}, survivorInk=[${aliveInk.join(',')}]`);
+      survivorsOk.push(ok);
     }
     players.forEach((p) => p.c.remove());
-    rows.push({ round: round_, order: orderLog, allRenderedBeforeDestroy: aliveInk.every((n) => n > 0), eachDestroyClearedItsCanvasAndOthersKeptPlaying: survivorsOk.every(Boolean) });
+    rows.push({ round: round_, order: orderLog, allRenderedBeforeDestroy: aliveInk.every((n) => n > 0), eachDestroyClearedItsCanvasAndOthersKeptPlaying: survivorsOk.every(Boolean), failures });
   }
   out.rounds = rows;
   out.webglContextsCreatedDuringTest = gl.created - created0;
@@ -591,9 +597,30 @@ async function runFonts() {
   return { checks, passed: checks.filter((x) => x.ok).length, failed: checks.filter((x) => !x.ok).length };
 }
 
+/** Informational: what WebGL does this browser give us? (CI uses it to explain a PAG failure.) */
+function runGl() {
+  const out: Record<string, unknown> = { userAgent: navigator.userAgent, ok: true };
+  const attrs = { depth: false, stencil: false, antialias: false }; // what libpag asks for
+  const probe = (name: string, make: () => HTMLCanvasElement | OffscreenCanvas, type: string, a: WebGLContextAttributes | undefined) => {
+    try {
+      const gl = (make() as unknown as { getContext(t: string, a?: WebGLContextAttributes): WebGLRenderingContext | null }).getContext(type, a);
+      if (!gl) { out[name] = 'null (no context)'; return; }
+      const dbg = gl.getExtension('WEBGL_debug_renderer_info');
+      out[name] = { renderer: dbg ? gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : gl.getParameter(gl.RENDERER), vendor: dbg ? gl.getParameter(dbg.UNMASKED_VENDOR_WEBGL) : gl.getParameter(gl.VENDOR), version: gl.getParameter(gl.VERSION), maxTexture: gl.getParameter(gl.MAX_TEXTURE_SIZE), lost: gl.isContextLost() };
+    } catch (e) { out[name] = `threw: ${String(e)}`; }
+  };
+  for (const type of ['webgl', 'webgl2', 'experimental-webgl']) {
+    probe(`htmlCanvas.${type}`, () => document.createElement('canvas'), type, undefined);
+    probe(`htmlCanvas.${type}.libpagAttrs`, () => document.createElement('canvas'), type, attrs);
+    probe(`offscreen.${type}`, () => new OffscreenCanvas(1, 1), type, undefined);
+    probe(`offscreen.${type}.libpagAttrs`, () => new OffscreenCanvas(1, 1), type, attrs);
+  }
+  return out;
+}
+
 (async () => {
   try {
-    const result = task === 'fonts' ? await runFonts() : task === 'diag' ? await runDiag() : task === 'support' ? await runSupport() : task === 'frames' ? await runFrames() : task === 'timing' ? await runTiming() : task === 'loops' ? await runLoops() : task === 'leaks' ? await runLeaks() : task === 'multi' ? await runMulti() : task === 'replace' ? await runReplace() : task === 'text' ? await runText() : await runPerf();
+    const result = task === 'gl' ? runGl() : task === 'fonts' ? await runFonts() : task === 'diag' ? await runDiag() : task === 'support' ? await runSupport() : task === 'frames' ? await runFrames() : task === 'timing' ? await runTiming() : task === 'loops' ? await runLoops() : task === 'leaks' ? await runLeaks() : task === 'multi' ? await runMulti() : task === 'replace' ? await runReplace() : task === 'text' ? await runText() : await runPerf();
     (window as unknown as { __result: unknown }).__result = result;
     const out = document.getElementById('out');
     if (out) out.textContent = JSON.stringify(result, (k, v) => (typeof v === 'string' && v.startsWith('data:image') ? '[image]' : v), 1).slice(0, 4000);
