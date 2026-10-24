@@ -32,11 +32,14 @@
     "verify:browser": "node scripts/verify-all.mjs",
     "verify:corpus": "node scripts/verify-corpus.mjs",
     "gen:synthetic": "node scripts/gen-synthetic.mjs",
-    "verify:images": "node scripts/verify-images.mjs"
+    "verify:images": "node scripts/verify-images.mjs",
+    "check:bundle": "node scripts/check-bundle.mjs",
+    "verify:pag": "node scripts/verify-pag.mjs"
   },
   "devDependencies": {
     "@types/node": "^26.6.5",
     "jszip": "^3.10.2",
+    "libpag": "4.5.85",
     "playwright": "^1.64.1",
     "svgaplayerweb": "^2.3.2",
     "tsup": "^8.5.1",

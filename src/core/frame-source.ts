@@ -4,6 +4,17 @@
  *
  * SVGA has a fixed fps, so every frame lasts `1000 / fps`. GIF and WebP carry a delay per frame.
  */
+/** A layer / sprite whose content can be replaced with `setText` / `setImage` (the same shape for every format). */
+export interface EditableKey {
+  /** Pass this to `setText` / `setImage` / `setHidden`. For PAG it is the layer name, or `#<index>` when the name is empty or ambiguous. */
+  key: string;
+  type: 'text' | 'image' | 'vector';
+  /** PAG: the editable index. SVGA: undefined. */
+  index?: number;
+  /** PAG: the layer name (may be empty). SVGA: same as `key`. */
+  name?: string;
+}
+
 export interface FrameSource {
   readonly frameCount: number;
   /** Duration of frame `i` in milliseconds (already clamped the way browsers do; always > 0). */
@@ -21,6 +32,8 @@ export interface FrameSource {
   /** Resolves once frame `i` can be drawn synchronously. */
   ready(i: number): Promise<void>;
   destroy(): void;
+  /** Replaceable layers (renderers that support dynamic replacement implement this). */
+  getEditableKeys?(): EditableKey[];
 }
 
 /**

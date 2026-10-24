@@ -1,76 +1,59 @@
-# REVIEW — Phase 4.1: SVGA minification quality + Firefox
+# REVIEW — Phase 5: PAG via libpag (lazy-loaded)
 
 ## Status
-Done. Build, typecheck, 218 Vitest tests, `verify:browser` (41/41 checks), `verify:corpus` (16/16 under 2 %) and `verify:images` all pass. Prototype of both options: commit `99afaf0`. Final commit: `1c97792` (a tiny follow-up commit only adds this file).
+Done, with **one failing item you need to decide on: PAG cannot render Hindi, Gujarati or Arabic correctly** (details and options below). Build, typecheck, 228 Vitest tests, `check:bundle`, `verify:pag` (22/22 task runs, Chromium 156 + WebKit 27.2), `verify:browser` and `verify:images` pass. Raw numbers: `reports/phase5-pag.json`. Commit hash: see git log (`Phase 5: ...`).
 
 ## What was built
-- **Option A (`<img>` sources) won; Option B (mip chains) was removed from the code.** `decodeSvgaImages` now defaults to decoded `<img>` elements (`img.decode()` before first use; `close()` sets `src = ''`), and `SvgaRenderer.setImage(Blob | URL)` uses the same path. `source: 'bitmap'` stays available for Worker use / comparisons.
-- Measurement tooling: `scripts/measure-image-strategy.mjs` (diff, drawFrame, load time and browser RSS at phase markers, Chromium + WebKit), harness tasks `diffall`, `loadtime`, `memory`.
-- Firefox: time-boxed attempt, still not launchable (below).
+- `libpag` 4.5.85 (Apache-2.0), exact-pinned, **lazy**: dynamic `import()` from jsDelivr (pinned version) the first time detection returns `pag`. Options `pagModuleUrl`, `pagWasmUrl` (self-host), `pagModule`. `npm run check:bundle` fails if the core bundle contains libpag (core incl. the PAG adapter: 34.3 KB min / 13.3 KB gzip).
+- `PagRenderer` implements `FrameSource`; our `Ticker` drives libpag via `setProgress` + `flush` (libpag's own loop is not used and was not needed). Shares `Viewport`.
+- **One shared WebGL context for any number of gifts** (libpag Canvas2D mode, refcounted global canvas, SDK holds one reference). `destroy()` releases view, file, replacement images.
+- `getEditableKeys()`, `setText`, `setImage`, `setHidden`, `clearReplacement` for PAG (key = layer name or `#<index>`); `getEditableKeys()` also added to SVGA. `registerFont()` for custom fonts. CSP notes in PROGRESS.md (`wasm-unsafe-eval`, `script-src`/`connect-src` for the CDN).
+- Playground: PAG on compare page ("PAG engine loading…", libpag's own player as reference, editable-keys list, live replacement demo).
 
-## Decision, by the rule you gave
-- **Rule 1 (choose B): FAILS in both browsers.** B leaves 8/16 corpus files above 2 % in Chromium (worst 9.4 %) and **makes WebKit worse than the baseline** (14/16 above 2 %, worst 18.4 %; WebKit had 0/16 before). It was tuned first: level-selection bias 0 was best; levels from `createImageBitmap(resizeQuality 'high')` beat canvas halving; still 1.2-9.4 % on the worst files.
-- **Rule 2 (choose A): PASSES.** A is under 2 % in both browsers (Chromium worst 0.236 %, WebKit 0.201 %), and memory returns to baseline after 20 cycles once settled, with no upward trend to 60 cycles.
-- The neither-passes rule was not needed.
-
-## A vs B table (all 24 SVGA files, every 10th frame; Chromium 156, WebKit 27.2)
-| browser | variant | worst corpus file max % | corpus files > 2 % | mean diff over corpus % | repo samples worst % | load: Pink-Heart-Rocket / 40001576 ms | drawFrame avg / p95 ms (Pink-Heart-Rocket) | RSS after load vs baseline MB | RSS after 20 cycles vs baseline MB |
-|---|---|---|---|---|---|---|---|---|---|
-| chromium | ImageBitmap (before) | 15.721 (40001144) | 14/16 | 3.799 | 0.434 | 8.8 / 12.2 | 4.209 / 7.6 | +39.4 | -316.7 |
-| chromium | **A: `<img>`** (chosen) | 0.236 (40001423) | 0/16 | 0.003 | 0.434 | 14.2 / 22.3 | 4.222 / 7.6 | +45.3 | -576.8 |
-| chromium | B: ImageBitmap + mip chain | 9.38 (40001427) | 8/16 | 1.252 | 0.434 | 10.1 / 18.2 | 4.875 / 9.1 | -37.8 | -365.2 |
-| webkit | ImageBitmap (before) | 1.188 (40001576) | 0/16 | 0.152 | 0.434 | 31 / 33 | 0.443 / 1 | +8.2 | -91 |
-| webkit | **A: `<img>`** (chosen) | 0.201 (40001143) | 0/16 | 0.013 | 0.434 | 20 / 28 | 0.481 / 1 | -9.3 | -92.7 |
-| webkit | B: ImageBitmap + mip chain | 18.429 (40001427) | 14/16 | 5.004 | 0.434 | 65 / 135 | n/a | +22.3 | -90.6 |
-
-Memory trend (A and the old path, clean re-run; RSS MB, baseline -> after-cycles-settled): 
-- chromium ImageBitmap (before): 20 cycles 890 -> 774.2; 60 cycles 854.8 -> 686.6
-- chromium **A: `<img>`** (chosen): 20 cycles 903.7 -> 912.8; 60 cycles 1046.8 -> 795.7
-- webkit ImageBitmap (before): 20 cycles 351 -> 301.5; 60 cycles 363.8 -> 360.6
-- webkit **A: `<img>`** (chosen): 20 cycles 424.3 -> 376; 60 cycles 355.7 -> 320.5
-
-Notes: repo-samples worst 0.434 % is Rocket.svga's oracle matte bug at this sampling, identical for all variants. RSS = summed resident memory of the browser's processes sampled at phase markers (noisy; Chromium has a forced `gc()`, WebKit has none so an allocate-and-drop pass stands in for it). WebKit drawFrame is not raster-synchronous, so it only shows nothing got slower. B's WebKit perf could not be measured in the matrix run (the perf task read a Chromium-only API; fixed afterwards) and its quality had already disqualified it.
-
-## Corpus table: before vs after (diff vs svgaplayerweb, every 10th frame, Chromium)
-| file | before (ImageBitmap): mean / max % | after (`<img>`): mean / max % |
+## Sizes and cold load (jsDelivr, pinned URLs)
+| | Chromium 156 | WebKit 27.2 |
 |---|---|---|
-| 119040-20211122_111625_1637550985956.svga | 0 / 0 | 0 / 0 |
-| 119040-20220228_151532_1646032532038.svga | 0 / 0 | 0 / 0 |
-| 40001099.svga | 3.081 / 3.658 | 0 / 0 |
-| 40001114.svga | 3.557 / 4.376 | 0 / 0 |
-| 40001143.svga | 3.058 / 4.581 | 0.014 / 0.176 |
-| 40001144.svga | 14.378 / 15.721 | 0 / 0 |
-| 40001289.svga | 2.113 / 5.694 | 0 / 0 |
-| 40001415.svga | 4.84 / 6.869 | 0 / 0 |
-| 40001421.svga | 3.473 / 3.742 | 0 / 0 |
-| 40001423.svga | 2.79 / 3.306 | 0 / 0 |
-| 40001427.svga | 9.516 / 15.57 | 0 / 0 |
-| 40001508.svga | 3.014 / 5.138 | 0 / 0 |
-| 40001575.svga | 3.829 / 4.974 | 0 / 0 |
-| 40001576.svga | 4.918 / 6.065 | 0 / 0 |
-| 40001577.svga | 5.814 / 6.715 | 0 / 0 |
-| 40001578.svga | 7.254 / 7.953 | 0.001 / 0.003 |
+| JS chunk (libpag.esm.js) | 296.5 KB (62.1 KB on the wire) | 296.5 KB (wire size not reported by WebKit) |
+| WASM (libpag.wasm) | 1,575 KB (460.6 KB on the wire) | 1,575 KB (not reported) |
+| first PAG, cold: engine + first frame | 598 ms (engine 558 ms) | 523 ms (engine 487 ms) |
+| second renderer to first frame | 11 ms | 6 ms |
+| same, local server | 135 ms | 118 ms |
 
-**Before: 14/16 over 2 % (worst 15.72 %). After: 0/16 (worst 0.176 %, mean of means 0.001 %).** Repo samples: with the oracle's two known quirks neutralised every sample is now exactly 0.000 % (previously 0.002-0.083 %: the same filtering difference); plain numbers did not regress (Glossy-Pink-Lips 0.224 -> 0.215, angel 0.062 -> 0, kingset 0.007 -> 0, Fiery-Red-Dragon 0.002 -> 0; Rocket 0.437 and Pink-Heart-Rocket frame 125 are the oracle's matte bug / alpha cut-off). Perf 4.21 ms avg, 7.5 p95 (was 4.3 / 7.7).
+## WebGL context leak table
+| test | browser | created | lost | other counters |
+|---|---|---|---|---|
+| 100× create → play → setImage → destroy | Chromium | 1 | 0 | rAF outstanding 0, ResizeObservers 0, bitmaps 100/100 closed, WASM heap flat (16.97 MB at cycle 10 and 100) |
+| same | WebKit | 1 | 0 | same |
+| 5 players alive + playing, destroyed in random order, 6 rounds | Chromium | 1 | 0 | each destroy cleared its canvas; others kept playing |
+| same | WebKit | 1 | 0 | same |
+| control: libpag default mode, 24 views alive | both | 24 | **9 lost by the browser** | shows the cap is real; our design avoids it |
 
-## Browser support table (GIF / WebP, from `verify:images`)
-| browser | ImageDecoder (gif / webp) | self-tests: GIF disposal / WebP alpha | createImageBitmap(WebP) | path for GIF | path for animated WebP | still / 1-frame |
-|---|---|---|---|---|---|---|
-| chromium 156.0.8078.4 | yes / yes | pass / pass | yes | imagedecoder | imagedecoder | still / still |
-| webkit 27.2 | yes / yes | **FAIL** / **FAIL** | yes | gif-fallback | webp-anmf | still / still |
-| firefox | **could not be launched here**: browserType.launch: Failed to launch the browser process. | | | | | |
+## Frame accuracy, timing, loops (both browsers pass)
+- `drawFrame(i)` vs libpag rendering the same frame directly: **0 differing frames** (like.pag 28, replacement.pag 60), no wrong frame index. Naive `setProgress(i/n)` lands on the wrong frame for some i; we use a mid-frame reference + 1 µs.
+- Timing, 2 plays: max abs error 14.9 ms (Chromium) / 11.3 ms (WebKit); total 2348 vs 2333 ms expected. Loops: default 1, `3` → 3, `0` → forever.
+- Replacement: 7 checks pass in both; font registration: 3 checks pass in both.
 
-Firefox is still unavailable. **Task 2:** tried `PLAYWRIGHT_BROWSERS_PATH` + `TMPDIR` on the internal disk with the working directory also off `/Volumes/XITIJ`: same failure, so **the external volume is not the cause**. Also tried an ad-hoc `codesign` of the bundle (verifies, same failure), `--profile` / `-foreground` / `MOZ_HEADLESS` variants, `-CreateProfile` + `-P` (does not even create the directory), sandbox-free runs and a forced re-download. The machine runs **macOS 27.0.1**; this looks like a Firefox 157 / macOS 27 incompatibility. No Firefox results (SVGA or GIF/WebP) exist.
+## Text rendering results (screenshots in `reports/text/<browser>-<format>-<script>.png`; side-by-side: `<browser>-composite.png`)
+| script | text | SVGA `setText` | PAG text layer |
+|---|---|---|---|
+| Latin | Rahul | PASS | PASS |
+| Hindi | राहुल | PASS (correct shaping) | **FAIL**: dotted circles, matras misplaced |
+| Gujarati | અનુરાગ | PASS | **FAIL**: same |
+| Arabic (RTL) | محمد | PASS (joined, right-to-left) | **FAIL**: isolated letters, left-to-right order |
+| Emoji | Sam 😀🎁 | PASS (colour) | PASS (colour) |
+Identical in Chromium and WebKit (e.g. `reports/text/chromium-pag-hindi.png`, `reports/text/webkit-svga-arabic.png`). No tofu anywhere on this macOS (system fonts cover the scripts). Fonts: system fonts are used; `registerFont()` makes custom glyphs available in both formats (verified), but cannot give PAG a shaper. **Cause:** libpag draws text glyph by glyph on a canvas with no shaping/bidi. **Judgment call for you:** (1) document the limitation; (2) SDK renders complex-script text itself (browser shaping) to an ImageBitmap and feeds it to the PAG layer (loses PAG text styling/animation). I did neither silently.
 
-## Flags / questions for reviewer
-- **Load time in Chromium is +61-83 % with A** (Pink-Heart-Rocket 8.8 -> 14.2 ms, 40001576: 12.2 -> 22.3 ms): `img.decode()` is slower than `createImageBitmap`. It is faster in WebKit (31 -> 20 ms). drawFrame time is unchanged. If first-frame latency matters for the gift queue, preload and `decode()` ahead of time.
-- **`<img>` sources cannot be used in a Worker.** The `source: 'bitmap'` option exists for that; it has the old minification quality in Chromium.
-- A caller-supplied `ImageBitmap` passed to `setImage` is used as is (never closed by us) and therefore gets bitmap-quality minification; pass a Blob or URL to get the `<img>` path. Documented in code.
-- **Memory is measured with RSS, which is noisy;** the conclusion rests on "no growth after cycles and no trend from 20 to 60 cycles", plus the exact release evidence from the leak test (**1,450 decoded `<img>` elements over 50 cycles, 0 still holding a resource after `destroy()`**). WebKit's "after GC" is an approximation (no `gc()`).
-- The opt-in `imageSmoothing` renderer option from the investigation was removed again: `medium` halves the old mismatch but costs 2.4x draw time and is not needed.
+## Perf (ms per frame, our Ticker path; render+copy / including a GPU readback)
+| file | backing | Chromium avg / p95 | Chromium w/ readback avg / p95 | WebKit avg / p95 | WebKit w/ readback avg / p95 |
+|---|---|---|---|---|---|
+| like.pag | 244², dpr 1 | 0.40 / 0.6 | 2.56 / 3.0 | 0.49 / 1 | 4.67 / 6 |
+| like.pag | 488², dpr 2 | 0.52 / 0.8 | 7.26 / 10.5 | 0.38 / 1 | 3.29 / 3 |
+| replacement.pag | 800², dpr 1 | 0.21 / 0.3 | 7.27 / 8.9 | 0.12 / 1 | 4.11 / 3 |
+| replacement.pag | 1600², dpr 2 | 0.18 / 0.3 | 7.09 / 8.5 | 0.10 / 1 | 3.56 / 3 |
+WebKit timer resolution is 1 ms (values are coarse); isolated WebKit readback outliers up to 424 ms (first uses), not seen during playback timing.
 
-## Test summary
-218 Vitest tests. Browser: `verify:browser` 41/41 synthetic checks (3 new: `setImage` from Blob / URL via `<img>`, replacing a replacement), 8 repo diffs, perf, leaks (0 open bitmaps, 0 `<img>` holding a resource, 0 rAF, 0 ResizeObservers); `verify:corpus` 16/16; `verify:images` all pass in Chromium and WebKit (the GIF/WebP code is unchanged since Phase 4).
-
-## Files changed
-REVIEW.md, PROGRESS.md, NEXT_PROMPT.md, src/formats/svga/decode-images.ts, src/formats/svga/render/renderer.ts, playground/verify.ts, scripts/measure-image-strategy.mjs, scripts/verify-corpus.mjs, scripts/lib/pw.mjs (`--expose-gc` for Chromium), reports/phase4.1-image-strategy.json, reports/corpus.{json,md}, reports/phase3-verify.json, reports/phase4-images.{json,md}; removed src/formats/svga/render/mips.ts (kept in commit 99afaf0).
+## Other flags
+- Chromium: re-rendering frame 0 after other frames differs by ≤1 level in ≤5 bytes (libpag's first-frame render is not bit-stable); all other frames identical. WebKit: none.
+- libpag declares its own runtime dependencies; installed as devDependency only (never bundled).
+- Firefox: not covered (Linux CI in Phase 7).
+- Throwaway `playground/pag-probe.*` removed.

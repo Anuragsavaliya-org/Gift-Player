@@ -370,3 +370,42 @@ Run as requested when files showed up (16 `.svga`; the 10 WebP / 4 GIF corpus fi
 
 ### Task 2: Firefox: still not launchable (time-boxed, then stopped)
 Playwright's Firefox 157 (build 1555) exits immediately with "Could not find profile folder". Tried this time, on top of the earlier attempts: `PLAYWRIGHT_BROWSERS_PATH` and `TMPDIR` on the internal disk (`~/Library/Caches/ms-playwright`, `/tmp`, `~/.ff-tmp`) with the working directory also off the external volume: **identical failure, so the external volume is not the cause**. Also: an ad-hoc `codesign --force --deep --sign -` of the downloaded bundle (`codesign -v` then passes; same failure); `--profile`, `-profile dir/`, `-foreground`, `MOZ_HEADLESS=1` without `-headless`; `-CreateProfile` + `-P` (it does not even create the profile directory); sandbox-free runs; the earlier forced re-download. No stock Firefox is installed to compare. The machine runs macOS 27.0.1; the failure looks like a Firefox 157 / macOS 27 incompatibility rather than anything in our setup. Left unverified; no Firefox column in the support table.
+
+### Phase 5 housekeeping: Firefox (per reviewer)
+Stopped trying Firefox locally (macOS 27.0.1 incompatibility with the Playwright Firefox 157 build is out of our hands). **Firefox coverage will come from a Linux CI job in Phase 7.** Until then there is no Firefox column in any support table.
+
+## Phase 5 — PAG via libpag (lazy-loaded) ✅ (awaiting review)
+Numbers: `reports/phase5-pag.json` (`npm run verify:pag`, Chromium 156 + WebKit 27.2); text screenshots: `reports/text/`.
+
+### Dependency
+`libpag` **4.5.85**, exact-pinned (devDependency; the SDK never bundles it). **License: Apache-2.0.** 4.5.85 rather than 4.4.x because the 4.4.x tarballs lack `lib/` (no prebuilt WASM). Engine URLs default to `cdn.jsdelivr.net/npm/libpag@4.5.85/lib/...`; options `pagModuleUrl`, `pagWasmUrl` (self-host), `pagModule` (inject).
+
+### Design (`src/formats/pag/`)
+- `engine.ts`: `loadPagEngine()` loads once per page via a variable-specifier dynamic `import()` (bundlers cannot inline it). `fetch-failed` errors mention CSP. One `PAG.globalCanvas.retain()` is held by the SDK.
+- `renderer.ts`: `PagRenderer implements FrameSource`. `frameCount = round(duration*fps)`, `frameDuration = 1000/fps`, no file loop count (PAG has none; option > once). Our `Ticker` drives libpag (`setProgress` + `flush`), never libpag's own loop. Drawing is async; stale frames are skipped, never queued. Progress for frame i is `(i*1e6/fps + 1µs)/duration` (naive `i/n` lands on frame i-1 for some i because of float error: measured, `naiveBoundaryProgressLandsOnWrongFrame` in the JSON). Shares `Viewport`.
+- **WebGL contexts:** libpag runs in Canvas2D mode, where ALL views share one WebGL context and the result is copied into our 2D canvas. Any number of gifts therefore need 1 context. `destroy()` waits for an in-flight flush, then destroys view, file, replacement images, clears the canvas.
+- `core/{fonts,replacement,color}.ts`: `registerFont(family, bytes)` (FontFace; returns a disposer), `setPagFallbackFonts`, shared `TextStyle`/`ImageOptions`.
+- Replacement: `getEditableKeys()` → `{key, type, index, name}` (key = layer name or `#<index>`) on PAG and now also SVGA (sprite image keys); `setText`, `setImage`, `setHidden`, `clearReplacement`. Unknown key: console warning, no throw.
+- `scripts/check-bundle.mjs` (`npm run check:bundle`) fails if the core bundle contains libpag markers or exceeds a size cap. Core incl. PAG adapter: 34.3 KB min, 13.3 KB gzip.
+
+### CSP
+`script-src` (or `script-src-elem`) must allow the module host (jsDelivr by default) and `'wasm-unsafe-eval'` (WebAssembly compile); `connect-src` must allow the same host (WASM + module fetch). Self-hosting: allow `'self'` and pass `pagWasmUrl`/`pagModuleUrl`.
+
+### Sizes and cold load (jsDelivr CDN, Chromium / WebKit)
+JS 296.5 KB (62.1 KB br/gzip on the wire), WASM 1,575 KB (460.6 KB on the wire). First PAG, cold, engine + first frame: 598 ms / 523 ms (engine load alone 558 / 487 ms). Second renderer: 11 / 6 ms. Local dev server: 135 / 118 ms. WebKit Resource Timing reports 0 transfer sizes for cross-origin entries, so wire sizes are Chromium's.
+
+### Verification (both browsers: all pass)
+- **Frame accuracy:** our `drawFrame(i)` vs libpag driven directly at the same frame: 0 differing frames in both files (like.pag 28 frames, replacement.pag 60). Random-order seeks equal in-order playback except frame 0 in Chromium (≤1 level in ≤5 bytes: libpag's first render of frame 0 is not bit-stable there; flagged).
+- **Timing/loops:** same method as Phase 4: max abs error 15 ms (Chromium) / 11 ms (WebKit); total 2348 vs 2333 ms. Plays: default 1, `loops:3` → 3, `0` → forever.
+- **Leaks / contexts:** see REVIEW.md. 100 create→play→setImage→destroy cycles: 1 context created, 0 lost; 5 players random-order destroy ×6 rounds: 0 lost. Control (libpag default mode, 24 live views): 24 contexts, browser lost 9.
+- **Replacement:** 7 checks (image swap, survives seek, second swap, Blob/URL, unknown keys). Fonts: 3 checks (registered font changes rendering in SVGA and PAG; disposer removes it).
+- **Perf:** render+copy ≤1 ms avg; with GPU readback 2–7 ms avg (table in REVIEW.md). Our Ticker-driven path is fast enough; libpag's own loop was not needed.
+
+### Text in other scripts (judgment call, flagged)
+SVGA (browser canvas text) shapes Hindi, Gujarati and Arabic correctly, RTL included. **PAG fails**: libpag draws glyph by glyph on a canvas without a shaper, so Devanagari/Gujarati matras show as dotted circles and misplaced marks, and Arabic is drawn as isolated, left-to-right letters. Latin and emoji (colour) are fine. Fonts: system fonts are used; for guaranteed coverage register a font with `registerFont` (it makes glyphs exist, it cannot add shaping). Not fixed here; options for the reviewer: (1) document it, (2) SDK-side shape/rasterise text to an ImageBitmap and put it in the PAG image layer for complex scripts.
+
+### Playground
+`compare.html` takes `.pag`: "PAG engine loading…" state, libpag's own player as reference, editable-keys list (also for SVGA), live text/image/hide/clear demo. `verify-pag.html` hosts the verification tasks.
+
+### Known issues / open
+Firefox: none locally (Linux CI in Phase 7). Chromium frame-0 nondeterminism above. libpag declares its own runtime deps; only dev-installed here.

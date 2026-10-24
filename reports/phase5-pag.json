@@ -1,0 +1,1048 @@
+{
+  "date": "2026-10-24T06:28:27.920Z",
+  "cycles": 100,
+  "browsers": {
+    "chromium": {
+      "version": "156.0.8078.4",
+      "support": {
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "offscreenCanvas": true,
+        "webAssembly": true,
+        "engineLoadMs": 24,
+        "coldLoadToFirstFrameMs": 135,
+        "moduleResource": {
+          "url": "http://localhost:5197/__libpag/libpag.esm.js?import",
+          "encodedBytes": 296532,
+          "decodedBytes": 296532,
+          "transferBytes": 296832,
+          "ms": 2
+        },
+        "wasmResource": {
+          "url": "http://localhost:5197/__libpag/libpag.wasm",
+          "encodedBytes": 1575140,
+          "decodedBytes": 1575140,
+          "transferBytes": 1575440,
+          "ms": 4
+        },
+        "frameCount": 28,
+        "glContexts": {
+          "created": 1,
+          "types": [
+            "offscreen"
+          ]
+        },
+        "secondRendererToFirstFrameMs": 5
+      },
+      "supportCdn": {
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/156.0.0.0 Safari/537.36",
+        "offscreenCanvas": true,
+        "webAssembly": true,
+        "engineLoadMs": 558,
+        "coldLoadToFirstFrameMs": 598,
+        "moduleResource": {
+          "url": "https://cdn.jsdelivr.net/npm/libpag@4.5.85/lib/libpag.esm.js",
+          "encodedBytes": 62123,
+          "decodedBytes": 296532,
+          "transferBytes": 62423,
+          "ms": 316
+        },
+        "wasmResource": {
+          "url": "https://cdn.jsdelivr.net/npm/libpag@4.5.85/lib/libpag.wasm",
+          "encodedBytes": 460567,
+          "decodedBytes": 1575140,
+          "transferBytes": 460867,
+          "ms": 225
+        },
+        "frameCount": 28,
+        "glContexts": {
+          "created": 1,
+          "types": [
+            "offscreen"
+          ]
+        },
+        "secondRendererToFirstFrameMs": 11
+      },
+      "frames": [
+        {
+          "file": "like.pag",
+          "size": "244x244",
+          "frames": 28,
+          "fps": 24,
+          "durationMs": 1166.7,
+          "compared": 28,
+          "framesDifferingFromDirect": 0,
+          "directDiffs": [],
+          "wrongFrameIndex": [],
+          "naiveBoundaryProgressLandsOnWrongFrame": 18,
+          "distinctPictures": 24,
+          "seekDifferences": [
+            {
+              "frame": 0,
+              "bytes": 5,
+              "max": 1
+            },
+            {
+              "frame": 0,
+              "bytes": 5,
+              "max": 1
+            }
+          ],
+          "libpagQuantisesTimeToFrames": true,
+          "ok": true
+        },
+        {
+          "file": "replacement.pag",
+          "size": "800x800",
+          "frames": 60,
+          "fps": 60,
+          "durationMs": 1000,
+          "compared": 60,
+          "framesDifferingFromDirect": 0,
+          "directDiffs": [],
+          "wrongFrameIndex": [],
+          "naiveBoundaryProgressLandsOnWrongFrame": 40,
+          "distinctPictures": 59,
+          "seekDifferences": [
+            {
+              "frame": 0,
+              "bytes": 4,
+              "max": 1
+            },
+            {
+              "frame": 0,
+              "bytes": 4,
+              "max": 1
+            }
+          ],
+          "libpagQuantisesTimeToFrames": true,
+          "ok": true
+        }
+      ],
+      "timing": [
+        {
+          "file": "like.pag",
+          "frames": 28,
+          "emitted": 56,
+          "meanErrMs": 9.4,
+          "maxAbsErrMs": 14.9,
+          "expectedTotalMs": 2333,
+          "measuredTotalMs": 2348,
+          "ok": true
+        },
+        {
+          "file": "replacement.pag",
+          "frames": 60,
+          "emitted": 120,
+          "meanErrMs": 10.9,
+          "maxAbsErrMs": 11.6,
+          "expectedTotalMs": 2000,
+          "measuredTotalMs": 2011,
+          "ok": true
+        }
+      ],
+      "loops": [
+        {
+          "file": "like.pag",
+          "option": null,
+          "fileLoopCount": null,
+          "resolvedLoops": 1,
+          "expectedPlays": 1,
+          "observedPlays": 1,
+          "endedAfterMs": 1179,
+          "expectedMs": 1167,
+          "ok": true
+        },
+        {
+          "file": "like.pag",
+          "option": 3,
+          "fileLoopCount": null,
+          "resolvedLoops": 3,
+          "expectedPlays": 3,
+          "observedPlays": 3,
+          "endedAfterMs": 3504,
+          "expectedMs": 3500,
+          "ok": true
+        },
+        {
+          "file": "like.pag",
+          "option": 0,
+          "fileLoopCount": null,
+          "resolvedLoops": 0,
+          "expectedPlays": "forever",
+          "observedPlays": 3,
+          "endedAfterMs": null,
+          "expectedMs": null,
+          "ok": true
+        }
+      ],
+      "leaks": {
+        "cycles": 100,
+        "sharedMode": {
+          "viewsCreated": 100,
+          "viewsDisposed": 100,
+          "framesDrawn": 438,
+          "errors": 0,
+          "webglContextsCreated": 1,
+          "webglContextTypes": [
+            "offscreen"
+          ],
+          "webglContextsLost": 0,
+          "rafOutstanding": 0,
+          "resizeObserversLive": 0,
+          "replacementBitmaps": {
+            "created": 100,
+            "closed": 100
+          },
+          "wasmHeapBytesAfter10Cycles": 16973824,
+          "wasmHeapBytesAfterAll": 16973824
+        },
+        "controlDefaultMode": {
+          "viewsKeptAlive": 24,
+          "webglContextsCreated": 24,
+          "webglContextsLostByBrowser": 9,
+          "error": ""
+        },
+        "ok": true
+      },
+      "multi": {
+        "rounds": [
+          {
+            "round": 0,
+            "order": [
+              0,
+              2,
+              1,
+              3,
+              4
+            ],
+            "allRenderedBeforeDestroy": true,
+            "eachDestroyClearedItsCanvasAndOthersKeptPlaying": true
+          },
+          {
+            "round": 1,
+            "order": [
+              3,
+              0,
+              2,
+              4,
+              1
+            ],
+            "allRenderedBeforeDestroy": true,
+            "eachDestroyClearedItsCanvasAndOthersKeptPlaying": true
+          },
+          {
+            "round": 2,
+            "order": [
+              2,
+              1,
+              0,
+              3,
+              4
+            ],
+            "allRenderedBeforeDestroy": true,
+            "eachDestroyClearedItsCanvasAndOthersKeptPlaying": true
+          },
+          {
+            "round": 3,
+            "order": [
+              3,
+              1,
+              0,
+              4,
+              2
+            ],
+            "allRenderedBeforeDestroy": true,
+            "eachDestroyClearedItsCanvasAndOthersKeptPlaying": true
+          },
+          {
+            "round": 4,
+            "order": [
+              2,
+              0,
+              1,
+              3,
+              4
+            ],
+            "allRenderedBeforeDestroy": true,
+            "eachDestroyClearedItsCanvasAndOthersKeptPlaying": true
+          },
+          {
+            "round": 5,
+            "order": [
+              3,
+              0,
+              4,
+              1,
+              2
+            ],
+            "allRenderedBeforeDestroy": true,
+            "eachDestroyClearedItsCanvasAndOthersKeptPlaying": true
+          }
+        ],
+        "webglContextsCreatedDuringTest": 1,
+        "webglContextsLost": 0,
+        "ok": true
+      },
+      "replace": {
+        "checks": [
+          {
+            "name": "getEditableKeys lists the one editable image layer",
+            "ok": true,
+            "detail": [
+              {
+                "key": "#0",
+                "type": "image",
+                "index": 0,
+                "name": ""
+              }
+            ]
+          },
+          {
+            "name": "setImage replaces the picture (many pixels changed, green appears)",
+            "ok": true,
+            "detail": {
+              "changed": 262144,
+              "greenNow": 262144,
+              "greenBefore": 0
+            }
+          },
+          {
+            "name": "replacement survives seeking (frame 30 again is green)",
+            "ok": true
+          },
+          {
+            "name": "a second setImage replaces the first (blue, no green left)",
+            "ok": true
+          },
+          {
+            "name": "setImage from a Blob and from a URL both work (red)",
+            "ok": true
+          },
+          {
+            "name": "unknown keys: no throw, a warning each",
+            "ok": true,
+            "detail": {
+              "threw": false,
+              "warnings": 3
+            }
+          },
+          {
+            "name": "the file exposes its layers (diagnostic)",
+            "ok": true,
+            "detail": {
+              "topLevelLayerNames": [
+                ""
+              ]
+            }
+          }
+        ],
+        "passed": 7,
+        "failed": 0,
+        "keys": [
+          {
+            "key": "#0",
+            "type": "image",
+            "index": 0,
+            "name": ""
+          }
+        ]
+      },
+      "fonts": {
+        "checks": [
+          {
+            "name": "SVGA: a registered font changes the rendering (monospace is not as wide as the fallback)",
+            "ok": true,
+            "detail": {
+              "before": 674,
+              "after": 574,
+              "sansSerif": 633
+            }
+          },
+          {
+            "name": "PAG: the same registered font is picked up by name",
+            "ok": true,
+            "detail": {
+              "before": 632,
+              "after": 573,
+              "sansSerif": 632
+            }
+          },
+          {
+            "name": "the disposer returned by registerFont removes the font again",
+            "ok": true,
+            "detail": {
+              "before": 674,
+              "afterRemoval": 674
+            }
+          }
+        ],
+        "passed": 3,
+        "failed": 0
+      },
+      "text": [
+        {
+          "format": "svga",
+          "script": "latin",
+          "text": "Rahul",
+          "brightPixels": 8392,
+          "inkWidth": 276
+        },
+        {
+          "format": "svga",
+          "script": "hindi",
+          "text": "राहुल",
+          "brightPixels": 6604,
+          "inkWidth": 218
+        },
+        {
+          "format": "svga",
+          "script": "gujarati",
+          "text": "અનુરાગ",
+          "brightPixels": 7003,
+          "inkWidth": 310
+        },
+        {
+          "format": "svga",
+          "script": "arabic",
+          "text": "محمد",
+          "brightPixels": 3384,
+          "inkWidth": 204
+        },
+        {
+          "format": "svga",
+          "script": "emoji",
+          "text": "Sam 😀🎁",
+          "brightPixels": 10359,
+          "inkWidth": 462
+        },
+        {
+          "format": "pag",
+          "script": "latin",
+          "text": "Rahul",
+          "brightPixels": 7856,
+          "inkWidth": 276
+        },
+        {
+          "format": "pag",
+          "script": "hindi",
+          "text": "राहुल",
+          "brightPixels": 8501,
+          "inkWidth": 364
+        },
+        {
+          "format": "pag",
+          "script": "gujarati",
+          "text": "અનુરાગ",
+          "brightPixels": 8240,
+          "inkWidth": 455
+        },
+        {
+          "format": "pag",
+          "script": "arabic",
+          "text": "محمد",
+          "brightPixels": 3191,
+          "inkWidth": 175
+        },
+        {
+          "format": "pag",
+          "script": "emoji",
+          "text": "Sam 😀🎁",
+          "brightPixels": 9929,
+          "inkWidth": 461
+        }
+      ],
+      "perf": [
+        {
+          "file": "like.pag",
+          "backing": "244x244",
+          "dpr": 1,
+          "frames": 28,
+          "renderAndCopy": {
+            "n": 112,
+            "avg": 0.4,
+            "p50": 0.4,
+            "p95": 0.6,
+            "max": 1.4
+          },
+          "withReadback": {
+            "n": 112,
+            "avg": 2.56,
+            "p50": 2.1,
+            "p95": 3,
+            "max": 54.5
+          }
+        },
+        {
+          "file": "like.pag",
+          "backing": "244x244",
+          "dpr": 2,
+          "frames": 28,
+          "renderAndCopy": {
+            "n": 112,
+            "avg": 0.52,
+            "p50": 0.6,
+            "p95": 0.8,
+            "max": 1.1
+          },
+          "withReadback": {
+            "n": 112,
+            "avg": 7.26,
+            "p50": 7.3,
+            "p95": 10.5,
+            "max": 38
+          }
+        },
+        {
+          "file": "replacement.pag",
+          "backing": "800x800",
+          "dpr": 1,
+          "frames": 60,
+          "renderAndCopy": {
+            "n": 240,
+            "avg": 0.21,
+            "p50": 0.2,
+            "p95": 0.3,
+            "max": 7.2
+          },
+          "withReadback": {
+            "n": 240,
+            "avg": 7.27,
+            "p50": 7.1,
+            "p95": 8.9,
+            "max": 13.6
+          }
+        },
+        {
+          "file": "replacement.pag",
+          "backing": "800x800",
+          "dpr": 2,
+          "frames": 60,
+          "renderAndCopy": {
+            "n": 240,
+            "avg": 0.18,
+            "p50": 0.1,
+            "p95": 0.3,
+            "max": 6.8
+          },
+          "withReadback": {
+            "n": 240,
+            "avg": 7.09,
+            "p50": 6.9,
+            "p95": 8.5,
+            "max": 13
+          }
+        }
+      ]
+    },
+    "webkit": {
+      "version": "27.2",
+      "support": {
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/27.2 Safari/605.1.15",
+        "offscreenCanvas": true,
+        "webAssembly": true,
+        "engineLoadMs": 46,
+        "coldLoadToFirstFrameMs": 118,
+        "moduleResource": {
+          "url": "http://localhost:5197/__libpag/libpag.esm.js?import",
+          "encodedBytes": 296581,
+          "decodedBytes": 296532,
+          "transferBytes": 296881,
+          "ms": 3
+        },
+        "wasmResource": {
+          "url": "http://localhost:5197/__libpag/libpag.wasm",
+          "encodedBytes": 1575368,
+          "decodedBytes": 1575140,
+          "transferBytes": 1575668,
+          "ms": 4
+        },
+        "frameCount": 28,
+        "glContexts": {
+          "created": 1,
+          "types": [
+            "offscreen"
+          ]
+        },
+        "secondRendererToFirstFrameMs": 5
+      },
+      "supportCdn": {
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/27.2 Safari/605.1.15",
+        "offscreenCanvas": true,
+        "webAssembly": true,
+        "engineLoadMs": 487,
+        "coldLoadToFirstFrameMs": 523,
+        "moduleResource": {
+          "url": "https://cdn.jsdelivr.net/npm/libpag@4.5.85/lib/libpag.esm.js",
+          "encodedBytes": 0,
+          "decodedBytes": 0,
+          "transferBytes": 0,
+          "ms": 275
+        },
+        "wasmResource": {
+          "url": "https://cdn.jsdelivr.net/npm/libpag@4.5.85/lib/libpag.wasm",
+          "encodedBytes": 0,
+          "decodedBytes": 0,
+          "transferBytes": 0,
+          "ms": 190
+        },
+        "frameCount": 28,
+        "glContexts": {
+          "created": 1,
+          "types": [
+            "offscreen"
+          ]
+        },
+        "secondRendererToFirstFrameMs": 6
+      },
+      "frames": [
+        {
+          "file": "like.pag",
+          "size": "244x244",
+          "frames": 28,
+          "fps": 24,
+          "durationMs": 1166.7,
+          "compared": 28,
+          "framesDifferingFromDirect": 0,
+          "directDiffs": [],
+          "wrongFrameIndex": [],
+          "naiveBoundaryProgressLandsOnWrongFrame": 18,
+          "distinctPictures": 24,
+          "seekDifferences": [],
+          "libpagQuantisesTimeToFrames": true,
+          "ok": true
+        },
+        {
+          "file": "replacement.pag",
+          "size": "800x800",
+          "frames": 60,
+          "fps": 60,
+          "durationMs": 1000,
+          "compared": 60,
+          "framesDifferingFromDirect": 0,
+          "directDiffs": [],
+          "wrongFrameIndex": [],
+          "naiveBoundaryProgressLandsOnWrongFrame": 40,
+          "distinctPictures": 59,
+          "seekDifferences": [],
+          "libpagQuantisesTimeToFrames": true,
+          "ok": true
+        }
+      ],
+      "timing": [
+        {
+          "file": "like.pag",
+          "frames": 28,
+          "emitted": 55,
+          "meanErrMs": 6.2,
+          "maxAbsErrMs": 11.3,
+          "expectedTotalMs": 2333,
+          "measuredTotalMs": 2344,
+          "ok": true
+        },
+        {
+          "file": "replacement.pag",
+          "frames": 60,
+          "emitted": 117,
+          "meanErrMs": 2.3,
+          "maxAbsErrMs": 8.3,
+          "expectedTotalMs": 2000,
+          "measuredTotalMs": 2002,
+          "ok": true
+        }
+      ],
+      "loops": [
+        {
+          "file": "like.pag",
+          "option": null,
+          "fileLoopCount": null,
+          "resolvedLoops": 1,
+          "expectedPlays": 1,
+          "observedPlays": 1,
+          "endedAfterMs": 1169,
+          "expectedMs": 1167,
+          "ok": true
+        },
+        {
+          "file": "like.pag",
+          "option": 3,
+          "fileLoopCount": null,
+          "resolvedLoops": 3,
+          "expectedPlays": 3,
+          "observedPlays": 3,
+          "endedAfterMs": 3505,
+          "expectedMs": 3500,
+          "ok": true
+        },
+        {
+          "file": "like.pag",
+          "option": 0,
+          "fileLoopCount": null,
+          "resolvedLoops": 0,
+          "expectedPlays": "forever",
+          "observedPlays": 3,
+          "endedAfterMs": null,
+          "expectedMs": null,
+          "ok": true
+        }
+      ],
+      "leaks": {
+        "cycles": 100,
+        "sharedMode": {
+          "viewsCreated": 100,
+          "viewsDisposed": 100,
+          "framesDrawn": 410,
+          "errors": 0,
+          "webglContextsCreated": 1,
+          "webglContextTypes": [
+            "offscreen"
+          ],
+          "webglContextsLost": 0,
+          "rafOutstanding": 0,
+          "resizeObserversLive": 0,
+          "replacementBitmaps": {
+            "created": 100,
+            "closed": 100
+          },
+          "wasmHeapBytesAfter10Cycles": 16973824,
+          "wasmHeapBytesAfterAll": 16973824
+        },
+        "controlDefaultMode": {
+          "viewsKeptAlive": 24,
+          "webglContextsCreated": 24,
+          "webglContextsLostByBrowser": 9,
+          "error": ""
+        },
+        "ok": true
+      },
+      "multi": {
+        "rounds": [
+          {
+            "round": 0,
+            "order": [
+              0,
+              2,
+              1,
+              3,
+              4
+            ],
+            "allRenderedBeforeDestroy": true,
+            "eachDestroyClearedItsCanvasAndOthersKeptPlaying": true
+          },
+          {
+            "round": 1,
+            "order": [
+              3,
+              0,
+              2,
+              4,
+              1
+            ],
+            "allRenderedBeforeDestroy": true,
+            "eachDestroyClearedItsCanvasAndOthersKeptPlaying": true
+          },
+          {
+            "round": 2,
+            "order": [
+              2,
+              1,
+              0,
+              3,
+              4
+            ],
+            "allRenderedBeforeDestroy": true,
+            "eachDestroyClearedItsCanvasAndOthersKeptPlaying": true
+          },
+          {
+            "round": 3,
+            "order": [
+              3,
+              1,
+              0,
+              4,
+              2
+            ],
+            "allRenderedBeforeDestroy": true,
+            "eachDestroyClearedItsCanvasAndOthersKeptPlaying": true
+          },
+          {
+            "round": 4,
+            "order": [
+              2,
+              0,
+              1,
+              3,
+              4
+            ],
+            "allRenderedBeforeDestroy": true,
+            "eachDestroyClearedItsCanvasAndOthersKeptPlaying": true
+          },
+          {
+            "round": 5,
+            "order": [
+              3,
+              0,
+              4,
+              1,
+              2
+            ],
+            "allRenderedBeforeDestroy": true,
+            "eachDestroyClearedItsCanvasAndOthersKeptPlaying": true
+          }
+        ],
+        "webglContextsCreatedDuringTest": 1,
+        "webglContextsLost": 0,
+        "ok": true
+      },
+      "replace": {
+        "checks": [
+          {
+            "name": "getEditableKeys lists the one editable image layer",
+            "ok": true,
+            "detail": [
+              {
+                "key": "#0",
+                "type": "image",
+                "index": 0,
+                "name": ""
+              }
+            ]
+          },
+          {
+            "name": "setImage replaces the picture (many pixels changed, green appears)",
+            "ok": true,
+            "detail": {
+              "changed": 262144,
+              "greenNow": 262144,
+              "greenBefore": 0
+            }
+          },
+          {
+            "name": "replacement survives seeking (frame 30 again is green)",
+            "ok": true
+          },
+          {
+            "name": "a second setImage replaces the first (blue, no green left)",
+            "ok": true
+          },
+          {
+            "name": "setImage from a Blob and from a URL both work (red)",
+            "ok": true
+          },
+          {
+            "name": "unknown keys: no throw, a warning each",
+            "ok": true,
+            "detail": {
+              "threw": false,
+              "warnings": 3
+            }
+          },
+          {
+            "name": "the file exposes its layers (diagnostic)",
+            "ok": true,
+            "detail": {
+              "topLevelLayerNames": [
+                ""
+              ]
+            }
+          }
+        ],
+        "passed": 7,
+        "failed": 0,
+        "keys": [
+          {
+            "key": "#0",
+            "type": "image",
+            "index": 0,
+            "name": ""
+          }
+        ]
+      },
+      "fonts": {
+        "checks": [
+          {
+            "name": "SVGA: a registered font changes the rendering (monospace is not as wide as the fallback)",
+            "ok": true,
+            "detail": {
+              "before": 674,
+              "after": 574,
+              "sansSerif": 632
+            }
+          },
+          {
+            "name": "PAG: the same registered font is picked up by name",
+            "ok": true,
+            "detail": {
+              "before": 632,
+              "after": 573,
+              "sansSerif": 632
+            }
+          },
+          {
+            "name": "the disposer returned by registerFont removes the font again",
+            "ok": true,
+            "detail": {
+              "before": 674,
+              "afterRemoval": 674
+            }
+          }
+        ],
+        "passed": 3,
+        "failed": 0
+      },
+      "text": [
+        {
+          "format": "svga",
+          "script": "latin",
+          "text": "Rahul",
+          "brightPixels": 8032,
+          "inkWidth": 275
+        },
+        {
+          "format": "svga",
+          "script": "hindi",
+          "text": "राहुल",
+          "brightPixels": 6370,
+          "inkWidth": 217
+        },
+        {
+          "format": "svga",
+          "script": "gujarati",
+          "text": "અનુરાગ",
+          "brightPixels": 6497,
+          "inkWidth": 309
+        },
+        {
+          "format": "svga",
+          "script": "arabic",
+          "text": "محمد",
+          "brightPixels": 3219,
+          "inkWidth": 203
+        },
+        {
+          "format": "svga",
+          "script": "emoji",
+          "text": "Sam 😀🎁",
+          "brightPixels": 10087,
+          "inkWidth": 470
+        },
+        {
+          "format": "pag",
+          "script": "latin",
+          "text": "Rahul",
+          "brightPixels": 7927,
+          "inkWidth": 276
+        },
+        {
+          "format": "pag",
+          "script": "hindi",
+          "text": "राहुल",
+          "brightPixels": 8399,
+          "inkWidth": 364
+        },
+        {
+          "format": "pag",
+          "script": "gujarati",
+          "text": "અનુરાગ",
+          "brightPixels": 8278,
+          "inkWidth": 455
+        },
+        {
+          "format": "pag",
+          "script": "arabic",
+          "text": "محمد",
+          "brightPixels": 3197,
+          "inkWidth": 175
+        },
+        {
+          "format": "pag",
+          "script": "emoji",
+          "text": "Sam 😀🎁",
+          "brightPixels": 9961,
+          "inkWidth": 473
+        }
+      ],
+      "perf": [
+        {
+          "file": "like.pag",
+          "backing": "244x244",
+          "dpr": 1,
+          "frames": 28,
+          "renderAndCopy": {
+            "n": 112,
+            "avg": 0.49,
+            "p50": 0,
+            "p95": 1,
+            "max": 4
+          },
+          "withReadback": {
+            "n": 112,
+            "avg": 4.67,
+            "p50": 3,
+            "p95": 6,
+            "max": 235
+          }
+        },
+        {
+          "file": "like.pag",
+          "backing": "244x244",
+          "dpr": 2,
+          "frames": 28,
+          "renderAndCopy": {
+            "n": 112,
+            "avg": 0.38,
+            "p50": 0,
+            "p95": 1,
+            "max": 1
+          },
+          "withReadback": {
+            "n": 112,
+            "avg": 3.29,
+            "p50": 2,
+            "p95": 3,
+            "max": 121
+          }
+        },
+        {
+          "file": "replacement.pag",
+          "backing": "800x800",
+          "dpr": 1,
+          "frames": 60,
+          "renderAndCopy": {
+            "n": 240,
+            "avg": 0.12,
+            "p50": 0,
+            "p95": 1,
+            "max": 5
+          },
+          "withReadback": {
+            "n": 240,
+            "avg": 4.11,
+            "p50": 2,
+            "p95": 3,
+            "max": 424
+          }
+        },
+        {
+          "file": "replacement.pag",
+          "backing": "800x800",
+          "dpr": 2,
+          "frames": 60,
+          "renderAndCopy": {
+            "n": 240,
+            "avg": 0.1,
+            "p50": 0,
+            "p95": 1,
+            "max": 2
+          },
+          "withReadback": {
+            "n": 240,
+            "avg": 3.56,
+            "p50": 2,
+            "p95": 3,
+            "max": 336
+          }
+        }
+      ]
+    }
+  }
+}

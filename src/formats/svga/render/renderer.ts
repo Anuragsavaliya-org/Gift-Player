@@ -2,7 +2,7 @@ import { GiftPlayerError } from '../../../core/errors';
 import type { SvgaFrame, SvgaMovie, SvgaShape, SvgaSprite } from '../types';
 import { compileShape, NO_DASH, PathCache, type CompiledShape } from './compile';
 import { Viewport, type ViewportOptions } from '../../../core/viewport';
-import type { FrameSource } from '../../../core/frame-source';
+import type { EditableKey, FrameSource } from '../../../core/frame-source';
 import { decodeImageElement, type SvgaBitmap } from '../decode-images';
 import type { ContentMode } from './view';
 
@@ -12,24 +12,8 @@ type Ctx2D = CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D;
 
 export type SvgaRendererOptions = ViewportOptions;
 
-export interface TextStyle {
-  /** CSS font family. Default 'sans-serif'. */
-  font?: string;
-  /** Pixels in viewBox units. Default 14. */
-  size?: number;
-  /** CSS font weight, e.g. 'bold' or 700. */
-  weight?: string | number;
-  /** Default '#000'. */
-  color?: string;
-  /** Alignment inside the sprite's layout rect. Default 'center'. */
-  align?: 'left' | 'center' | 'right';
-  stroke?: { color: string; width: number };
-}
-
-export interface ImageOptions {
-  /** How the image fills the layout rect. Default 'fill' (stretch), like the original bitmap. */
-  fit?: 'fill' | 'cover' | 'contain';
-}
+export type { TextStyle, ImageOptions } from '../../../core/replacement';
+import type { ImageOptions, TextStyle } from '../../../core/replacement';
 
 interface ImageReplacement {
   bitmap: SvgaBitmap;
@@ -191,6 +175,21 @@ export class SvgaRenderer implements FrameSource {
 
   private get view() {
     return this.vp.view;
+  }
+
+  /**
+   * Keys that `setImage` / `setText` / `setHidden` accept: the imageKey of every sprite that is not a matte layer
+   * (`.vector` keys are shape-only layers; they can take text and be hidden, and an image is drawn over their shapes).
+   */
+  getEditableKeys(): EditableKey[] {
+    const seen = new Set<string>();
+    const out: EditableKey[] = [];
+    for (const sprite of this.movie.sprites) {
+      if (sprite.isMatte || seen.has(sprite.imageKey)) continue;
+      seen.add(sprite.imageKey);
+      out.push({ key: sprite.imageKey, type: sprite.imageKey.endsWith('.vector') ? 'vector' : 'image', name: sprite.imageKey });
+    }
+    return out;
   }
 
   /** Index of the last drawn frame, or -1. */

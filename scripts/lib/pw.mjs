@@ -18,7 +18,12 @@ export async function runInBrowser(name, url, { timeout = 180000, viewport = { w
     page.on('pageerror', (e) => logs.push(`[pageerror] ${e.message}`));
     if (setup) await setup(page);
     await page.goto(url, { waitUntil: 'load' });
-    await page.waitForFunction(() => window.__result !== undefined, null, { timeout, polling: 200 });
+    try {
+      await page.waitForFunction(() => window.__result !== undefined, null, { timeout, polling: 200 });
+    } catch (e) {
+      e.pageLogs = logs; // the page's console output is the only clue when it hangs
+      throw e;
+    }
     const result = await page.evaluate(() => window.__result);
     const userAgent = await page.evaluate(() => navigator.userAgent);
     return { result, logs, userAgent, version: browser.version() };

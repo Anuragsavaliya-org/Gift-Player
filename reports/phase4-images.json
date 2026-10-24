@@ -1,5 +1,5 @@
 {
- "date": "2026-10-24T05:32:24.286Z",
+ "date": "2026-10-24T06:31:30.664Z",
  "cycles": 50,
  "browsers": {
   "chromium": {
@@ -36,7 +36,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 5,
-     "ms": 31,
+     "ms": 28,
      "ok": true
     },
     {
@@ -126,7 +126,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 10,
+     "ms": 11,
      "ok": true
     },
     {
@@ -172,6 +172,60 @@
      "size": "40x30",
      "frames": 4,
      "checked": 10,
+     "tolerance": 0,
+     "reason": "forced fallback",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 0,
+     "ms": 11,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-disposal-3.gif",
+     "path": "auto",
+     "usedPath": "imagedecoder",
+     "size": "40x30",
+     "frames": 5,
+     "checked": 12,
+     "tolerance": 0,
+     "reason": "ImageDecoder",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 4,
+     "ms": 5,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-disposal-3.gif",
+     "path": "imagedecoder",
+     "usedPath": "imagedecoder",
+     "size": "40x30",
+     "frames": 5,
+     "checked": 12,
+     "tolerance": 0,
+     "reason": "ImageDecoder",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 4,
+     "ms": 5,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-disposal-3.gif",
+     "path": "fallback",
+     "usedPath": "gif-fallback",
+     "size": "40x30",
+     "frames": 5,
+     "checked": 12,
      "tolerance": 0,
      "reason": "forced fallback",
      "oracle": "golden",
@@ -184,60 +238,6 @@
      "ok": true
     },
     {
-     "file": "synthetic/gif-disposal-3.gif",
-     "path": "auto",
-     "usedPath": "imagedecoder",
-     "size": "40x30",
-     "frames": 5,
-     "checked": 12,
-     "tolerance": 0,
-     "reason": "ImageDecoder",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 4,
-     "ms": 6,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-disposal-3.gif",
-     "path": "imagedecoder",
-     "usedPath": "imagedecoder",
-     "size": "40x30",
-     "frames": 5,
-     "checked": 12,
-     "tolerance": 0,
-     "reason": "ImageDecoder",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 4,
-     "ms": 5,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-disposal-3.gif",
-     "path": "fallback",
-     "usedPath": "gif-fallback",
-     "size": "40x30",
-     "frames": 5,
-     "checked": 12,
-     "tolerance": 0,
-     "reason": "forced fallback",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 0,
-     "ms": 14,
-     "ok": true
-    },
-    {
      "file": "synthetic/gif-first-disposal3.gif",
      "path": "auto",
      "usedPath": "imagedecoder",
@@ -342,7 +342,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 6,
+     "ms": 5,
      "ok": true
     },
     {
@@ -360,7 +360,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 3,
-     "ms": 4,
+     "ms": 3,
      "ok": true
     },
     {
@@ -378,173 +378,11 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 3,
-     "ms": 4,
+     "ms": 3,
      "ok": true
     },
     {
      "file": "synthetic/gif-loop-0.gif",
-     "path": "fallback",
-     "usedPath": "gif-fallback",
-     "size": "40x30",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 0,
-     "reason": "forced fallback",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 0,
-     "ms": 7,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-loop-1.gif",
-     "path": "auto",
-     "usedPath": "imagedecoder",
-     "size": "40x30",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 0,
-     "reason": "ImageDecoder",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 3,
-     "ms": 3,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-loop-1.gif",
-     "path": "imagedecoder",
-     "usedPath": "imagedecoder",
-     "size": "40x30",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 0,
-     "reason": "ImageDecoder",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 3,
-     "ms": 3,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-loop-1.gif",
-     "path": "fallback",
-     "usedPath": "gif-fallback",
-     "size": "40x30",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 0,
-     "reason": "forced fallback",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 0,
-     "ms": 7,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-loop-3.gif",
-     "path": "auto",
-     "usedPath": "imagedecoder",
-     "size": "40x30",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 0,
-     "reason": "ImageDecoder",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 3,
-     "ms": 4,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-loop-3.gif",
-     "path": "imagedecoder",
-     "usedPath": "imagedecoder",
-     "size": "40x30",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 0,
-     "reason": "ImageDecoder",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 3,
-     "ms": 3,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-loop-3.gif",
-     "path": "fallback",
-     "usedPath": "gif-fallback",
-     "size": "40x30",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 0,
-     "reason": "forced fallback",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 0,
-     "ms": 7,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-loop-none.gif",
-     "path": "auto",
-     "usedPath": "imagedecoder",
-     "size": "40x30",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 0,
-     "reason": "ImageDecoder",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 3,
-     "ms": 3,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-loop-none.gif",
-     "path": "imagedecoder",
-     "usedPath": "imagedecoder",
-     "size": "40x30",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 0,
-     "reason": "ImageDecoder",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 3,
-     "ms": 4,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-loop-none.gif",
      "path": "fallback",
      "usedPath": "gif-fallback",
      "size": "40x30",
@@ -562,6 +400,168 @@
      "ok": true
     },
     {
+     "file": "synthetic/gif-loop-1.gif",
+     "path": "auto",
+     "usedPath": "imagedecoder",
+     "size": "40x30",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 0,
+     "reason": "ImageDecoder",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 3,
+     "ms": 3,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-loop-1.gif",
+     "path": "imagedecoder",
+     "usedPath": "imagedecoder",
+     "size": "40x30",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 0,
+     "reason": "ImageDecoder",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 3,
+     "ms": 3,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-loop-1.gif",
+     "path": "fallback",
+     "usedPath": "gif-fallback",
+     "size": "40x30",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 0,
+     "reason": "forced fallback",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 0,
+     "ms": 7,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-loop-3.gif",
+     "path": "auto",
+     "usedPath": "imagedecoder",
+     "size": "40x30",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 0,
+     "reason": "ImageDecoder",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 3,
+     "ms": 4,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-loop-3.gif",
+     "path": "imagedecoder",
+     "usedPath": "imagedecoder",
+     "size": "40x30",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 0,
+     "reason": "ImageDecoder",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 3,
+     "ms": 3,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-loop-3.gif",
+     "path": "fallback",
+     "usedPath": "gif-fallback",
+     "size": "40x30",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 0,
+     "reason": "forced fallback",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 0,
+     "ms": 7,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-loop-none.gif",
+     "path": "auto",
+     "usedPath": "imagedecoder",
+     "size": "40x30",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 0,
+     "reason": "ImageDecoder",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 3,
+     "ms": 3,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-loop-none.gif",
+     "path": "imagedecoder",
+     "usedPath": "imagedecoder",
+     "size": "40x30",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 0,
+     "reason": "ImageDecoder",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 3,
+     "ms": 3,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-loop-none.gif",
+     "path": "fallback",
+     "usedPath": "gif-fallback",
+     "size": "40x30",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 0,
+     "reason": "forced fallback",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 0,
+     "ms": 6,
+     "ok": true
+    },
+    {
      "file": "synthetic/gif-mixed.gif",
      "path": "auto",
      "usedPath": "imagedecoder",
@@ -576,7 +576,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 5,
-     "ms": 7,
+     "ms": 6,
      "ok": true
     },
     {
@@ -594,7 +594,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 5,
-     "ms": 7,
+     "ms": 6,
      "ok": true
     },
     {
@@ -612,7 +612,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 11,
+     "ms": 12,
      "ok": true
     },
     {
@@ -630,7 +630,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 1,
-     "ms": 2,
+     "ms": 1,
      "ok": true
     },
     {
@@ -774,7 +774,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 3,
+     "ms": 2,
      "ok": true
     },
     {
@@ -882,7 +882,7 @@
      "maxDelta": 2,
      "first": [],
      "peakOpen": 2,
-     "ms": 8,
+     "ms": 7,
      "ok": true
     },
     {
@@ -918,7 +918,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 3,
-     "ms": 3,
+     "ms": 2,
      "ok": true
     },
     {
@@ -936,7 +936,7 @@
      "maxDelta": 1.33,
      "first": [],
      "peakOpen": 2,
-     "ms": 10,
+     "ms": 8,
      "ok": true
     },
     {
@@ -990,7 +990,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 16,
+     "ms": 14,
      "ok": true
     },
     {
@@ -1062,7 +1062,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 3,
-     "ms": 3,
+     "ms": 2,
      "ok": true
     },
     {
@@ -1080,7 +1080,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 3,
-     "ms": 3,
+     "ms": 2,
      "ok": true
     },
     {
@@ -1098,7 +1098,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 2,
-     "ms": 8,
+     "ms": 7,
      "ok": true
     },
     {
@@ -1134,7 +1134,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 3,
-     "ms": 3,
+     "ms": 2,
      "ok": true
     },
     {
@@ -1205,8 +1205,8 @@
      "maxPercent": 0,
      "maxDelta": 0,
      "first": [],
-     "peakOpen": 2,
-     "ms": 8,
+     "peakOpen": 3,
+     "ms": 7,
      "ok": true
     },
     {
@@ -1224,7 +1224,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 5,
+     "ms": 4,
      "ok": true
     },
     {
@@ -1260,7 +1260,7 @@
      "maxDelta": 1,
      "first": [],
      "peakOpen": 3,
-     "ms": 12,
+     "ms": 13,
      "ok": true
     },
     {
@@ -1314,7 +1314,7 @@
      "maxDelta": 1,
      "first": [],
      "peakOpen": 3,
-     "ms": 11,
+     "ms": 10,
      "ok": true
     },
     {
@@ -1386,7 +1386,7 @@
      "maxDelta": 1,
      "first": [],
      "peakOpen": 1,
-     "ms": 2,
+     "ms": 1,
      "ok": true
     },
     {
@@ -1550,7 +1550,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 171,
+     "ms": 166,
      "ok": true
     },
     {
@@ -1568,7 +1568,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 166,
+     "ms": 145,
      "ok": true
     },
     {
@@ -1586,7 +1586,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 323,
+     "ms": 317,
      "ok": true
     },
     {
@@ -1604,7 +1604,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 158,
+     "ms": 156,
      "ok": true
     },
     {
@@ -1622,7 +1622,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 157,
+     "ms": 156,
      "ok": true
     },
     {
@@ -1640,7 +1640,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 353,
+     "ms": 345,
      "ok": true
     },
     {
@@ -1658,7 +1658,7 @@
      "maxDelta": 2,
      "first": [],
      "peakOpen": 1,
-     "ms": 16,
+     "ms": 17,
      "ok": true
     },
     {
@@ -1698,7 +1698,7 @@
       }
      ],
      "peakOpen": 1,
-     "ms": 15,
+     "ms": 16,
      "ok": false
     },
     {
@@ -1734,7 +1734,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 61,
+     "ms": 64,
      "ok": true
     },
     {
@@ -1752,7 +1752,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 60,
+     "ms": 62,
      "ok": true
     },
     {
@@ -1788,7 +1788,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 137,
+     "ms": 135,
      "ok": true
     },
     {
@@ -1806,7 +1806,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 133,
+     "ms": 132,
      "ok": true
     },
     {
@@ -1824,30 +1824,12 @@
      "maxDelta": 1.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 259,
+     "ms": 256,
      "ok": true
     },
     {
      "file": "corpus/10017_android_1519292856_middle.webp",
      "path": "auto",
-     "usedPath": "imagedecoder",
-     "size": "360x278",
-     "frames": 30,
-     "checked": 48,
-     "tolerance": 3,
-     "reason": "ImageDecoder",
-     "oracle": "local",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 4,
-     "ms": 121,
-     "ok": true
-    },
-    {
-     "file": "corpus/10017_android_1519292856_middle.webp",
-     "path": "imagedecoder",
      "usedPath": "imagedecoder",
      "size": "360x278",
      "frames": 30,
@@ -1865,6 +1847,24 @@
     },
     {
      "file": "corpus/10017_android_1519292856_middle.webp",
+     "path": "imagedecoder",
+     "usedPath": "imagedecoder",
+     "size": "360x278",
+     "frames": 30,
+     "checked": 48,
+     "tolerance": 3,
+     "reason": "ImageDecoder",
+     "oracle": "local",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 4,
+     "ms": 121,
+     "ok": true
+    },
+    {
+     "file": "corpus/10017_android_1519292856_middle.webp",
      "path": "fallback",
      "usedPath": "webp-anmf",
      "size": "360x278",
@@ -1878,7 +1878,7 @@
      "maxDelta": 1.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 224,
+     "ms": 223,
      "ok": true
     },
     {
@@ -1896,7 +1896,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 114,
+     "ms": 119,
      "ok": true
     },
     {
@@ -1914,119 +1914,11 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 113,
+     "ms": 118,
      "ok": true
     },
     {
      "file": "corpus/10019_android_1519291993_middle.webp",
-     "path": "fallback",
-     "usedPath": "webp-anmf",
-     "size": "360x278",
-     "frames": 40,
-     "checked": 62,
-     "tolerance": 3,
-     "reason": "forced fallback",
-     "oracle": "local",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 1.99,
-     "first": [],
-     "peakOpen": 4,
-     "ms": 221,
-     "ok": true
-    },
-    {
-     "file": "corpus/10020_android_1517469251_middle.webp",
-     "path": "auto",
-     "usedPath": "imagedecoder",
-     "size": "360x278",
-     "frames": 40,
-     "checked": 62,
-     "tolerance": 3,
-     "reason": "ImageDecoder",
-     "oracle": "local",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 4,
-     "ms": 127,
-     "ok": true
-    },
-    {
-     "file": "corpus/10020_android_1517469251_middle.webp",
-     "path": "imagedecoder",
-     "usedPath": "imagedecoder",
-     "size": "360x278",
-     "frames": 40,
-     "checked": 62,
-     "tolerance": 3,
-     "reason": "ImageDecoder",
-     "oracle": "local",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 4,
-     "ms": 121,
-     "ok": true
-    },
-    {
-     "file": "corpus/10020_android_1517469251_middle.webp",
-     "path": "fallback",
-     "usedPath": "webp-anmf",
-     "size": "360x278",
-     "frames": 40,
-     "checked": 62,
-     "tolerance": 3,
-     "reason": "forced fallback",
-     "oracle": "local",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 1.99,
-     "first": [],
-     "peakOpen": 4,
-     "ms": 237,
-     "ok": true
-    },
-    {
-     "file": "corpus/10021_android_1521634082_middle.webp",
-     "path": "auto",
-     "usedPath": "imagedecoder",
-     "size": "360x278",
-     "frames": 40,
-     "checked": 62,
-     "tolerance": 3,
-     "reason": "ImageDecoder",
-     "oracle": "local",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 4,
-     "ms": 121,
-     "ok": true
-    },
-    {
-     "file": "corpus/10021_android_1521634082_middle.webp",
-     "path": "imagedecoder",
-     "usedPath": "imagedecoder",
-     "size": "360x278",
-     "frames": 40,
-     "checked": 62,
-     "tolerance": 3,
-     "reason": "ImageDecoder",
-     "oracle": "local",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 4,
-     "ms": 120,
-     "ok": true
-    },
-    {
-     "file": "corpus/10021_android_1521634082_middle.webp",
      "path": "fallback",
      "usedPath": "webp-anmf",
      "size": "360x278",
@@ -2044,6 +1936,114 @@
      "ok": true
     },
     {
+     "file": "corpus/10020_android_1517469251_middle.webp",
+     "path": "auto",
+     "usedPath": "imagedecoder",
+     "size": "360x278",
+     "frames": 40,
+     "checked": 62,
+     "tolerance": 3,
+     "reason": "ImageDecoder",
+     "oracle": "local",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 4,
+     "ms": 119,
+     "ok": true
+    },
+    {
+     "file": "corpus/10020_android_1517469251_middle.webp",
+     "path": "imagedecoder",
+     "usedPath": "imagedecoder",
+     "size": "360x278",
+     "frames": 40,
+     "checked": 62,
+     "tolerance": 3,
+     "reason": "ImageDecoder",
+     "oracle": "local",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 4,
+     "ms": 119,
+     "ok": true
+    },
+    {
+     "file": "corpus/10020_android_1517469251_middle.webp",
+     "path": "fallback",
+     "usedPath": "webp-anmf",
+     "size": "360x278",
+     "frames": 40,
+     "checked": 62,
+     "tolerance": 3,
+     "reason": "forced fallback",
+     "oracle": "local",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 1.99,
+     "first": [],
+     "peakOpen": 4,
+     "ms": 230,
+     "ok": true
+    },
+    {
+     "file": "corpus/10021_android_1521634082_middle.webp",
+     "path": "auto",
+     "usedPath": "imagedecoder",
+     "size": "360x278",
+     "frames": 40,
+     "checked": 62,
+     "tolerance": 3,
+     "reason": "ImageDecoder",
+     "oracle": "local",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 4,
+     "ms": 119,
+     "ok": true
+    },
+    {
+     "file": "corpus/10021_android_1521634082_middle.webp",
+     "path": "imagedecoder",
+     "usedPath": "imagedecoder",
+     "size": "360x278",
+     "frames": 40,
+     "checked": 62,
+     "tolerance": 3,
+     "reason": "ImageDecoder",
+     "oracle": "local",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 4,
+     "ms": 127,
+     "ok": true
+    },
+    {
+     "file": "corpus/10021_android_1521634082_middle.webp",
+     "path": "fallback",
+     "usedPath": "webp-anmf",
+     "size": "360x278",
+     "frames": 40,
+     "checked": 62,
+     "tolerance": 3,
+     "reason": "forced fallback",
+     "oracle": "local",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 1.99,
+     "first": [],
+     "peakOpen": 4,
+     "ms": 298,
+     "ok": true
+    },
+    {
      "file": "corpus/10022_android_1531282915_middle.webp",
      "path": "auto",
      "usedPath": "imagedecoder",
@@ -2058,7 +2058,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 103,
+     "ms": 115,
      "ok": true
     },
     {
@@ -2076,7 +2076,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 101,
+     "ms": 108,
      "ok": true
     },
     {
@@ -2094,7 +2094,7 @@
      "maxDelta": 1.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 200,
+     "ms": 203,
      "ok": true
     },
     {
@@ -2112,7 +2112,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 117,
+     "ms": 113,
      "ok": true
     },
     {
@@ -2148,7 +2148,7 @@
      "maxDelta": 1.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 218,
+     "ms": 214,
      "ok": true
     },
     {
@@ -2166,7 +2166,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 153,
+     "ms": 152,
      "ok": true
     },
     {
@@ -2184,7 +2184,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 158,
+     "ms": 152,
      "ok": true
     },
     {
@@ -2202,7 +2202,7 @@
      "maxDelta": 1.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 304,
+     "ms": 284,
      "ok": true
     },
     {
@@ -2212,132 +2212,6 @@
      "size": "498x498",
      "frames": 26,
      "checked": 43,
-     "tolerance": 0,
-     "reason": "ImageDecoder",
-     "oracle": "local",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 4,
-     "ms": 134,
-     "ok": true
-    },
-    {
-     "file": "corpus/1648542956622cry-tear.gif",
-     "path": "imagedecoder",
-     "usedPath": "imagedecoder",
-     "size": "498x498",
-     "frames": 26,
-     "checked": 43,
-     "tolerance": 0,
-     "reason": "ImageDecoder",
-     "oracle": "local",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 4,
-     "ms": 120,
-     "ok": true
-    },
-    {
-     "file": "corpus/1648542956622cry-tear.gif",
-     "path": "fallback",
-     "usedPath": "gif-fallback",
-     "size": "498x498",
-     "frames": 26,
-     "checked": 43,
-     "tolerance": 0,
-     "reason": "forced fallback",
-     "oracle": "local",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 0,
-     "ms": 353,
-     "ok": true
-    },
-    {
-     "file": "corpus/1648542972231emoji-in-love.gif",
-     "path": "auto",
-     "usedPath": "imagedecoder",
-     "size": "498x498",
-     "frames": 28,
-     "checked": 46,
-     "tolerance": 0,
-     "reason": "ImageDecoder",
-     "oracle": "local",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 4,
-     "ms": 136,
-     "ok": true
-    },
-    {
-     "file": "corpus/1648542972231emoji-in-love.gif",
-     "path": "imagedecoder",
-     "usedPath": "imagedecoder",
-     "size": "498x498",
-     "frames": 28,
-     "checked": 46,
-     "tolerance": 0,
-     "reason": "ImageDecoder",
-     "oracle": "local",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 4,
-     "ms": 132,
-     "ok": true
-    },
-    {
-     "file": "corpus/1648542972231emoji-in-love.gif",
-     "path": "fallback",
-     "usedPath": "gif-fallback",
-     "size": "498x498",
-     "frames": 28,
-     "checked": 46,
-     "tolerance": 0,
-     "reason": "forced fallback",
-     "oracle": "local",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 0,
-     "ms": 390,
-     "ok": true
-    },
-    {
-     "file": "corpus/1648543432503love-you.gif",
-     "path": "auto",
-     "usedPath": "imagedecoder",
-     "size": "498x498",
-     "frames": 28,
-     "checked": 46,
-     "tolerance": 0,
-     "reason": "ImageDecoder",
-     "oracle": "local",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 4,
-     "ms": 140,
-     "ok": true
-    },
-    {
-     "file": "corpus/1648543432503love-you.gif",
-     "path": "imagedecoder",
-     "usedPath": "imagedecoder",
-     "size": "498x498",
-     "frames": 28,
-     "checked": 46,
      "tolerance": 0,
      "reason": "ImageDecoder",
      "oracle": "local",
@@ -2350,6 +2224,132 @@
      "ok": true
     },
     {
+     "file": "corpus/1648542956622cry-tear.gif",
+     "path": "imagedecoder",
+     "usedPath": "imagedecoder",
+     "size": "498x498",
+     "frames": 26,
+     "checked": 43,
+     "tolerance": 0,
+     "reason": "ImageDecoder",
+     "oracle": "local",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 4,
+     "ms": 124,
+     "ok": true
+    },
+    {
+     "file": "corpus/1648542956622cry-tear.gif",
+     "path": "fallback",
+     "usedPath": "gif-fallback",
+     "size": "498x498",
+     "frames": 26,
+     "checked": 43,
+     "tolerance": 0,
+     "reason": "forced fallback",
+     "oracle": "local",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 0,
+     "ms": 351,
+     "ok": true
+    },
+    {
+     "file": "corpus/1648542972231emoji-in-love.gif",
+     "path": "auto",
+     "usedPath": "imagedecoder",
+     "size": "498x498",
+     "frames": 28,
+     "checked": 46,
+     "tolerance": 0,
+     "reason": "ImageDecoder",
+     "oracle": "local",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 4,
+     "ms": 157,
+     "ok": true
+    },
+    {
+     "file": "corpus/1648542972231emoji-in-love.gif",
+     "path": "imagedecoder",
+     "usedPath": "imagedecoder",
+     "size": "498x498",
+     "frames": 28,
+     "checked": 46,
+     "tolerance": 0,
+     "reason": "ImageDecoder",
+     "oracle": "local",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 4,
+     "ms": 133,
+     "ok": true
+    },
+    {
+     "file": "corpus/1648542972231emoji-in-love.gif",
+     "path": "fallback",
+     "usedPath": "gif-fallback",
+     "size": "498x498",
+     "frames": 28,
+     "checked": 46,
+     "tolerance": 0,
+     "reason": "forced fallback",
+     "oracle": "local",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 0,
+     "ms": 407,
+     "ok": true
+    },
+    {
+     "file": "corpus/1648543432503love-you.gif",
+     "path": "auto",
+     "usedPath": "imagedecoder",
+     "size": "498x498",
+     "frames": 28,
+     "checked": 46,
+     "tolerance": 0,
+     "reason": "ImageDecoder",
+     "oracle": "local",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 4,
+     "ms": 143,
+     "ok": true
+    },
+    {
+     "file": "corpus/1648543432503love-you.gif",
+     "path": "imagedecoder",
+     "usedPath": "imagedecoder",
+     "size": "498x498",
+     "frames": 28,
+     "checked": 46,
+     "tolerance": 0,
+     "reason": "ImageDecoder",
+     "oracle": "local",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 4,
+     "ms": 142,
+     "ok": true
+    },
+    {
      "file": "corpus/1648543432503love-you.gif",
      "path": "fallback",
      "usedPath": "gif-fallback",
@@ -2364,12 +2364,30 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 397,
+     "ms": 412,
      "ok": true
     },
     {
      "file": "corpus/1694587935069love-nikki-miracle-nikki.gif",
      "path": "auto",
+     "usedPath": "imagedecoder",
+     "size": "498x498",
+     "frames": 10,
+     "checked": 22,
+     "tolerance": 0,
+     "reason": "ImageDecoder",
+     "oracle": "local",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 4,
+     "ms": 62,
+     "ok": true
+    },
+    {
+     "file": "corpus/1694587935069love-nikki-miracle-nikki.gif",
+     "path": "imagedecoder",
      "usedPath": "imagedecoder",
      "size": "498x498",
      "frames": 10,
@@ -2387,24 +2405,6 @@
     },
     {
      "file": "corpus/1694587935069love-nikki-miracle-nikki.gif",
-     "path": "imagedecoder",
-     "usedPath": "imagedecoder",
-     "size": "498x498",
-     "frames": 10,
-     "checked": 22,
-     "tolerance": 0,
-     "reason": "ImageDecoder",
-     "oracle": "local",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 4,
-     "ms": 67,
-     "ok": true
-    },
-    {
-     "file": "corpus/1694587935069love-nikki-miracle-nikki.gif",
      "path": "fallback",
      "usedPath": "gif-fallback",
      "size": "498x498",
@@ -2418,7 +2418,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 164,
+     "ms": 150,
      "ok": true
     },
     {
@@ -2436,7 +2436,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 3,
-     "ms": 29,
+     "ms": 30,
      "ok": true
     },
     {
@@ -2454,7 +2454,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 3,
-     "ms": 30,
+     "ms": 27,
      "ok": true
     },
     {
@@ -2472,7 +2472,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 3,
-     "ms": 39,
+     "ms": 36,
      "ok": true
     }
    ],
@@ -2484,10 +2484,10 @@
      "frames": 7,
      "emitted": 14,
      "lateDraws": 1,
-     "meanErrMs": 11.9,
-     "maxAbsErrMs": 17.4,
+     "meanErrMs": 12.5,
+     "maxAbsErrMs": 18.2,
      "expectedTotalMs": 2140,
-     "measuredTotalMs": 2150,
+     "measuredTotalMs": 2155,
      "ok": true
     },
     {
@@ -2497,10 +2497,10 @@
      "frames": 7,
      "emitted": 14,
      "lateDraws": 0,
-     "meanErrMs": 8.9,
-     "maxAbsErrMs": 19,
+     "meanErrMs": 11.6,
+     "maxAbsErrMs": 15.9,
      "expectedTotalMs": 2140,
-     "measuredTotalMs": 2159,
+     "measuredTotalMs": 2153,
      "ok": true
     },
     {
@@ -2510,49 +2510,49 @@
      "frames": 6,
      "emitted": 12,
      "lateDraws": 1,
-     "meanErrMs": 13.1,
-     "maxAbsErrMs": 17.6,
-     "expectedTotalMs": 940,
-     "measuredTotalMs": 951,
-     "ok": true
-    },
-    {
-     "file": "synthetic/webp-delays.webp",
-     "path": "fallback",
-     "usedPath": "webp-anmf",
-     "frames": 6,
-     "emitted": 12,
-     "lateDraws": 2,
-     "meanErrMs": 7,
-     "maxAbsErrMs": 11.2,
-     "expectedTotalMs": 940,
-     "measuredTotalMs": 943,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-mixed.gif",
-     "path": "imagedecoder",
-     "usedPath": "imagedecoder",
-     "frames": 8,
-     "emitted": 16,
-     "lateDraws": 1,
-     "meanErrMs": 10,
-     "maxAbsErrMs": 17,
-     "expectedTotalMs": 1560,
-     "measuredTotalMs": 1572,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-mixed.gif",
-     "path": "fallback",
-     "usedPath": "gif-fallback",
-     "frames": 8,
-     "emitted": 16,
-     "lateDraws": 0,
      "meanErrMs": 10.2,
-     "maxAbsErrMs": 17.5,
+     "maxAbsErrMs": 15.8,
+     "expectedTotalMs": 940,
+     "measuredTotalMs": 952,
+     "ok": true
+    },
+    {
+     "file": "synthetic/webp-delays.webp",
+     "path": "fallback",
+     "usedPath": "webp-anmf",
+     "frames": 6,
+     "emitted": 12,
+     "lateDraws": 2,
+     "meanErrMs": 12.1,
+     "maxAbsErrMs": 16.3,
+     "expectedTotalMs": 940,
+     "measuredTotalMs": 949,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-mixed.gif",
+     "path": "imagedecoder",
+     "usedPath": "imagedecoder",
+     "frames": 8,
+     "emitted": 16,
+     "lateDraws": 1,
+     "meanErrMs": 8.2,
+     "maxAbsErrMs": 17,
      "expectedTotalMs": 1560,
-     "measuredTotalMs": 1564,
+     "measuredTotalMs": 1567,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-mixed.gif",
+     "path": "fallback",
+     "usedPath": "gif-fallback",
+     "frames": 8,
+     "emitted": 16,
+     "lateDraws": 0,
+     "meanErrMs": 9.8,
+     "maxAbsErrMs": 15.6,
+     "expectedTotalMs": 1560,
+     "measuredTotalMs": 1575,
      "ok": true
     },
     {
@@ -2562,10 +2562,10 @@
      "frames": 5,
      "emitted": 10,
      "lateDraws": 1,
-     "meanErrMs": 9.4,
-     "maxAbsErrMs": 17.1,
+     "meanErrMs": 8.3,
+     "maxAbsErrMs": 16,
      "expectedTotalMs": 800,
-     "measuredTotalMs": 804,
+     "measuredTotalMs": 806,
      "ok": true
     },
     {
@@ -2575,10 +2575,10 @@
      "frames": 5,
      "emitted": 10,
      "lateDraws": 2,
-     "meanErrMs": 9.4,
-     "maxAbsErrMs": 17,
+     "meanErrMs": 8.2,
+     "maxAbsErrMs": 16.2,
      "expectedTotalMs": 800,
-     "measuredTotalMs": 803,
+     "measuredTotalMs": 812,
      "ok": true
     },
     {
@@ -2588,10 +2588,10 @@
      "frames": 44,
      "emitted": 44,
      "lateDraws": 1,
-     "meanErrMs": 9.7,
-     "maxAbsErrMs": 18.9,
+     "meanErrMs": 10.9,
+     "maxAbsErrMs": 18,
      "expectedTotalMs": 3960,
-     "measuredTotalMs": 3965,
+     "measuredTotalMs": 3971,
      "ok": true
     },
     {
@@ -2601,8 +2601,8 @@
      "frames": 44,
      "emitted": 44,
      "lateDraws": 0,
-     "meanErrMs": 9.1,
-     "maxAbsErrMs": 16.6,
+     "meanErrMs": 8.2,
+     "maxAbsErrMs": 15.2,
      "expectedTotalMs": 3960,
      "measuredTotalMs": 3968,
      "ok": true
@@ -2614,10 +2614,10 @@
      "frames": 100,
      "emitted": 100,
      "lateDraws": 1,
-     "meanErrMs": 7,
-     "maxAbsErrMs": 8,
+     "meanErrMs": 10,
+     "maxAbsErrMs": 10.6,
      "expectedTotalMs": 10000,
-     "measuredTotalMs": 10008,
+     "measuredTotalMs": 10010,
      "ok": true
     },
     {
@@ -2627,10 +2627,10 @@
      "frames": 100,
      "emitted": 100,
      "lateDraws": 1,
-     "meanErrMs": 8.5,
-     "maxAbsErrMs": 9.5,
+     "meanErrMs": 11.8,
+     "maxAbsErrMs": 12.4,
      "expectedTotalMs": 10000,
-     "measuredTotalMs": 10009,
+     "measuredTotalMs": 10012,
      "ok": true
     }
    ],
@@ -2653,7 +2653,7 @@
      "resolvedLoops": 2,
      "expectedPlays": 2,
      "observedPlays": 2,
-     "endedAfterMs": 308,
+     "endedAfterMs": 306,
      "expectedMs": 300,
      "ok": true
     },
@@ -2664,7 +2664,7 @@
      "resolvedLoops": 4,
      "expectedPlays": 4,
      "observedPlays": 4,
-     "endedAfterMs": 609,
+     "endedAfterMs": 611,
      "expectedMs": 600,
      "ok": true
     },
@@ -2675,7 +2675,7 @@
      "resolvedLoops": 1,
      "expectedPlays": 1,
      "observedPlays": 1,
-     "endedAfterMs": 158,
+     "endedAfterMs": 162,
      "expectedMs": 150,
      "ok": true
     },
@@ -2697,7 +2697,7 @@
      "resolvedLoops": 1,
      "expectedPlays": 1,
      "observedPlays": 1,
-     "endedAfterMs": 159,
+     "endedAfterMs": 162,
      "expectedMs": 150,
      "ok": true
     },
@@ -2708,7 +2708,7 @@
      "resolvedLoops": 3,
      "expectedPlays": 3,
      "observedPlays": 3,
-     "endedAfterMs": 458,
+     "endedAfterMs": 463,
      "expectedMs": 450,
      "ok": true
     },
@@ -2719,7 +2719,7 @@
      "resolvedLoops": 2,
      "expectedPlays": 2,
      "observedPlays": 2,
-     "endedAfterMs": 309,
+     "endedAfterMs": 312,
      "expectedMs": 300,
      "ok": true
     },
@@ -2730,7 +2730,7 @@
      "resolvedLoops": 3,
      "expectedPlays": 3,
      "observedPlays": 3,
-     "endedAfterMs": 459,
+     "endedAfterMs": 461,
      "expectedMs": 450,
      "ok": true
     },
@@ -2752,7 +2752,7 @@
      "frameDurationMs": 300,
      "fileLoopCount": 1,
      "observedPlays": 1,
-     "endedAfterMs": 310,
+     "endedAfterMs": 303,
      "expectedMs": 300,
      "option": null,
      "resolvedLoops": 1,
@@ -2767,7 +2767,7 @@
      "frameDurationMs": 300,
      "fileLoopCount": 1,
      "observedPlays": 1,
-     "endedAfterMs": 303,
+     "endedAfterMs": 305,
      "expectedMs": 300,
      "option": null,
      "resolvedLoops": 1,
@@ -2782,7 +2782,7 @@
      "frameDurationMs": 300,
      "fileLoopCount": 1,
      "observedPlays": 1,
-     "endedAfterMs": 307,
+     "endedAfterMs": 309,
      "expectedMs": 300,
      "option": null,
      "resolvedLoops": 1,
@@ -2797,7 +2797,7 @@
      "frameDurationMs": 300,
      "fileLoopCount": 1,
      "observedPlays": 1,
-     "endedAfterMs": 307,
+     "endedAfterMs": 313,
      "expectedMs": 300,
      "option": null,
      "resolvedLoops": 1,
@@ -2838,7 +2838,7 @@
      "path": "fallback",
      "usedPath": "gif-fallback",
      "cycles": 50,
-     "framesDrawn": 304,
+     "framesDrawn": 330,
      "created": {
       "videoFrames": 0,
       "bitmaps": 0,
@@ -2866,12 +2866,12 @@
      "cycles": 50,
      "framesDrawn": 250,
      "created": {
-      "videoFrames": 602,
+      "videoFrames": 618,
       "bitmaps": 0,
       "decoders": 50
      },
      "closed": {
-      "videoFrames": 602,
+      "videoFrames": 618,
       "bitmaps": 0,
       "decoders": 50
      },
@@ -2880,7 +2880,7 @@
       "bitmaps": 0,
       "decoders": 0
      },
-     "peakOpenPerRenderer": 8,
+     "peakOpenPerRenderer": 6,
      "rafOutstanding": 0,
      "resizeObserversLive": 0,
      "ok": true
@@ -2893,12 +2893,12 @@
      "framesDrawn": 250,
      "created": {
       "videoFrames": 0,
-      "bitmaps": 623,
+      "bitmaps": 567,
       "decoders": 0
      },
      "closed": {
       "videoFrames": 0,
-      "bitmaps": 623,
+      "bitmaps": 567,
       "decoders": 0
      },
      "stillOpen": {
@@ -2968,7 +2968,7 @@
      "path": "imagedecoder",
      "usedPath": "imagedecoder",
      "cycles": 50,
-     "framesDrawn": 249,
+     "framesDrawn": 250,
      "created": {
       "videoFrames": 550,
       "bitmaps": 0,
@@ -2994,15 +2994,15 @@
      "path": "fallback",
      "usedPath": "webp-anmf",
      "cycles": 50,
-     "framesDrawn": 250,
+     "framesDrawn": 249,
      "created": {
       "videoFrames": 0,
-      "bitmaps": 652,
+      "bitmaps": 647,
       "decoders": 0
      },
      "closed": {
       "videoFrames": 0,
-      "bitmaps": 652,
+      "bitmaps": 647,
       "decoders": 0
      },
      "stillOpen": {
@@ -3010,7 +3010,7 @@
       "bitmaps": 0,
       "decoders": 0
      },
-     "peakOpenPerRenderer": 4,
+     "peakOpenPerRenderer": 3,
      "rafOutstanding": 0,
      "resizeObserversLive": 0,
      "ok": true
@@ -3069,7 +3069,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 5,
-     "ms": 30,
+     "ms": 37,
      "ok": true
     },
     {
@@ -3087,7 +3087,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 6,
+     "ms": 7,
      "ok": true
     },
     {
@@ -3105,7 +3105,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 3,
+     "ms": 5,
      "ok": true
     },
     {
@@ -3159,7 +3159,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 3,
+     "ms": 4,
      "ok": true
     },
     {
@@ -3224,7 +3224,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 3,
+     "ms": 4,
      "ok": true
     },
     {
@@ -3242,7 +3242,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 4,
+     "ms": 6,
      "ok": true
     },
     {
@@ -3260,7 +3260,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 12,
+     "ms": 19,
      "ok": true
     },
     {
@@ -3278,7 +3278,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 5,
+     "ms": 4,
      "ok": true
     },
     {
@@ -3361,7 +3361,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 2,
+     "ms": 3,
      "ok": true
     },
     {
@@ -3379,7 +3379,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 3,
+     "ms": 2,
      "ok": true
     },
     {
@@ -3397,7 +3397,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 2,
-     "ms": 4,
+     "ms": 5,
      "ok": true
     },
     {
@@ -3415,7 +3415,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 2,
+     "ms": 3,
      "ok": true
     },
     {
@@ -3433,11 +3433,65 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 3,
+     "ms": 2,
      "ok": true
     },
     {
      "file": "synthetic/gif-loop-0.gif",
+     "path": "imagedecoder",
+     "usedPath": "imagedecoder",
+     "size": "40x30",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 0,
+     "reason": "ImageDecoder",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 3,
+     "ms": 6,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-loop-0.gif",
+     "path": "fallback",
+     "usedPath": "gif-fallback",
+     "size": "40x30",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 0,
+     "reason": "forced fallback",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 0,
+     "ms": 3,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-loop-1.gif",
+     "path": "auto",
+     "usedPath": "gif-fallback",
+     "size": "40x30",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 0,
+     "reason": "ImageDecoder failed the GIF self-test (known WebKit bug)",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 0,
+     "ms": 3,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-loop-1.gif",
      "path": "imagedecoder",
      "usedPath": "imagedecoder",
      "size": "40x30",
@@ -3455,60 +3509,6 @@
      "ok": true
     },
     {
-     "file": "synthetic/gif-loop-0.gif",
-     "path": "fallback",
-     "usedPath": "gif-fallback",
-     "size": "40x30",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 0,
-     "reason": "forced fallback",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 0,
-     "ms": 3,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-loop-1.gif",
-     "path": "auto",
-     "usedPath": "gif-fallback",
-     "size": "40x30",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 0,
-     "reason": "ImageDecoder failed the GIF self-test (known WebKit bug)",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 0,
-     "ms": 3,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-loop-1.gif",
-     "path": "imagedecoder",
-     "usedPath": "imagedecoder",
-     "size": "40x30",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 0,
-     "reason": "ImageDecoder",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 3,
-     "ms": 6,
-     "ok": true
-    },
-    {
      "file": "synthetic/gif-loop-1.gif",
      "path": "fallback",
      "usedPath": "gif-fallback",
@@ -3523,7 +3523,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 3,
+     "ms": 2,
      "ok": true
     },
     {
@@ -3541,7 +3541,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 3,
+     "ms": 2,
      "ok": true
     },
     {
@@ -3577,7 +3577,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 2,
+     "ms": 3,
      "ok": true
     },
     {
@@ -3595,7 +3595,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 2,
+     "ms": 3,
      "ok": true
     },
     {
@@ -3613,7 +3613,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 3,
-     "ms": 8,
+     "ms": 6,
      "ok": true
     },
     {
@@ -3649,7 +3649,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 5,
+     "ms": 6,
      "ok": true
     },
     {
@@ -3732,7 +3732,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 1,
-     "ms": 3,
+     "ms": 2,
      "ok": true
     },
     {
@@ -3786,7 +3786,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 3,
+     "ms": 4,
      "ok": true
     },
     {
@@ -3833,7 +3833,7 @@
       }
      ],
      "peakOpen": 4,
-     "ms": 8,
+     "ms": 10,
      "ok": false
     },
     {
@@ -3851,7 +3851,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 3,
+     "ms": 4,
      "ok": true
     },
     {
@@ -3938,7 +3938,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 1,
-     "ms": 5,
+     "ms": 7,
      "ok": true
     },
     {
@@ -3971,7 +3971,7 @@
       }
      ],
      "peakOpen": 2,
-     "ms": 4,
+     "ms": 5,
      "ok": false
     },
     {
@@ -4007,7 +4007,7 @@
      "maxDelta": 2,
      "first": [],
      "peakOpen": 2,
-     "ms": 7,
+     "ms": 8,
      "ok": true
     },
     {
@@ -4043,7 +4043,7 @@
      "maxDelta": 2,
      "first": [],
      "peakOpen": 2,
-     "ms": 8,
+     "ms": 7,
      "ok": true
     },
     {
@@ -4061,7 +4061,7 @@
      "maxDelta": 0.8,
      "first": [],
      "peakOpen": 2,
-     "ms": 6,
+     "ms": 11,
      "ok": true
     },
     {
@@ -4108,7 +4108,7 @@
       }
      ],
      "peakOpen": 3,
-     "ms": 7,
+     "ms": 10,
      "ok": false
     },
     {
@@ -4126,7 +4126,7 @@
      "maxDelta": 0.8,
      "first": [],
      "peakOpen": 2,
-     "ms": 7,
+     "ms": 8,
      "ok": true
     },
     {
@@ -4144,7 +4144,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 18,
+     "ms": 19,
      "ok": true
     },
     {
@@ -4162,7 +4162,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 16,
+     "ms": 21,
      "ok": true
     },
     {
@@ -4198,7 +4198,7 @@
      "maxDelta": 2,
      "first": [],
      "peakOpen": 3,
-     "ms": 12,
+     "ms": 14,
      "ok": true
     },
     {
@@ -4245,7 +4245,7 @@
       }
      ],
      "peakOpen": 4,
-     "ms": 9,
+     "ms": 11,
      "ok": false
     },
     {
@@ -4281,7 +4281,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 2,
-     "ms": 7,
+     "ms": 6,
      "ok": true
     },
     {
@@ -4299,7 +4299,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 3,
-     "ms": 6,
+     "ms": 7,
      "ok": true
     },
     {
@@ -4353,7 +4353,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 3,
-     "ms": 7,
+     "ms": 8,
      "ok": true
     },
     {
@@ -4371,7 +4371,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 2,
-     "ms": 7,
+     "ms": 8,
      "ok": true
     },
     {
@@ -4389,7 +4389,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 2,
-     "ms": 6,
+     "ms": 7,
      "ok": true
     },
     {
@@ -4407,7 +4407,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 3,
-     "ms": 6,
+     "ms": 7,
      "ok": true
     },
     {
@@ -4443,7 +4443,7 @@
      "maxDelta": 1,
      "first": [],
      "peakOpen": 3,
-     "ms": 12,
+     "ms": 15,
      "ok": true
     },
     {
@@ -4508,7 +4508,7 @@
      "maxDelta": 1,
      "first": [],
      "peakOpen": 3,
-     "ms": 18,
+     "ms": 15,
      "ok": true
     },
     {
@@ -4526,7 +4526,7 @@
      "maxDelta": 1,
      "first": [],
      "peakOpen": 3,
-     "ms": 10,
+     "ms": 11,
      "ok": true
     },
     {
@@ -4544,7 +4544,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 9,
+     "ms": 8,
      "ok": true
     },
     {
@@ -4562,7 +4562,7 @@
      "maxDelta": 1,
      "first": [],
      "peakOpen": 3,
-     "ms": 12,
+     "ms": 14,
      "ok": true
     },
     {
@@ -4674,7 +4674,7 @@
       }
      ],
      "peakOpen": 1,
-     "ms": 5,
+     "ms": 10,
      "ok": false
     },
     {
@@ -4692,7 +4692,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 1,
-     "ms": 2,
+     "ms": 3,
      "ok": true
     },
     {
@@ -4728,7 +4728,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 1,
-     "ms": 6,
+     "ms": 5,
      "ok": true
     },
     {
@@ -4746,7 +4746,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 1,
-     "ms": 3,
+     "ms": 2,
      "ok": true
     },
     {
@@ -4800,7 +4800,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 1,
-     "ms": 2,
+     "ms": 3,
      "ok": true
     }
    ],
@@ -4820,7 +4820,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 249,
+     "ms": 233,
      "ok": true
     },
     {
@@ -4838,7 +4838,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 345,
+     "ms": 350,
      "ok": true
     },
     {
@@ -4856,7 +4856,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 163,
+     "ms": 164,
      "ok": true
     },
     {
@@ -4874,7 +4874,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 216,
+     "ms": 210,
      "ok": true
     },
     {
@@ -4892,7 +4892,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 261,
+     "ms": 284,
      "ok": true
     },
     {
@@ -4910,7 +4910,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 201,
+     "ms": 208,
      "ok": true
     },
     {
@@ -4928,7 +4928,7 @@
      "maxDelta": 2,
      "first": [],
      "peakOpen": 1,
-     "ms": 26,
+     "ms": 28,
      "ok": true
     },
     {
@@ -4964,7 +4964,7 @@
      "maxDelta": 2,
      "first": [],
      "peakOpen": 1,
-     "ms": 24,
+     "ms": 25,
      "ok": true
     },
     {
@@ -4982,7 +4982,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 200,
+     "ms": 212,
      "ok": true
     },
     {
@@ -5000,7 +5000,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 5,
-     "ms": 286,
+     "ms": 295,
      "ok": true
     },
     {
@@ -5018,7 +5018,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 188,
+     "ms": 197,
      "ok": true
     },
     {
@@ -5036,7 +5036,7 @@
      "maxDelta": 0.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 198,
+     "ms": 205,
      "ok": true
     },
     {
@@ -5083,7 +5083,7 @@
       }
      ],
      "peakOpen": 4,
-     "ms": 300,
+     "ms": 329,
      "ok": false
     },
     {
@@ -5101,7 +5101,7 @@
      "maxDelta": 0.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 192,
+     "ms": 202,
      "ok": true
     },
     {
@@ -5119,7 +5119,7 @@
      "maxDelta": 0.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 193,
+     "ms": 199,
      "ok": true
     },
     {
@@ -5166,7 +5166,7 @@
       }
      ],
      "peakOpen": 4,
-     "ms": 307,
+     "ms": 318,
      "ok": false
     },
     {
@@ -5184,7 +5184,7 @@
      "maxDelta": 0.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 194,
+     "ms": 197,
      "ok": true
     },
     {
@@ -5202,7 +5202,7 @@
      "maxDelta": 0.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 181,
+     "ms": 185,
      "ok": true
     },
     {
@@ -5249,7 +5249,7 @@
       }
      ],
      "peakOpen": 4,
-     "ms": 284,
+     "ms": 300,
      "ok": false
     },
     {
@@ -5267,7 +5267,7 @@
      "maxDelta": 0.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 181,
+     "ms": 183,
      "ok": true
     },
     {
@@ -5312,14 +5312,14 @@
       {
        "order": "sequential",
        "frame": 8,
-       "percent": 85.937,
+       "percent": 85.924,
        "maxDelta": 255,
        "at": "(0,0) ours=0,0,0,255 ref=0,0,0,0"
       },
       {
        "order": "sequential",
        "frame": 16,
-       "percent": 83.461,
+       "percent": 83.457,
        "maxDelta": 255,
        "at": "(0,0) ours=0,0,0,255 ref=0,0,0,0"
       },
@@ -5332,7 +5332,7 @@
       }
      ],
      "peakOpen": 4,
-     "ms": 285,
+     "ms": 277,
      "ok": false
     },
     {
@@ -5350,7 +5350,7 @@
      "maxDelta": 0.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 192,
+     "ms": 210,
      "ok": true
     },
     {
@@ -5368,7 +5368,7 @@
      "maxDelta": 0.98,
      "first": [],
      "peakOpen": 4,
-     "ms": 183,
+     "ms": 204,
      "ok": true
     },
     {
@@ -5415,7 +5415,7 @@
       }
      ],
      "peakOpen": 4,
-     "ms": 273,
+     "ms": 303,
      "ok": false
     },
     {
@@ -5433,7 +5433,7 @@
      "maxDelta": 0.98,
      "first": [],
      "peakOpen": 4,
-     "ms": 185,
+     "ms": 186,
      "ok": true
     },
     {
@@ -5451,7 +5451,7 @@
      "maxDelta": 0.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 162,
+     "ms": 166,
      "ok": true
     },
     {
@@ -5498,7 +5498,7 @@
       }
      ],
      "peakOpen": 4,
-     "ms": 249,
+     "ms": 258,
      "ok": false
     },
     {
@@ -5534,7 +5534,7 @@
      "maxDelta": 0.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 192,
+     "ms": 188,
      "ok": true
     },
     {
@@ -5554,7 +5554,7 @@
       {
        "order": "sequential",
        "frame": 0,
-       "percent": 87.376,
+       "percent": 87.381,
        "maxDelta": 255,
        "at": "(0,0) ours=0,0,0,255 ref=0,0,0,0"
       },
@@ -5581,7 +5581,7 @@
       }
      ],
      "peakOpen": 4,
-     "ms": 300,
+     "ms": 321,
      "ok": false
     },
     {
@@ -5599,7 +5599,7 @@
      "maxDelta": 0.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 185,
+     "ms": 191,
      "ok": true
     },
     {
@@ -5617,7 +5617,7 @@
      "maxDelta": 0.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 226,
+     "ms": 231,
      "ok": true
     },
     {
@@ -5631,13 +5631,13 @@
      "reason": "ImageDecoder",
      "oracle": "golden",
      "mismatchedFrames": 15,
-     "maxPercent": 79.131,
+     "maxPercent": 79.24,
      "maxDelta": 255,
      "first": [
       {
        "order": "sequential",
        "frame": 0,
-       "percent": 79.131,
+       "percent": 79.24,
        "maxDelta": 255,
        "at": "(0,0) ours=0,2,4,255 ref=0,73,146,7"
       },
@@ -5664,7 +5664,7 @@
       }
      ],
      "peakOpen": 4,
-     "ms": 364,
+     "ms": 366,
      "ok": false
     },
     {
@@ -5682,7 +5682,7 @@
      "maxDelta": 0.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 226,
+     "ms": 230,
      "ok": true
     },
     {
@@ -5700,7 +5700,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 248,
+     "ms": 271,
      "ok": true
     },
     {
@@ -5718,7 +5718,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 410,
+     "ms": 454,
      "ok": true
     },
     {
@@ -5736,7 +5736,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 241,
+     "ms": 257,
      "ok": true
     },
     {
@@ -5754,7 +5754,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 252,
+     "ms": 267,
      "ok": true
     },
     {
@@ -5772,7 +5772,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 397,
+     "ms": 424,
      "ok": true
     },
     {
@@ -5790,7 +5790,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 253,
+     "ms": 266,
      "ok": true
     },
     {
@@ -5808,7 +5808,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 259,
+     "ms": 277,
      "ok": true
     },
     {
@@ -5826,7 +5826,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 396,
+     "ms": 417,
      "ok": true
     },
     {
@@ -5844,7 +5844,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 253,
+     "ms": 269,
      "ok": true
     },
     {
@@ -5862,7 +5862,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 180,
+     "ms": 190,
      "ok": true
     },
     {
@@ -5880,7 +5880,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 5,
-     "ms": 352,
+     "ms": 370,
      "ok": true
     },
     {
@@ -5898,7 +5898,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 180,
+     "ms": 190,
      "ok": true
     },
     {
@@ -5916,7 +5916,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 2,
-     "ms": 80,
+     "ms": 84,
      "ok": true
     },
     {
@@ -5963,7 +5963,7 @@
       }
      ],
      "peakOpen": 3,
-     "ms": 126,
+     "ms": 122,
      "ok": false
     },
     {
@@ -5981,7 +5981,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 2,
-     "ms": 78,
+     "ms": 80,
      "ok": true
     }
    ],
@@ -5993,10 +5993,10 @@
      "frames": 7,
      "emitted": 14,
      "lateDraws": 1,
-     "meanErrMs": 5.1,
-     "maxAbsErrMs": 10,
+     "meanErrMs": 8.2,
+     "maxAbsErrMs": 13,
      "expectedTotalMs": 2140,
-     "measuredTotalMs": 2144,
+     "measuredTotalMs": 2147,
      "ok": true
     },
     {
@@ -6006,10 +6006,10 @@
      "frames": 7,
      "emitted": 14,
      "lateDraws": 0,
-     "meanErrMs": 9.6,
+     "meanErrMs": 9.8,
      "maxAbsErrMs": 14,
      "expectedTotalMs": 2140,
-     "measuredTotalMs": 2151,
+     "measuredTotalMs": 2148,
      "ok": true
     },
     {
@@ -6019,36 +6019,36 @@
      "frames": 6,
      "emitted": 12,
      "lateDraws": 1,
-     "meanErrMs": 9.4,
-     "maxAbsErrMs": 17,
+     "meanErrMs": 6.8,
+     "maxAbsErrMs": 12,
+     "expectedTotalMs": 940,
+     "measuredTotalMs": 944,
+     "ok": true
+    },
+    {
+     "file": "synthetic/webp-delays.webp",
+     "path": "fallback",
+     "usedPath": "webp-anmf",
+     "frames": 6,
+     "emitted": 12,
+     "lateDraws": 2,
+     "meanErrMs": 9.6,
+     "maxAbsErrMs": 15,
      "expectedTotalMs": 940,
      "measuredTotalMs": 951,
      "ok": true
     },
     {
-     "file": "synthetic/webp-delays.webp",
-     "path": "fallback",
-     "usedPath": "webp-anmf",
-     "frames": 6,
-     "emitted": 12,
-     "lateDraws": 2,
-     "meanErrMs": 7.8,
-     "maxAbsErrMs": 13,
-     "expectedTotalMs": 940,
-     "measuredTotalMs": 948,
-     "ok": true
-    },
-    {
      "file": "synthetic/gif-mixed.gif",
      "path": "imagedecoder",
      "usedPath": "imagedecoder",
      "frames": 8,
      "emitted": 16,
      "lateDraws": 1,
-     "meanErrMs": 7.4,
+     "meanErrMs": 8,
      "maxAbsErrMs": 14,
      "expectedTotalMs": 1560,
-     "measuredTotalMs": 1570,
+     "measuredTotalMs": 1574,
      "ok": true
     },
     {
@@ -6058,7 +6058,7 @@
      "frames": 8,
      "emitted": 16,
      "lateDraws": 0,
-     "meanErrMs": 6.7,
+     "meanErrMs": 7,
      "maxAbsErrMs": 14,
      "expectedTotalMs": 1560,
      "measuredTotalMs": 1570,
@@ -6071,10 +6071,10 @@
      "frames": 5,
      "emitted": 10,
      "lateDraws": 1,
-     "meanErrMs": 5.6,
-     "maxAbsErrMs": 13,
+     "meanErrMs": 6.8,
+     "maxAbsErrMs": 14,
      "expectedTotalMs": 800,
-     "measuredTotalMs": 814,
+     "measuredTotalMs": 804,
      "ok": true
     },
     {
@@ -6084,62 +6084,62 @@
      "frames": 5,
      "emitted": 10,
      "lateDraws": 2,
-     "meanErrMs": 6.6,
-     "maxAbsErrMs": 14,
-     "expectedTotalMs": 800,
-     "measuredTotalMs": 815,
-     "ok": true
-    },
-    {
-     "file": "rotating-earth.gif",
-     "path": "imagedecoder",
-     "usedPath": "imagedecoder",
-     "frames": 44,
-     "emitted": 44,
-     "lateDraws": 1,
-     "meanErrMs": 7.5,
-     "maxAbsErrMs": 16,
-     "expectedTotalMs": 3960,
-     "measuredTotalMs": 3967,
-     "ok": true
-    },
-    {
-     "file": "rotating-earth.gif",
-     "path": "fallback",
-     "usedPath": "gif-fallback",
-     "frames": 44,
-     "emitted": 44,
-     "lateDraws": 0,
-     "meanErrMs": 7.3,
-     "maxAbsErrMs": 16,
-     "expectedTotalMs": 3960,
-     "measuredTotalMs": 3975,
-     "ok": true
-    },
-    {
-     "file": "animated.webp",
-     "path": "imagedecoder",
-     "usedPath": "imagedecoder",
-     "frames": 100,
-     "emitted": 100,
-     "lateDraws": 1,
-     "meanErrMs": 5.6,
-     "maxAbsErrMs": 7,
-     "expectedTotalMs": 10000,
-     "measuredTotalMs": 10005,
-     "ok": true
-    },
-    {
-     "file": "animated.webp",
-     "path": "fallback",
-     "usedPath": "webp-anmf",
-     "frames": 100,
-     "emitted": 100,
-     "lateDraws": 1,
-     "meanErrMs": 6.5,
+     "meanErrMs": 6.4,
      "maxAbsErrMs": 15,
+     "expectedTotalMs": 800,
+     "measuredTotalMs": 811,
+     "ok": true
+    },
+    {
+     "file": "rotating-earth.gif",
+     "path": "imagedecoder",
+     "usedPath": "imagedecoder",
+     "frames": 44,
+     "emitted": 44,
+     "lateDraws": 1,
+     "meanErrMs": 7.3,
+     "maxAbsErrMs": 15,
+     "expectedTotalMs": 3960,
+     "measuredTotalMs": 3971,
+     "ok": true
+    },
+    {
+     "file": "rotating-earth.gif",
+     "path": "fallback",
+     "usedPath": "gif-fallback",
+     "frames": 44,
+     "emitted": 44,
+     "lateDraws": 0,
+     "meanErrMs": 7.6,
+     "maxAbsErrMs": 18,
+     "expectedTotalMs": 3960,
+     "measuredTotalMs": 3970,
+     "ok": true
+    },
+    {
+     "file": "animated.webp",
+     "path": "imagedecoder",
+     "usedPath": "imagedecoder",
+     "frames": 100,
+     "emitted": 100,
+     "lateDraws": 1,
+     "meanErrMs": 1.9,
+     "maxAbsErrMs": 3,
      "expectedTotalMs": 10000,
-     "measuredTotalMs": 10007,
+     "measuredTotalMs": 10003,
+     "ok": true
+    },
+    {
+     "file": "animated.webp",
+     "path": "fallback",
+     "usedPath": "webp-anmf",
+     "frames": 100,
+     "emitted": 100,
+     "lateDraws": 1,
+     "meanErrMs": 4.9,
+     "maxAbsErrMs": 6,
+     "expectedTotalMs": 10000,
+     "measuredTotalMs": 10006,
      "ok": true
     }
    ],
@@ -6162,7 +6162,7 @@
      "resolvedLoops": 2,
      "expectedPlays": 2,
      "observedPlays": 2,
-     "endedAfterMs": 313,
+     "endedAfterMs": 309,
      "expectedMs": 300,
      "ok": true
     },
@@ -6173,7 +6173,7 @@
      "resolvedLoops": 4,
      "expectedPlays": 4,
      "observedPlays": 4,
-     "endedAfterMs": 607,
+     "endedAfterMs": 602,
      "expectedMs": 600,
      "ok": true
     },
@@ -6184,7 +6184,7 @@
      "resolvedLoops": 1,
      "expectedPlays": 1,
      "observedPlays": 1,
-     "endedAfterMs": 155,
+     "endedAfterMs": 156,
      "expectedMs": 150,
      "ok": true
     },
@@ -6206,7 +6206,7 @@
      "resolvedLoops": 1,
      "expectedPlays": 1,
      "observedPlays": 1,
-     "endedAfterMs": 165,
+     "endedAfterMs": 153,
      "expectedMs": 150,
      "ok": true
     },
@@ -6217,7 +6217,7 @@
      "resolvedLoops": 3,
      "expectedPlays": 3,
      "observedPlays": 3,
-     "endedAfterMs": 453,
+     "endedAfterMs": 452,
      "expectedMs": 450,
      "ok": true
     },
@@ -6228,7 +6228,7 @@
      "resolvedLoops": 2,
      "expectedPlays": 2,
      "observedPlays": 2,
-     "endedAfterMs": 306,
+     "endedAfterMs": 312,
      "expectedMs": 300,
      "ok": true
     },
@@ -6239,7 +6239,7 @@
      "resolvedLoops": 3,
      "expectedPlays": 3,
      "observedPlays": 3,
-     "endedAfterMs": 451,
+     "endedAfterMs": 460,
      "expectedMs": 450,
      "ok": true
     },
@@ -6261,7 +6261,7 @@
      "frameDurationMs": 300,
      "fileLoopCount": 1,
      "observedPlays": 1,
-     "endedAfterMs": 306,
+     "endedAfterMs": 316,
      "expectedMs": 300,
      "option": null,
      "resolvedLoops": 1,
@@ -6276,7 +6276,7 @@
      "frameDurationMs": 300,
      "fileLoopCount": 1,
      "observedPlays": 1,
-     "endedAfterMs": 301,
+     "endedAfterMs": 317,
      "expectedMs": 300,
      "option": null,
      "resolvedLoops": 1,
@@ -6291,7 +6291,7 @@
      "frameDurationMs": 300,
      "fileLoopCount": 1,
      "observedPlays": 1,
-     "endedAfterMs": 307,
+     "endedAfterMs": 301,
      "expectedMs": 300,
      "option": null,
      "resolvedLoops": 1,
@@ -6306,7 +6306,7 @@
      "frameDurationMs": 300,
      "fileLoopCount": 1,
      "observedPlays": 1,
-     "endedAfterMs": 309,
+     "endedAfterMs": 301,
      "expectedMs": 300,
      "option": null,
      "resolvedLoops": 1,
@@ -6323,12 +6323,12 @@
      "cycles": 50,
      "framesDrawn": 251,
      "created": {
-      "videoFrames": 653,
+      "videoFrames": 648,
       "bitmaps": 0,
       "decoders": 50
      },
      "closed": {
-      "videoFrames": 653,
+      "videoFrames": 648,
       "bitmaps": 0,
       "decoders": 50
      },
@@ -6347,7 +6347,7 @@
      "path": "fallback",
      "usedPath": "gif-fallback",
      "cycles": 50,
-     "framesDrawn": 298,
+     "framesDrawn": 302,
      "created": {
       "videoFrames": 0,
       "bitmaps": 0,
@@ -6373,14 +6373,14 @@
      "path": "imagedecoder",
      "usedPath": "imagedecoder",
      "cycles": 50,
-     "framesDrawn": 237,
+     "framesDrawn": 246,
      "created": {
-      "videoFrames": 602,
+      "videoFrames": 611,
       "bitmaps": 0,
       "decoders": 50
      },
      "closed": {
-      "videoFrames": 602,
+      "videoFrames": 611,
       "bitmaps": 0,
       "decoders": 50
      },
@@ -6389,7 +6389,7 @@
       "bitmaps": 0,
       "decoders": 0
      },
-     "peakOpenPerRenderer": 6,
+     "peakOpenPerRenderer": 7,
      "rafOutstanding": 0,
      "resizeObserversLive": 0,
      "ok": true
@@ -6399,15 +6399,15 @@
      "path": "fallback",
      "usedPath": "webp-anmf",
      "cycles": 50,
-     "framesDrawn": 250,
+     "framesDrawn": 249,
      "created": {
       "videoFrames": 0,
-      "bitmaps": 502,
+      "bitmaps": 522,
       "decoders": 0
      },
      "closed": {
       "videoFrames": 0,
-      "bitmaps": 502,
+      "bitmaps": 522,
       "decoders": 0
      },
      "stillOpen": {
@@ -6425,14 +6425,14 @@
      "path": "imagedecoder",
      "usedPath": "imagedecoder",
      "cycles": 50,
-     "framesDrawn": 249,
+     "framesDrawn": 250,
      "created": {
-      "videoFrames": 750,
+      "videoFrames": 751,
       "bitmaps": 0,
       "decoders": 50
      },
      "closed": {
-      "videoFrames": 750,
+      "videoFrames": 751,
       "bitmaps": 0,
       "decoders": 50
      },
@@ -6441,7 +6441,7 @@
       "bitmaps": 0,
       "decoders": 0
      },
-     "peakOpenPerRenderer": 6,
+     "peakOpenPerRenderer": 7,
      "rafOutstanding": 0,
      "resizeObserversLive": 0,
      "ok": true
@@ -6477,14 +6477,14 @@
      "path": "imagedecoder",
      "usedPath": "imagedecoder",
      "cycles": 50,
-     "framesDrawn": 248,
+     "framesDrawn": 250,
      "created": {
-      "videoFrames": 549,
+      "videoFrames": 547,
       "bitmaps": 0,
       "decoders": 50
      },
      "closed": {
-      "videoFrames": 549,
+      "videoFrames": 547,
       "bitmaps": 0,
       "decoders": 50
      },
@@ -6503,15 +6503,15 @@
      "path": "fallback",
      "usedPath": "webp-anmf",
      "cycles": 50,
-     "framesDrawn": 249,
+     "framesDrawn": 250,
      "created": {
       "videoFrames": 0,
-      "bitmaps": 604,
+      "bitmaps": 616,
       "decoders": 0
      },
      "closed": {
       "videoFrames": 0,
-      "bitmaps": 604,
+      "bitmaps": 616,
       "decoders": 0
      },
      "stillOpen": {

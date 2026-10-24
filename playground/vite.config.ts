@@ -3,6 +3,8 @@ import { extname, join, resolve, sep } from 'node:path';
 import { defineConfig } from 'vite';
 
 const samples = resolve(__dirname, '../samples');
+const libpagDir = resolve(__dirname, '../node_modules/libpag/lib');
+const LIBPAG_TYPES: Record<string, string> = { '.js': 'text/javascript', '.wasm': 'application/wasm', '.map': 'application/json' };
 const TYPES: Record<string, string> = {
   '.gif': 'image/gif', '.webp': 'image/webp', '.png': 'image/png', '.json': 'application/json', '.bin': 'application/octet-stream',
 };
@@ -20,6 +22,16 @@ export default defineConfig({
             const file = resolve(samples, '.' + url.slice('/samples'.length));
             if (!inside(file) || !existsSync(file) || !statSync(file).isFile()) return next();
             res.setHeader('Content-Type', TYPES[extname(file).toLowerCase()] ?? 'application/octet-stream');
+            res.setHeader('Cache-Control', 'no-store');
+            createReadStream(file).pipe(res);
+            return;
+          }
+          // A stand-in for a CDN / self-hosted copy of the pinned libpag build (the `pagModuleUrl` / `pagWasmUrl` overrides).
+          if (url.startsWith('/__libpag/')) {
+            const file = resolve(libpagDir, '.' + url.slice('/__libpag'.length));
+            if (!file.startsWith(libpagDir + sep) || !existsSync(file) || !statSync(file).isFile()) return next();
+            res.setHeader('Content-Type', LIBPAG_TYPES[extname(file)] ?? 'application/octet-stream');
+            res.setHeader('Access-Control-Allow-Origin', '*');
             res.setHeader('Cache-Control', 'no-store');
             createReadStream(file).pipe(res);
             return;
