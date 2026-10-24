@@ -9,7 +9,13 @@ export const BROWSERS = { chromium, firefox, webkit };
 export async function runInBrowser(name, url, { timeout = 180000, viewport = { width: 1000, height: 800 }, setup } = {}) {
   // 'chromium' uses the full Chromium in its new headless mode (channel 'chromium'): the default headless
   // *shell* does not run image animations or paint like a real browser.
-  const browser = await BROWSERS[name].launch(name === 'chromium' ? { channel: 'chromium', headless: true, args: ['--js-flags=--expose-gc'] } : { headless: true });
+  // Firefox on a machine without a GPU (CI runners) blocklists software WebGL; PAG needs WebGL, so ask for it explicitly.
+  const launch = name === 'chromium'
+    ? { channel: 'chromium', headless: true, args: ['--js-flags=--expose-gc'] }
+    : name === 'firefox'
+      ? { headless: true, firefoxUserPrefs: { 'webgl.disabled': false, 'webgl.force-enabled': true, 'webgl.enable-webgl2': true, 'webgl.software-rendering': true } }
+      : { headless: true };
+  const browser = await BROWSERS[name].launch(launch);
   try {
     const context = await browser.newContext({ viewport, deviceScaleFactor: 1 });
     const page = await context.newPage();
