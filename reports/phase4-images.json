@@ -1,5 +1,5 @@
 {
- "date": "2026-10-24T00:28:32.172Z",
+ "date": "2026-10-24T05:32:24.286Z",
  "cycles": 50,
  "browsers": {
   "chromium": {
@@ -36,7 +36,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 5,
-     "ms": 28,
+     "ms": 31,
      "ok": true
     },
     {
@@ -180,64 +180,64 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 10,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-disposal-3.gif",
-     "path": "auto",
-     "usedPath": "imagedecoder",
-     "size": "40x30",
-     "frames": 5,
-     "checked": 12,
-     "tolerance": 0,
-     "reason": "ImageDecoder",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 4,
-     "ms": 5,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-disposal-3.gif",
-     "path": "imagedecoder",
-     "usedPath": "imagedecoder",
-     "size": "40x30",
-     "frames": 5,
-     "checked": 12,
-     "tolerance": 0,
-     "reason": "ImageDecoder",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 4,
-     "ms": 5,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-disposal-3.gif",
-     "path": "fallback",
-     "usedPath": "gif-fallback",
-     "size": "40x30",
-     "frames": 5,
-     "checked": 12,
-     "tolerance": 0,
-     "reason": "forced fallback",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 0,
      "ms": 12,
      "ok": true
     },
     {
+     "file": "synthetic/gif-disposal-3.gif",
+     "path": "auto",
+     "usedPath": "imagedecoder",
+     "size": "40x30",
+     "frames": 5,
+     "checked": 12,
+     "tolerance": 0,
+     "reason": "ImageDecoder",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 4,
+     "ms": 6,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-disposal-3.gif",
+     "path": "imagedecoder",
+     "usedPath": "imagedecoder",
+     "size": "40x30",
+     "frames": 5,
+     "checked": 12,
+     "tolerance": 0,
+     "reason": "ImageDecoder",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 4,
+     "ms": 5,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-disposal-3.gif",
+     "path": "fallback",
+     "usedPath": "gif-fallback",
+     "size": "40x30",
+     "frames": 5,
+     "checked": 12,
+     "tolerance": 0,
+     "reason": "forced fallback",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 0,
+     "ms": 14,
+     "ok": true
+    },
+    {
      "file": "synthetic/gif-first-disposal3.gif",
      "path": "auto",
      "usedPath": "imagedecoder",
@@ -342,173 +342,11 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 5,
+     "ms": 6,
      "ok": true
     },
     {
      "file": "synthetic/gif-loop-0.gif",
-     "path": "auto",
-     "usedPath": "imagedecoder",
-     "size": "40x30",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 0,
-     "reason": "ImageDecoder",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 3,
-     "ms": 3,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-loop-0.gif",
-     "path": "imagedecoder",
-     "usedPath": "imagedecoder",
-     "size": "40x30",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 0,
-     "reason": "ImageDecoder",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 3,
-     "ms": 3,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-loop-0.gif",
-     "path": "fallback",
-     "usedPath": "gif-fallback",
-     "size": "40x30",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 0,
-     "reason": "forced fallback",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 0,
-     "ms": 7,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-loop-1.gif",
-     "path": "auto",
-     "usedPath": "imagedecoder",
-     "size": "40x30",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 0,
-     "reason": "ImageDecoder",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 3,
-     "ms": 3,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-loop-1.gif",
-     "path": "imagedecoder",
-     "usedPath": "imagedecoder",
-     "size": "40x30",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 0,
-     "reason": "ImageDecoder",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 3,
-     "ms": 3,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-loop-1.gif",
-     "path": "fallback",
-     "usedPath": "gif-fallback",
-     "size": "40x30",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 0,
-     "reason": "forced fallback",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 0,
-     "ms": 7,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-loop-3.gif",
-     "path": "auto",
-     "usedPath": "imagedecoder",
-     "size": "40x30",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 0,
-     "reason": "ImageDecoder",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 3,
-     "ms": 3,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-loop-3.gif",
-     "path": "imagedecoder",
-     "usedPath": "imagedecoder",
-     "size": "40x30",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 0,
-     "reason": "ImageDecoder",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 3,
-     "ms": 3,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-loop-3.gif",
-     "path": "fallback",
-     "usedPath": "gif-fallback",
-     "size": "40x30",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 0,
-     "reason": "forced fallback",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 0,
-     "ms": 7,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-loop-none.gif",
      "path": "auto",
      "usedPath": "imagedecoder",
      "size": "40x30",
@@ -526,7 +364,61 @@
      "ok": true
     },
     {
-     "file": "synthetic/gif-loop-none.gif",
+     "file": "synthetic/gif-loop-0.gif",
+     "path": "imagedecoder",
+     "usedPath": "imagedecoder",
+     "size": "40x30",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 0,
+     "reason": "ImageDecoder",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 3,
+     "ms": 4,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-loop-0.gif",
+     "path": "fallback",
+     "usedPath": "gif-fallback",
+     "size": "40x30",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 0,
+     "reason": "forced fallback",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 0,
+     "ms": 7,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-loop-1.gif",
+     "path": "auto",
+     "usedPath": "imagedecoder",
+     "size": "40x30",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 0,
+     "reason": "ImageDecoder",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 3,
+     "ms": 3,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-loop-1.gif",
      "path": "imagedecoder",
      "usedPath": "imagedecoder",
      "size": "40x30",
@@ -544,7 +436,7 @@
      "ok": true
     },
     {
-     "file": "synthetic/gif-loop-none.gif",
+     "file": "synthetic/gif-loop-1.gif",
      "path": "fallback",
      "usedPath": "gif-fallback",
      "size": "40x30",
@@ -559,6 +451,114 @@
      "first": [],
      "peakOpen": 0,
      "ms": 7,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-loop-3.gif",
+     "path": "auto",
+     "usedPath": "imagedecoder",
+     "size": "40x30",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 0,
+     "reason": "ImageDecoder",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 3,
+     "ms": 4,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-loop-3.gif",
+     "path": "imagedecoder",
+     "usedPath": "imagedecoder",
+     "size": "40x30",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 0,
+     "reason": "ImageDecoder",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 3,
+     "ms": 3,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-loop-3.gif",
+     "path": "fallback",
+     "usedPath": "gif-fallback",
+     "size": "40x30",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 0,
+     "reason": "forced fallback",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 0,
+     "ms": 7,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-loop-none.gif",
+     "path": "auto",
+     "usedPath": "imagedecoder",
+     "size": "40x30",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 0,
+     "reason": "ImageDecoder",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 3,
+     "ms": 3,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-loop-none.gif",
+     "path": "imagedecoder",
+     "usedPath": "imagedecoder",
+     "size": "40x30",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 0,
+     "reason": "ImageDecoder",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 3,
+     "ms": 4,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-loop-none.gif",
+     "path": "fallback",
+     "usedPath": "gif-fallback",
+     "size": "40x30",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 0,
+     "reason": "forced fallback",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 0,
+     "ms": 8,
      "ok": true
     },
     {
@@ -630,7 +630,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 1,
-     "ms": 1,
+     "ms": 2,
      "ok": true
     },
     {
@@ -738,7 +738,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 2,
-     "ms": 0,
+     "ms": 1,
      "ok": true
     },
     {
@@ -774,7 +774,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 2,
+     "ms": 3,
      "ok": true
     },
     {
@@ -810,7 +810,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 2,
-     "ms": 1,
+     "ms": 0,
      "ok": true
     },
     {
@@ -882,7 +882,7 @@
      "maxDelta": 2,
      "first": [],
      "peakOpen": 2,
-     "ms": 7,
+     "ms": 8,
      "ok": true
     },
     {
@@ -918,7 +918,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 3,
-     "ms": 2,
+     "ms": 3,
      "ok": true
     },
     {
@@ -936,7 +936,7 @@
      "maxDelta": 1.33,
      "first": [],
      "peakOpen": 2,
-     "ms": 8,
+     "ms": 10,
      "ok": true
     },
     {
@@ -990,7 +990,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 14,
+     "ms": 16,
      "ok": true
     },
     {
@@ -1008,7 +1008,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 3,
+     "ms": 4,
      "ok": true
     },
     {
@@ -1062,7 +1062,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 3,
-     "ms": 2,
+     "ms": 3,
      "ok": true
     },
     {
@@ -1080,7 +1080,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 3,
-     "ms": 2,
+     "ms": 3,
      "ok": true
     },
     {
@@ -1098,7 +1098,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 2,
-     "ms": 7,
+     "ms": 8,
      "ok": true
     },
     {
@@ -1116,7 +1116,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 3,
-     "ms": 2,
+     "ms": 3,
      "ok": true
     },
     {
@@ -1206,7 +1206,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 2,
-     "ms": 7,
+     "ms": 8,
      "ok": true
     },
     {
@@ -1224,7 +1224,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 4,
+     "ms": 5,
      "ok": true
     },
     {
@@ -1260,7 +1260,7 @@
      "maxDelta": 1,
      "first": [],
      "peakOpen": 3,
-     "ms": 13,
+     "ms": 12,
      "ok": true
     },
     {
@@ -1296,7 +1296,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 4,
+     "ms": 3,
      "ok": true
     },
     {
@@ -1314,7 +1314,7 @@
      "maxDelta": 1,
      "first": [],
      "peakOpen": 3,
-     "ms": 10,
+     "ms": 11,
      "ok": true
     },
     {
@@ -1386,7 +1386,7 @@
      "maxDelta": 1,
      "first": [],
      "peakOpen": 1,
-     "ms": 1,
+     "ms": 2,
      "ok": true
     },
     {
@@ -1440,7 +1440,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 1,
-     "ms": 2,
+     "ms": 1,
      "ok": true
     },
     {
@@ -1550,7 +1550,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 159,
+     "ms": 171,
      "ok": true
     },
     {
@@ -1568,7 +1568,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 140,
+     "ms": 166,
      "ok": true
     },
     {
@@ -1586,7 +1586,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 330,
+     "ms": 323,
      "ok": true
     },
     {
@@ -1604,7 +1604,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 169,
+     "ms": 158,
      "ok": true
     },
     {
@@ -1640,7 +1640,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 357,
+     "ms": 353,
      "ok": true
     },
     {
@@ -1658,7 +1658,7 @@
      "maxDelta": 2,
      "first": [],
      "peakOpen": 1,
-     "ms": 21,
+     "ms": 16,
      "ok": true
     },
     {
@@ -1698,7 +1698,7 @@
       }
      ],
      "peakOpen": 1,
-     "ms": 23,
+     "ms": 15,
      "ok": false
     },
     {
@@ -1716,7 +1716,7 @@
      "maxDelta": 2,
      "first": [],
      "peakOpen": 1,
-     "ms": 13,
+     "ms": 12,
      "ok": true
     },
     {
@@ -1734,7 +1734,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 71,
+     "ms": 61,
      "ok": true
     },
     {
@@ -1752,7 +1752,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 65,
+     "ms": 60,
      "ok": true
     },
     {
@@ -1770,7 +1770,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 90,
+     "ms": 83,
      "ok": true
     },
     {
@@ -1788,7 +1788,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 136,
+     "ms": 137,
      "ok": true
     },
     {
@@ -1806,7 +1806,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 139,
+     "ms": 133,
      "ok": true
     },
     {
@@ -1816,60 +1816,6 @@
      "size": "360x278",
      "frames": 40,
      "checked": 62,
-     "tolerance": 3,
-     "reason": "forced fallback",
-     "oracle": "local",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 1.99,
-     "first": [],
-     "peakOpen": 4,
-     "ms": 264,
-     "ok": true
-    },
-    {
-     "file": "corpus/10017_android_1519292856_middle.webp",
-     "path": "auto",
-     "usedPath": "imagedecoder",
-     "size": "360x278",
-     "frames": 30,
-     "checked": 48,
-     "tolerance": 3,
-     "reason": "ImageDecoder",
-     "oracle": "local",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 4,
-     "ms": 124,
-     "ok": true
-    },
-    {
-     "file": "corpus/10017_android_1519292856_middle.webp",
-     "path": "imagedecoder",
-     "usedPath": "imagedecoder",
-     "size": "360x278",
-     "frames": 30,
-     "checked": 48,
-     "tolerance": 3,
-     "reason": "ImageDecoder",
-     "oracle": "local",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 4,
-     "ms": 141,
-     "ok": true
-    },
-    {
-     "file": "corpus/10017_android_1519292856_middle.webp",
-     "path": "fallback",
-     "usedPath": "webp-anmf",
-     "size": "360x278",
-     "frames": 30,
-     "checked": 48,
      "tolerance": 3,
      "reason": "forced fallback",
      "oracle": "local",
@@ -1878,11 +1824,119 @@
      "maxDelta": 1.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 222,
+     "ms": 259,
+     "ok": true
+    },
+    {
+     "file": "corpus/10017_android_1519292856_middle.webp",
+     "path": "auto",
+     "usedPath": "imagedecoder",
+     "size": "360x278",
+     "frames": 30,
+     "checked": 48,
+     "tolerance": 3,
+     "reason": "ImageDecoder",
+     "oracle": "local",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 4,
+     "ms": 121,
+     "ok": true
+    },
+    {
+     "file": "corpus/10017_android_1519292856_middle.webp",
+     "path": "imagedecoder",
+     "usedPath": "imagedecoder",
+     "size": "360x278",
+     "frames": 30,
+     "checked": 48,
+     "tolerance": 3,
+     "reason": "ImageDecoder",
+     "oracle": "local",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 4,
+     "ms": 119,
+     "ok": true
+    },
+    {
+     "file": "corpus/10017_android_1519292856_middle.webp",
+     "path": "fallback",
+     "usedPath": "webp-anmf",
+     "size": "360x278",
+     "frames": 30,
+     "checked": 48,
+     "tolerance": 3,
+     "reason": "forced fallback",
+     "oracle": "local",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 1.99,
+     "first": [],
+     "peakOpen": 4,
+     "ms": 224,
      "ok": true
     },
     {
      "file": "corpus/10019_android_1519291993_middle.webp",
+     "path": "auto",
+     "usedPath": "imagedecoder",
+     "size": "360x278",
+     "frames": 40,
+     "checked": 62,
+     "tolerance": 3,
+     "reason": "ImageDecoder",
+     "oracle": "local",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 4,
+     "ms": 114,
+     "ok": true
+    },
+    {
+     "file": "corpus/10019_android_1519291993_middle.webp",
+     "path": "imagedecoder",
+     "usedPath": "imagedecoder",
+     "size": "360x278",
+     "frames": 40,
+     "checked": 62,
+     "tolerance": 3,
+     "reason": "ImageDecoder",
+     "oracle": "local",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 4,
+     "ms": 113,
+     "ok": true
+    },
+    {
+     "file": "corpus/10019_android_1519291993_middle.webp",
+     "path": "fallback",
+     "usedPath": "webp-anmf",
+     "size": "360x278",
+     "frames": 40,
+     "checked": 62,
+     "tolerance": 3,
+     "reason": "forced fallback",
+     "oracle": "local",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 1.99,
+     "first": [],
+     "peakOpen": 4,
+     "ms": 221,
+     "ok": true
+    },
+    {
+     "file": "corpus/10020_android_1517469251_middle.webp",
      "path": "auto",
      "usedPath": "imagedecoder",
      "size": "360x278",
@@ -1900,60 +1954,6 @@
      "ok": true
     },
     {
-     "file": "corpus/10019_android_1519291993_middle.webp",
-     "path": "imagedecoder",
-     "usedPath": "imagedecoder",
-     "size": "360x278",
-     "frames": 40,
-     "checked": 62,
-     "tolerance": 3,
-     "reason": "ImageDecoder",
-     "oracle": "local",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 4,
-     "ms": 122,
-     "ok": true
-    },
-    {
-     "file": "corpus/10019_android_1519291993_middle.webp",
-     "path": "fallback",
-     "usedPath": "webp-anmf",
-     "size": "360x278",
-     "frames": 40,
-     "checked": 62,
-     "tolerance": 3,
-     "reason": "forced fallback",
-     "oracle": "local",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 1.99,
-     "first": [],
-     "peakOpen": 4,
-     "ms": 226,
-     "ok": true
-    },
-    {
-     "file": "corpus/10020_android_1517469251_middle.webp",
-     "path": "auto",
-     "usedPath": "imagedecoder",
-     "size": "360x278",
-     "frames": 40,
-     "checked": 62,
-     "tolerance": 3,
-     "reason": "ImageDecoder",
-     "oracle": "local",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 4,
-     "ms": 120,
-     "ok": true
-    },
-    {
      "file": "corpus/10020_android_1517469251_middle.webp",
      "path": "imagedecoder",
      "usedPath": "imagedecoder",
@@ -1968,7 +1968,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 123,
+     "ms": 121,
      "ok": true
     },
     {
@@ -1986,7 +1986,7 @@
      "maxDelta": 1.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 232,
+     "ms": 237,
      "ok": true
     },
     {
@@ -2040,7 +2040,7 @@
      "maxDelta": 1.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 228,
+     "ms": 226,
      "ok": true
     },
     {
@@ -2058,7 +2058,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 105,
+     "ms": 103,
      "ok": true
     },
     {
@@ -2076,7 +2076,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 106,
+     "ms": 101,
      "ok": true
     },
     {
@@ -2094,7 +2094,7 @@
      "maxDelta": 1.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 193,
+     "ms": 200,
      "ok": true
     },
     {
@@ -2112,7 +2112,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 112,
+     "ms": 117,
      "ok": true
     },
     {
@@ -2130,7 +2130,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 116,
+     "ms": 114,
      "ok": true
     },
     {
@@ -2148,7 +2148,7 @@
      "maxDelta": 1.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 211,
+     "ms": 218,
      "ok": true
     },
     {
@@ -2166,7 +2166,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 159,
+     "ms": 153,
      "ok": true
     },
     {
@@ -2184,7 +2184,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 168,
+     "ms": 158,
      "ok": true
     },
     {
@@ -2202,30 +2202,12 @@
      "maxDelta": 1.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 289,
+     "ms": 304,
      "ok": true
     },
     {
      "file": "corpus/1648542956622cry-tear.gif",
      "path": "auto",
-     "usedPath": "imagedecoder",
-     "size": "498x498",
-     "frames": 26,
-     "checked": 43,
-     "tolerance": 0,
-     "reason": "ImageDecoder",
-     "oracle": "local",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 4,
-     "ms": 131,
-     "ok": true
-    },
-    {
-     "file": "corpus/1648542956622cry-tear.gif",
-     "path": "imagedecoder",
      "usedPath": "imagedecoder",
      "size": "498x498",
      "frames": 26,
@@ -2243,6 +2225,24 @@
     },
     {
      "file": "corpus/1648542956622cry-tear.gif",
+     "path": "imagedecoder",
+     "usedPath": "imagedecoder",
+     "size": "498x498",
+     "frames": 26,
+     "checked": 43,
+     "tolerance": 0,
+     "reason": "ImageDecoder",
+     "oracle": "local",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 4,
+     "ms": 120,
+     "ok": true
+    },
+    {
+     "file": "corpus/1648542956622cry-tear.gif",
      "path": "fallback",
      "usedPath": "gif-fallback",
      "size": "498x498",
@@ -2256,7 +2256,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 350,
+     "ms": 353,
      "ok": true
     },
     {
@@ -2274,7 +2274,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 137,
+     "ms": 136,
      "ok": true
     },
     {
@@ -2310,7 +2310,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 383,
+     "ms": 390,
      "ok": true
     },
     {
@@ -2328,7 +2328,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 136,
+     "ms": 140,
      "ok": true
     },
     {
@@ -2346,7 +2346,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 136,
+     "ms": 137,
      "ok": true
     },
     {
@@ -2364,7 +2364,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 400,
+     "ms": 397,
      "ok": true
     },
     {
@@ -2400,7 +2400,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 66,
+     "ms": 67,
      "ok": true
     },
     {
@@ -2418,7 +2418,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 162,
+     "ms": 164,
      "ok": true
     },
     {
@@ -2436,7 +2436,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 3,
-     "ms": 30,
+     "ms": 29,
      "ok": true
     },
     {
@@ -2472,7 +2472,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 3,
-     "ms": 38,
+     "ms": 39,
      "ok": true
     }
    ],
@@ -2484,10 +2484,10 @@
      "frames": 7,
      "emitted": 14,
      "lateDraws": 1,
-     "meanErrMs": 9.7,
-     "maxAbsErrMs": 14.4,
+     "meanErrMs": 11.9,
+     "maxAbsErrMs": 17.4,
      "expectedTotalMs": 2140,
-     "measuredTotalMs": 2148,
+     "measuredTotalMs": 2150,
      "ok": true
     },
     {
@@ -2497,10 +2497,10 @@
      "frames": 7,
      "emitted": 14,
      "lateDraws": 0,
-     "meanErrMs": 5.4,
-     "maxAbsErrMs": 14.7,
+     "meanErrMs": 8.9,
+     "maxAbsErrMs": 19,
      "expectedTotalMs": 2140,
-     "measuredTotalMs": 2154,
+     "measuredTotalMs": 2159,
      "ok": true
     },
     {
@@ -2510,10 +2510,10 @@
      "frames": 6,
      "emitted": 12,
      "lateDraws": 1,
-     "meanErrMs": 9.1,
-     "maxAbsErrMs": 13.2,
+     "meanErrMs": 13.1,
+     "maxAbsErrMs": 17.6,
      "expectedTotalMs": 940,
-     "measuredTotalMs": 946,
+     "measuredTotalMs": 951,
      "ok": true
     },
     {
@@ -2523,10 +2523,10 @@
      "frames": 6,
      "emitted": 12,
      "lateDraws": 2,
-     "meanErrMs": 6.8,
-     "maxAbsErrMs": 17.7,
+     "meanErrMs": 7,
+     "maxAbsErrMs": 11.2,
      "expectedTotalMs": 940,
-     "measuredTotalMs": 957,
+     "measuredTotalMs": 943,
      "ok": true
     },
     {
@@ -2536,10 +2536,10 @@
      "frames": 8,
      "emitted": 16,
      "lateDraws": 1,
-     "meanErrMs": 6.9,
-     "maxAbsErrMs": 15.9,
+     "meanErrMs": 10,
+     "maxAbsErrMs": 17,
      "expectedTotalMs": 1560,
-     "measuredTotalMs": 1569,
+     "measuredTotalMs": 1572,
      "ok": true
     },
     {
@@ -2549,10 +2549,10 @@
      "frames": 8,
      "emitted": 16,
      "lateDraws": 0,
-     "meanErrMs": 10.1,
-     "maxAbsErrMs": 16,
+     "meanErrMs": 10.2,
+     "maxAbsErrMs": 17.5,
      "expectedTotalMs": 1560,
-     "measuredTotalMs": 1576,
+     "measuredTotalMs": 1564,
      "ok": true
     },
     {
@@ -2562,10 +2562,10 @@
      "frames": 5,
      "emitted": 10,
      "lateDraws": 1,
-     "meanErrMs": 8.8,
-     "maxAbsErrMs": 17.4,
+     "meanErrMs": 9.4,
+     "maxAbsErrMs": 17.1,
      "expectedTotalMs": 800,
-     "measuredTotalMs": 817,
+     "measuredTotalMs": 804,
      "ok": true
     },
     {
@@ -2575,10 +2575,10 @@
      "frames": 5,
      "emitted": 10,
      "lateDraws": 2,
-     "meanErrMs": 6.5,
-     "maxAbsErrMs": 14.7,
+     "meanErrMs": 9.4,
+     "maxAbsErrMs": 17,
      "expectedTotalMs": 800,
-     "measuredTotalMs": 815,
+     "measuredTotalMs": 803,
      "ok": true
     },
     {
@@ -2589,9 +2589,9 @@
      "emitted": 44,
      "lateDraws": 1,
      "meanErrMs": 9.7,
-     "maxAbsErrMs": 16.9,
+     "maxAbsErrMs": 18.9,
      "expectedTotalMs": 3960,
-     "measuredTotalMs": 3967,
+     "measuredTotalMs": 3965,
      "ok": true
     },
     {
@@ -2601,10 +2601,10 @@
      "frames": 44,
      "emitted": 44,
      "lateDraws": 0,
-     "meanErrMs": 10,
-     "maxAbsErrMs": 17.1,
+     "meanErrMs": 9.1,
+     "maxAbsErrMs": 16.6,
      "expectedTotalMs": 3960,
-     "measuredTotalMs": 3971,
+     "measuredTotalMs": 3968,
      "ok": true
     },
     {
@@ -2614,10 +2614,10 @@
      "frames": 100,
      "emitted": 100,
      "lateDraws": 1,
-     "meanErrMs": 1.5,
-     "maxAbsErrMs": 2.1,
+     "meanErrMs": 7,
+     "maxAbsErrMs": 8,
      "expectedTotalMs": 10000,
-     "measuredTotalMs": 10001,
+     "measuredTotalMs": 10008,
      "ok": true
     },
     {
@@ -2627,10 +2627,10 @@
      "frames": 100,
      "emitted": 100,
      "lateDraws": 1,
-     "meanErrMs": 15.5,
-     "maxAbsErrMs": 16.2,
+     "meanErrMs": 8.5,
+     "maxAbsErrMs": 9.5,
      "expectedTotalMs": 10000,
-     "measuredTotalMs": 10016,
+     "measuredTotalMs": 10009,
      "ok": true
     }
    ],
@@ -2653,7 +2653,7 @@
      "resolvedLoops": 2,
      "expectedPlays": 2,
      "observedPlays": 2,
-     "endedAfterMs": 309,
+     "endedAfterMs": 308,
      "expectedMs": 300,
      "ok": true
     },
@@ -2664,7 +2664,7 @@
      "resolvedLoops": 4,
      "expectedPlays": 4,
      "observedPlays": 4,
-     "endedAfterMs": 611,
+     "endedAfterMs": 609,
      "expectedMs": 600,
      "ok": true
     },
@@ -2675,7 +2675,7 @@
      "resolvedLoops": 1,
      "expectedPlays": 1,
      "observedPlays": 1,
-     "endedAfterMs": 155,
+     "endedAfterMs": 158,
      "expectedMs": 150,
      "ok": true
     },
@@ -2697,7 +2697,7 @@
      "resolvedLoops": 1,
      "expectedPlays": 1,
      "observedPlays": 1,
-     "endedAfterMs": 165,
+     "endedAfterMs": 159,
      "expectedMs": 150,
      "ok": true
     },
@@ -2708,7 +2708,7 @@
      "resolvedLoops": 3,
      "expectedPlays": 3,
      "observedPlays": 3,
-     "endedAfterMs": 463,
+     "endedAfterMs": 458,
      "expectedMs": 450,
      "ok": true
     },
@@ -2719,7 +2719,7 @@
      "resolvedLoops": 2,
      "expectedPlays": 2,
      "observedPlays": 2,
-     "endedAfterMs": 312,
+     "endedAfterMs": 309,
      "expectedMs": 300,
      "ok": true
     },
@@ -2730,7 +2730,7 @@
      "resolvedLoops": 3,
      "expectedPlays": 3,
      "observedPlays": 3,
-     "endedAfterMs": 464,
+     "endedAfterMs": 459,
      "expectedMs": 450,
      "ok": true
     },
@@ -2752,7 +2752,7 @@
      "frameDurationMs": 300,
      "fileLoopCount": 1,
      "observedPlays": 1,
-     "endedAfterMs": 307,
+     "endedAfterMs": 310,
      "expectedMs": 300,
      "option": null,
      "resolvedLoops": 1,
@@ -2767,7 +2767,7 @@
      "frameDurationMs": 300,
      "fileLoopCount": 1,
      "observedPlays": 1,
-     "endedAfterMs": 314,
+     "endedAfterMs": 303,
      "expectedMs": 300,
      "option": null,
      "resolvedLoops": 1,
@@ -2782,7 +2782,7 @@
      "frameDurationMs": 300,
      "fileLoopCount": 1,
      "observedPlays": 1,
-     "endedAfterMs": 312,
+     "endedAfterMs": 307,
      "expectedMs": 300,
      "option": null,
      "resolvedLoops": 1,
@@ -2797,7 +2797,7 @@
      "frameDurationMs": 300,
      "fileLoopCount": 1,
      "observedPlays": 1,
-     "endedAfterMs": 304,
+     "endedAfterMs": 307,
      "expectedMs": 300,
      "option": null,
      "resolvedLoops": 1,
@@ -2814,12 +2814,12 @@
      "cycles": 50,
      "framesDrawn": 250,
      "created": {
-      "videoFrames": 400,
+      "videoFrames": 401,
       "bitmaps": 0,
       "decoders": 50
      },
      "closed": {
-      "videoFrames": 400,
+      "videoFrames": 401,
       "bitmaps": 0,
       "decoders": 50
      },
@@ -2838,7 +2838,7 @@
      "path": "fallback",
      "usedPath": "gif-fallback",
      "cycles": 50,
-     "framesDrawn": 309,
+     "framesDrawn": 304,
      "created": {
       "videoFrames": 0,
       "bitmaps": 0,
@@ -2866,12 +2866,12 @@
      "cycles": 50,
      "framesDrawn": 250,
      "created": {
-      "videoFrames": 610,
+      "videoFrames": 602,
       "bitmaps": 0,
       "decoders": 50
      },
      "closed": {
-      "videoFrames": 610,
+      "videoFrames": 602,
       "bitmaps": 0,
       "decoders": 50
      },
@@ -2890,15 +2890,15 @@
      "path": "fallback",
      "usedPath": "webp-anmf",
      "cycles": 50,
-     "framesDrawn": 249,
+     "framesDrawn": 250,
      "created": {
       "videoFrames": 0,
-      "bitmaps": 588,
+      "bitmaps": 623,
       "decoders": 0
      },
      "closed": {
       "videoFrames": 0,
-      "bitmaps": 588,
+      "bitmaps": 623,
       "decoders": 0
      },
      "stillOpen": {
@@ -2968,14 +2968,14 @@
      "path": "imagedecoder",
      "usedPath": "imagedecoder",
      "cycles": 50,
-     "framesDrawn": 250,
+     "framesDrawn": 249,
      "created": {
-      "videoFrames": 547,
+      "videoFrames": 550,
       "bitmaps": 0,
       "decoders": 50
      },
      "closed": {
-      "videoFrames": 547,
+      "videoFrames": 550,
       "bitmaps": 0,
       "decoders": 50
      },
@@ -2994,15 +2994,15 @@
      "path": "fallback",
      "usedPath": "webp-anmf",
      "cycles": 50,
-     "framesDrawn": 249,
+     "framesDrawn": 250,
      "created": {
       "videoFrames": 0,
-      "bitmaps": 650,
+      "bitmaps": 652,
       "decoders": 0
      },
      "closed": {
       "videoFrames": 0,
-      "bitmaps": 650,
+      "bitmaps": 652,
       "decoders": 0
      },
      "stillOpen": {
@@ -3010,7 +3010,7 @@
       "bitmaps": 0,
       "decoders": 0
      },
-     "peakOpenPerRenderer": 3,
+     "peakOpenPerRenderer": 4,
      "rafOutstanding": 0,
      "resizeObserversLive": 0,
      "ok": true
@@ -3051,7 +3051,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 48,
+     "ms": 82,
      "ok": true
     },
     {
@@ -3069,7 +3069,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 5,
-     "ms": 26,
+     "ms": 30,
      "ok": true
     },
     {
@@ -3105,7 +3105,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 4,
+     "ms": 3,
      "ok": true
     },
     {
@@ -3159,7 +3159,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 5,
+     "ms": 3,
      "ok": true
     },
     {
@@ -3206,7 +3206,7 @@
       }
      ],
      "peakOpen": 4,
-     "ms": 12,
+     "ms": 9,
      "ok": false
     },
     {
@@ -3242,7 +3242,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 5,
+     "ms": 4,
      "ok": true
     },
     {
@@ -3260,7 +3260,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 18,
+     "ms": 12,
      "ok": true
     },
     {
@@ -3278,7 +3278,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 4,
+     "ms": 5,
      "ok": true
     },
     {
@@ -3296,7 +3296,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 3,
+     "ms": 2,
      "ok": true
     },
     {
@@ -3343,7 +3343,7 @@
       }
      ],
      "peakOpen": 2,
-     "ms": 6,
+     "ms": 5,
      "ok": false
     },
     {
@@ -3361,7 +3361,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 3,
+     "ms": 2,
      "ok": true
     },
     {
@@ -3379,7 +3379,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 2,
+     "ms": 3,
      "ok": true
     },
     {
@@ -3397,7 +3397,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 2,
-     "ms": 7,
+     "ms": 4,
      "ok": true
     },
     {
@@ -3433,173 +3433,11 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 2,
+     "ms": 3,
      "ok": true
     },
     {
      "file": "synthetic/gif-loop-0.gif",
-     "path": "imagedecoder",
-     "usedPath": "imagedecoder",
-     "size": "40x30",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 0,
-     "reason": "ImageDecoder",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 3,
-     "ms": 6,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-loop-0.gif",
-     "path": "fallback",
-     "usedPath": "gif-fallback",
-     "size": "40x30",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 0,
-     "reason": "forced fallback",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 0,
-     "ms": 3,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-loop-1.gif",
-     "path": "auto",
-     "usedPath": "gif-fallback",
-     "size": "40x30",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 0,
-     "reason": "ImageDecoder failed the GIF self-test (known WebKit bug)",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 0,
-     "ms": 3,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-loop-1.gif",
-     "path": "imagedecoder",
-     "usedPath": "imagedecoder",
-     "size": "40x30",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 0,
-     "reason": "ImageDecoder",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 3,
-     "ms": 6,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-loop-1.gif",
-     "path": "fallback",
-     "usedPath": "gif-fallback",
-     "size": "40x30",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 0,
-     "reason": "forced fallback",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 0,
-     "ms": 4,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-loop-3.gif",
-     "path": "auto",
-     "usedPath": "gif-fallback",
-     "size": "40x30",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 0,
-     "reason": "ImageDecoder failed the GIF self-test (known WebKit bug)",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 0,
-     "ms": 2,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-loop-3.gif",
-     "path": "imagedecoder",
-     "usedPath": "imagedecoder",
-     "size": "40x30",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 0,
-     "reason": "ImageDecoder",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 3,
-     "ms": 5,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-loop-3.gif",
-     "path": "fallback",
-     "usedPath": "gif-fallback",
-     "size": "40x30",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 0,
-     "reason": "forced fallback",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 0,
-     "ms": 3,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-loop-none.gif",
-     "path": "auto",
-     "usedPath": "gif-fallback",
-     "size": "40x30",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 0,
-     "reason": "ImageDecoder failed the GIF self-test (known WebKit bug)",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 0,
-     "ms": 2,
-     "ok": true
-    },
-    {
-     "file": "synthetic/gif-loop-none.gif",
      "path": "imagedecoder",
      "usedPath": "imagedecoder",
      "size": "40x30",
@@ -3614,6 +3452,168 @@
      "first": [],
      "peakOpen": 3,
      "ms": 7,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-loop-0.gif",
+     "path": "fallback",
+     "usedPath": "gif-fallback",
+     "size": "40x30",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 0,
+     "reason": "forced fallback",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 0,
+     "ms": 3,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-loop-1.gif",
+     "path": "auto",
+     "usedPath": "gif-fallback",
+     "size": "40x30",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 0,
+     "reason": "ImageDecoder failed the GIF self-test (known WebKit bug)",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 0,
+     "ms": 3,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-loop-1.gif",
+     "path": "imagedecoder",
+     "usedPath": "imagedecoder",
+     "size": "40x30",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 0,
+     "reason": "ImageDecoder",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 3,
+     "ms": 6,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-loop-1.gif",
+     "path": "fallback",
+     "usedPath": "gif-fallback",
+     "size": "40x30",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 0,
+     "reason": "forced fallback",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 0,
+     "ms": 3,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-loop-3.gif",
+     "path": "auto",
+     "usedPath": "gif-fallback",
+     "size": "40x30",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 0,
+     "reason": "ImageDecoder failed the GIF self-test (known WebKit bug)",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 0,
+     "ms": 3,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-loop-3.gif",
+     "path": "imagedecoder",
+     "usedPath": "imagedecoder",
+     "size": "40x30",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 0,
+     "reason": "ImageDecoder",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 3,
+     "ms": 6,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-loop-3.gif",
+     "path": "fallback",
+     "usedPath": "gif-fallback",
+     "size": "40x30",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 0,
+     "reason": "forced fallback",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 0,
+     "ms": 2,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-loop-none.gif",
+     "path": "auto",
+     "usedPath": "gif-fallback",
+     "size": "40x30",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 0,
+     "reason": "ImageDecoder failed the GIF self-test (known WebKit bug)",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 0,
+     "ms": 2,
+     "ok": true
+    },
+    {
+     "file": "synthetic/gif-loop-none.gif",
+     "path": "imagedecoder",
+     "usedPath": "imagedecoder",
+     "size": "40x30",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 0,
+     "reason": "ImageDecoder",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 3,
+     "ms": 8,
      "ok": true
     },
     {
@@ -3649,7 +3649,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 6,
+     "ms": 5,
      "ok": true
     },
     {
@@ -3696,7 +3696,7 @@
       }
      ],
      "peakOpen": 5,
-     "ms": 22,
+     "ms": 23,
      "ok": false
     },
     {
@@ -3732,7 +3732,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 1,
-     "ms": 6,
+     "ms": 3,
      "ok": true
     },
     {
@@ -3938,7 +3938,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 1,
-     "ms": 9,
+     "ms": 5,
      "ok": true
     },
     {
@@ -3989,7 +3989,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 1,
-     "ms": 4,
+     "ms": 3,
      "ok": true
     },
     {
@@ -4043,7 +4043,7 @@
      "maxDelta": 2,
      "first": [],
      "peakOpen": 2,
-     "ms": 7,
+     "ms": 8,
      "ok": true
     },
     {
@@ -4061,7 +4061,7 @@
      "maxDelta": 0.8,
      "first": [],
      "peakOpen": 2,
-     "ms": 7,
+     "ms": 6,
      "ok": true
     },
     {
@@ -4108,7 +4108,7 @@
       }
      ],
      "peakOpen": 3,
-     "ms": 6,
+     "ms": 7,
      "ok": false
     },
     {
@@ -4126,7 +4126,7 @@
      "maxDelta": 0.8,
      "first": [],
      "peakOpen": 2,
-     "ms": 8,
+     "ms": 7,
      "ok": true
     },
     {
@@ -4144,7 +4144,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 19,
+     "ms": 18,
      "ok": true
     },
     {
@@ -4162,7 +4162,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 18,
+     "ms": 16,
      "ok": true
     },
     {
@@ -4180,7 +4180,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 39,
+     "ms": 18,
      "ok": true
     },
     {
@@ -4198,7 +4198,7 @@
      "maxDelta": 2,
      "first": [],
      "peakOpen": 3,
-     "ms": 26,
+     "ms": 12,
      "ok": true
     },
     {
@@ -4245,7 +4245,7 @@
       }
      ],
      "peakOpen": 4,
-     "ms": 12,
+     "ms": 9,
      "ok": false
     },
     {
@@ -4263,7 +4263,7 @@
      "maxDelta": 2,
      "first": [],
      "peakOpen": 3,
-     "ms": 14,
+     "ms": 12,
      "ok": true
     },
     {
@@ -4281,7 +4281,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 2,
-     "ms": 12,
+     "ms": 7,
      "ok": true
     },
     {
@@ -4299,7 +4299,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 3,
-     "ms": 8,
+     "ms": 6,
      "ok": true
     },
     {
@@ -4317,7 +4317,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 2,
-     "ms": 10,
+     "ms": 7,
      "ok": true
     },
     {
@@ -4335,7 +4335,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 2,
-     "ms": 22,
+     "ms": 7,
      "ok": true
     },
     {
@@ -4353,11 +4353,65 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 3,
-     "ms": 16,
+     "ms": 7,
      "ok": true
     },
     {
      "file": "synthetic/webp-loop-1.webp",
+     "path": "fallback",
+     "usedPath": "webp-anmf",
+     "size": "48x36",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 3,
+     "reason": "forced fallback",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 2,
+     "ms": 7,
+     "ok": true
+    },
+    {
+     "file": "synthetic/webp-loop-3.webp",
+     "path": "auto",
+     "usedPath": "webp-anmf",
+     "size": "48x36",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 3,
+     "reason": "ImageDecoder failed the WEBP self-test (known WebKit bug)",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 2,
+     "ms": 6,
+     "ok": true
+    },
+    {
+     "file": "synthetic/webp-loop-3.webp",
+     "path": "imagedecoder",
+     "usedPath": "imagedecoder",
+     "size": "48x36",
+     "frames": 3,
+     "checked": 7,
+     "tolerance": 3,
+     "reason": "ImageDecoder",
+     "oracle": "golden",
+     "mismatchedFrames": 0,
+     "maxPercent": 0,
+     "maxDelta": 0,
+     "first": [],
+     "peakOpen": 3,
+     "ms": 6,
+     "ok": true
+    },
+    {
+     "file": "synthetic/webp-loop-3.webp",
      "path": "fallback",
      "usedPath": "webp-anmf",
      "size": "48x36",
@@ -4375,60 +4429,6 @@
      "ok": true
     },
     {
-     "file": "synthetic/webp-loop-3.webp",
-     "path": "auto",
-     "usedPath": "webp-anmf",
-     "size": "48x36",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 3,
-     "reason": "ImageDecoder failed the WEBP self-test (known WebKit bug)",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 2,
-     "ms": 12,
-     "ok": true
-    },
-    {
-     "file": "synthetic/webp-loop-3.webp",
-     "path": "imagedecoder",
-     "usedPath": "imagedecoder",
-     "size": "48x36",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 3,
-     "reason": "ImageDecoder",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 3,
-     "ms": 12,
-     "ok": true
-    },
-    {
-     "file": "synthetic/webp-loop-3.webp",
-     "path": "fallback",
-     "usedPath": "webp-anmf",
-     "size": "48x36",
-     "frames": 3,
-     "checked": 7,
-     "tolerance": 3,
-     "reason": "forced fallback",
-     "oracle": "golden",
-     "mismatchedFrames": 0,
-     "maxPercent": 0,
-     "maxDelta": 0,
-     "first": [],
-     "peakOpen": 2,
-     "ms": 18,
-     "ok": true
-    },
-    {
      "file": "synthetic/webp-mixed-codecs.webp",
      "path": "auto",
      "usedPath": "webp-anmf",
@@ -4443,7 +4443,7 @@
      "maxDelta": 1,
      "first": [],
      "peakOpen": 3,
-     "ms": 28,
+     "ms": 12,
      "ok": true
     },
     {
@@ -4490,7 +4490,7 @@
       }
      ],
      "peakOpen": 4,
-     "ms": 14,
+     "ms": 13,
      "ok": false
     },
     {
@@ -4508,7 +4508,7 @@
      "maxDelta": 1,
      "first": [],
      "peakOpen": 3,
-     "ms": 14,
+     "ms": 18,
      "ok": true
     },
     {
@@ -4526,7 +4526,7 @@
      "maxDelta": 1,
      "first": [],
      "peakOpen": 3,
-     "ms": 12,
+     "ms": 10,
      "ok": true
     },
     {
@@ -4544,7 +4544,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 10,
+     "ms": 9,
      "ok": true
     },
     {
@@ -4562,7 +4562,7 @@
      "maxDelta": 1,
      "first": [],
      "peakOpen": 3,
-     "ms": 13,
+     "ms": 12,
      "ok": true
     },
     {
@@ -4634,7 +4634,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 1,
-     "ms": 6,
+     "ms": 5,
      "ok": true
     },
     {
@@ -4674,7 +4674,7 @@
       }
      ],
      "peakOpen": 1,
-     "ms": 6,
+     "ms": 5,
      "ok": false
     },
     {
@@ -4710,7 +4710,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 1,
-     "ms": 2,
+     "ms": 3,
      "ok": true
     },
     {
@@ -4728,7 +4728,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 1,
-     "ms": 5,
+     "ms": 6,
      "ok": true
     },
     {
@@ -4746,7 +4746,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 1,
-     "ms": 5,
+     "ms": 3,
      "ok": true
     },
     {
@@ -4782,7 +4782,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 1,
-     "ms": 3,
+     "ms": 4,
      "ok": true
     },
     {
@@ -4800,7 +4800,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 1,
-     "ms": 3,
+     "ms": 2,
      "ok": true
     }
    ],
@@ -4820,7 +4820,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 261,
+     "ms": 249,
      "ok": true
     },
     {
@@ -4838,7 +4838,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 388,
+     "ms": 345,
      "ok": true
     },
     {
@@ -4856,7 +4856,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 190,
+     "ms": 163,
      "ok": true
     },
     {
@@ -4874,7 +4874,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 228,
+     "ms": 216,
      "ok": true
     },
     {
@@ -4892,7 +4892,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 292,
+     "ms": 261,
      "ok": true
     },
     {
@@ -4910,7 +4910,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 386,
+     "ms": 201,
      "ok": true
     },
     {
@@ -4928,7 +4928,7 @@
      "maxDelta": 2,
      "first": [],
      "peakOpen": 1,
-     "ms": 40,
+     "ms": 26,
      "ok": true
     },
     {
@@ -4946,7 +4946,7 @@
      "maxDelta": 2,
      "first": [],
      "peakOpen": 1,
-     "ms": 54,
+     "ms": 50,
      "ok": true
     },
     {
@@ -4964,7 +4964,7 @@
      "maxDelta": 2,
      "first": [],
      "peakOpen": 1,
-     "ms": 35,
+     "ms": 24,
      "ok": true
     },
     {
@@ -4982,7 +4982,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 239,
+     "ms": 200,
      "ok": true
     },
     {
@@ -5000,7 +5000,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 5,
-     "ms": 364,
+     "ms": 286,
      "ok": true
     },
     {
@@ -5018,7 +5018,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 236,
+     "ms": 188,
      "ok": true
     },
     {
@@ -5036,7 +5036,7 @@
      "maxDelta": 0.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 351,
+     "ms": 198,
      "ok": true
     },
     {
@@ -5083,7 +5083,7 @@
       }
      ],
      "peakOpen": 4,
-     "ms": 421,
+     "ms": 300,
      "ok": false
     },
     {
@@ -5101,7 +5101,7 @@
      "maxDelta": 0.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 228,
+     "ms": 192,
      "ok": true
     },
     {
@@ -5119,7 +5119,7 @@
      "maxDelta": 0.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 231,
+     "ms": 193,
      "ok": true
     },
     {
@@ -5166,7 +5166,7 @@
       }
      ],
      "peakOpen": 4,
-     "ms": 400,
+     "ms": 307,
      "ok": false
     },
     {
@@ -5184,7 +5184,7 @@
      "maxDelta": 0.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 227,
+     "ms": 194,
      "ok": true
     },
     {
@@ -5202,7 +5202,7 @@
      "maxDelta": 0.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 207,
+     "ms": 181,
      "ok": true
     },
     {
@@ -5222,34 +5222,34 @@
       {
        "order": "sequential",
        "frame": 0,
-       "percent": 99.27,
+       "percent": 99.278,
        "maxDelta": 255,
        "at": "(0,0) ours=0,0,0,255 ref=0,0,0,0"
       },
       {
        "order": "sequential",
        "frame": 8,
-       "percent": 97.054,
+       "percent": 97.07,
        "maxDelta": 255,
        "at": "(0,0) ours=0,0,0,255 ref=0,0,0,0"
       },
       {
        "order": "sequential",
        "frame": 16,
-       "percent": 96.974,
+       "percent": 96.981,
        "maxDelta": 255,
        "at": "(0,0) ours=0,0,0,255 ref=0,0,0,0"
       },
       {
        "order": "sequential",
        "frame": 23,
-       "percent": 97.02,
+       "percent": 97.025,
        "maxDelta": 255,
        "at": "(0,0) ours=0,0,0,255 ref=0,0,0,0"
       }
      ],
      "peakOpen": 4,
-     "ms": 313,
+     "ms": 284,
      "ok": false
     },
     {
@@ -5267,7 +5267,7 @@
      "maxDelta": 0.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 243,
+     "ms": 181,
      "ok": true
     },
     {
@@ -5285,7 +5285,7 @@
      "maxDelta": 0.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 223,
+     "ms": 188,
      "ok": true
     },
     {
@@ -5332,7 +5332,7 @@
       }
      ],
      "peakOpen": 4,
-     "ms": 324,
+     "ms": 285,
      "ok": false
     },
     {
@@ -5350,7 +5350,7 @@
      "maxDelta": 0.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 233,
+     "ms": 192,
      "ok": true
     },
     {
@@ -5368,7 +5368,7 @@
      "maxDelta": 0.98,
      "first": [],
      "peakOpen": 4,
-     "ms": 248,
+     "ms": 183,
      "ok": true
     },
     {
@@ -5415,7 +5415,7 @@
       }
      ],
      "peakOpen": 4,
-     "ms": 344,
+     "ms": 273,
      "ok": false
     },
     {
@@ -5433,7 +5433,7 @@
      "maxDelta": 0.98,
      "first": [],
      "peakOpen": 4,
-     "ms": 266,
+     "ms": 185,
      "ok": true
     },
     {
@@ -5451,7 +5451,7 @@
      "maxDelta": 0.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 235,
+     "ms": 162,
      "ok": true
     },
     {
@@ -5465,13 +5465,13 @@
      "reason": "ImageDecoder",
      "oracle": "golden",
      "mismatchedFrames": 15,
-     "maxPercent": 89.777,
+     "maxPercent": 89.79,
      "maxDelta": 255,
      "first": [
       {
        "order": "sequential",
        "frame": 0,
-       "percent": 89.774,
+       "percent": 89.79,
        "maxDelta": 255,
        "at": "(0,0) ours=0,0,0,255 ref=0,0,0,0"
       },
@@ -5498,7 +5498,7 @@
       }
      ],
      "peakOpen": 4,
-     "ms": 326,
+     "ms": 249,
      "ok": false
     },
     {
@@ -5516,7 +5516,7 @@
      "maxDelta": 0.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 249,
+     "ms": 162,
      "ok": true
     },
     {
@@ -5534,7 +5534,7 @@
      "maxDelta": 0.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 306,
+     "ms": 192,
      "ok": true
     },
     {
@@ -5554,7 +5554,7 @@
       {
        "order": "sequential",
        "frame": 0,
-       "percent": 87.378,
+       "percent": 87.376,
        "maxDelta": 255,
        "at": "(0,0) ours=0,0,0,255 ref=0,0,0,0"
       },
@@ -5581,7 +5581,7 @@
       }
      ],
      "peakOpen": 4,
-     "ms": 349,
+     "ms": 300,
      "ok": false
     },
     {
@@ -5599,7 +5599,7 @@
      "maxDelta": 0.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 261,
+     "ms": 185,
      "ok": true
     },
     {
@@ -5617,7 +5617,7 @@
      "maxDelta": 0.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 305,
+     "ms": 226,
      "ok": true
     },
     {
@@ -5631,13 +5631,13 @@
      "reason": "ImageDecoder",
      "oracle": "golden",
      "mismatchedFrames": 15,
-     "maxPercent": 78.838,
+     "maxPercent": 79.131,
      "maxDelta": 255,
      "first": [
       {
        "order": "sequential",
        "frame": 0,
-       "percent": 78.781,
+       "percent": 79.131,
        "maxDelta": 255,
        "at": "(0,0) ours=0,2,4,255 ref=0,73,146,7"
       },
@@ -5664,7 +5664,7 @@
       }
      ],
      "peakOpen": 4,
-     "ms": 461,
+     "ms": 364,
      "ok": false
     },
     {
@@ -5682,7 +5682,7 @@
      "maxDelta": 0.99,
      "first": [],
      "peakOpen": 4,
-     "ms": 279,
+     "ms": 226,
      "ok": true
     },
     {
@@ -5700,7 +5700,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 354,
+     "ms": 248,
      "ok": true
     },
     {
@@ -5718,7 +5718,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 522,
+     "ms": 410,
      "ok": true
     },
     {
@@ -5736,7 +5736,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 328,
+     "ms": 241,
      "ok": true
     },
     {
@@ -5754,7 +5754,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 328,
+     "ms": 252,
      "ok": true
     },
     {
@@ -5772,7 +5772,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 675,
+     "ms": 397,
      "ok": true
     },
     {
@@ -5790,7 +5790,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 434,
+     "ms": 253,
      "ok": true
     },
     {
@@ -5808,7 +5808,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 464,
+     "ms": 259,
      "ok": true
     },
     {
@@ -5826,7 +5826,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 4,
-     "ms": 523,
+     "ms": 396,
      "ok": true
     },
     {
@@ -5844,7 +5844,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 342,
+     "ms": 253,
      "ok": true
     },
     {
@@ -5862,7 +5862,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 271,
+     "ms": 180,
      "ok": true
     },
     {
@@ -5880,7 +5880,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 5,
-     "ms": 482,
+     "ms": 352,
      "ok": true
     },
     {
@@ -5898,7 +5898,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 0,
-     "ms": 287,
+     "ms": 180,
      "ok": true
     },
     {
@@ -5916,7 +5916,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 2,
-     "ms": 115,
+     "ms": 80,
      "ok": true
     },
     {
@@ -5952,18 +5952,18 @@
        "frame": 2,
        "percent": 70.511,
        "maxDelta": 255,
-       "at": "(0,0) ours=0,0,0,255 ref=0,0,0,0"
+       "at": "(0,0) ours=252,254,252,255 ref=0,0,0,0"
       },
       {
        "order": "seeks",
        "frame": 2,
        "percent": 70.511,
        "maxDelta": 255,
-       "at": "(0,0) ours=0,0,0,255 ref=0,0,0,0"
+       "at": "(0,0) ours=252,254,252,255 ref=0,0,0,0"
       }
      ],
      "peakOpen": 3,
-     "ms": 177,
+     "ms": 126,
      "ok": false
     },
     {
@@ -5981,7 +5981,7 @@
      "maxDelta": 0,
      "first": [],
      "peakOpen": 2,
-     "ms": 164,
+     "ms": 78,
      "ok": true
     }
    ],
@@ -5993,10 +5993,10 @@
      "frames": 7,
      "emitted": 14,
      "lateDraws": 1,
-     "meanErrMs": 11.2,
-     "maxAbsErrMs": 15,
+     "meanErrMs": 5.1,
+     "maxAbsErrMs": 10,
      "expectedTotalMs": 2140,
-     "measuredTotalMs": 2152,
+     "measuredTotalMs": 2144,
      "ok": true
     },
     {
@@ -6006,10 +6006,10 @@
      "frames": 7,
      "emitted": 14,
      "lateDraws": 0,
-     "meanErrMs": 8.6,
-     "maxAbsErrMs": 13,
+     "meanErrMs": 9.6,
+     "maxAbsErrMs": 14,
      "expectedTotalMs": 2140,
-     "measuredTotalMs": 2146,
+     "measuredTotalMs": 2151,
      "ok": true
     },
     {
@@ -6019,10 +6019,10 @@
      "frames": 6,
      "emitted": 12,
      "lateDraws": 1,
-     "meanErrMs": 4.3,
+     "meanErrMs": 9.4,
      "maxAbsErrMs": 17,
      "expectedTotalMs": 940,
-     "measuredTotalMs": 953,
+     "measuredTotalMs": 951,
      "ok": true
     },
     {
@@ -6032,10 +6032,10 @@
      "frames": 6,
      "emitted": 12,
      "lateDraws": 2,
-     "meanErrMs": 2.9,
-     "maxAbsErrMs": 6,
+     "meanErrMs": 7.8,
+     "maxAbsErrMs": 13,
      "expectedTotalMs": 940,
-     "measuredTotalMs": 956,
+     "measuredTotalMs": 948,
      "ok": true
     },
     {
@@ -6045,10 +6045,10 @@
      "frames": 8,
      "emitted": 16,
      "lateDraws": 1,
-     "meanErrMs": 8.1,
-     "maxAbsErrMs": 15,
+     "meanErrMs": 7.4,
+     "maxAbsErrMs": 14,
      "expectedTotalMs": 1560,
-     "measuredTotalMs": 1571,
+     "measuredTotalMs": 1570,
      "ok": true
     },
     {
@@ -6058,10 +6058,10 @@
      "frames": 8,
      "emitted": 16,
      "lateDraws": 0,
-     "meanErrMs": 10.3,
-     "maxAbsErrMs": 16,
+     "meanErrMs": 6.7,
+     "maxAbsErrMs": 14,
      "expectedTotalMs": 1560,
-     "measuredTotalMs": 1576,
+     "measuredTotalMs": 1570,
      "ok": true
     },
     {
@@ -6071,10 +6071,10 @@
      "frames": 5,
      "emitted": 10,
      "lateDraws": 1,
-     "meanErrMs": 8.8,
-     "maxAbsErrMs": 16,
+     "meanErrMs": 5.6,
+     "maxAbsErrMs": 13,
      "expectedTotalMs": 800,
-     "measuredTotalMs": 803,
+     "measuredTotalMs": 814,
      "ok": true
     },
     {
@@ -6084,10 +6084,10 @@
      "frames": 5,
      "emitted": 10,
      "lateDraws": 2,
-     "meanErrMs": 9,
-     "maxAbsErrMs": 16,
+     "meanErrMs": 6.6,
+     "maxAbsErrMs": 14,
      "expectedTotalMs": 800,
-     "measuredTotalMs": 802,
+     "measuredTotalMs": 815,
      "ok": true
     },
     {
@@ -6097,10 +6097,10 @@
      "frames": 44,
      "emitted": 44,
      "lateDraws": 1,
-     "meanErrMs": 7.9,
-     "maxAbsErrMs": 15,
+     "meanErrMs": 7.5,
+     "maxAbsErrMs": 16,
      "expectedTotalMs": 3960,
-     "measuredTotalMs": 3968,
+     "measuredTotalMs": 3967,
      "ok": true
     },
     {
@@ -6110,10 +6110,10 @@
      "frames": 44,
      "emitted": 44,
      "lateDraws": 0,
-     "meanErrMs": 8,
-     "maxAbsErrMs": 15,
+     "meanErrMs": 7.3,
+     "maxAbsErrMs": 16,
      "expectedTotalMs": 3960,
-     "measuredTotalMs": 3982,
+     "measuredTotalMs": 3975,
      "ok": true
     },
     {
@@ -6123,10 +6123,10 @@
      "frames": 100,
      "emitted": 100,
      "lateDraws": 1,
-     "meanErrMs": 1.8,
-     "maxAbsErrMs": 2,
+     "meanErrMs": 5.6,
+     "maxAbsErrMs": 7,
      "expectedTotalMs": 10000,
-     "measuredTotalMs": 10002,
+     "measuredTotalMs": 10005,
      "ok": true
     },
     {
@@ -6136,10 +6136,10 @@
      "frames": 100,
      "emitted": 100,
      "lateDraws": 1,
-     "meanErrMs": 14.6,
+     "meanErrMs": 6.5,
      "maxAbsErrMs": 15,
      "expectedTotalMs": 10000,
-     "measuredTotalMs": 10015,
+     "measuredTotalMs": 10007,
      "ok": true
     }
    ],
@@ -6162,7 +6162,7 @@
      "resolvedLoops": 2,
      "expectedPlays": 2,
      "observedPlays": 2,
-     "endedAfterMs": 301,
+     "endedAfterMs": 313,
      "expectedMs": 300,
      "ok": true
     },
@@ -6173,7 +6173,7 @@
      "resolvedLoops": 4,
      "expectedPlays": 4,
      "observedPlays": 4,
-     "endedAfterMs": 609,
+     "endedAfterMs": 607,
      "expectedMs": 600,
      "ok": true
     },
@@ -6184,7 +6184,7 @@
      "resolvedLoops": 1,
      "expectedPlays": 1,
      "observedPlays": 1,
-     "endedAfterMs": 158,
+     "endedAfterMs": 155,
      "expectedMs": 150,
      "ok": true
     },
@@ -6206,7 +6206,7 @@
      "resolvedLoops": 1,
      "expectedPlays": 1,
      "observedPlays": 1,
-     "endedAfterMs": 151,
+     "endedAfterMs": 165,
      "expectedMs": 150,
      "ok": true
     },
@@ -6217,7 +6217,7 @@
      "resolvedLoops": 3,
      "expectedPlays": 3,
      "observedPlays": 3,
-     "endedAfterMs": 458,
+     "endedAfterMs": 453,
      "expectedMs": 450,
      "ok": true
     },
@@ -6228,7 +6228,7 @@
      "resolvedLoops": 2,
      "expectedPlays": 2,
      "observedPlays": 2,
-     "endedAfterMs": 304,
+     "endedAfterMs": 306,
      "expectedMs": 300,
      "ok": true
     },
@@ -6239,7 +6239,7 @@
      "resolvedLoops": 3,
      "expectedPlays": 3,
      "observedPlays": 3,
-     "endedAfterMs": 461,
+     "endedAfterMs": 451,
      "expectedMs": 450,
      "ok": true
     },
@@ -6261,7 +6261,7 @@
      "frameDurationMs": 300,
      "fileLoopCount": 1,
      "observedPlays": 1,
-     "endedAfterMs": 303,
+     "endedAfterMs": 306,
      "expectedMs": 300,
      "option": null,
      "resolvedLoops": 1,
@@ -6276,7 +6276,7 @@
      "frameDurationMs": 300,
      "fileLoopCount": 1,
      "observedPlays": 1,
-     "endedAfterMs": 316,
+     "endedAfterMs": 301,
      "expectedMs": 300,
      "option": null,
      "resolvedLoops": 1,
@@ -6291,7 +6291,7 @@
      "frameDurationMs": 300,
      "fileLoopCount": 1,
      "observedPlays": 1,
-     "endedAfterMs": 305,
+     "endedAfterMs": 307,
      "expectedMs": 300,
      "option": null,
      "resolvedLoops": 1,
@@ -6306,7 +6306,7 @@
      "frameDurationMs": 300,
      "fileLoopCount": 1,
      "observedPlays": 1,
-     "endedAfterMs": 306,
+     "endedAfterMs": 309,
      "expectedMs": 300,
      "option": null,
      "resolvedLoops": 1,
@@ -6321,14 +6321,14 @@
      "path": "imagedecoder",
      "usedPath": "imagedecoder",
      "cycles": 50,
-     "framesDrawn": 237,
+     "framesDrawn": 251,
      "created": {
-      "videoFrames": 568,
+      "videoFrames": 653,
       "bitmaps": 0,
       "decoders": 50
      },
      "closed": {
-      "videoFrames": 568,
+      "videoFrames": 653,
       "bitmaps": 0,
       "decoders": 50
      },
@@ -6347,7 +6347,7 @@
      "path": "fallback",
      "usedPath": "gif-fallback",
      "cycles": 50,
-     "framesDrawn": 301,
+     "framesDrawn": 298,
      "created": {
       "videoFrames": 0,
       "bitmaps": 0,
@@ -6373,14 +6373,14 @@
      "path": "imagedecoder",
      "usedPath": "imagedecoder",
      "cycles": 50,
-     "framesDrawn": 235,
+     "framesDrawn": 237,
      "created": {
-      "videoFrames": 597,
+      "videoFrames": 602,
       "bitmaps": 0,
       "decoders": 50
      },
      "closed": {
-      "videoFrames": 597,
+      "videoFrames": 602,
       "bitmaps": 0,
       "decoders": 50
      },
@@ -6402,12 +6402,12 @@
      "framesDrawn": 250,
      "created": {
       "videoFrames": 0,
-      "bitmaps": 534,
+      "bitmaps": 502,
       "decoders": 0
      },
      "closed": {
       "videoFrames": 0,
-      "bitmaps": 534,
+      "bitmaps": 502,
       "decoders": 0
      },
      "stillOpen": {
@@ -6425,14 +6425,14 @@
      "path": "imagedecoder",
      "usedPath": "imagedecoder",
      "cycles": 50,
-     "framesDrawn": 250,
+     "framesDrawn": 249,
      "created": {
-      "videoFrames": 723,
+      "videoFrames": 750,
       "bitmaps": 0,
       "decoders": 50
      },
      "closed": {
-      "videoFrames": 723,
+      "videoFrames": 750,
       "bitmaps": 0,
       "decoders": 50
      },
@@ -6441,7 +6441,7 @@
       "bitmaps": 0,
       "decoders": 0
      },
-     "peakOpenPerRenderer": 7,
+     "peakOpenPerRenderer": 6,
      "rafOutstanding": 0,
      "resizeObserversLive": 0,
      "ok": true
@@ -6477,7 +6477,7 @@
      "path": "imagedecoder",
      "usedPath": "imagedecoder",
      "cycles": 50,
-     "framesDrawn": 249,
+     "framesDrawn": 248,
      "created": {
       "videoFrames": 549,
       "bitmaps": 0,
@@ -6506,12 +6506,12 @@
      "framesDrawn": 249,
      "created": {
       "videoFrames": 0,
-      "bitmaps": 607,
+      "bitmaps": 604,
       "decoders": 0
      },
      "closed": {
       "videoFrames": 0,
-      "bitmaps": 607,
+      "bitmaps": 604,
       "decoders": 0
      },
      "stillOpen": {

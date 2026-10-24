@@ -10,12 +10,25 @@ export interface DecodedSvgaImages {
 }
 
 export interface DecodeOptions {
-  /** 'bitmap' (default): `createImageBitmap`. 'img': decoded `<img>` elements. */
+  /**
+   * 'img' (default): decoded `<img>` elements. 'bitmap': `createImageBitmap`, which also works without a DOM
+   * (e.g. in a Worker) but is filtered worse when a sprite is drawn much smaller than its bitmap (below).
+   */
   source?: 'bitmap' | 'img';
 }
 
-async function decodeImgElement(data: Uint8Array, mime: string): Promise<SvgaBitmap> {
-  const url = URL.createObjectURL(new Blob([data as BlobPart], { type: mime }));
+/**
+ * Decodes an image into an `<img>` element that is ready to draw (`img.decode()` has resolved) and whose
+ * `close()` drops its resource (`src = ''`).
+ *
+ * Why `<img>` and not `ImageBitmap` (Phase 4.1, measured on the real corpus): in Chromium a heavily shrunk
+ * `<img>` is drawn with a mipmapped filter, while a shrunk `ImageBitmap` gets plain bilinear filtering, so small
+ * particle sprites alias ("sparkle"). 14 of 16 real files were above 2 % vs the reference with ImageBitmap and
+ * 0 of 16 with `<img>` (worst 0.24 %). WebKit filters both the same. Building our own mip chains instead could not
+ * match Chromium's filtering (still 8 of 16 files above 2 %) and was worse in WebKit.
+ */
+export async function decodeImageElement(blob: Blob): Promise<SvgaBitmap> {
+  const url = URL.createObjectURL(blob);
   const img = new Image();
   img.decoding = 'async';
   img.src = url;
@@ -26,9 +39,12 @@ async function decodeImgElement(data: Uint8Array, mime: string): Promise<SvgaBit
     throw e;
   }
   URL.revokeObjectURL(url); // the browser keeps the encoded data it needs; the URL is not required to re-decode
+  // A detached <img>'s width/height are its natural size, but pin them so callers never see a layout-dependent value.
+  Object.defineProperty(img, 'width', { value: img.naturalWidth });
+  Object.defineProperty(img, 'height', { value: img.naturalHeight });
   return Object.assign(img, {
     close() {
-      img.src = ''; // drop the resource; the element itself is released by GC
+      img.src = ''; // drops the resource now; the element itself is garbage-collected
     },
   }) as unknown as SvgaBitmap;
 }
@@ -40,10 +56,10 @@ async function decodeImgElement(data: Uint8Array, mime: string): Promise<SvgaBit
  */
 export async function decodeSvgaImages(movie: SvgaMovie, options: DecodeOptions = {}): Promise<DecodedSvgaImages> {
   const entries = [...movie.images];
-  const asImg = options.source === 'img';
+  const asImg = options.source !== 'bitmap';
   const settled = await Promise.allSettled(
     entries.map(([, img]) =>
-      asImg ? decodeImgElement(img.data, img.mime) : (createImageBitmap(new Blob([img.data as BlobPart], { type: img.mime })) as Promise<SvgaBitmap>),
+      asImg ? decodeImageElement(new Blob([img.data as BlobPart], { type: img.mime })) : (createImageBitmap(new Blob([img.data as BlobPart], { type: img.mime })) as Promise<SvgaBitmap>),
     ),
   );
   const bitmaps = new Map<string, SvgaBitmap>();

@@ -10,15 +10,11 @@ import { Ticker } from '../src/core/ticker';
 import { decodeSvgaImages, parseSvga } from '../src/formats/svga';
 import { SvgaRenderer, type ContentMode } from '../src/formats/svga/render/renderer';
 import type { SvgaFrame, SvgaMovie, SvgaSprite } from '../src/formats/svga/types';
-import { mipConfig } from '../src/formats/svga/render/mips';
 import { pixelDiff } from './lib/diff';
 import { createOracle, type OracleMode } from './lib/oracle';
 import { sampleBytes, sampleUrl } from './lib/samples';
 
 const q = new URLSearchParams(location.search);
-if (q.get('bias') !== null) mipConfig.bias = Number(q.get('bias'));
-if (q.get('dims') === 'floor') mipConfig.floorDims = true;
-if (q.get('resize')) mipConfig.resize = q.get('resize') as 'high';
 const task = q.get('task') ?? 'diff';
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const nextFrame = () => new Promise<number>((r) => requestAnimationFrame(r));
@@ -39,12 +35,8 @@ function box(width: number, height: number): HTMLDivElement {
   return d;
 }
 
-/** Candidate image strategies (Phase 4.1): `src=bitmap|img` picks the decoded source, `mips=1` adds our mip chains. */
-const variantOf = (p: URLSearchParams) => ({
-  source: (p.get('src') === 'img' ? 'img' : 'bitmap') as 'img' | 'bitmap',
-  mips: p.get('mips') === '1',
-  smoothing: (p.get('smooth') as ImageSmoothingQuality | null) ?? 'low',
-});
+/** `src=bitmap` selects the ImageBitmap path (for comparison); the default is the library default, `<img>` elements. */
+const variantOf = (p: URLSearchParams) => ({ source: (p.get('src') === 'bitmap' ? 'bitmap' : 'img') as 'img' | 'bitmap' });
 
 async function load(name: string, p: URLSearchParams = q) {
   const bytes = await sampleBytes(name);
@@ -74,7 +66,7 @@ async function runDiff(p: URLSearchParams = q) {
   mine.style.cssText = `width:${w}px;height:${h}px`;
   box(w, h).append(mine);
   const v = variantOf(p);
-  const r = new SvgaRenderer(mine, movie, bitmaps, { contentMode: mode, devicePixelRatio: 1, imageSmoothing: v.smoothing, mips: v.mips });
+  const r = new SvgaRenderer(mine, movie, bitmaps, { contentMode: mode, devicePixelRatio: 1 });
   await r.ready();
 
   const frames: number[] = [];
@@ -244,8 +236,7 @@ async function runPerf() {
     const mine = document.createElement('canvas');
     mine.style.cssText = `width:${w}px;height:${h}px`;
     box(w, h).append(mine);
-    const pv = variantOf(q);
-    const r = new SvgaRenderer(mine, movie, bitmaps, { devicePixelRatio: dpr, imageSmoothing: pv.smoothing, mips: pv.mips });
+    const r = new SvgaRenderer(mine, movie, bitmaps, { devicePixelRatio: dpr });
     await r.ready();
     const ctx = mine.getContext('2d')!;
     const flush = () => ctx.getImageData(0, 0, 1, 1); // readback forces the deferred raster to finish
@@ -344,9 +335,12 @@ async function runLeaks() {
   const baselineListeners = { added: c.listenersAdded, removed: c.listenersRemoved };
   const heapBefore = heap();
   let drawn = 0;
+  let imgDecoded = 0;
+  let imgStillHolding = 0;
   for (let i = 0; i < cycles; i++) {
     const movie = parseSvga(bytes);
     const { bitmaps } = await decodeSvgaImages(movie);
+    const decoded = [...bitmaps.values()];
     const canvas = document.createElement('canvas');
     canvas.style.cssText = 'width:300px;height:533px';
     document.body.append(canvas);
@@ -362,12 +356,16 @@ async function runLeaks() {
     ticker.destroy();
     r.destroy();
     canvas.remove();
+    // <img> sources are released by close() (src = ''); count any that still hold a resource
+    imgDecoded += decoded.filter((b) => b instanceof HTMLImageElement).length;
+    imgStillHolding += decoded.filter((b) => b instanceof HTMLImageElement && b.getAttribute('src')).length;
   }
   await sleep(50);
   const heapAfter = heap();
   const result = {
     sample: name, cycles, framesDrawn: drawn, counters: c,
     bitmapsStillOpen: c.bitmapsCreated - c.bitmapsClosed,
+    imgElements: { decoded: imgDecoded, stillHoldingResource: imgStillHolding },
     rafOutstanding: rafOutstanding.size,
     resizeObserversLive: live.size,
     listenersNet: (c.listenersAdded - baselineListeners.added) - (c.listenersRemoved - baselineListeners.removed),
@@ -437,6 +435,22 @@ async function runReplace() {
     check('setHidden(false) shows it again, replacement intact', near(px(cv, 50, 50), [255, 0, 0, 255]));
     r.clearReplacement('avatar');
     check('clearReplacement restores the original', near(px(cv, 50, 50), [0, 0, 255, 255]));
+    r.destroy();
+  }
+  {
+    // setImage with a Blob or URL decodes through <img> (same minification filtering as the sprite bitmaps).
+    const { cv, r } = mk(avatarMovie(), [100, 100], {}, new Map([['avatar', await solid('#00f', 16)]]));
+    r.drawFrame(0);
+    const red = await new Promise<Blob>((res) => { const c = document.createElement('canvas'); c.width = c.height = 8; const x = c.getContext('2d')!; x.fillStyle = '#f00'; x.fillRect(0, 0, 8, 8); c.toBlob((b) => res(b!)); });
+    await r.setImage('avatar', red);
+    check('setImage(Blob) via <img>: centre red, corner still masked', near(px(cv, 50, 50), [255, 0, 0, 255]) && px(cv, 14, 14)[3] === 0, [px(cv, 50, 50), px(cv, 14, 14)]);
+    r.clearReplacement('avatar');
+    const url = URL.createObjectURL(red);
+    await r.setImage('avatar', url);
+    URL.revokeObjectURL(url);
+    check('setImage(URL) via fetch + <img>: centre red', near(px(cv, 50, 50), [255, 0, 0, 255]), px(cv, 50, 50));
+    await r.setImage('avatar', red); // replacing releases the previous owned <img>
+    check('replacing a replacement keeps working', near(px(cv, 50, 50), [255, 0, 0, 255]));
     r.destroy();
   }
   {
@@ -699,7 +713,7 @@ async function runDiffAll() {
   return out;
 }
 
-/** Load time = decode images (+ mips) + construct renderer + first draw with raster flush, median of `reps`. */
+/** Load time = decode images + construct renderer + first draw with raster flush, median of `reps`. */
 async function runLoadTime() {
   const reps = Number(q.get('reps') ?? 7);
   const v = variantOf(q);
@@ -716,7 +730,7 @@ async function runLoadTime() {
       const t0 = performance.now();
       const { bitmaps } = await decodeSvgaImages(movie, { source: v.source });
       const t1 = performance.now();
-      const r = new SvgaRenderer(cv, movie, bitmaps, { devicePixelRatio: 1, mips: v.mips, imageSmoothing: v.smoothing });
+      const r = new SvgaRenderer(cv, movie, bitmaps, { devicePixelRatio: 1 });
       await r.ready();
       r.drawFrame(movie.frames >> 1);
       cv.getContext('2d')!.getImageData(0, 0, 1, 1);
@@ -759,7 +773,7 @@ async function runMemory() {
     cv.style.cssText = `width:${movie.viewBox.width}px;height:${movie.viewBox.height}px`;
     document.body.append(cv);
     const { bitmaps } = await decodeSvgaImages(movie, { source: v.source });
-    const r = new SvgaRenderer(cv, movie, bitmaps, { devicePixelRatio: 1, mips: v.mips, imageSmoothing: v.smoothing });
+    const r = new SvgaRenderer(cv, movie, bitmaps, { devicePixelRatio: 1 });
     await r.ready();
     for (const fr of frames) { r.drawFrame(fr); cv.getContext('2d')!.getImageData(0, 0, 1, 1); }
     if (i === 0) { await sleep(300); await sample?.('loaded'); }

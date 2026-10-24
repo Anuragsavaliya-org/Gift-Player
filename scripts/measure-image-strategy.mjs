@@ -1,5 +1,6 @@
-// Phase 4.1: compares how SVGA bitmaps are held (baseline ImageBitmap, A = <img>, B = ImageBitmap + mip chain)
-// in Chromium and WebKit: diff vs the reference on every SVGA file, drawFrame time, load time, and memory
+// Phase 4.1: compares how SVGA bitmaps are held (baseline = ImageBitmap, A = <img>) in Chromium and WebKit.
+// (The third candidate, B = ImageBitmap + our own mip chains, lost on quality and was removed from the code; its
+// numbers are in reports/phase4.1-image-strategy.json and its prototype is in git commit 99afaf0.): diff vs the reference on every SVGA file, drawFrame time, load time, and memory
 // (summed resident memory of the browser's processes, sampled from here at phase markers).
 //   node scripts/measure-image-strategy.mjs [--browsers=chromium,webkit] [--variants=baseline,A,B] [--step=10]
 import { spawn, execSync } from 'node:child_process';
@@ -11,14 +12,13 @@ import { runInBrowser } from './lib/pw.mjs';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const opt = (n, d) => process.argv.find((a) => a.startsWith(`--${n}=`))?.split('=')[1] ?? d;
 const browsers = opt('browsers', 'chromium,webkit').split(',');
-const variantNames = opt('variants', 'baseline,A,B').split(',');
+const variantNames = opt('variants', 'baseline,A').split(',');
 const step = opt('step', '10');
 const port = 5194;
 const base = `http://localhost:${port}/verify.html`;
 const VARIANTS = {
   baseline: { src: 'bitmap' },
   A: { src: 'img' },
-  B: { src: 'bitmap', mips: '1', resize: 'high', bias: '0' },
 };
 const MARK = { chromium: 'ms-playwright/chromium-1248/', webkit: 'ms-playwright/webkit-2370/' };
 

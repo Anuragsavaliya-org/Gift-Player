@@ -70,9 +70,6 @@ if (files.length === 0) {
       ['mimicOracleAlpha=1', 'svgaplayerweb skips sprites with alpha < 0.05 (we draw them)'],
       ['oracleIsolate=1', 'svgaplayerweb applies a matte to the whole canvas, erasing earlier unmasked content (we mask only the run)'],
       ['mimicOracleAlpha=1&oracleIsolate=1', 'both svgaplayerweb quirks: alpha < 0.05 cutoff and whole-canvas matte'],
-      // Not an oracle quirk: Chrome filters shrunk <img> sources (what svgaplayerweb draws) better than ImageBitmaps
-      // (what we draw), so small particles sparkle in ours. Feeding our renderer <img> elements removes the difference.
-      ['src=img', 'image filtering: Chrome downscales <img> sources with a higher-quality filter than ImageBitmap sources, so heavily shrunk particles look aliased in our output (our renderer draws the same pixels when given <img> elements)'],
     ];
     for (const [flags, why] of tries) {
       const d = run(`${q}&${flags}`);

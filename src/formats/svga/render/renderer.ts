@@ -3,23 +3,14 @@ import type { SvgaFrame, SvgaMovie, SvgaShape, SvgaSprite } from '../types';
 import { compileShape, NO_DASH, PathCache, type CompiledShape } from './compile';
 import { Viewport, type ViewportOptions } from '../../../core/viewport';
 import type { FrameSource } from '../../../core/frame-source';
-import type { SvgaBitmap } from '../decode-images';
-import { depthFor, levelFor, mipConfig, MipChain } from './mips';
+import { decodeImageElement, type SvgaBitmap } from '../decode-images';
 import type { ContentMode } from './view';
 
 export type { ContentMode } from './view';
 
 type Ctx2D = CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D;
 
-export interface SvgaRendererOptions extends ViewportOptions {
-  /**
-   * Resampling filter for bitmaps ('low' | 'medium' | 'high'). Matters when small sprites are drawn heavily
-   * shrunk (particles): 'low' is plain bilinear and sparkles, higher qualities filter properly.
-   */
-  imageSmoothing?: ImageSmoothingQuality;
-  /** Build mip levels for sprites that are drawn much smaller than their bitmap (prototype switch). */
-  mips?: boolean;
-}
+export type SvgaRendererOptions = ViewportOptions;
 
 export interface TextStyle {
   /** CSS font family. Default 'sans-serif'. */
@@ -41,8 +32,7 @@ export interface ImageOptions {
 }
 
 interface ImageReplacement {
-  bitmap: ImageBitmap;
-  chain: MipChain | null;
+  bitmap: SvgaBitmap;
   /** True when the renderer created the bitmap (from a URL/Blob) and must close it. */
   owned: boolean;
   fit: 'fill' | 'cover' | 'contain';
@@ -72,7 +62,6 @@ interface DrawItem {
 interface Runtime {
   sprite: SvgaSprite;
   bitmap: SvgaBitmap | null;
-  chain: MipChain | null;
   image: ImageReplacement | null;
   text: TextReplacement | null;
   hidden: boolean;
@@ -84,7 +73,7 @@ const warn = (msg: string) => console.warn(`[gift-player] ${msg}`);
  * Canvas2D renderer for a parsed SVGA movie. `drawFrame(i)` is the core: the same frame always
  * yields the same pixels (no time or randomness involved).
  *
- * Ownership: the renderer takes ownership of `bitmaps` (and of bitmaps it creates for replacements)
+ * Ownership: the renderer takes ownership of `bitmaps` (and of images it creates for replacements)
  * and closes them in `destroy()`. ImageBitmaps the caller passes to `setImage` are not closed.
  *
  * The canvas must be sized by CSS (e.g. `width:100%; height:100%`); the renderer sizes the backing
@@ -104,14 +93,8 @@ export class SvgaRenderer implements FrameSource {
   private offscreen: HTMLCanvasElement | OffscreenCanvas | null = null;
   private offCtx: Ctx2D | null = null;
   private bitmaps: Map<string, SvgaBitmap>;
-  private readonly mipsOn: boolean;
-  private mipsPending: Promise<void> = Promise.resolve();
-  private readonly chains = new Map<SvgaBitmap, MipChain>();
-  /** Per imageKey: the smallest horizontal / vertical extent (backing px) its layout rect is ever drawn at. */
-  private readonly drawnExtent = new Map<string, { minH: number; minV: number }>();
   private current = -1;
   private destroyed = false;
-  private readonly smoothing: ImageSmoothingQuality;
 
   constructor(
     private readonly canvas: HTMLCanvasElement,
@@ -121,8 +104,6 @@ export class SvgaRenderer implements FrameSource {
   ) {
     this.movie = movie;
     this.bitmaps = bitmaps;
-    this.smoothing = options.imageSmoothing ?? 'low';
-    this.mipsOn = options.mips ?? false;
     const ctx = canvas.getContext('2d');
     if (!ctx) throw new GiftPlayerError('invalid-input', 'Could not get a 2D context from the canvas.');
     this.ctx = ctx;
@@ -133,16 +114,10 @@ export class SvgaRenderer implements FrameSource {
         sprite,
         // Matte bitmaps are stored under the key without the ".matte" suffix.
         bitmap: bitmaps.get(sprite.imageKey) ?? (sprite.isMatte ? bitmaps.get(sprite.imageKey.slice(0, -'.matte'.length)) ?? null : null),
-        chain: null,
         image: null,
         text: null,
         hidden: false,
       };
-      if (this.mipsOn && rt.bitmap) {
-        let c = this.chains.get(rt.bitmap);
-        if (!c) this.chains.set(rt.bitmap, (c = new MipChain(rt.bitmap)));
-        rt.chain = c;
-      }
       this.runtimes.push(rt);
       const list = this.byKey.get(sprite.imageKey);
       if (list) list.push(rt);
@@ -183,56 +158,8 @@ export class SvgaRenderer implements FrameSource {
         this.offscreen.width = w;
         this.offscreen.height = h;
       }
-      if (this.vp) this.fitChains(); // not during construction (done below)
       if (this.current >= 0) this.drawFrame(this.current);
     });
-    this.fitChains();
-  }
-
-  /**
-   * (Re)builds each mip chain to the depth its smallest on-screen scale needs. Runs at load, and again on resize /
-   * content-mode change (levels are only built or dropped when the needed depth actually changes).
-   */
-  private fitChains(): void {
-    if (!this.mipsOn) return;
-    const v = this.vp.view;
-    this.drawnExtent.clear();
-    for (const rt of this.runtimes) {
-      let minH = Infinity;
-      let minV = Infinity;
-      for (const f of rt.sprite.frames) {
-        if (!(f.alpha > 0) || !(f.layout.width > 0) || !(f.layout.height > 0)) continue;
-        const t = f.transform;
-        const h = Math.sqrt((v.sx * t.a) ** 2 + (v.sy * t.b) ** 2) * f.layout.width;
-        const w = Math.sqrt((v.sx * t.c) ** 2 + (v.sy * t.d) ** 2) * f.layout.height;
-        if (h < minH) minH = h;
-        if (w < minV) minV = w;
-      }
-      const cur = this.drawnExtent.get(rt.sprite.imageKey);
-      this.drawnExtent.set(rt.sprite.imageKey, { minH: Math.min(cur?.minH ?? Infinity, minH), minV: Math.min(cur?.minV ?? Infinity, minV) });
-    }
-    const depths = new Map<MipChain, number>();
-    for (const rt of this.runtimes) {
-      if (!rt.chain || !rt.bitmap) continue;
-      const e = this.drawnExtent.get(rt.sprite.imageKey)!;
-      const base = rt.chain.levels[0]!;
-      const d = depthFor(Math.min(e.minH / base.width, e.minV / base.height));
-      depths.set(rt.chain, Math.max(depths.get(rt.chain) ?? 0, d));
-    }
-    if (mipConfig.resize) {
-      const jobs: Promise<void>[] = [];
-      for (const [chain, d] of depths) if (chain.depth !== d) jobs.push(chain.setDepthAsync(d));
-      this.mipsPending = Promise.all(jobs).then(() => { if (!this.destroyed) this.redraw(); });
-    } else for (const [chain, d] of depths) if (chain.depth !== d) chain.setDepth(d);
-    for (const [key, repl] of this.replacementImages) if (repl.chain) this.fitReplacement(key, repl);
-  }
-
-  private fitReplacement(key: string, repl: ImageReplacement): void {
-    const e = this.drawnExtent.get(key);
-    const base = repl.chain!.levels[0]!;
-    if (!e) return;
-    const d = depthFor(Math.min(e.minH / base.width, e.minV / base.height));
-    if (repl.chain!.depth !== d) repl.chain!.setDepth(d);
   }
 
   // ---- FrameSource: SVGA has a fixed fps and no loop count in the file ---------------------------
@@ -250,9 +177,8 @@ export class SvgaRenderer implements FrameSource {
   }
 
   /** Everything is already decoded, so any frame is ready. */
-  /** Resolves once every mip level needed for the current size has been built. */
   ready(): Promise<void> {
-    return this.mipsPending;
+    return Promise.resolve();
   }
 
   private get width(): number {
@@ -298,7 +224,6 @@ export class SvgaRenderer implements FrameSource {
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.globalAlpha = 1;
     ctx.globalCompositeOperation = 'source-over';
-    ctx.imageSmoothingQuality = this.smoothing; // reset by a canvas resize, so set it every frame
     ctx.clearRect(0, 0, this.width, this.height);
 
     const items = this.items;
@@ -320,7 +245,6 @@ export class SvgaRenderer implements FrameSource {
       off.setTransform(1, 0, 0, 1, 0, 0);
       off.globalAlpha = 1;
       off.globalCompositeOperation = 'source-over';
-      off.imageSmoothingQuality = this.smoothing;
       off.clearRect(0, 0, this.width, this.height);
       let any = false;
       for (let k = 0; k < run.length; k++) {
@@ -345,36 +269,15 @@ export class SvgaRenderer implements FrameSource {
     const t = frame.transform;
     ctx.save();
     ctx.globalAlpha = frame.alpha;
-    const A = v.sx * t.a;
-    const B = v.sy * t.b;
-    const C = v.sx * t.c;
-    const D = v.sy * t.d;
-    ctx.setTransform(A, B, C, D, v.sx * t.tx + v.ox, v.sy * t.ty + v.oy);
+    ctx.setTransform(v.sx * t.a, v.sy * t.b, v.sx * t.c, v.sy * t.d, v.sx * t.tx + v.ox, v.sy * t.ty + v.oy);
     if (frame.clipPath !== '') ctx.clip(this.paths.svg(frame.clipPath));
 
     const l = frame.layout;
     const img = rt.image;
-    if (img !== null) {
-      const chain = img.chain;
-      if (chain !== null && chain.depth > 0 && l.width > 0 && l.height > 0) {
-        const base = chain.levels[0]!;
-        const sh = (Math.sqrt(A * A + B * B) * l.width) / base.width;
-        const sv = (Math.sqrt(C * C + D * D) * l.height) / base.height;
-        const lv = chain.levels[levelFor(sh < sv ? sh : sv, chain.depth)]!;
-        drawReplacement(ctx, img.fit, lv.src, lv.width, lv.height, l.x, l.y, l.width, l.height);
-      } else drawReplacement(ctx, img.fit, img.bitmap, img.bitmap.width, img.bitmap.height, l.x, l.y, l.width, l.height);
-    } else if (rt.bitmap !== null) {
-      const chain = rt.chain;
-      if (l.width > 0 && l.height > 0) {
-        if (chain !== null && chain.depth > 0) {
-          // Draw from the mip level nearest the on-screen scale (the more minified axis decides).
-          const base = chain.levels[0]!;
-          const sh = (Math.sqrt(A * A + B * B) * l.width) / base.width;
-          const sv = (Math.sqrt(C * C + D * D) * l.height) / base.height;
-          const lv = chain.levels[levelFor(sh < sv ? sh : sv, chain.depth)]!;
-          ctx.drawImage(lv.src, 0, 0, lv.width, lv.height, l.x, l.y, l.width, l.height);
-        } else ctx.drawImage(rt.bitmap, l.x, l.y, l.width, l.height);
-      } else ctx.drawImage(rt.bitmap, l.x, l.y);
+    if (img !== null) drawReplacement(ctx, img, l.x, l.y, l.width, l.height);
+    else if (rt.bitmap !== null) {
+      if (l.width > 0 && l.height > 0) ctx.drawImage(rt.bitmap, l.x, l.y, l.width, l.height);
+      else ctx.drawImage(rt.bitmap, l.x, l.y);
     }
 
     const shapes = frame.shapes;
@@ -418,9 +321,11 @@ export class SvgaRenderer implements FrameSource {
     if (!this.knows(key)) return;
     const token = (this.imageTokens.get(key) ?? 0) + 1;
     this.imageTokens.set(key, token);
-    let bitmap: ImageBitmap;
+    let bitmap: SvgaBitmap;
     let owned = true;
     if (typeof ImageBitmap !== 'undefined' && source instanceof ImageBitmap) {
+      // The caller's own bitmap: used as is and never closed by us. (Pass a Blob or URL to get the better
+      // minification filtering described in decodeImageElement.)
       bitmap = source;
       owned = false;
     } else if (typeof source === 'string') {
@@ -431,9 +336,9 @@ export class SvgaRenderer implements FrameSource {
         throw new GiftPlayerError('fetch-failed', `Failed to fetch image ${source}`, { cause });
       }
       if (!res.ok) throw new GiftPlayerError('fetch-failed', `Failed to fetch image ${source}: HTTP ${res.status}`);
-      bitmap = await createImageBitmap(await res.blob());
+      bitmap = await decodeImageElement(await res.blob());
     } else {
-      bitmap = await createImageBitmap(source);
+      bitmap = await decodeImageElement(source as Blob);
     }
     // A newer setImage/clear for the same key (or destroy) won the race while we were decoding.
     if (this.destroyed || this.imageTokens.get(key) !== token) {
@@ -441,9 +346,8 @@ export class SvgaRenderer implements FrameSource {
       return;
     }
     this.releaseReplacement(key);
-    const repl: ImageReplacement = { bitmap, chain: this.mipsOn ? new MipChain(bitmap) : null, owned, fit: options.fit ?? 'fill' };
+    const repl: ImageReplacement = { bitmap, owned, fit: options.fit ?? 'fill' };
     this.replacementImages.set(key, repl);
-    if (repl.chain) this.fitReplacement(key, repl);
     for (const rt of this.byKey.get(key)!) rt.image = repl;
     this.redraw();
   }
@@ -499,7 +403,6 @@ export class SvgaRenderer implements FrameSource {
     if (!old) return;
     this.replacementImages.delete(key);
     for (const rt of this.byKey.get(key) ?? []) if (rt.image === old) rt.image = null;
-    old.chain?.destroy();
     if (old.owned) old.bitmap.close();
   }
 
@@ -517,13 +420,10 @@ export class SvgaRenderer implements FrameSource {
     this.ctx.setTransform(1, 0, 0, 1, 0, 0);
     this.ctx.clearRect(0, 0, this.width, this.height);
     for (const key of [...this.replacementImages.keys()]) this.releaseReplacement(key);
-    for (const c of this.chains.values()) c.destroy();
-    this.chains.clear();
     for (const b of this.bitmaps.values()) b.close();
     this.bitmaps.clear();
     for (const rt of this.runtimes) {
       rt.bitmap = null;
-      rt.chain = null;
       rt.image = null;
     }
     this.runtimes.length = 0;
@@ -548,24 +448,25 @@ export class SvgaRenderer implements FrameSource {
   }
 }
 
-function drawReplacement(ctx: Ctx2D, fit: 'fill' | 'cover' | 'contain', src: CanvasImageSource, bw: number, bh: number, x: number, y: number, w: number, h: number): void {
+function drawReplacement(ctx: Ctx2D, r: ImageReplacement, x: number, y: number, w: number, h: number): void {
+  const bmp = r.bitmap;
   if (!(w > 0 && h > 0)) {
-    ctx.drawImage(src, x, y);
+    ctx.drawImage(bmp, x, y);
     return;
   }
-  if (fit === 'fill') {
-    ctx.drawImage(src, x, y, w, h);
+  if (r.fit === 'fill') {
+    ctx.drawImage(bmp, x, y, w, h);
     return;
   }
-  const scale = fit === 'cover' ? Math.max(w / bw, h / bh) : Math.min(w / bw, h / bh);
-  if (fit === 'cover') {
+  const scale = r.fit === 'cover' ? Math.max(w / bmp.width, h / bmp.height) : Math.min(w / bmp.width, h / bmp.height);
+  if (r.fit === 'cover') {
     const sw = w / scale;
     const sh = h / scale;
-    ctx.drawImage(src, (bw - sw) / 2, (bh - sh) / 2, sw, sh, x, y, w, h);
+    ctx.drawImage(bmp, (bmp.width - sw) / 2, (bmp.height - sh) / 2, sw, sh, x, y, w, h);
   } else {
-    const dw = bw * scale;
-    const dh = bh * scale;
-    ctx.drawImage(src, x + (w - dw) / 2, y + (h - dh) / 2, dw, dh);
+    const dw = bmp.width * scale;
+    const dh = bmp.height * scale;
+    ctx.drawImage(bmp, x + (w - dw) / 2, y + (h - dh) / 2, dw, dh);
   }
 }
 

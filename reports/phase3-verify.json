@@ -1,5 +1,5 @@
 {
-  "date": "2026-10-24T00:32:54.661Z",
+  "date": "2026-10-24T05:30:29.757Z",
   "step": 5,
   "diff": [
     {
@@ -11,18 +11,13 @@
       "maxActivePixels": 921600,
       "minActivePixels": 0,
       "meanPercent": 0,
-      "maxPercent": 0.002,
-      "worstFrame": 15,
+      "maxPercent": 0,
+      "worstFrame": 0,
       "meanPercentOfActive": 0,
-      "maxPercentOfActive": 0.002,
-      "worstActiveFrame": 15,
+      "maxPercentOfActive": 0,
+      "worstActiveFrame": 0,
       "framesOver2Percent": [],
       "top5": [
-        [
-          15,
-          0.002,
-          0.002
-        ],
         [
           0,
           0,
@@ -35,6 +30,11 @@
         ],
         [
           10,
+          0,
+          0
+        ],
+        [
+          15,
           0,
           0
         ],
@@ -54,38 +54,38 @@
       "compared": 14,
       "maxActivePixels": 544243,
       "minActivePixels": 0,
-      "meanPercent": 0.052,
-      "maxPercent": 0.224,
+      "meanPercent": 0.025,
+      "maxPercent": 0.215,
       "worstFrame": 30,
-      "meanPercentOfActive": 0.098,
-      "maxPercentOfActive": 0.412,
+      "meanPercentOfActive": 0.047,
+      "maxPercentOfActive": 0.395,
       "worstActiveFrame": 30,
       "framesOver2Percent": [],
       "top5": [
         [
           30,
-          0.224,
-          0.412
-        ],
-        [
-          40,
-          0.083,
-          0.16
+          0.215,
+          0.395
         ],
         [
           55,
-          0.081,
-          0.149
+          0.076,
+          0.14
         ],
         [
           25,
-          0.072,
-          0.133
+          0.063,
+          0.118
         ],
         [
-          15,
-          0.069,
-          0.133
+          0,
+          0,
+          0
+        ],
+        [
+          5,
+          0,
+          0
         ]
       ],
       "warnings": []
@@ -98,43 +98,43 @@
       "compared": 49,
       "maxActivePixels": 777318,
       "minActivePixels": 0,
-      "meanPercent": 0.216,
-      "maxPercent": 10.504,
+      "meanPercent": 0.214,
+      "maxPercent": 10.503,
       "worstFrame": 125,
-      "meanPercentOfActive": 0.455,
-      "maxPercentOfActive": 22.065,
+      "meanPercentOfActive": 0.45,
+      "maxPercentOfActive": 22.064,
       "worstActiveFrame": 125,
       "framesOver2Percent": [
         [
           125,
-          10.504
+          10.503
         ]
       ],
       "top5": [
         [
           125,
-          10.504,
-          22.065
+          10.503,
+          22.064
         ],
         [
-          230,
-          0.029,
-          0.049
+          0,
+          0,
+          0
         ],
         [
-          185,
-          0.014,
-          0.023
+          5,
+          0,
+          0
         ],
         [
-          235,
-          0.01,
-          0.019
+          10,
+          0,
+          0
         ],
         [
-          220,
-          0.008,
-          0.012
+          15,
+          0,
+          0
         ]
       ],
       "warnings": []
@@ -150,7 +150,7 @@
       "meanPercent": 0.327,
       "maxPercent": 0.437,
       "worstFrame": 55,
-      "meanPercentOfActive": 1.038,
+      "meanPercentOfActive": 1.036,
       "maxPercentOfActive": 1.551,
       "worstActiveFrame": 45,
       "framesOver2Percent": [],
@@ -193,38 +193,38 @@
       "compared": 13,
       "maxActivePixels": 303108,
       "minActivePixels": 15606,
-      "meanPercent": 0.011,
-      "maxPercent": 0.062,
-      "worstFrame": 35,
-      "meanPercentOfActive": 0.03,
-      "maxPercentOfActive": 0.165,
-      "worstActiveFrame": 35,
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "meanPercentOfActive": 0,
+      "maxPercentOfActive": 0,
+      "worstActiveFrame": 0,
       "framesOver2Percent": [],
       "top5": [
         [
-          35,
-          0.062,
-          0.165
+          0,
+          0,
+          0
         ],
         [
-          40,
-          0.028,
-          0.072
+          5,
+          0,
+          0
         ],
         [
-          30,
-          0.013,
-          0.037
+          10,
+          0,
+          0
         ],
         [
-          45,
-          0.012,
-          0.032
+          15,
+          0,
+          0
         ],
         [
-          25,
-          0.007,
-          0.021
+          20,
+          0,
+          0
         ]
       ],
       "warnings": []
@@ -236,37 +236,37 @@
       "tolerance": 10,
       "compared": 12,
       "maxActivePixels": 196059,
-      "minActivePixels": 72850,
-      "meanPercent": 0.002,
-      "maxPercent": 0.007,
-      "worstFrame": 30,
-      "meanPercentOfActive": 0.007,
-      "maxPercentOfActive": 0.021,
-      "worstActiveFrame": 30,
+      "minActivePixels": 72614,
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "meanPercentOfActive": 0,
+      "maxPercentOfActive": 0,
+      "worstActiveFrame": 0,
       "framesOver2Percent": [],
       "top5": [
         [
-          30,
-          0.007,
-          0.021
+          0,
+          0,
+          0
         ],
         [
-          35,
-          0.007,
-          0.021
+          5,
+          0,
+          0
         ],
         [
           10,
-          0.007,
-          0.019
+          0,
+          0
+        ],
+        [
+          15,
+          0,
+          0
         ],
         [
           20,
-          0.007,
-          0.02
-        ],
-        [
-          0,
           0,
           0
         ]
@@ -372,18 +372,13 @@
       "maxActivePixels": 921600,
       "minActivePixels": 0,
       "meanPercent": 0,
-      "maxPercent": 0.002,
-      "worstFrame": 15,
+      "maxPercent": 0,
+      "worstFrame": 0,
       "meanPercentOfActive": 0,
-      "maxPercentOfActive": 0.002,
-      "worstActiveFrame": 15,
+      "maxPercentOfActive": 0,
+      "worstActiveFrame": 0,
       "framesOver2Percent": [],
       "top5": [
-        [
-          15,
-          0.002,
-          0.002
-        ],
         [
           0,
           0,
@@ -396,6 +391,11 @@
         ],
         [
           10,
+          0,
+          0
+        ],
+        [
+          15,
           0,
           0
         ],
@@ -415,107 +415,14 @@
       "compared": 14,
       "maxActivePixels": 538717,
       "minActivePixels": 0,
-      "meanPercent": 0.027,
-      "maxPercent": 0.083,
-      "worstFrame": 40,
-      "meanPercentOfActive": 0.052,
-      "maxPercentOfActive": 0.16,
-      "worstActiveFrame": 40,
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "meanPercentOfActive": 0,
+      "maxPercentOfActive": 0,
+      "worstActiveFrame": 0,
       "framesOver2Percent": [],
       "top5": [
-        [
-          40,
-          0.083,
-          0.16
-        ],
-        [
-          15,
-          0.069,
-          0.133
-        ],
-        [
-          10,
-          0.06,
-          0.116
-        ],
-        [
-          35,
-          0.052,
-          0.1
-        ],
-        [
-          45,
-          0.047,
-          0.09
-        ]
-      ],
-      "warnings": []
-    },
-    {
-      "sample": "Pink-Heart-Rocket.svga",
-      "size": "750x1334",
-      "mode": "aspectFit",
-      "tolerance": 10,
-      "compared": 49,
-      "maxActivePixels": 777318,
-      "minActivePixels": 0,
-      "meanPercent": 0.002,
-      "maxPercent": 0.029,
-      "worstFrame": 230,
-      "meanPercentOfActive": 0.005,
-      "maxPercentOfActive": 0.049,
-      "worstActiveFrame": 230,
-      "framesOver2Percent": [],
-      "top5": [
-        [
-          230,
-          0.029,
-          0.049
-        ],
-        [
-          185,
-          0.014,
-          0.023
-        ],
-        [
-          235,
-          0.01,
-          0.019
-        ],
-        [
-          220,
-          0.008,
-          0.012
-        ],
-        [
-          225,
-          0.007,
-          0.011
-        ]
-      ],
-      "warnings": []
-    },
-    {
-      "sample": "Rocket.svga",
-      "size": "1080x630",
-      "mode": "aspectFit",
-      "tolerance": 10,
-      "compared": 97,
-      "maxActivePixels": 220676,
-      "minActivePixels": 49699,
-      "meanPercent": 0.001,
-      "maxPercent": 0.052,
-      "worstFrame": 35,
-      "meanPercentOfActive": 0.007,
-      "maxPercentOfActive": 0.633,
-      "worstActiveFrame": 35,
-      "framesOver2Percent": [],
-      "top5": [
-        [
-          35,
-          0.052,
-          0.633
-        ],
         [
           0,
           0,
@@ -535,6 +442,99 @@
           15,
           0,
           0
+        ],
+        [
+          20,
+          0,
+          0
+        ]
+      ],
+      "warnings": []
+    },
+    {
+      "sample": "Pink-Heart-Rocket.svga",
+      "size": "750x1334",
+      "mode": "aspectFit",
+      "tolerance": 10,
+      "compared": 49,
+      "maxActivePixels": 777318,
+      "minActivePixels": 0,
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "meanPercentOfActive": 0,
+      "maxPercentOfActive": 0,
+      "worstActiveFrame": 0,
+      "framesOver2Percent": [],
+      "top5": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          5,
+          0,
+          0
+        ],
+        [
+          10,
+          0,
+          0
+        ],
+        [
+          15,
+          0,
+          0
+        ],
+        [
+          20,
+          0,
+          0
+        ]
+      ],
+      "warnings": []
+    },
+    {
+      "sample": "Rocket.svga",
+      "size": "1080x630",
+      "mode": "aspectFit",
+      "tolerance": 10,
+      "compared": 97,
+      "maxActivePixels": 220676,
+      "minActivePixels": 49699,
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "meanPercentOfActive": 0,
+      "maxPercentOfActive": 0,
+      "worstActiveFrame": 0,
+      "framesOver2Percent": [],
+      "top5": [
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          5,
+          0,
+          0
+        ],
+        [
+          10,
+          0,
+          0
+        ],
+        [
+          15,
+          0,
+          0
+        ],
+        [
+          20,
+          0,
+          0
         ]
       ],
       "warnings": [
@@ -549,38 +549,38 @@
       "compared": 13,
       "maxActivePixels": 303108,
       "minActivePixels": 15606,
-      "meanPercent": 0.011,
-      "maxPercent": 0.062,
-      "worstFrame": 35,
-      "meanPercentOfActive": 0.03,
-      "maxPercentOfActive": 0.165,
-      "worstActiveFrame": 35,
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "meanPercentOfActive": 0,
+      "maxPercentOfActive": 0,
+      "worstActiveFrame": 0,
       "framesOver2Percent": [],
       "top5": [
         [
-          35,
-          0.062,
-          0.165
+          0,
+          0,
+          0
         ],
         [
-          40,
-          0.028,
-          0.072
+          5,
+          0,
+          0
         ],
         [
-          30,
-          0.013,
-          0.037
+          10,
+          0,
+          0
         ],
         [
-          45,
-          0.012,
-          0.032
+          15,
+          0,
+          0
         ],
         [
-          25,
-          0.007,
-          0.021
+          20,
+          0,
+          0
         ]
       ],
       "warnings": []
@@ -592,37 +592,37 @@
       "tolerance": 10,
       "compared": 12,
       "maxActivePixels": 196059,
-      "minActivePixels": 72850,
-      "meanPercent": 0.002,
-      "maxPercent": 0.007,
-      "worstFrame": 30,
-      "meanPercentOfActive": 0.007,
-      "maxPercentOfActive": 0.021,
-      "worstActiveFrame": 30,
+      "minActivePixels": 72614,
+      "meanPercent": 0,
+      "maxPercent": 0,
+      "worstFrame": 0,
+      "meanPercentOfActive": 0,
+      "maxPercentOfActive": 0,
+      "worstActiveFrame": 0,
       "framesOver2Percent": [],
       "top5": [
         [
-          30,
-          0.007,
-          0.021
+          0,
+          0,
+          0
         ],
         [
-          35,
-          0.007,
-          0.021
+          5,
+          0,
+          0
         ],
         [
           10,
-          0.007,
-          0.019
+          0,
+          0
+        ],
+        [
+          15,
+          0,
+          0
         ],
         [
           20,
-          0.007,
-          0.02
-        ],
-        [
-          0,
           0,
           0
         ]
@@ -719,7 +719,7 @@
     }
   ],
   "synthetic": {
-    "passed": 38,
+    "passed": 41,
     "failed": 0,
     "checks": [
       {
@@ -772,6 +772,38 @@
       },
       {
         "name": "clearReplacement restores the original",
+        "ok": true
+      },
+      {
+        "name": "setImage(Blob) via <img>: centre red, corner still masked",
+        "ok": true,
+        "detail": [
+          [
+            255,
+            0,
+            0,
+            255
+          ],
+          [
+            0,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      {
+        "name": "setImage(URL) via fetch + <img>: centre red",
+        "ok": true,
+        "detail": [
+          255,
+          0,
+          0,
+          255
+        ]
+      },
+      {
+        "name": "replacing a replacement keeps working",
         "ok": true
       },
       {
@@ -1126,42 +1158,42 @@
       "heapGrowthKB_for_2400_drawFrames": 0,
       "drawFrameCall": {
         "n": 1200,
-        "avg": 0.049,
+        "avg": 0.037,
         "p50": 0,
         "p95": 0.1,
-        "max": 0.2
+        "max": 0.3
       },
       "drawFramePlusRaster": {
         "n": 1200,
-        "avg": 4.269,
+        "avg": 4.209,
         "p50": 4.4,
-        "p95": 7.7,
-        "max": 9.3
+        "p95": 7.5,
+        "max": 9.2
       }
     },
     "oracleDpr1": {
       "n": 1200,
-      "avg": 4.925,
-      "p50": 5,
-      "p95": 9.2,
-      "max": 38.6
+      "avg": 4.211,
+      "p50": 4.4,
+      "p95": 7.6,
+      "max": 10
     },
     "dpr2": {
       "backing": "750x1334",
       "heapGrowthKB_for_2400_drawFrames": 0,
       "drawFrameCall": {
         "n": 1200,
-        "avg": 0.054,
+        "avg": 0.04,
         "p50": 0,
         "p95": 0.1,
-        "max": 0.4
+        "max": 6.5
       },
       "drawFramePlusRaster": {
         "n": 1200,
-        "avg": 4.312,
+        "avg": 4.246,
         "p50": 4.4,
         "p95": 7.7,
-        "max": 9.3
+        "max": 9.4
       }
     }
   },
@@ -1172,42 +1204,42 @@
       "heapGrowthKB_for_2400_drawFrames": 0,
       "drawFrameCall": {
         "n": 1200,
-        "avg": 0.048,
+        "avg": 0.036,
         "p50": 0,
         "p95": 0.1,
-        "max": 0.6
+        "max": 0.2
       },
       "drawFramePlusRaster": {
         "n": 1200,
-        "avg": 4.216,
+        "avg": 4.258,
         "p50": 4.4,
-        "p95": 7.6,
-        "max": 9.1
+        "p95": 7.7,
+        "max": 9
       }
     },
     "oracleDpr1": {
       "n": 1200,
-      "avg": 4.2,
-      "p50": 4.3,
-      "p95": 7.5,
-      "max": 10.9
+      "avg": 4.202,
+      "p50": 4.2,
+      "p95": 7.6,
+      "max": 10.4
     },
     "dpr2": {
       "backing": "750x1334",
       "heapGrowthKB_for_2400_drawFrames": 0,
       "drawFrameCall": {
         "n": 1200,
-        "avg": 0.053,
+        "avg": 0.036,
         "p50": 0,
         "p95": 0.1,
-        "max": 0.3
+        "max": 0.2
       },
       "drawFramePlusRaster": {
         "n": 1200,
-        "avg": 4.294,
-        "p50": 4.4,
-        "p95": 7.7,
-        "max": 9.6
+        "avg": 4.208,
+        "p50": 4.3,
+        "p95": 7.6,
+        "max": 8.6
       }
     }
   },
@@ -1216,8 +1248,8 @@
     "cycles": 50,
     "framesDrawn": 50,
     "counters": {
-      "bitmapsCreated": 1550,
-      "bitmapsClosed": 1550,
+      "bitmapsCreated": 0,
+      "bitmapsClosed": 0,
       "rafRequested": 250,
       "rafCancelled": 50,
       "rafFired": 200,
@@ -1228,13 +1260,17 @@
       "listenersRemoved": 0
     },
     "bitmapsStillOpen": 0,
+    "imgElements": {
+      "decoded": 1450,
+      "stillHoldingResource": 0
+    },
     "rafOutstanding": 0,
     "resizeObserversLive": 0,
     "listenersNet": 0,
     "domNodesDelta": 0,
     "heapMB": {
-      "before": 4.9,
-      "after": 8.5
+      "before": 5,
+      "after": 8.6
     }
   }
 }
